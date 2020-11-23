@@ -56,33 +56,39 @@ public class ShaclValidationInJavaMain {
         ModelBuilder builder = new ModelBuilder();
         Model model = builder
                 .setNamespace("crop", "http://yara.ontology.crop.com#")
-                .setNamespace("cropGroup", "http://yara.ontology.crop.com/CropGroup#")
-                .setNamespace("cropClass", "http://yara.ontology.crop.com/CropClass#")
-                .setNamespace("cropSubClass", "http://yara.ontology.crop.com/CropSubClass#")
-                .subject("cropGroup:" + cereals.getName())
-                .add("cropGroup:cropGroupId", cereals.getId())
-                .add("cropGroup:faoId", cereals.getFaoId())
-                .add("cropGroup:mediaUri", cereals.getMediaUri())
-                .add("cropGroup:cropGroupName", cereals.getName())
-                .add("cropGroup:hasCropClass", "cropClass:" + wheat.getName())
-                .subject("cropGroup:" + veg.getName())
-                .add("cropGroup:cropGroupId", veg.getId())
-                .add("cropGroup:faoId", veg.getFaoId())
-                .add("cropGroup:mediaUri", veg.getMediaUri())
-                .add("cropGroup:cropGroupName", veg.getName())
-                .add("cropGroup:hasCropClass", "cropSubClass:" + springWheat.getName())
-                .subject("cropClass:" + wheat.getName())
-                .add("cropClass:cropClassId", wheat.getId())
-                .add("cropClass:cropGroupId", wheat.getGroupId())
-                .add("cropClass:faoId", wheat.getFaoId())
-                .add("cropClass:mediaUri", wheat.getMediaUri())
-                .add("cropClass:cropClassName", wheat.getName())
-                .subject("cropSubClass:" + springWheat.getName())
-                .add("cropSubClass:cropSubClassId", springWheat.getId())
-                .add("cropSubClass:cropClassId", springWheat.getClassId())
-                .add("cropSubClass:faoId", springWheat.getFaoId())
-                .add("cropSubClass:mediaUri", springWheat.getMediaUri())
-                .add("cropSubClass:cropSubClassName", springWheat.getName())
+                .setNamespace("rdf", "https://www.w3.org/1999/02/22-rdf-syntax-ns#")
+//                .setNamespace("sh", "http://www.w3.org/ns/shacl#")
+//                .setNamespace("cropGroup", "http://yara.ontology.crop.com/CropGroup#")
+//                .setNamespace("cropClass", "http://yara.ontology.crop.com/CropClass#")
+//                .setNamespace("cropSubClass", "http://yara.ontology.crop.com/CropSubClass#")
+                .subject("crop:" + cereals.getName())
+                .add("rdf:type", "crop:CropGroup")
+                .add("crop:cropGroupId", cereals.getId())
+                .add("crop:faoId", cereals.getFaoId())
+                .add("crop:mediaUri", cereals.getMediaUri())
+                .add("crop:cropGroupName", cereals.getName())
+                .add("crop:hasCropClass", "crop:" + wheat.getName())
+                .subject("crop:" + veg.getName())
+                .add("rdf:type", "crop:CropGroup")
+                .add("crop:cropGroupId", veg.getId())
+                .add("crop:faoId", veg.getFaoId())
+                .add("crop:mediaUri", veg.getMediaUri())
+                .add("crop:cropGroupName", veg.getName())
+                .add("crop:hasCropClass", "crop:" + springWheat.getName())
+                .subject("crop:" + wheat.getName())
+                .add("rdf:type", "crop:CropClass")
+                .add("crop:cropClassId", wheat.getId())
+                .add("crop:cropGroupId", wheat.getGroupId())
+                .add("crop:faoId", wheat.getFaoId())
+                .add("crop:mediaUri", wheat.getMediaUri())
+                .add("crop:cropClassName", wheat.getName())
+                .subject("crop:" + springWheat.getName())
+                .add("rdf:type", "crop:CropSubClass")
+                .add("crop:cropSubClassId", springWheat.getId())
+                .add("crop:cropClassId", springWheat.getClassId())
+                .add("crop:faoId", springWheat.getFaoId())
+                .add("crop:mediaUri", springWheat.getMediaUri())
+                .add("crop:cropSubClassName", springWheat.getName())
                 .build();
 
         for (Statement st : model) {
@@ -98,11 +104,11 @@ public class ShaclValidationInJavaMain {
 
         try (RepositoryConnection connection = repo.getConnection()) {
 
-            Reader shaclRules = new FileReader(shaclFileName);
 
             // add shapes
             connection.begin();
 
+            Reader shaclRules = new FileReader(shaclFileName);
 //            StringReader shaclRules = new StringReader(
 //                    String.join("\n", "",
 //                            "@prefix ex: <http://example.com/ns#> .",
@@ -138,6 +144,25 @@ public class ShaclValidationInJavaMain {
 //                            "  foaf:age 20, \"30\"^^xsd:int  ."
 //
 //                    ));
+//            ModelBuilder builder2 = new ModelBuilder();
+//            Model model2 = builder2
+//                    .setNamespace("ex", "http://example.com/ns#")
+//                    .setNamespace("foaf", "http://xmlns.com/foaf/0.1/")
+//                    .setNamespace("xsd", "http://www.w3.org/2001/XMLSchema#")
+//                    .setNamespace("rdf", "https://www.w3.org/1999/02/22-rdf-syntax-ns#")
+//                    .subject("ex:peter")
+//                    .add("rdf:type", "foaf:Person")
+//                    .add("foaf:age", "20, \"30\"^^xsd:int")
+//                    .build();
+//
+//            for (Statement st : model2) {
+//                Resource subject = st.getSubject();
+//                Resource predicate = st.getPredicate();
+//                Value object = st.getObject();
+
+//                System.out.println(subject.toString() + " - " + predicate.toString() + " - " + object.toString());
+//            }
+
 //            connection.add(invalidSampleData, "", RDFFormat.TURTLE);
             try {
                 connection.commit();

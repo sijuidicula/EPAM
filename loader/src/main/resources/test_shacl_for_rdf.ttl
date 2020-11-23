@@ -1,12 +1,13 @@
 @prefix crop: <http://yara.ontology.crop.com#> .
-@prefix cropGroup: <http://yara.ontology.crop.com/CropGroup#> .
-@prefix cropClass: <http://yara.ontology.crop.com/CropClass#> .
+#@prefix cropGroup: <http://yara.ontology.crop.com/CropGroup#> .
+#@prefix cropClass: <http://yara.ontology.crop.com/CropClass#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <https://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-cropGroup:CropGroupShape a sh:NodeShape ;
-  sh:targetClass cropGroup: ;
+crop:CropGroupShape a sh:NodeShape ;
+  sh:targetClass crop:CropGroup ;
   sh:property [
-    sh:path cropGroup:hasCropClass ;
-    sh:class cropClass: ;
+    sh:path crop:hasCropClass ;
+    rdf:type crop:CropClass ;
   ] ;
 .
