@@ -2,6 +2,7 @@ package com.yara.ss;
 
 import com.yara.ss.domain.CropClass;
 import com.yara.ss.domain.CropGroup;
+import com.yara.ss.domain.CropSubClass;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
@@ -45,28 +46,43 @@ public class ShaclValidationInJavaMain {
                 "",
                 "Wheat");
 
+        CropSubClass springWheat = new CropSubClass(
+                "862e97f5-4305-4354-b53c-b4b802ed2c25",
+                "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+                "",
+                "",
+                "Spring_wheat");
+
         ModelBuilder builder = new ModelBuilder();
         Model model = builder
                 .setNamespace("crop", "http://yara.ontology.crop.com#")
                 .setNamespace("cropGroup", "http://yara.ontology.crop.com/CropGroup#")
                 .setNamespace("cropClass", "http://yara.ontology.crop.com/CropClass#")
+                .setNamespace("cropSubClass", "http://yara.ontology.crop.com/CropSubClass#")
                 .subject("cropGroup:" + cereals.getName())
                 .add("cropGroup:cropGroupId", cereals.getId())
                 .add("cropGroup:faoId", cereals.getFaoId())
                 .add("cropGroup:mediaUri", cereals.getMediaUri())
+                .add("cropGroup:cropGroupName", cereals.getName())
                 .add("cropGroup:hasCropClass", "cropClass:" + wheat.getName())
                 .subject("cropGroup:" + veg.getName())
                 .add("cropGroup:cropGroupId", veg.getId())
                 .add("cropGroup:faoId", veg.getFaoId())
                 .add("cropGroup:mediaUri", veg.getMediaUri())
-                .add("cropGroup:hasCropClass", "cropGroup:" + cereals.getName())
+                .add("cropGroup:cropGroupName", veg.getName())
+                .add("cropGroup:hasCropClass", "cropSubClass:" + springWheat.getName())
                 .subject("cropClass:" + wheat.getName())
                 .add("cropClass:cropClassId", wheat.getId())
                 .add("cropClass:cropGroupId", wheat.getGroupId())
                 .add("cropClass:faoId", wheat.getFaoId())
                 .add("cropClass:mediaUri", wheat.getMediaUri())
                 .add("cropClass:cropClassName", wheat.getName())
-                .add("cropClass:cropClassName", wheat.getName())
+                .subject("cropSubClass:" + springWheat.getName())
+                .add("cropSubClass:cropSubClassId", springWheat.getId())
+                .add("cropSubClass:cropClassId", springWheat.getClassId())
+                .add("cropSubClass:faoId", springWheat.getFaoId())
+                .add("cropSubClass:mediaUri", springWheat.getMediaUri())
+                .add("cropSubClass:cropSubClassName", springWheat.getName())
                 .build();
 
         for (Statement st : model) {
