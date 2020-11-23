@@ -1,0 +1,12 @@
+@prefix crop: <http://yara.ontology.crop.com#> .
+@prefix cropGroup: <http://yara.ontology.crop.com/CropGroup#> .
+@prefix cropClass: <http://yara.ontology.crop.com/CropClas#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+cropGroup:CropGroupShape a sh:NodeShape ;
+  sh:targetClass cropGroup: ;
+  sh:property [
+    sh:path cropGroup:hasCropClass ;
+    sh:class cropClass: ;
+  ] ;
+.

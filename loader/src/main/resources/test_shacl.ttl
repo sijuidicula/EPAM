@@ -1,0 +1,10 @@
+@prefix neo4j: <http://neo4j.com/myvoc#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+neo4j:CropSubClassShape a sh:NodeShape ;
+  sh:targetClass neo4j:CropSubClass ;
+  sh:property [
+    sh:path neo4j:HAS_CROP_VARIETY ;
+    sh:class neo4j:CropVariety ;
+  ] ;
+.
