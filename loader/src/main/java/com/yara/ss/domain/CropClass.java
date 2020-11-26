@@ -1,23 +1,18 @@
 package com.yara.ss.domain;
 
-public class CropClass {
+public class CropClass extends Thing{
 
-    private String id;
     private String groupId;
     private String faoId;
     private String mediaUri;
     private String name;
 
-    public CropClass(String id, String groupId, String faoId, String mediaUri, String name) {
-        this.id = id;
+    public CropClass(String source, String className, String id,  String groupId, String faoId, String mediaUri, String name) {
+        super(source, className, id);
         this.groupId = groupId;
         this.faoId = faoId;
         this.mediaUri = mediaUri;
         this.name = name;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getGroupId() {
@@ -39,7 +34,10 @@ public class CropClass {
     @Override
     public String toString() {
         return "CropClass{" +
-                "id='" + id + '\'' +
+                "source='" + super.getSource() + '\'' +
+                ", className='" + super.getClassName() + '\'' +
+                ", id='" + super.getId() + '\'' +
+                ", UUid='" + super.getUuId() + '\'' +
                 ", groupId='" + groupId + '\'' +
                 ", faoId='" + faoId + '\'' +
                 ", mediaUri='" + mediaUri + '\'' +

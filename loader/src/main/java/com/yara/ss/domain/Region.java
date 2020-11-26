@@ -1,19 +1,14 @@
 package com.yara.ss.domain;
 
-public class Region {
+public class Region extends Thing {
 
-    private String id;
     private String countryId;
     private String name;
 
-    public Region(String id, String countryId, String name) {
-        this.id = id;
+    public Region(String source, String className, String id, String countryId, String name) {
+        super(source, className, id);
         this.countryId = countryId;
         this.name = name;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getCountryId() {

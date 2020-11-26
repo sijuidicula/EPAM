@@ -1,19 +1,14 @@
 package com.yara.ss.domain;
 
-public class CropVariety {
+public class CropVariety extends Thing {
 
-    private String id;
     private String subClassId;
     private String name;
 
-    public CropVariety(String id, String subClassId, String name) {
-        this.id = id;
+    public CropVariety(String source, String className, String id, String subClassId, String name) {
+        super(source, className, id);
         this.subClassId = subClassId;
         this.name = name;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getSubClassId() {

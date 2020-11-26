@@ -5,10 +5,7 @@ import com.yara.ss.reader.ExcelWorkbookReader;
 import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PropertyGraphUploader implements AutoCloseable {
 
@@ -34,22 +31,47 @@ public class PropertyGraphUploader implements AutoCloseable {
     }
 
     public void uploadCountries(List<Country> countries) {
-        String commandFormat = "CREATE (%s:Country{name: \"%s\", id: \"%s\"})";
+        String commandFormat = "CREATE (%s:%s{name: \"%s\", id: \"%s\", UUid: \"%s\"})";
         try (Session session = driver.session()) {
-            countries.forEach(country -> session.writeTransaction(tx -> tx.run(String.format(commandFormat,
-                    createNewName(country.getName()), country.getName(), country.getId()))));
+            countries.forEach(country -> {
+                if (!uuIdExistsInDatabase(country.getUuId())) {
+                    session.writeTransaction(tx -> tx.run(String.format(commandFormat,
+                            createNewName(country.getName()), country.getClassName(), country.getName(), country.getId(), country.getUuId())));
+                }
+            });
         }
         System.out.println("Country uploading completed");
     }
 
-    public void uploadRegions(List<Region> regions) {
-        String createRegion = "CREATE (%s:Region{id: \"%s\", countryId: \"%s\", name: \"%s\"})\n";
+    private boolean uuIdExistsInDatabase(UUID uuid) {
+        boolean answer;
+        String existCheckQueryFormat = "MATCH (n) WHERE n.UUid =\"%s\"" +
+                "RETURN count(n)>0";
+        String existCheckQuery = String.format(existCheckQueryFormat, uuid.toString());
+
         try (Session session = driver.session()) {
-            regions.forEach(region -> session.writeTransaction(tx -> {
-                String newRegionName = createNewName(region.getName());
-                return tx.run(String.format(createRegion,
-                        newRegionName, region.getId(), region.getCountryId(), region.getName()));
-            }));
+            answer = session.readTransaction(tx -> {
+                List<Record> records = tx.run(existCheckQuery).list();
+                return records.get(0).get(0).asBoolean();
+            });
+        }
+//        System.out.println(uuid + " exists in DB: " + answer);
+        return answer;
+    }
+
+    public void uploadRegions(List<Region> regions) {
+        String createRegion = "CREATE (%s:%s{id: \"%s\", countryId: \"%s\", name: \"%s\", UUid: \"%s\"})\n";
+        try (Session session = driver.session()) {
+            regions.forEach(region -> {
+                if (!uuIdExistsInDatabase(region.getUuId())) {
+                    session.writeTransaction(tx -> {
+                        String newRegionName = createNewName(region.getName());
+                        Result result = tx.run(String.format(createRegion,
+                                newRegionName, region.getClassName(), region.getId(), region.getCountryId(), region.getName(), region.getUuId()));
+                        return result;
+                    });
+                }
+            });
         }
         System.out.println("Region uploading completed");
     }
@@ -160,10 +182,11 @@ public class PropertyGraphUploader implements AutoCloseable {
     }
 
     public void uploadShacl(String shaclFileName) {
+        String shaclFileNameLocal = "C:/dev/repository/yara/loader/src/main/resources/test_shacl.ttl";
         String commandFormat = "CALL n10s.validation.shacl.import.fetch" +
                 "(\"file:///%s\",\"Turtle\")";
         try (Session session = driver.session()) {
-            session.run(String.format(commandFormat, shaclFileName));
+            session.run(String.format(commandFormat, shaclFileNameLocal));
         }
         System.out.println("Shacl uploading completed");
     }
@@ -182,25 +205,25 @@ public class PropertyGraphUploader implements AutoCloseable {
     }
 
     public void uploadCropClassAsRecord(CropClass cropClass) {
-        if (cropClassExistInDatabase(cropClass.getId())) {
+        if (uuIdExistsInDatabase(cropClass.getUuId())) {
             return;
         }
-
-        String createClassFormat = "CREATE (%s:CropClass{id: \"%s\", groupId: \"%s\", faoId: \"%s\", mediaUri: \"%s\", name: \"%s\"})\n";
-        String newClassName = createNewName(cropClass.getName());
-        String createClassCommand = String.format(createClassFormat,
-                newClassName, cropClass.getId(), cropClass.getGroupId(), cropClass.getFaoId(), cropClass.getMediaUri(), cropClass.getName());
-        StringBuilder builder = new StringBuilder().append(createClassCommand);
+        StringBuilder builder = new StringBuilder();
         CropGroup group = createGroupFromExcel(cropClass.getGroupId());
         String newGroupName = createNewName(group.getName());
-
-        if (!cropGroupExistInDatabase(group.getId())) {
+        if (!uuIdExistsInDatabase(group.getUuId())) {
             String createCropGroupCommand = composeCreateCropGroupCommand(group);
             builder.append(createCropGroupCommand);
         } else {
-            String groupMatchFormat = "MATCH (%s:cropGroup{id: \"%s\"} RETURN %s)";
+            String groupMatchFormat = "MATCH (%s:CropGroup{id: \"%s\"})\n";
             builder.append(String.format(groupMatchFormat, newGroupName, group.getId(), newGroupName));
         }
+        String createClassFormat = "CREATE (%s:CropClass{id: \"%s\", groupId: \"%s\", faoId: \"%s\", mediaUri: \"%s\", name: \"%s\", UUid: \"%s\"})\n";
+        String newClassName = createNewName(cropClass.getName());
+        String createClassCommand = String.format(createClassFormat,
+                newClassName, cropClass.getId(), cropClass.getGroupId(), cropClass.getFaoId(), cropClass.getMediaUri(), cropClass.getName(), cropClass.getUuId());
+        builder.append(createClassCommand);
+
         String createRelationFormat = "CREATE (%s)-[:HAS_CROP_CLASS]->(%s)";
         builder.append(String.format(createRelationFormat, newGroupName, newClassName));
 
@@ -356,28 +379,28 @@ public class PropertyGraphUploader implements AutoCloseable {
         return countries.stream()
                 .filter(country -> country.getId().equals(id))
                 .findFirst()
-                .orElse(new Country("xxx", "xxx"));
+                .orElse(new Country("xxx", "xxx", "xxx", "xxx"));
     }
 
     private CropGroup getGroupById(List<CropGroup> groups, String id) {
         return groups.stream()
                 .filter(group -> group.getId().equals(id))
                 .findFirst()
-                .orElse(new CropGroup("xxx", "xxx", "xxx", "xxx"));
+                .orElse(new CropGroup("xxx", "xxx", "xxx", "xxx", "xxx", "xxx"));
     }
 
     private CropClass getAncestorById(List<CropClass> classes, String id) {
         return classes.stream()
                 .filter(cl -> cl.getId().equals(id))
                 .findFirst()
-                .orElse(new CropClass("xxx", "xxx", "xxx", "xxx", "xxx"));
+                .orElse(new CropClass("xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx"));
     }
 
     private CropSubClass getSubClassById(List<CropSubClass> subClasses, String id) {
         return subClasses.stream()
                 .filter(scl -> scl.getId().equals(id))
                 .findFirst()
-                .orElse(new CropSubClass("xxx", "xxx", "xxx", "xxx", "xxx"));
+                .orElse(new CropSubClass("xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx"));
     }
 
     private String createNewName(String oldName) {
@@ -403,7 +426,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 return records.get(0).get(0).asBoolean();
             });
         }
-        System.out.println("CropClass exists in DB: " + answer);
+        System.out.println(classId + " CropClass exists in DB: " + answer);
         return answer;
     }
 
@@ -419,14 +442,14 @@ public class PropertyGraphUploader implements AutoCloseable {
                 return records.get(0).get(0).asBoolean();
             });
         }
-        System.out.println("CropGroup exists in DB: " + answer);
+        System.out.println(groupId + " CropGroup exists in DB: " + answer);
         return answer;
     }
 
     private String composeCreateCropGroupCommand(CropGroup group) {
-        String createGroup = "CREATE (%s:CropGroup{id: \"%s\", faoId: \"%s\", mediaUri: \"%s\", name: \"%s\"})\n";
+        String createGroup = "CREATE (%s:CropGroup{id: \"%s\", faoId: \"%s\", mediaUri: \"%s\", name: \"%s\", UUid: \"%s\"})\n";
         String newGroupName = createNewName(group.getName());
-        return String.format(createGroup, newGroupName, group.getId(), group.getFaoId(), group.getMediaUri(), group.getName());
+        return String.format(createGroup, newGroupName, group.getId(), group.getFaoId(), group.getMediaUri(), group.getName(), group.getUuId());
     }
 
     private CropGroup createGroupFromExcel(String groupId) {
@@ -441,7 +464,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         return cropGroups.stream()
                 .filter(group -> group.getId().equals(groupId))
                 .findAny()
-                .orElse(new CropGroup("dummy_group", "dummy_group", "dummy_group", "dummy_group"));
+                .orElse(new CropGroup("dummy_group", "dummy_group", "dummy_group", "dummy_group", "dummy_group", "dummy_group"));
     }
 }
 

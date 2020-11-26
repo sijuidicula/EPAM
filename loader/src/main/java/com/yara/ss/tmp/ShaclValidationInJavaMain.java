@@ -1,4 +1,4 @@
-package com.yara.ss;
+package com.yara.ss.tmp;
 
 import com.yara.ss.domain.CropClass;
 import com.yara.ss.domain.CropGroup;
@@ -30,18 +30,24 @@ public class ShaclValidationInJavaMain {
         String shaclFileName = "loader/src/main/resources/test_shacl_for_rdf.ttl";
 
         CropGroup cereals = new CropGroup(
+                "Polaris",
+                "CropGroup",
                 "bc09457f-cf85-4295-9fa3-9644a1eaf318",
                 "1",
                 "",
                 "Cereals");
 
         CropGroup veg = new CropGroup(
+                "Polaris",
+                "CropGroup",
                 "d79d1e7e-00c4-4aaa-bd6f-a1fe28362a2b",
                 "2",
                 "",
                 "Vegetables_and_melons");
 
         CropClass wheat = new CropClass(
+                "Polaris",
+                "CropClass",
                 "7be740b9-6980-44fb-aeab-ca80423cfdd5",
                 "bc09457f-cf85-4295-9fa3-9644a1eaf318",
                 "11",
@@ -49,6 +55,8 @@ public class ShaclValidationInJavaMain {
                 "Wheat");
 
         CropSubClass springWheat = new CropSubClass(
+                "Polaris",
+                "CropSubClass",
                 "862e97f5-4305-4354-b53c-b4b802ed2c25",
                 "7be740b9-6980-44fb-aeab-ca80423cfdd5",
                 "",
@@ -67,11 +75,11 @@ public class ShaclValidationInJavaMain {
                 .add("crop:faoId", cereals.getFaoId())
                 .add("crop:mediaUri", cereals.getMediaUri())
                 .add("crop:cropGroupName", cereals.getName())
-//                .add("crop:hasCropClass", "crop:cropClass1")
+                .add("crop:hasCropClass", "crop:cropClass1")
                 .subject("crop:cropClass1")
 
                 // return to cropclass to make it work
-                .add(RDF.TYPE, "crop:CropClass228")
+                .add(RDF.TYPE, "crop:CropClass2")
                 .add(RDFS.LABEL, wheat.getName())
                 .add("crop:cropClassId", wheat.getId())
                 .add("crop:cropGroupId", wheat.getGroupId())

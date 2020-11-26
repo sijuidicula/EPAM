@@ -1,18 +1,14 @@
 package com.yara.ss.domain;
 
-public class Country {
+public class Country extends Thing {
 
-    private String id;
     private String name;
 
-    public Country(String id, String name) {
-        this.id = id;
+    public Country(String source, String className ,String id, String name) {
+        super(source, className, id);
         this.name = name;
     }
 
-    public String getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
@@ -21,8 +17,11 @@ public class Country {
     @Override
     public String toString() {
         return "Country{" +
-                "id='" + id + '\'' +
-                ", countryName='" + name + '\'' +
+                "source='" + super.getSource() + '\'' +
+                ", className='" + super.getClassName() + '\'' +
+                ", id='" + super.getId() + '\'' +
+                ", UUid='" + super.getUuId() + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

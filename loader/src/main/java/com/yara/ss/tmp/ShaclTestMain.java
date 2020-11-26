@@ -1,4 +1,4 @@
-package com.yara.ss;
+package com.yara.ss.tmp;
 
 import com.yara.ss.domain.CropClass;
 import com.yara.ss.loader.PropertyGraphUploader;
@@ -11,6 +11,8 @@ public class ShaclTestMain {
         String shaclFileName = "loader/src/main/resources/test_shacl.ttl";
 
         CropClass cropClass = new CropClass(
+                "Polaris",
+                "CropClass",
                 "test_crop_class",
                 "9dff9769-dc60-4198-8541-420aab267d04",
                 "test_crop_class",

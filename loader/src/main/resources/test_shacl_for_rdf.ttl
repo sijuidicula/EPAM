@@ -8,6 +8,6 @@ crop:CropGroupShape a sh:NodeShape ;
   sh:property [
     sh:path crop:hasCropClass ;
     sh:class crop:CropClass ;
-    sh:minCount 1 ;
+#    sh:minCount 1 ;
   ] ;
 .

@@ -6,7 +6,7 @@ import com.yara.ss.reader.ExcelWorkbookReader;
 
 import java.util.List;
 
-public class Main {
+public class UploadSeparatelyMain {
 
     public static void main(String[] args) {
         String countryFileName = "loader/src/main/resources/Country.xlsx";
@@ -15,7 +15,6 @@ public class Main {
         String cropClassFileName = "loader/src/main/resources/CropClass.xlsx";
         String cropSubClassFileName = "loader/src/main/resources/CropSubClass.xlsx";
         String cropVarietyFileName = "loader/src/main/resources/CropVariety.xlsx";
-        String cropDescriptionFileName = "loader/src/main/resources/CropDescription.xlsx";
 
         ExcelWorkbookReader reader = new ExcelWorkbookReader();
         PropertyGraphUploader uploader = new PropertyGraphUploader();
@@ -37,8 +36,6 @@ public class Main {
         uploader.createCropClassToSubClassRelations(cropClasses, cropSubClasses);
         uploader.uploadCropVarieties(cropVarieties);
         uploader.createCropSubClassToVarietyRelations(cropSubClasses, cropVarieties);
-
-        uploader.createIncorrectCropSubClassRelation();
 
         uploader.close();
     }
