@@ -2,6 +2,7 @@ package com.yara.ss.reader;
 
 import com.yara.ss.domain.*;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -281,5 +282,132 @@ public class ExcelWorkbookReader {
         }
         return descVars;
 
+    }
+
+    public List<GrowthScale> readGrowthScaleFromExcel(String fileName) {
+        //Next field should be received from incoming file, not hardcoded
+        String className = "GrowthScale";
+
+        List<GrowthScale> growthScales = new ArrayList<>();
+        XSSFWorkbook myExcelBook = null;
+        try {
+            myExcelBook = new XSSFWorkbook(new FileInputStream(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        XSSFSheet myExcelSheet = myExcelBook.getSheet(className);
+        int rows = myExcelSheet.getPhysicalNumberOfRows();
+        System.out.println("Rows in GrowthScale file: " + rows);
+        for (int i = 1; i < rows; i++) {
+            XSSFRow row = myExcelSheet.getRow(i);
+
+            if (row != null
+                    && row.getCell(0) != null
+                    && row.getCell(0).getCellType() == CellType.STRING
+                    && !row.getCell(0).getStringCellValue().isEmpty()) {
+                String id = row.getCell(0).getStringCellValue();
+                String name = row.getCell(1).getStringCellValue();
+                GrowthScale growthScale = new GrowthScale(POLARIS_SOURCE, className, id, name);
+                growthScales.add(growthScale);
+            }
+        }
+        return growthScales;
+    }
+
+    public List<GrowthScaleStage> readGrowthScaleStageFromExcel(String fileName) {
+        //Next field should be received from incoming file, not hardcoded
+        String className = "GrowthScaleStage";
+
+        List<GrowthScaleStage> growthScaleStages = new ArrayList<>();
+        XSSFWorkbook myExcelBook = null;
+        try {
+            myExcelBook = new XSSFWorkbook(new FileInputStream(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        XSSFSheet myExcelSheet = myExcelBook.getSheet(className);
+        int rows = myExcelSheet.getPhysicalNumberOfRows();
+        System.out.println("Rows in GrowthScaleStage file: " + rows);
+        for (int i = 1; i < rows; i++) {
+            XSSFRow row = myExcelSheet.getRow(i);
+
+            if (row != null
+                    && row.getCell(0) != null
+                    && row.getCell(0).getCellType() == CellType.STRING
+                    && !row.getCell(0).getStringCellValue().isEmpty()) {
+                String id = row.getCell(0).getStringCellValue();
+                String growthScaleId = row.getCell(1).getStringCellValue();
+                String growthScaleStageDescription = row.getCell(2).getStringCellValue();
+                String ordinal = row.getCell(3).getStringCellValue();
+                String baseOrdinal = "";
+//                float baseOrdinal = (float) row.getCell(4).getNumericCellValue();
+                GrowthScaleStage scaleStage = new GrowthScaleStage(POLARIS_SOURCE, className, id, "GrowthScaleStage",
+                        growthScaleId, growthScaleStageDescription, ordinal, baseOrdinal);
+                growthScaleStages.add(scaleStage);
+            }
+        }
+        return growthScaleStages;
+    }
+
+    public List<CropRegion> readCropRegionsFromExcel(String fileName) {
+        //Next field should be received from incoming file, not hardcoded
+        String className = "CropRegion";
+
+        List<CropRegion> cropRegions = new ArrayList<>();
+        XSSFWorkbook myExcelBook = null;
+        try {
+            myExcelBook = new XSSFWorkbook(new FileInputStream(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        XSSFSheet myExcelSheet = myExcelBook.getSheet(className);
+        int rows = myExcelSheet.getPhysicalNumberOfRows();
+        System.out.println("Rows in CropRegion file: " + rows);
+        for (int i = 1; i < rows; i++) {
+            XSSFRow row = myExcelSheet.getRow(i);
+
+            if (row != null
+                    && row.getCell(0) != null
+                    && row.getCell(0).getCellType() == CellType.STRING
+                    && !row.getCell(0).getStringCellValue().isEmpty()) {
+                String id = row.getCell(0).getStringCellValue();
+                String descriptionId = row.getCell(1).getStringCellValue();
+                String countryIdRef = row.getCell(2).getStringCellValue();
+                String growthScaleIdRef = row.getCell(3).getStringCellValue();
+                String defaultSeedingDate = getCellDataAsString(row, 4);
+                String defaultHarvestDate = getCellDataAsString(row, 5);
+                String defaultYield = getCellDataAsString(row, 6);
+                String yieldBaseUnitId = row.getCell(7).getStringCellValue();
+                String demandBaseUnitId = row.getCell(8).getStringCellValue();
+                String regionIdRef = row.getCell(9).getStringCellValue();
+                String additionalProperties = row.getCell(10).getStringCellValue();
+                CropRegion cropRegion = new CropRegion(
+                        id,
+                        descriptionId,
+                        countryIdRef,
+                        regionIdRef,
+                        growthScaleIdRef,
+                        defaultSeedingDate,
+                        defaultHarvestDate,
+                        defaultYield,
+                        yieldBaseUnitId,
+                        demandBaseUnitId,
+                        additionalProperties);
+                cropRegions.add(cropRegion);
+            }
+        }
+        return cropRegions;
+    }
+
+    private String getCellDataAsString(XSSFRow row, int cellIndex) {
+        CellType cellType = row.getCell(cellIndex).getCellType();
+        if (cellType == CellType.NUMERIC) {
+            return Double.toString(row.getCell(cellIndex).getNumericCellValue());
+        } else if (cellType == CellType.STRING) {
+            return row.getCell(cellIndex).getStringCellValue();
+        } else {
+            System.out.println("WTF?");
+            return "WTF?";
+        }
     }
 }

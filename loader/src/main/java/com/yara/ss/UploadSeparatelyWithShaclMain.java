@@ -23,6 +23,10 @@ public class UploadSeparatelyWithShaclMain {
         String cropVarietyFileName = "loader/src/main/resources/CropVariety.xlsx";
         String cropDescriptionFileName = "loader/src/main/resources/CropDescription.xlsx";
         String cropDescriptionVarietyFileName = "loader/src/main/resources/CropDescriptionVariety.xlsx";
+        String growthScaleFileName = "loader/src/main/resources/GrowthScale.xlsx";
+        String growthScaleStageFileName = "loader/src/main/resources/GrowthScaleStage.xlsx";
+        String CropRegionFileName = "loader/src/main/resources/CropRegion.xlsx";
+        String NutrientFileName = "loader/src/main/resources/Nutrient.xlsx";
 
         ExcelWorkbookReader reader = new ExcelWorkbookReader();
         PropertyGraphUploader uploader = new PropertyGraphUploader();
@@ -35,24 +39,33 @@ public class UploadSeparatelyWithShaclMain {
         List<CropVariety> cropVarieties = reader.readCropVarietyFromExcel(cropVarietyFileName);
         List<CropDescription> cropDescriptions = reader.readCropDescriptionsFromExcel(cropDescriptionFileName);
         List<CropDescriptionVariety> cropDescVars = reader.readCropDescriptionVarietyFromExcel(cropDescriptionVarietyFileName);
+        List<GrowthScale> growthScales = reader.readGrowthScaleFromExcel(growthScaleFileName);
+        List<GrowthScaleStage> growthScaleStages = reader.readGrowthScaleStageFromExcel(growthScaleStageFileName);
+        List<CropRegion> cropRegions = reader.readCropRegionsFromExcel(CropRegionFileName);
 
         uploader.uploadShacl(shaclFileName);
         uploader.activateShaclValidationOfTransactions();
 
-        uploader.uploadCountries(countries);
-        uploader.uploadRegions(regions);
-        uploader.createCountryToRegionRelations(countries, regions);
-        uploader.uploadCropGroups(cropGroups);
-        uploader.uploadCropClasses(cropClasses);
-        uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
-        uploader.uploadCropSubClasses(cropSubClasses);
-        uploader.createCropClassToSubClassRelations(cropClasses, cropSubClasses);
-        uploader.uploadCropVarieties(cropVarieties);
-        uploader.createCropSubClassToVarietyRelations(cropSubClasses, cropVarieties);
-        uploader.uploadCropDescriptions(cropDescriptions);
-        uploader.createCropSubClassToDescriptionRelations(cropSubClasses, cropDescriptions);
-        uploader.createCropVarietyToDescriptionRelations(cropVarieties, cropDescriptions, cropDescVars);
-        uploader.createDescriptionToRegionRelations(cropDescriptions, regions);
+//        uploader.uploadCountries(countries);
+//        uploader.uploadRegions(regions);
+//        uploader.createCountryToRegionRelations(countries, regions);
+//        uploader.uploadCropGroups(cropGroups);
+//        uploader.uploadCropClasses(cropClasses);
+//        uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
+//        uploader.uploadCropSubClasses(cropSubClasses);
+//        uploader.createCropClassToSubClassRelations(cropClasses, cropSubClasses);
+//        uploader.uploadCropVarieties(cropVarieties);
+//        uploader.createCropSubClassToVarietyRelations(cropSubClasses, cropVarieties);
+//        uploader.uploadCropDescriptions(cropDescriptions);
+//        uploader.createCropSubClassToDescriptionRelations(cropSubClasses, cropDescriptions);
+//        uploader.createCropVarietyToDescriptionRelations(cropVarieties, cropDescriptions, cropDescVars);
+//        uploader.createDescriptionToRegionRelations(cropDescriptions, regions);
+//        uploader.uploadGrowthScales(growthScales);
+//        uploader.uploadGrowthScaleStages(growthScaleStages);
+//        uploader.createGrowthScaleToStagesRelations(growthScales, growthScaleStages);
+//        uploader.createCropDescriptionsToRegionsRelations(cropDescriptions, regions, cropRegions);
+//        uploader.createCropDescriptionsToGrowthScaleRelations(cropDescriptions, growthScales, cropRegions);
+
 
         //      TODO
 //        uploader.createIncorrectGroupClassRelation();
@@ -62,7 +75,7 @@ public class UploadSeparatelyWithShaclMain {
         Instant finish = Instant.now();
         long elapsedTimeMillis = Duration.between(start, finish).toMillis();
         long elapsedTimeMinutes = Duration.between(start, finish).toMinutes();
-        System.out.println("Total app runtime: " + elapsedTimeMillis + "milliseconds");
-        System.out.println("Total app runtime: " + elapsedTimeMinutes + "minutes");
+        System.out.println("Total app runtime: " + elapsedTimeMillis + " milliseconds");
+        System.out.println("Total app runtime: " + elapsedTimeMinutes + " minutes");
     }
 }

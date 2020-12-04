@@ -5,9 +5,6 @@ import com.yara.ss.reader.ExcelWorkbookReader;
 import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -266,6 +263,69 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " CropDescriptions uploaded");
     }
 
+
+    //TODO
+    public void uploadGrowthScales(List<GrowthScale> growthScales) {
+        String createGrowthScaleCommandFormat = "CREATE (%s:%s{" +
+                "ODX_GrowthScale_UUId: \"%s\", " +
+                "GrowthScaleId: \"%s\", " +
+                "name: \"%s\", " +
+                "GrowthScaleName: \"%s\", " +
+                "ODX_GrowthScale_Uri: \"%s\"})\n";
+
+        AtomicInteger count = new AtomicInteger(0);
+        try (Session session = driver.session()) {
+            growthScales.forEach(scale -> session.writeTransaction(tx -> {
+                String scaleNodeName = createNodeName(scale.getName());
+                System.out.println("Uploading GS # " + count.incrementAndGet());
+                return tx.run(String.format(createGrowthScaleCommandFormat,
+                        scaleNodeName, scale.getClassName(),
+                        scale.getUuId(),
+                        scale.getId(),
+                        scale.getName(),
+                        scale.getName(),
+                        createOdxUri(scale)));
+            }));
+        }
+        System.out.println("GrowthScale uploading completed");
+        System.out.println(count.get() + " GrowthScales uploaded");
+    }
+
+    //TODO
+    public void uploadGrowthScaleStages(List<GrowthScaleStage> growthScaleStages) {
+        String createGrowthScaleStageCommandFormat = "CREATE (%s:%s{" +
+                "ODX_GrowthScaleStage_UUId: \"%s\", " +
+                "ODX_GrowthScaleStage_Uri: \"%s\", " +
+                "BaseOrdinal: \"%s\", " +
+                "GrowthScaleId_Ref: \"%s\", " +
+                "ODX_GS_UUId_Ref: \"%s\", " +
+                "GrowthScaleStageDescription: \"%s\", " +
+                "GrowthScaleStageId: \"%s\", " +
+                "ODX_GSS_SourceSystem: \"%s\", " +
+                "Ordinal: \"%s\"})\n";
+
+        AtomicInteger count = new AtomicInteger(0);
+        try (Session session = driver.session()) {
+            growthScaleStages.forEach(stage -> session.writeTransaction(tx -> {
+                System.out.println("Uploading GSS # " + count.incrementAndGet());
+                String stageNodeName = createNodeName("GSS_number_" + count.get());
+                return tx.run(String.format(createGrowthScaleStageCommandFormat,
+                        stageNodeName, stage.getClassName(),
+                        stage.getUuId(),
+                        createOdxUri(stage),
+                        stage.getBaseOrdinal(),
+                        stage.getGrowthScaleId(),
+                        "dummy_ODX_GS_UUId_Ref",
+                        stage.getGrowthScaleStageDescription(),
+                        stage.getId(),
+                        "dummy_Polaris",
+                        stage.getOrdinal()));
+            }));
+        }
+        System.out.println("GrowthScaleStage uploading completed");
+        System.out.println(count.get() + " GrowthScaleStage uploaded");
+    }
+
     public void createCountryToRegionRelations(List<Country> countries, List<Region> regions) {
         Map<Country, List<Region>> map = getCountryRegionMap(countries, regions);
         for (Map.Entry<Country, List<Region>> entry : map.entrySet()) {
@@ -343,8 +403,53 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " CropVariety-CropDescription relations uploaded");
     }
 
-    public void createDescriptionToRegionRelations(List<CropDescription> cropDescriptions, List<Region> regions) {
+    public void createCropDescriptionsToRegionsRelations(List<CropDescription> cropDescriptions,
+                                                         List<Region> regions,
+                                                         List<CropRegion> cropRegions) {
+        AtomicInteger count = new AtomicInteger(0);
+        Map<Region, List<CropDescription>> map = getDescriptionsRegionsMap(cropDescriptions, regions, cropRegions);
+        for (Map.Entry<Region, List<CropDescription>> entry : map.entrySet()) {
+            Region region = entry.getKey();
+            List<CropDescription> relatedDescriptions = entry.getValue();
+            relatedDescriptions.forEach(description -> {
+                createDescriptionRegionRelation(description, region);
+                System.out.println(count.incrementAndGet() + " CD to Region relations created");
+            });
+        }
+        System.out.println("CropDescription-Region relation uploading completed");
+        System.out.println(count.get() + " CropDescription-Region relations uploaded");
+    }
 
+    public void createCropDescriptionsToGrowthScaleRelations(List<CropDescription> cropDescriptions,
+                                                             List<GrowthScale> growthScales,
+                                                             List<CropRegion> cropRegions) {
+        AtomicInteger count = new AtomicInteger(0);
+        Map<GrowthScale, List<CropDescription>> map = getGrowthScalesDescriptionsMap(cropDescriptions, growthScales, cropRegions);
+        for (Map.Entry<GrowthScale, List<CropDescription>> entry : map.entrySet()) {
+            GrowthScale scale = entry.getKey();
+            List<CropDescription> relatedDescriptions = entry.getValue();
+            relatedDescriptions.forEach(description -> {
+                createDescriptionGrowthScaleRelation(description, scale);
+                System.out.println(count.incrementAndGet() + " CropDescription to GrowthScale relations created");
+            });
+        }
+        System.out.println("CropDescription-GrowthScale relation uploading completed");
+        System.out.println(count.get() + " CropDescription-GrowthScale relations uploaded");
+    }
+
+    public void createGrowthScaleToStagesRelations(List<GrowthScale> growthScales, List<GrowthScaleStage> growthScaleStages) {
+        AtomicInteger count = new AtomicInteger(0);
+        Map<GrowthScale, List<GrowthScaleStage>> map = getGrowthScalesToStagesMap(growthScales, growthScaleStages);
+        for (Map.Entry<GrowthScale, List<GrowthScaleStage>> entry : map.entrySet()) {
+            GrowthScale scale = entry.getKey();
+            List<GrowthScaleStage> stages = entry.getValue();
+            stages.forEach(stage -> {
+                createGrowthScaleToStageRelation(scale, stage);
+                System.out.println(count.incrementAndGet() + " GS to GSS relations created");
+            });
+        }
+        System.out.println("GrowthScale-GrowthScaleStage relation uploading completed");
+        System.out.println(count.get() + " GrowthScale-GrowthScaleStage relations uploaded");
     }
 
     public void uploadShacl(String shaclFileName) {
@@ -561,6 +666,27 @@ public class PropertyGraphUploader implements AutoCloseable {
         uploadRelationToDatabase(matchVariety, matchDescription, createRelation);
     }
 
+    private void createGrowthScaleToStageRelation(GrowthScale scale, GrowthScaleStage stage) {
+        String matchScale = String.format("MATCH (scale:GrowthScale{ODX_GrowthScale_UUId:\"%s\"})\n", scale.getUuId());
+        String matchStage = String.format("MATCH (stage:GrowthScaleStage{ODX_GrowthScaleStage_UUId:\"%s\"})\n", stage.getUuId());
+        String createRelation = "CREATE (scale)-[:HAS_GROWTH_SCALE_STAGE]->(stage)";
+        uploadRelationToDatabase(matchScale, matchStage, createRelation);
+    }
+
+    private void createDescriptionRegionRelation(CropDescription description, Region region) {
+        String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
+        String matchRegion = String.format("MATCH (region:Region{ODX_Region_UUId:\"%s\"})\n", region.getUuId());
+        String createRelation = "CREATE (description)-[:IS_AVAILABLE_IN]->(region)";
+        uploadRelationToDatabase(matchDescription, matchRegion, createRelation);
+    }
+
+    private void createDescriptionGrowthScaleRelation(CropDescription description, GrowthScale scale) {
+        String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
+        String matchScale = String.format("MATCH (scale:GrowthScale{ODX_GrowthScale_UUId:\"%s\"})\n", scale.getUuId());
+        String createRelation = "CREATE (description)-[:HAS_GROWTH_SCALE]->(scale)";
+        uploadRelationToDatabase(matchDescription, matchScale, createRelation);
+    }
+
     private void uploadRelationToDatabase(String subject, String object, String predicate) {
         StringBuilder builder = new StringBuilder();
         builder.append(subject).append(object).append(predicate);
@@ -615,6 +741,54 @@ public class PropertyGraphUploader implements AutoCloseable {
         return map;
     }
 
+    private Map<Region, List<CropDescription>> getDescriptionsRegionsMap(List<CropDescription> cropDescriptions,
+                                                                              List<Region> regions,
+                                                                              List<CropRegion> cropRegions) {
+        Map<Region, List<CropDescription>> map = new HashMap();
+        cropRegions.forEach(cr -> {
+            Region region = (Region) getFromCollectionById(regions, cr.getRegionIdRef());
+            CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, cr.getDescriptionId());
+            List<CropDescription> relatedDescriptions = new ArrayList<>();
+            if (map.containsKey(region)) {
+                relatedDescriptions = map.get(region);
+            }
+            relatedDescriptions.add(description);
+            map.put(region, relatedDescriptions);
+        });
+        return map;
+    }
+
+    private Map<GrowthScale, List<CropDescription>> getGrowthScalesDescriptionsMap(List<CropDescription> cropDescriptions,
+                                                                                   List<GrowthScale> growthScales,
+                                                                                   List<CropRegion> cropRegions) {
+        Map<GrowthScale, List<CropDescription>> map = new HashMap();
+        cropRegions.forEach(cr -> {
+            GrowthScale scale = (GrowthScale) getFromCollectionById(growthScales, cr.getGrowthScaleIdRef());
+            CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, cr.getDescriptionId());
+            List<CropDescription> relatedDescriptions = new ArrayList<>();
+            if (map.containsKey(scale)) {
+                relatedDescriptions = map.get(scale);
+            }
+            relatedDescriptions.add(description);
+            map.put(scale, relatedDescriptions);
+        });
+        return map;
+
+    }
+
+    private Map<GrowthScale, List<GrowthScaleStage>> getGrowthScalesToStagesMap(List<GrowthScale> growthScales, List<GrowthScaleStage> growthScaleStages) {
+        Map<GrowthScale, List<GrowthScaleStage>> map = new HashMap();
+        growthScaleStages.forEach(stage -> {
+            GrowthScale scale = (GrowthScale) getFromCollectionById(growthScales, stage.getGrowthScaleId());
+            List<GrowthScaleStage> relatedStages = new ArrayList<>();
+            if (map.containsKey(scale)) {
+                relatedStages = map.get(scale);
+            }
+            relatedStages.add(stage);
+            map.put(scale, relatedStages);
+        });
+        return map;
+    }
 
     private Map<Country, List<Region>> getCountryRegionMap(List<Country> countries, List<Region> regions) {
         Map<Country, List<Region>> map = new HashMap();

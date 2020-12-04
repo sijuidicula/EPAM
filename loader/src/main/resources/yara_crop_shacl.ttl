@@ -754,7 +754,9 @@ yara:GrowthScaleStageShape
     sh:property    [ sh:path     yara:BaseOrdinal ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
-                     sh:datatype xsd:float ; ] ;
+#                     will be string for timebeing
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
     sh:property    [ sh:path     yara:GrowthScaleId_Ref ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
@@ -784,7 +786,9 @@ yara:GrowthScaleStageShape
     sh:property    [ sh:path     yara:Ordinal ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
-                     sh:datatype xsd:float ; ] ;
+#                     will be string for timebeing
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
 .
 
 yara:UnitsShape
