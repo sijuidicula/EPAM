@@ -1,5 +1,7 @@
 package com.yara.ss.domain;
 
+import java.util.Objects;
+
 public class CropClass extends Thing{
 
     private String groupId;
@@ -8,7 +10,7 @@ public class CropClass extends Thing{
     private String name;
 
     public CropClass(String source, String className, String id,  String groupId, String faoId, String mediaUri, String name) {
-        super(source, className, id);
+        super(source, className, id, name);
         this.groupId = groupId;
         this.faoId = faoId;
         this.mediaUri = mediaUri;
@@ -43,5 +45,21 @@ public class CropClass extends Thing{
                 ", mediaUri='" + mediaUri + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CropClass cropClass = (CropClass) o;
+        return Objects.equals(groupId, cropClass.groupId) &&
+                Objects.equals(faoId, cropClass.faoId) &&
+                Objects.equals(mediaUri, cropClass.mediaUri) &&
+                Objects.equals(name, cropClass.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(groupId, faoId, mediaUri, name);
     }
 }

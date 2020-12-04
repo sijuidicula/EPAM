@@ -28,7 +28,7 @@ public class ExcelWorkbookReader {
             e.printStackTrace();
         }
         XSSFSheet myExcelSheet = myExcelBook.getSheet(className);
-        int rows = myExcelSheet.getLastRowNum();
+        int rows = myExcelSheet.getPhysicalNumberOfRows();
         System.out.println("Rows in CropGroup file: " + rows);
         for (int i = 1; i < rows; i++) {
             XSSFRow row = myExcelSheet.getRow(i);
@@ -61,7 +61,7 @@ public class ExcelWorkbookReader {
             e.printStackTrace();
         }
         XSSFSheet myExcelSheet = myExcelBook.getSheet("CropClass");
-        int rows = myExcelSheet.getLastRowNum();
+        int rows = myExcelSheet.getPhysicalNumberOfRows();
         System.out.println("Rows in CropClass file: " + rows);
         for (int i = 1; i < rows; i++) {
             XSSFRow row = myExcelSheet.getRow(i);
@@ -96,15 +96,21 @@ public class ExcelWorkbookReader {
             e.printStackTrace();
         }
         XSSFSheet myExcelSheet = myExcelBook.getSheet(className);
-        int rows = myExcelSheet.getLastRowNum();
+        int rows = myExcelSheet.getPhysicalNumberOfRows();
         System.out.println("Rows in CropSubClass file: " + rows);
         for (int i = 1; i < rows; i++) {
             XSSFRow row = myExcelSheet.getRow(i);
 
             if (row != null
                     && row.getCell(0) != null
+//            ) {
                     && row.getCell(0).getCellType() == CellType.STRING
                     && !row.getCell(0).getStringCellValue().isEmpty()) {
+//                System.out.println(row != null);
+//                System.out.println(row.getCell(0) != null);
+//                System.out.println(row.getCell(0).getCellType() == CellType.STRING);
+//                System.out.println(!row.getCell(0).getStringCellValue().isEmpty());
+//                System.out.println(row.getCell(0).getStringCellValue());
                 String id = row.getCell(0).getStringCellValue();
                 String classId = row.getCell(1).getStringCellValue();
                 String faoId = "";
@@ -133,11 +139,12 @@ public class ExcelWorkbookReader {
             e.printStackTrace();
         }
         XSSFSheet myExcelSheet = myExcelBook.getSheet(className);
-        int rows = myExcelSheet.getLastRowNum();
+        int rows = myExcelSheet.getPhysicalNumberOfRows();
         System.out.println("Rows in Country file: " + rows);
         for (int i = 1; i < rows; i++) {
             XSSFRow row = myExcelSheet.getRow(i);
             if (row != null
+                    && row.getCell(0) != null
                     && row.getCell(0).getCellType() == CellType.STRING
                     && !row.getCell(0).getStringCellValue().isEmpty()) {
                 String id = row.getCell(0).getStringCellValue();
@@ -161,7 +168,7 @@ public class ExcelWorkbookReader {
             e.printStackTrace();
         }
         XSSFSheet myExcelSheet = myExcelBook.getSheet(className);
-        int rows = myExcelSheet.getLastRowNum();
+        int rows = myExcelSheet.getPhysicalNumberOfRows();
         System.out.println("Rows in Region file: " + rows);
         for (int i = 1; i < rows; i++) {
             XSSFRow row = myExcelSheet.getRow(i);
@@ -190,7 +197,7 @@ public class ExcelWorkbookReader {
             e.printStackTrace();
         }
         XSSFSheet myExcelSheet = myExcelBook.getSheet("CropVariety");
-        int rows = myExcelSheet.getLastRowNum();
+        int rows = myExcelSheet.getPhysicalNumberOfRows();
         System.out.println("Rows in CropVariety file: " + rows);
         for (int i = 1; i < rows; i++) {
             XSSFRow row = myExcelSheet.getRow(i);
@@ -207,5 +214,72 @@ public class ExcelWorkbookReader {
             }
         }
         return varieties;
+    }
+
+    public List<CropDescription> readCropDescriptionsFromExcel(String fileName) {
+        //Next field should be received from incoming file, not hardcoded
+        String className = "CropDescription";
+
+        List<CropDescription> descriptions = new ArrayList<>();
+        XSSFWorkbook myExcelBook = null;
+        try {
+            myExcelBook = new XSSFWorkbook(new FileInputStream(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        XSSFSheet myExcelSheet = myExcelBook.getSheet(className);
+        int rows = myExcelSheet.getPhysicalNumberOfRows();
+        System.out.println("Rows in CropDescription file: " + rows);
+        for (int i = 1; i < rows; i++) {
+            XSSFRow row = myExcelSheet.getRow(i);
+
+            if (row != null
+                    && row.getCell(0) != null
+                    && row.getCell(0).getCellType() == CellType.STRING
+                    && !row.getCell(0).getStringCellValue().isEmpty()) {
+                String id = row.getCell(0).getStringCellValue();
+                String subClassId = row.getCell(1).getStringCellValue();
+                boolean chlorideSensitiveBool = row.getCell(2).getBooleanCellValue();
+                String chlorideSensitive = Boolean.toString(chlorideSensitiveBool);
+                String mediaUri = "";
+//                String mediaUri = row.getCell(3).getStringCellValue();
+                String name = row.getCell(4).getStringCellValue();
+                CropDescription description = new CropDescription(POLARIS_SOURCE, className, id, subClassId, chlorideSensitive, mediaUri, name);
+                descriptions.add(description);
+            }
+        }
+        return descriptions;
+    }
+
+    public List<CropDescriptionVariety> readCropDescriptionVarietyFromExcel(String fileName) {
+        //Next field should be received from incoming file, not hardcoded
+        String className = "CropDescriptionVariety";
+
+        List<CropDescriptionVariety> descVars = new ArrayList<>();
+        XSSFWorkbook myExcelBook = null;
+        try {
+            myExcelBook = new XSSFWorkbook(new FileInputStream(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        XSSFSheet myExcelSheet = myExcelBook.getSheet(className);
+        int rows = myExcelSheet.getPhysicalNumberOfRows();
+        System.out.println("Rows in CropDescriptionVariety file: " + rows);
+        for (int i = 1; i < rows; i++) {
+            XSSFRow row = myExcelSheet.getRow(i);
+
+            if (row != null
+                    && row.getCell(0) != null
+                    && row.getCell(0).getCellType() == CellType.STRING
+                    && !row.getCell(0).getStringCellValue().isEmpty()) {
+                String id = row.getCell(0).getStringCellValue();
+                String varId = row.getCell(1).getStringCellValue();
+                String descId = row.getCell(2).getStringCellValue();
+                CropDescriptionVariety descVar = new CropDescriptionVariety(id, varId, descId);
+                descVars.add(descVar);
+            }
+        }
+        return descVars;
+
     }
 }

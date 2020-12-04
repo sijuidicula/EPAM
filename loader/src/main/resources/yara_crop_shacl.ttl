@@ -106,7 +106,8 @@ yara:CropSubClassShape
     sh:property    [ sh:path     yara:CSC_FAOId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
-                     sh:pattern  "^(?!\s*$).+" ;
+#                     empty for time neing
+#                     sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:CSC_MediaUri ;
                      sh:minCount 1 ;
@@ -196,7 +197,7 @@ yara:CropDescriptionShape
     sh:property    [ sh:path     yara:CD_MediaUri ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
-                     sh:pattern  "^(?!\s*$).+" ;
+#                     sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:CD_RegionIdRef ;
                      sh:minCount 1 ;
@@ -568,20 +569,10 @@ yara:FertilizerShape
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:datatype xsd:float ; ] ;
-    sh:property    [ sh:path     yara:NH4UnitId ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:NO3 ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:datatype xsd:float ; ] ;
-    sh:property    [ sh:path     yara:NO3UnitId ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:P ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
@@ -744,7 +735,7 @@ yara:GrowthScaleShape
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path  yara:HAS_GROWTH_SCALE_STAGE ;
-                     sh:class yara:GrowthScaleStage; ] ;
+                     sh:class yara:GrowthScaleStage ; ] ;
 .
 
 yara:GrowthScaleStageShape
@@ -794,4 +785,75 @@ yara:GrowthScaleStageShape
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:datatype xsd:float ; ] ;
+.
+
+yara:UnitsShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:Units ;
+    sh:property    [ sh:path     yara:ODX_Units_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:UnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:UnitName ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:UnitTags ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path  yara:HAS_UNIT_CONVERSION ;
+                     sh:class yara:UnitConversion ; ] ;
+.
+
+yara:UnitConversionShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:UnitConversion ;
+    sh:property    [ sh:path     yara:ODX_UnitConversion_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_UC_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ConvertToUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CountryId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Multiplier ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:UnitConversionId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:UnitId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_UC_SourceSystem ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
 .

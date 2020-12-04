@@ -10,13 +10,12 @@ public class Thing {
     private String id;
     private UUID uuId;
 
-    public Thing(String source, String className, String id) {
+    //TODO need to remove "name" from arguments or from all child classes
+    public Thing(String source, String className, String id, String name) {
         this.id = id;
         this.source = source;
         this.className = className;
-        String str = source + className + id;
-        byte[] arr = str.getBytes(StandardCharsets.UTF_8);
-        uuId = UUID.nameUUIDFromBytes(arr);
+        computeUUid(source + className + id + name);
     }
 
     public String getSource() {
@@ -33,5 +32,10 @@ public class Thing {
 
     public UUID getUuId() {
         return uuId;
+    }
+
+    private void computeUUid(String string) {
+        byte[] arr = string.getBytes(StandardCharsets.UTF_8);
+        uuId = UUID.nameUUIDFromBytes(arr);
     }
 }

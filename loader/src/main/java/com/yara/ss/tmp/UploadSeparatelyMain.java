@@ -1,4 +1,4 @@
-package com.yara.ss;
+package com.yara.ss.tmp;
 
 import com.yara.ss.domain.*;
 import com.yara.ss.loader.PropertyGraphUploader;

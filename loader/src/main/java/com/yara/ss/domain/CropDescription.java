@@ -1,14 +1,16 @@
 package com.yara.ss.domain;
 
+import java.util.Objects;
+
 public class CropDescription extends Thing {
 
     private String subClassId;
-    private boolean chlorideSensitive;
+    private String chlorideSensitive;
     private String mediaUri;
     private String name;
 
-    public CropDescription(String source, String className, String id, String subClassId, boolean chlorideSensitive, String mediaUri, String name) {
-        super(source, className, id);
+    public CropDescription(String source, String className, String id, String subClassId, String chlorideSensitive, String mediaUri, String name) {
+        super(source, className, id, name);
         this.subClassId = subClassId;
         this.chlorideSensitive = chlorideSensitive;
         this.mediaUri = mediaUri;
@@ -19,7 +21,7 @@ public class CropDescription extends Thing {
         return subClassId;
     }
 
-    public boolean isChlorideSensitive() {
+    public String isChlorideSensitive() {
         return chlorideSensitive;
     }
 
@@ -29,5 +31,31 @@ public class CropDescription extends Thing {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "CropDescription{" +
+                "subClassId='" + subClassId + '\'' +
+                ", chlorideSensitive='" + chlorideSensitive + '\'' +
+                ", mediaUri='" + mediaUri + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CropDescription that = (CropDescription) o;
+        return Objects.equals(subClassId, that.subClassId) &&
+                Objects.equals(chlorideSensitive, that.chlorideSensitive) &&
+                Objects.equals(mediaUri, that.mediaUri) &&
+                Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(subClassId, chlorideSensitive, mediaUri, name);
     }
 }
