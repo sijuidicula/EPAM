@@ -92,6 +92,21 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println("Region uploading completed");
     }
 
+    private boolean existsInDatabase(Thing thing) {
+        boolean answer;
+        String existCheckQueryFormat = "MATCH (n) WHERE n.ODX_%s_UUId =\"%s\"" +
+                "RETURN count(n)>0";
+        String existCheckQuery = String.format(existCheckQueryFormat, thing.getClassName(), thing.getUuId().toString());
+
+        try (Session session = driver.session()) {
+            answer = session.readTransaction(tx -> {
+                List<Record> records = tx.run(existCheckQuery).list();
+                return records.get(0).get(0).asBoolean();
+            });
+        }
+        return answer;
+    }
+
     public void uploadCropGroups(List<CropGroup> cropGroups) {
         String createGroupFormat = "CREATE (%s:%s{" +
                 "ODX_CropGroup_UUId: \"%s\", " +
@@ -291,7 +306,6 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " GrowthScales uploaded");
     }
 
-    //TODO
     public void uploadGrowthScaleStages(List<GrowthScaleStage> growthScaleStages) {
         String createGrowthScaleStageCommandFormat = "CREATE (%s:%s{" +
                 "ODX_GrowthScaleStage_UUId: \"%s\", " +
@@ -418,19 +432,69 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     public void uploadFertilizers(List<Fertilizer> fertilizers) {
         String createFertilizerCommandFormat = "CREATE (%s:%s{" +
-                "ODX_Fertilizer_UUId: \"%s\", " +
-                "ODX_Fertilizer_Uri: \"%s\", " +
+                "Application_tags: \"%s\", " +
+                "B: \"%s\", " +
+                "BUnitId: \"%s\", " +
+                "Ca: \"%s\", " +
+                "CaUnitId: \"%s\", " +
+                "Co: \"%s\", " +
+                "CoUnitId: \"%s\", " +
+                "Cu: \"%s\", " +
+                "CuUnitId: \"%s\", " +
                 "Density: \"%s\", " +
+                "DhCode: \"%s\", " +
                 "DryMatter: \"%s\", " +
+                "ElectricalConductivity: \"%s\", " +
+                "Fe: \"%s\", " +
+                "FeUnitId: \"%s\", " +
+                "IsAvailable: \"%s\", " +
+                "K: \"%s\", " +
+                "KUnitId: \"%s\", " +
+                "LastSync: \"%s\", " +
+                "LocalizedName: \"%s\", " +
                 "LowChloride: \"%s\", " +
+                "Mg: \"%s\", " +
+                "MgUnitId: \"%s\", " +
+                "Mn: \"%s\", " +
+                "MnUnitId: \"%s\", " +
+                "Mo: \"%s\", " +
+                "MoUnitId: \"%s\", " +
+                "N: \"%s\", " +
+                "NUnitId: \"%s\", " +
+                "Na: \"%s\", " +
+                "NaUnitId: \"%s\", " +
+                "NH4: \"%s\", " +
+                "NO3: \"%s\", " +
+                "ODX_Fert_SourceSystem: \"%s\", " +
+                "ODX_Fertilizer_Uri: \"%s\", " +
+                "ODX_Fertilizer_UUId: \"%s\", " +
+                "P: \"%s\", " +
+                "PUnitId: \"%s\", " +
+                "Ph: \"%s\", " +
+                "Prod_CountryId_Ref: \"%s\", " +
+                "Prod_RegionId_Ref: \"%s\", " +
+                "ProdCountry_UUId_Ref: \"%s\", " +
                 "ProdFamily: \"%s\", " +
                 "name: \"%s\", " +
                 "ProdName: \"%s\", " +
+                "ProdRegion_UUId_Ref: \"%s\", " +
                 "ProductId: \"%s\", " +
                 "ProductType: \"%s\", " +
+                "S: \"%s\", " +
+                "SUnitId: \"%s\", " +
+                "Se: \"%s\", " +
+                "SeUnitId: \"%s\", " +
+                "Solubility20C: \"%s\", " +
+                "Solubility5C: \"%s\", " +
                 "SpreaderLoss: \"%s\", " +
-                "ODX_Fert_SourceSystem: \"%s\"})\n";
-
+                "SyncId: \"%s\", " +
+                "SyncSource: \"%s\", " +
+                "Tank: \"%s\", " +
+                "Urea: \"%s\", " +
+                "UtilizationN: \"%s\", " +
+                "UtilizationNH4: \"%s\", " +
+                "Zn: \"%s\", " +
+                "ZnUnitId: \"%s\"})\n";
 
         AtomicInteger count = new AtomicInteger(0);
         try (Session session = driver.session()) {
@@ -440,18 +504,69 @@ public class PropertyGraphUploader implements AutoCloseable {
                 String nodeName = createNodeName(fertilizer.getName());
                 return tx.run(String.format(createFertilizerCommandFormat,
                         nodeName, fertilizer.getClassName(),
-                        fertilizer.getUuId(),
-                        createOdxUri(fertilizer),
+                        "dummy_Application_tags",
+                        fertilizer.getB(),
+                        fertilizer.getBUnitId(),
+                        fertilizer.getCa(),
+                        fertilizer.getCaUnitId(),
+                        fertilizer.getCo(),
+                        fertilizer.getCoUnitId(),
+                        fertilizer.getCu(),
+                        fertilizer.getCuUnitId(),
                         fertilizer.getDensity(),
+                        "dummy_DhCode",
                         fertilizer.getDryMatter(),
+                        "dummy_ElectricalConductivity",
+                        fertilizer.getFe(),
+                        fertilizer.getFeUnitId(),
+                        "dummy_IsAvailable",
+                        fertilizer.getK(),
+                        fertilizer.getKUnitId(),
+                        "dummy_LastSync",
+                        "dummy_LocalizedName",
                         fertilizer.getLowChloride(),
+                        fertilizer.getMg(),
+                        fertilizer.getMgUnitId(),
+                        fertilizer.getMn(),
+                        fertilizer.getMnUnitId(),
+                        fertilizer.getMo(),
+                        fertilizer.getMoUnitId(),
+                        fertilizer.getN(),
+                        fertilizer.getNUnitId(),
+                        fertilizer.getNa(),
+                        fertilizer.getNaUnitId(),
+                        fertilizer.getNh4(),
+                        fertilizer.getNo3(),
+                        "dummy_ODX_Fert_SourceSystem",
+                        createOdxUri(fertilizer),
+                        fertilizer.getUuId(),
+                        fertilizer.getP(),
+                        fertilizer.getPUnitId(),
+                        "dummy_Ph",
+                        "dummy_Prod_CountryId_Ref",
+                        "dummy_Prod_RegionId_Ref",
+                        "dummy_ProdCountry_UUId_Ref",
                         fertilizer.getFamily(),
                         fertilizer.getName(),
                         fertilizer.getName(),
+                        "dummy_ProdCountry_UUId_Ref",
                         fertilizer.getId(),
                         fertilizer.getType(),
+                        fertilizer.getS(),
+                        fertilizer.getSUnitId(),
+                        fertilizer.getSe(),
+                        fertilizer.getSeUnitId(),
+                        "dummy_Solubility20C",
+                        "dummy_Solubility5C",
                         fertilizer.getSpreaderLoss(),
-                        "dummy_Polaris"));
+                        "dummy_SyncId",
+                        "dummy_SyncSource",
+                        "dummy_Tank",
+                        fertilizer.getUrea(),
+                        "dummy_UtilizationN",
+                        "dummy_UtilizationNH4",
+                        fertilizer.getZn(),
+                        fertilizer.getZnUnitId()));
             }));
         }
         System.out.println("Fertilizer uploading completed");
@@ -586,6 +701,8 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     public void createNutrientsToUnitsRelations(List<Nutrient> nutrients, List<Unit> units) {
         AtomicInteger count = new AtomicInteger(0);
+//        TODO don't need map here;
+//         need to perform relation creation while iterating over the collection
         Map<Nutrient, Unit> map = getNutrientsToUnitsMap(nutrients, units);
         for (Map.Entry<Nutrient, Unit> entry : map.entrySet()) {
             Nutrient nutrient = entry.getKey();
@@ -607,6 +724,29 @@ public class PropertyGraphUploader implements AutoCloseable {
         });
     }
 
+    public void createFertilizersToRegionsRelations(List<Fertilizer> fertilizers, List<Region> regions, List<FertilizerRegion> fertilizerRegions) {
+        AtomicInteger count = new AtomicInteger(0);
+        fertilizerRegions.forEach(fr -> {
+            Fertilizer fertilizer = (Fertilizer) getFromCollectionById(fertilizers, fr.getProductId());
+            Region region = (Region) getFromCollectionById(regions, fr.getRegionId());
+            createFertilizerToRegionRelation(fertilizer, region);
+            System.out.println(count.incrementAndGet() + " Fertilizer to Region relations created");
+        });
+        System.out.println("Fertilizer-Region relation uploading completed");
+        System.out.println(count.get() + " Fertilizer-Region relations uploaded");
+    }
+
+    public void createFertilizersToNutrientsRelations(List<Fertilizer> fertilizers, List<Nutrient> nutrients) {
+
+        fertilizers.forEach(fertilizer -> {
+            List<Nutrient> relatedNutrients = new ArrayList<>();
+            // TODO
+            //  проверить каждый нутриент в фертилайзере и если его сожержание не равно нулю,
+            //  то создать свзять между фертилайзером и нутриентом
+
+        });
+    }
+
     public void uploadShacl(String shaclFileName) {
         String commandFormat = "CALL n10s.validation.shacl.import.fetch" +
                 "(\"file:///%s\",\"Turtle\")";
@@ -614,73 +754,6 @@ public class PropertyGraphUploader implements AutoCloseable {
             session.run(String.format(commandFormat, shaclFileName));
         }
         System.out.println("Shacl uploading completed");
-    }
-
-    public void uploadCropClassAsRecord(CropClass cropClass) {
-        if (existsInDatabase(cropClass)) {
-            System.out.println("CropClass exists in DB");
-            updateCropClass(cropClass);
-        } else {
-            createCropClassAsRecord(cropClass);
-        }
-    }
-
-    private void createCropClassAsRecord(CropClass cropClass) {
-        String cropGroupFileName = "loader/src/main/resources/CropGroup.xlsx";
-
-        //May be need to pass this from outside as well
-        ExcelWorkbookReader excelWorkbookReader = new ExcelWorkbookReader();
-
-        List<CropGroup> cropGroups = excelWorkbookReader.readCropGroupFromExcel(cropGroupFileName);
-
-
-        StringBuilder builder = new StringBuilder();
-//        CropGroup cropGroup = createGroupFromExcel(cropClass.getGroupId());
-        CropGroup cropGroup = (CropGroup) getFromCollectionById(cropGroups, cropClass.getGroupId());
-        String cropGroupNodeName = createNodeName(cropGroup.getName());
-        String cropClassNodeName = createNodeName(cropClass.getName());
-        appendCropGroupCommand(builder, cropGroup, cropGroupNodeName);
-        appendCropClassCommand(builder, cropClass, cropClassNodeName, cropGroup);
-        appendGroupClassRelationCommand(builder, cropGroupNodeName, cropClassNodeName);
-
-        try (Session session = driver.session()) {
-            session.writeTransaction(tx -> tx.run(builder.toString()));
-        }
-        System.out.println("CropClass uploading completed");
-    }
-
-    private void updateCropClass(CropClass cropClass) {
-        StringBuilder builder = new StringBuilder();
-        String setClassFormat = "MATCH (cc:%s{ODX_UUid: \"%s\"})\n" +
-                "SET cc = {id: \"%s\", groupId: \"%s\", faoId: \"%s\", mediaUri: \"%s\", name: \"%s\", ODX_UUid: \"%s\", ODX_URI: \"%s\"}\n";
-        String createClassCommand = String.format(setClassFormat, cropClass.getClassName(), cropClass.getUuId(),
-                cropClass.getId(), cropClass.getGroupId(), cropClass.getFaoId(), cropClass.getMediaUri(),
-                cropClass.getName(), cropClass.getUuId(), createOdxUri(cropClass));
-        builder.append(createClassCommand);
-        try (Session session = driver.session()) {
-            session.writeTransaction(tx -> tx.run(builder.toString()));
-        }
-        System.out.println("CropClass updating completed");
-    }
-
-    private void appendCropGroupNodeCommand(StringBuilder builder, CropGroup group, String cropGroupNodeName) {
-        String createGroupFormat = "CREATE (%s:%s{id: \"%s\", faoId: \"%s\", mediaUri: \"%s\", name: \"%s\"})\n";
-        String createGroupNodeCommand = String.format(createGroupFormat,
-                cropGroupNodeName, group.getClassName(), group.getId(), group.getFaoId(), group.getMediaUri(), group.getName());
-        builder.append(createGroupNodeCommand);
-    }
-
-    private void appendOdxCropGroupNodeCommand(StringBuilder builder, CropGroup group, String cropGroupNodeName) {
-        String createCropGroupOdxUUidNodeFormat = "CREATE (%s:%s{ODX_UUid: \"%s\", ODX_URI: \"%s\"})\n";
-        String createOdxCropGroupNodeCommand = String.format(createCropGroupOdxUUidNodeFormat,
-                "ODX_" + cropGroupNodeName, "ODX_" + group.getClassName(), group.getUuId(), createOdxUri(group));
-        builder.append(createOdxCropGroupNodeCommand);
-    }
-
-    private void appendRelationOdxGroupToGroupCommand(StringBuilder builder, CropGroup cropGroup, String cropGroupNodeName) {
-        String createRelationFormat = "CREATE (%s)-[:HAS_SOURCE_VERSION]->(%s)\n";
-        String createRelationCommand = String.format(createRelationFormat, "ODX_" + cropGroupNodeName, cropGroupNodeName);
-        builder.append(createRelationCommand);
     }
 
     public void activateShaclValidationOfTransactions() {
@@ -693,42 +766,6 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println("Shacl validation for transactions activated");
 
 
-    }
-
-    public void uploadAnotherCropGroup() {
-        String createGroup = "CREATE (cg:CropGroup{id: \"xxx\", faoId: \"xxx\", mediaUri: \"xxx\", name: \"xxx\"})\n";
-        try (Session session = driver.session()) {
-            session.writeTransaction(tx -> tx.run(createGroup));
-        }
-        System.out.println("Creation of XXX CropGroup is completed");
-    }
-
-    public void createIncorrectCropSubClassRelation2() {
-        String commandFormat = "MATCH (cg1:CropGroup{name: 'Other crops'})" +
-                "MATCH (cg2:CropGroup{name: 'xxx'})" +
-                "CREATE (cg1)-[r:HAS_CROP_CLASS]->(cg2)";
-        try (Session session = driver.session()) {
-            session.writeTransaction(tx -> tx.run(commandFormat));
-            System.out.println("Creating incorrect CropGroup relation completed");
-        } catch (ClientException e) {
-            System.out.println("Creation of incorrect CropGroup relation is impossible");
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private boolean existsInDatabase(Thing thing) {
-        boolean answer;
-        String existCheckQueryFormat = "MATCH (n) WHERE n.ODX_%s_UUId =\"%s\"" +
-                "RETURN count(n)>0";
-        String existCheckQuery = String.format(existCheckQueryFormat, thing.getClassName(), thing.getUuId().toString());
-
-        try (Session session = driver.session()) {
-            answer = session.readTransaction(tx -> {
-                List<Record> records = tx.run(existCheckQuery).list();
-                return records.get(0).get(0).asBoolean();
-            });
-        }
-        return answer;
     }
 
     private void appendCropClassCommand(StringBuilder builder, CropClass cropClass, String newClassName, CropGroup cropGroup) {
@@ -754,17 +791,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                 createOdxUri(cropClass),
                 cropGroup.getUuId());
         builder.append(createClassCommand);
-    }
-
-    private void appendCropGroupCommand(StringBuilder builder, CropGroup group, String cropGroupNodeName) {
-        if (!existsInDatabase(group)) {
-            String createCropGroupCommand = composeCreateCropGroupCommand(group);
-            builder.append(createCropGroupCommand);
-        } else {
-            String groupMatchFormat = "MATCH (%s:%s{ODX_CropGroup_UUId: \"%s\"})\n";
-            String matchGroupById = String.format(groupMatchFormat, cropGroupNodeName, group.getClassName(), group.getUuId());
-            builder.append(matchGroupById);
-        }
     }
 
     private void appendGroupClassRelationCommand(StringBuilder builder, String cropGroupNodeName, String cropClassNodeName) {
@@ -854,6 +880,13 @@ public class PropertyGraphUploader implements AutoCloseable {
         String matchConversion = String.format("MATCH (conversion:UnitConversion{ODX_UnitConversion_UUId:\"%s\"})\n", conversion.getUuId());
         String createRelation = "CREATE (unit)-[:HAS_UNIT_CONVERSION]->(conversion)";
         uploadRelationToDatabase(matchUnit, matchConversion, createRelation);
+    }
+
+    private void createFertilizerToRegionRelation(Fertilizer fertilizer, Region region) {
+        String matchFertilizer = String.format("MATCH (fertilizer:Fertilizer{ODX_Fertilizer_UUId:\"%s\"})\n", fertilizer.getUuId());
+        String matchRegion = String.format("MATCH (region:Region{ODX_Region_UUId:\"%s\"})\n", region.getUuId());
+        String createRelation = "CREATE (fertilizer)-[:IS_AVAILABLE_IN]->(region)";
+        uploadRelationToDatabase(matchFertilizer, matchRegion, createRelation);
     }
 
     private void uploadRelationToDatabase(String subject, String object, String predicate) {
@@ -1230,5 +1263,106 @@ public class PropertyGraphUploader implements AutoCloseable {
 //                .findFirst()
 //                .orElse(new CropSubClass("xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx"));
 //    }
+
+
+//    public void uploadCropClassAsRecord(CropClass cropClass) {
+//        if (existsInDatabase(cropClass)) {
+//            System.out.println("CropClass exists in DB");
+//            updateCropClass(cropClass);
+//        } else {
+//            createCropClassAsRecord(cropClass);
+//        }
+//    }
+//
+//    private void createCropClassAsRecord(CropClass cropClass) {
+//        String cropGroupFileName = "loader/src/main/resources/CropGroup.xlsx";
+//
+//        //May be need to pass this from outside as well
+//        ExcelWorkbookReader excelWorkbookReader = new ExcelWorkbookReader();
+//
+//        List<CropGroup> cropGroups = excelWorkbookReader.readCropGroupFromExcel(cropGroupFileName);
+//
+//
+//        StringBuilder builder = new StringBuilder();
+////        CropGroup cropGroup = createGroupFromExcel(cropClass.getGroupId());
+//        CropGroup cropGroup = (CropGroup) getFromCollectionById(cropGroups, cropClass.getGroupId());
+//        String cropGroupNodeName = createNodeName(cropGroup.getName());
+//        String cropClassNodeName = createNodeName(cropClass.getName());
+//        appendCropGroupCommand(builder, cropGroup, cropGroupNodeName);
+//        appendCropClassCommand(builder, cropClass, cropClassNodeName, cropGroup);
+//        appendGroupClassRelationCommand(builder, cropGroupNodeName, cropClassNodeName);
+//
+//        try (Session session = driver.session()) {
+//            session.writeTransaction(tx -> tx.run(builder.toString()));
+//        }
+//        System.out.println("CropClass uploading completed");
+//    }
+//
+//    private void updateCropClass(CropClass cropClass) {
+//        StringBuilder builder = new StringBuilder();
+//        String setClassFormat = "MATCH (cc:%s{ODX_UUid: \"%s\"})\n" +
+//                "SET cc = {id: \"%s\", groupId: \"%s\", faoId: \"%s\", mediaUri: \"%s\", name: \"%s\", ODX_UUid: \"%s\", ODX_URI: \"%s\"}\n";
+//        String createClassCommand = String.format(setClassFormat, cropClass.getClassName(), cropClass.getUuId(),
+//                cropClass.getId(), cropClass.getGroupId(), cropClass.getFaoId(), cropClass.getMediaUri(),
+//                cropClass.getName(), cropClass.getUuId(), createOdxUri(cropClass));
+//        builder.append(createClassCommand);
+//        try (Session session = driver.session()) {
+//            session.writeTransaction(tx -> tx.run(builder.toString()));
+//        }
+//        System.out.println("CropClass updating completed");
+//    }
+//
+//    private void appendCropGroupNodeCommand(StringBuilder builder, CropGroup group, String cropGroupNodeName) {
+//        String createGroupFormat = "CREATE (%s:%s{id: \"%s\", faoId: \"%s\", mediaUri: \"%s\", name: \"%s\"})\n";
+//        String createGroupNodeCommand = String.format(createGroupFormat,
+//                cropGroupNodeName, group.getClassName(), group.getId(), group.getFaoId(), group.getMediaUri(), group.getName());
+//        builder.append(createGroupNodeCommand);
+//    }
+//
+//    private void appendOdxCropGroupNodeCommand(StringBuilder builder, CropGroup group, String cropGroupNodeName) {
+//        String createCropGroupOdxUUidNodeFormat = "CREATE (%s:%s{ODX_UUid: \"%s\", ODX_URI: \"%s\"})\n";
+//        String createOdxCropGroupNodeCommand = String.format(createCropGroupOdxUUidNodeFormat,
+//                "ODX_" + cropGroupNodeName, "ODX_" + group.getClassName(), group.getUuId(), createOdxUri(group));
+//        builder.append(createOdxCropGroupNodeCommand);
+//    }
+//
+//    private void appendRelationOdxGroupToGroupCommand(StringBuilder builder, CropGroup cropGroup, String cropGroupNodeName) {
+//        String createRelationFormat = "CREATE (%s)-[:HAS_SOURCE_VERSION]->(%s)\n";
+//        String createRelationCommand = String.format(createRelationFormat, "ODX_" + cropGroupNodeName, cropGroupNodeName);
+//        builder.append(createRelationCommand);
+//    }
+//
+//    public void uploadAnotherCropGroup() {
+//        String createGroup = "CREATE (cg:CropGroup{id: \"xxx\", faoId: \"xxx\", mediaUri: \"xxx\", name: \"xxx\"})\n";
+//        try (Session session = driver.session()) {
+//            session.writeTransaction(tx -> tx.run(createGroup));
+//        }
+//        System.out.println("Creation of XXX CropGroup is completed");
+//    }
+//
+//    public void createIncorrectCropSubClassRelation2() {
+//        String commandFormat = "MATCH (cg1:CropGroup{name: 'Other crops'})" +
+//                "MATCH (cg2:CropGroup{name: 'xxx'})" +
+//                "CREATE (cg1)-[r:HAS_CROP_CLASS]->(cg2)";
+//        try (Session session = driver.session()) {
+//            session.writeTransaction(tx -> tx.run(commandFormat));
+//            System.out.println("Creating incorrect CropGroup relation completed");
+//        } catch (ClientException e) {
+//            System.out.println("Creation of incorrect CropGroup relation is impossible");
+//            System.out.println(e.getMessage());
+//        }
+//    }
+//
+//    private void appendCropGroupCommand(StringBuilder builder, CropGroup group, String cropGroupNodeName) {
+//        if (!existsInDatabase(group)) {
+//            String createCropGroupCommand = composeCreateCropGroupCommand(group);
+//            builder.append(createCropGroupCommand);
+//        } else {
+//            String groupMatchFormat = "MATCH (%s:%s{ODX_CropGroup_UUId: \"%s\"})\n";
+//            String matchGroupById = String.format(groupMatchFormat, cropGroupNodeName, group.getClassName(), group.getUuId());
+//            builder.append(matchGroupById);
+//        }
+//    }
+//
 }
 

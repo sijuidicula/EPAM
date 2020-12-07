@@ -1,8 +1,7 @@
 package com.yara.ss.domain;
 
-import java.util.Objects;
-
 public class Fertilizer extends Thing {
+
     private String family;
     private String type;
     private String name;
@@ -130,23 +129,136 @@ public class Fertilizer extends Thing {
         return density;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Fertilizer that = (Fertilizer) o;
-        return Objects.equals(family, that.family) &&
-                Objects.equals(type, that.type) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(lowChloride, that.lowChloride) &&
-                Objects.equals(dryMatter, that.dryMatter) &&
-                Objects.equals(spreaderLoss, that.spreaderLoss) &&
-                Objects.equals(density, that.density);
+    public String getN() {
+        return n;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(family, type, name, lowChloride, dryMatter, spreaderLoss, density);
+    public String getNUnitId() {
+        return nUnitId;
+    }
+
+    public String getP() {
+        return p;
+    }
+
+    public String getPUnitId() {
+        return pUnitId;
+    }
+
+    public String getK() {
+        return k;
+    }
+
+    public String getKUnitId() {
+        return kUnitId;
+    }
+
+    public String getMg() {
+        return mg;
+    }
+
+    public String getMgUnitId() {
+        return mgUnitId;
+    }
+
+    public String getS() {
+        return s;
+    }
+
+    public String getSUnitId() {
+        return sUnitId;
+    }
+
+    public String getCa() {
+        return ca;
+    }
+
+    public String getCaUnitId() {
+        return caUnitId;
+    }
+
+    public String getB() {
+        return b;
+    }
+
+    public String getBUnitId() {
+        return bUnitId;
+    }
+
+    public String getZn() {
+        return zn;
+    }
+
+    public String getZnUnitId() {
+        return znUnitId;
+    }
+
+    public String getMn() {
+        return mn;
+    }
+
+    public String getMnUnitId() {
+        return mnUnitId;
+    }
+
+    public String getCu() {
+        return cu;
+    }
+
+    public String getCuUnitId() {
+        return cuUnitId;
+    }
+
+    public String getFe() {
+        return fe;
+    }
+
+    public String getFeUnitId() {
+        return feUnitId;
+    }
+
+    public String getMo() {
+        return mo;
+    }
+
+    public String getMoUnitId() {
+        return moUnitId;
+    }
+
+    public String getNa() {
+        return na;
+    }
+
+    public String getNaUnitId() {
+        return naUnitId;
+    }
+
+    public String getSe() {
+        return se;
+    }
+
+    public String getSeUnitId() {
+        return seUnitId;
+    }
+
+    public String getCo() {
+        return co;
+    }
+
+    public String getCoUnitId() {
+        return coUnitId;
+    }
+
+    public String getNo3() {
+        return no3;
+    }
+
+    public String getNh4() {
+        return nh4;
+    }
+
+    public String getUrea() {
+        return urea;
     }
 
     @Override

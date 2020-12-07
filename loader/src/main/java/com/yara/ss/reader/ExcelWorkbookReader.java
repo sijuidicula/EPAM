@@ -623,4 +623,38 @@ public class ExcelWorkbookReader {
         }
         return fertilizers;
     }
+
+    public List<FertilizerRegion> readFertilizerRegionsFromExcel(String fileName) {
+        //Next field should be received from incoming file, not hardcoded
+        String className = "FertilizerRegion";
+
+        List<FertilizerRegion> fertilizerRegions = new ArrayList<>();
+        XSSFWorkbook myExcelBook = null;
+        try {
+            myExcelBook = new XSSFWorkbook(new FileInputStream(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        XSSFSheet myExcelSheet = myExcelBook.getSheet(className);
+        int rows = myExcelSheet.getPhysicalNumberOfRows();
+        System.out.println("Rows in FertilizerRegion file: " + rows);
+        for (int i = 1; i < rows; i++) {
+            XSSFRow row = myExcelSheet.getRow(i);
+
+            if (row != null
+                    && row.getCell(0) != null
+                    && row.getCell(0).getCellType() == CellType.STRING
+                    && !row.getCell(0).getStringCellValue().isEmpty()) {
+                String id = row.getCell(0).getStringCellValue();
+                String countryId = row.getCell(1).getStringCellValue();
+                String regionId = row.getCell(2).getStringCellValue();
+                String localizedName = getCellDataAsString(row, 3);
+                String productId = row.getCell(4).getStringCellValue();
+                String isAvailable = getCellDataAsString(row, 5);
+                String appTags = "dummy_empty_app_tags";
+                FertilizerRegion region = new FertilizerRegion(id, countryId, regionId, localizedName, productId, isAvailable, appTags);
+                fertilizerRegions.add(region);
+            }
+        }
+        return fertilizerRegions;   }
 }

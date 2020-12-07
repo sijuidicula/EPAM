@@ -700,11 +700,11 @@ yara:FertilizerShape
 #                     sh:maxCount 1 ;
 #                     sh:pattern  "^(?!\s*$).+" ;
 #                     sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ODX_Fert_SourceSystem ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
+#    sh:property    [ sh:path     yara:ODX_Fert_SourceSystem ;
+#                     sh:minCount 1 ;
+#                     sh:maxCount 1 ;
+#                     sh:pattern  "^(?!\s*$).+" ;
+#                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path  yara:HAS_PROD_NUTRIENT ;
                      sh:class yara:Nutrient ; ] ;
     sh:property    [ sh:path  yara:IS_AVAILABLE_IN ;
