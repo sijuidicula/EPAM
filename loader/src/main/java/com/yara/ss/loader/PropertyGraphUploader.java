@@ -326,6 +326,138 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " GrowthScaleStage uploaded");
     }
 
+    public void uploadNutrients(List<Nutrient> nutrients) {
+        String createNutrientsCommandFormat = "CREATE (%s:%s{" +
+                "ODX_Nutrient_UUId: \"%s\", " +
+                "ODX_Nutrient_Uri: \"%s\", " +
+                "NutrientId: \"%s\", " +
+                "name: \"%s\", " +
+                "NutrientName: \"%s\", " +
+                "ElementalName: \"%s\", " +
+                "Nutr_Ordinal: \"%s\", " +
+                "ODX_Nutr_SourceSystem: \"%s\"})\n";
+
+        AtomicInteger count = new AtomicInteger(0);
+        try (Session session = driver.session()) {
+            nutrients.forEach(nutrient -> session.writeTransaction(tx -> {
+                System.out.println("Uploading Nutrient # " + count.incrementAndGet());
+                String nutrientNodeName = createNodeName(nutrient.getName());
+                return tx.run(String.format(createNutrientsCommandFormat,
+                        nutrientNodeName, nutrient.getClassName(),
+                        nutrient.getUuId(),
+                        createOdxUri(nutrient),
+                        nutrient.getId(),
+                        nutrient.getName(),
+                        nutrient.getName(),
+                        nutrient.getElementalName(),
+                        nutrient.getNutrientOrdinal(),
+                        "dummy_Polaris"));
+            }));
+        }
+        System.out.println("Nutrient uploading completed");
+        System.out.println(count.get() + " Nutrients uploaded");
+    }
+
+    public void uploadUnits(List<Unit> units) {
+        String createUnitCommandFormat = "CREATE (%s:%s{" +
+                "ODX_Unit_Uri: \"%s\", " +
+                "UnitId: \"%s\", " +
+                "name: \"%s\", " +
+                "UnitName: \"%s\", " +
+                "UnitTags: \"%s\"})\n";
+
+        AtomicInteger count = new AtomicInteger(0);
+        try (Session session = driver.session()) {
+            units.forEach(unit -> session.writeTransaction(tx -> {
+                System.out.println("Uploading Unit # " + count.incrementAndGet());
+                String unitNodeName = createNodeName(unit.getName());
+                return tx.run(String.format(createUnitCommandFormat,
+                        unitNodeName, unit.getClassName(),
+                        createOdxUri(unit),
+                        unit.getId(),
+                        unit.getName(),
+                        unit.getName(),
+                        unit.getTag()));
+            }));
+        }
+        System.out.println("Unit uploading completed");
+        System.out.println(count.get() + " Units uploaded");
+    }
+
+    public void uploadUnitConversions(List<UnitConversion> conversions) {
+        String createUnitConversionCommandFormat = "CREATE (%s:%s{" +
+                "ODX_UnitConversion_UUId: \"%s\", " +
+                "ODX_UC_Uri: \"%s\", " +
+                "ConvertToUnitId: \"%s\", " +
+                "CountryId_Ref: \"%s\", " +
+                "Multiplier: \"%s\", " +
+                "UnitConversionId: \"%s\", " +
+                "UnitId_Ref: \"%s\", " +
+                "ODX_UC_SourceSystem: \"%s\"})\n";
+
+        AtomicInteger count = new AtomicInteger(0);
+        try (Session session = driver.session()) {
+            conversions.forEach(conversion -> session.writeTransaction(tx -> {
+                System.out.println("Uploading UnitConversion # " + count.incrementAndGet());
+                String conversionNodeName = createNodeName(conversion.getName());
+                return tx.run(String.format(createUnitConversionCommandFormat,
+                        conversionNodeName, conversion.getClassName(),
+                        conversion.getUuId(),
+                        createOdxUri(conversion),
+                        conversion.getConvertToUnitId(),
+                        conversion.getCountryIdRef(),
+                        conversion.getMultiplier(),
+                        conversion.getId(),
+                        conversion.getOriginalUnitId(),
+                        "dummy_Polaris"));
+            }));
+        }
+        System.out.println("UnitConversion uploading completed");
+        System.out.println(count.get() + " UnitConversions uploaded");
+    }
+
+    public void uploadFertilizers(List<Fertilizer> fertilizers) {
+        String createFertilizerCommandFormat = "CREATE (%s:%s{" +
+                "ODX_Fertilizer_UUId: \"%s\", " +
+                "ODX_Fertilizer_Uri: \"%s\", " +
+                "Density: \"%s\", " +
+                "DryMatter: \"%s\", " +
+                "LowChloride: \"%s\", " +
+                "ProdFamily: \"%s\", " +
+                "name: \"%s\", " +
+                "ProdName: \"%s\", " +
+                "ProductId: \"%s\", " +
+                "ProductType: \"%s\", " +
+                "SpreaderLoss: \"%s\", " +
+                "ODX_Fert_SourceSystem: \"%s\"})\n";
+
+
+        AtomicInteger count = new AtomicInteger(0);
+        try (Session session = driver.session()) {
+            fertilizers.forEach(fertilizer -> session.writeTransaction(tx -> {
+                System.out.println("Uploading Fertilizer # " + count.incrementAndGet());
+                System.out.println(fertilizer);
+                String nodeName = createNodeName(fertilizer.getName());
+                return tx.run(String.format(createFertilizerCommandFormat,
+                        nodeName, fertilizer.getClassName(),
+                        fertilizer.getUuId(),
+                        createOdxUri(fertilizer),
+                        fertilizer.getDensity(),
+                        fertilizer.getDryMatter(),
+                        fertilizer.getLowChloride(),
+                        fertilizer.getFamily(),
+                        fertilizer.getName(),
+                        fertilizer.getName(),
+                        fertilizer.getId(),
+                        fertilizer.getType(),
+                        fertilizer.getSpreaderLoss(),
+                        "dummy_Polaris"));
+            }));
+        }
+        System.out.println("Fertilizer uploading completed");
+        System.out.println(count.get() + " Fertilizers uploaded");
+    }
+
     public void createCountryToRegionRelations(List<Country> countries, List<Region> regions) {
         Map<Country, List<Region>> map = getCountryRegionMap(countries, regions);
         for (Map.Entry<Country, List<Region>> entry : map.entrySet()) {
@@ -450,6 +582,29 @@ public class PropertyGraphUploader implements AutoCloseable {
         }
         System.out.println("GrowthScale-GrowthScaleStage relation uploading completed");
         System.out.println(count.get() + " GrowthScale-GrowthScaleStage relations uploaded");
+    }
+
+    public void createNutrientsToUnitsRelations(List<Nutrient> nutrients, List<Unit> units) {
+        AtomicInteger count = new AtomicInteger(0);
+        Map<Nutrient, Unit> map = getNutrientsToUnitsMap(nutrients, units);
+        for (Map.Entry<Nutrient, Unit> entry : map.entrySet()) {
+            Nutrient nutrient = entry.getKey();
+            Unit unit = entry.getValue();
+            createNutrientToUnitRelation(nutrient, unit);
+            System.out.println(count.incrementAndGet() + " Nutrient to Unit relations created");
+        }
+        System.out.println("Nutrient-Unit relation uploading completed");
+        System.out.println(count.get() + " Nutrient-Unit relations uploaded");
+    }
+
+    public void createUnitsToConversionsRelations(List<Unit> units, List<UnitConversion> conversions) {
+        AtomicInteger count = new AtomicInteger(0);
+        conversions.forEach(conversion -> {
+            Unit unit = (Unit) getFromCollectionById(units, conversion.getOriginalUnitId());
+            createUnitToConversionRelation(unit, conversion);
+            System.out.println(count.incrementAndGet() + " Unit to UnitConversion relations created");
+
+        });
     }
 
     public void uploadShacl(String shaclFileName) {
@@ -687,6 +842,20 @@ public class PropertyGraphUploader implements AutoCloseable {
         uploadRelationToDatabase(matchDescription, matchScale, createRelation);
     }
 
+    private void createNutrientToUnitRelation(Nutrient nutrient, Unit unit) {
+        String matchNutrient = String.format("MATCH (nutrient:Nutrient{ODX_Nutrient_UUId:\"%s\"})\n", nutrient.getUuId());
+        String matchUnit = String.format("MATCH (unit:Unit{UnitName:\"%s\"})\n", unit.getName());
+        String createRelation = "CREATE (nutrient)-[:HAS_NUTRIENT_UNIT]->(unit)";
+        uploadRelationToDatabase(matchNutrient, matchUnit, createRelation);
+    }
+
+    private void createUnitToConversionRelation(Unit unit, UnitConversion conversion) {
+        String matchUnit = String.format("MATCH (unit:Unit{UnitName:\"%s\"})\n", unit.getName());
+        String matchConversion = String.format("MATCH (conversion:UnitConversion{ODX_UnitConversion_UUId:\"%s\"})\n", conversion.getUuId());
+        String createRelation = "CREATE (unit)-[:HAS_UNIT_CONVERSION]->(conversion)";
+        uploadRelationToDatabase(matchUnit, matchConversion, createRelation);
+    }
+
     private void uploadRelationToDatabase(String subject, String object, String predicate) {
         StringBuilder builder = new StringBuilder();
         builder.append(subject).append(object).append(predicate);
@@ -742,8 +911,8 @@ public class PropertyGraphUploader implements AutoCloseable {
     }
 
     private Map<Region, List<CropDescription>> getDescriptionsRegionsMap(List<CropDescription> cropDescriptions,
-                                                                              List<Region> regions,
-                                                                              List<CropRegion> cropRegions) {
+                                                                         List<Region> regions,
+                                                                         List<CropRegion> cropRegions) {
         Map<Region, List<CropDescription>> map = new HashMap();
         cropRegions.forEach(cr -> {
             Region region = (Region) getFromCollectionById(regions, cr.getRegionIdRef());
@@ -790,6 +959,16 @@ public class PropertyGraphUploader implements AutoCloseable {
         return map;
     }
 
+    private Map<Nutrient, Unit> getNutrientsToUnitsMap(List<Nutrient> nutrients, List<Unit> units) {
+        Map<Nutrient, Unit> map = new HashMap();
+        nutrients.forEach(nutrient -> {
+            Unit unit = getFromCollectionByName(units, nutrient.getElementalName());
+            map.put(nutrient, unit);
+        });
+        return map;
+    }
+
+
     private Map<Country, List<Region>> getCountryRegionMap(List<Country> countries, List<Region> regions) {
         Map<Country, List<Region>> map = new HashMap();
         regions.forEach(r -> {
@@ -833,26 +1012,42 @@ public class PropertyGraphUploader implements AutoCloseable {
     }
 
     private Thing getFromCollectionById(List<? extends Thing> things, String id) {
-//        things.forEach(thing -> System.out.println(thing));
         return things.stream()
                 .filter(thing -> thing.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException(String.format("No element with id %s in collection", id)));
     }
 
+    private Unit getFromCollectionByName(List<Unit> units, String elementalName) {
+        return units.stream()
+                .filter(unit -> unit.getName().equals(elementalName))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException(String.format("No Unit with name %s in collection", elementalName)));
+    }
+
+
     private String createNodeName(String oldName) {
         return oldName.replace("[^A-Za-z0-9]", "_")
                 .replace(" ", "_WhiteSpace_")
                 .replace("-", "_EnDash_")
                 .replace(",", "_Comma_")
+                .replace(".", "_Dot_")
                 .replace("'", "_Apostrophe_")
                 .replace("\"", "_QuotationMarks_")
                 .replace("/", "_Slash_")
                 .replace("%", "_Percent_")
-                .replace("1", "fir")
-                .replace("2", "seco")
-                .replace("3", "thi")
-                .replace("4", "Four")
+                .replace("+", "_Plus_")
+                .replace("=", "_equal_")
+                .replace("0", "_zero_")
+                .replace("1", "_one_")
+                .replace("2", "_two_")
+                .replace("3", "_tree_")
+                .replace("4", "_four_")
+                .replace("5", "_five_")
+                .replace("6", "_six_")
+                .replace("7", "_seven_")
+                .replace("8", "_eight_")
+                .replace("9", "_nine_")
                 .replace("<", "_LeftTriangleBracket_")
                 .replace(">", "_RightTriangleBracket_")
                 .replace("(", "_LeftRoundBracket_")

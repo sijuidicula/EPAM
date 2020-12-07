@@ -25,8 +25,11 @@ public class UploadSeparatelyWithShaclMain {
         String cropDescriptionVarietyFileName = "loader/src/main/resources/CropDescriptionVariety.xlsx";
         String growthScaleFileName = "loader/src/main/resources/GrowthScale.xlsx";
         String growthScaleStageFileName = "loader/src/main/resources/GrowthScaleStage.xlsx";
-        String CropRegionFileName = "loader/src/main/resources/CropRegion.xlsx";
-        String NutrientFileName = "loader/src/main/resources/Nutrient.xlsx";
+        String cropRegionFileName = "loader/src/main/resources/CropRegion.xlsx";
+        String nutrientFileName = "loader/src/main/resources/Nutrient.xlsx";
+        String unitsFileName = "loader/src/main/resources/Unit.xlsx";
+        String unitConversionsFileName = "loader/src/main/resources/UnitConversion.xlsx";
+        String fertilizersFileName = "loader/src/main/resources/Fertilizer.xlsx";
 
         ExcelWorkbookReader reader = new ExcelWorkbookReader();
         PropertyGraphUploader uploader = new PropertyGraphUploader();
@@ -41,7 +44,11 @@ public class UploadSeparatelyWithShaclMain {
         List<CropDescriptionVariety> cropDescVars = reader.readCropDescriptionVarietyFromExcel(cropDescriptionVarietyFileName);
         List<GrowthScale> growthScales = reader.readGrowthScaleFromExcel(growthScaleFileName);
         List<GrowthScaleStage> growthScaleStages = reader.readGrowthScaleStageFromExcel(growthScaleStageFileName);
-        List<CropRegion> cropRegions = reader.readCropRegionsFromExcel(CropRegionFileName);
+        List<CropRegion> cropRegions = reader.readCropRegionsFromExcel(cropRegionFileName);
+        List<Nutrient> nutrients = reader.readNutrientsFromExcel(nutrientFileName);
+        List<Unit> units = reader.readUnitsFromExcel(unitsFileName);
+        List<UnitConversion> unitConversions = reader.readUnitConversionsFromExcel(unitConversionsFileName);
+        List<Fertilizer> fertilizers = reader.readFertilizersFromExcel(fertilizersFileName);
 
         uploader.uploadShacl(shaclFileName);
         uploader.activateShaclValidationOfTransactions();
@@ -65,10 +72,20 @@ public class UploadSeparatelyWithShaclMain {
 //        uploader.createGrowthScaleToStagesRelations(growthScales, growthScaleStages);
 //        uploader.createCropDescriptionsToRegionsRelations(cropDescriptions, regions, cropRegions);
 //        uploader.createCropDescriptionsToGrowthScaleRelations(cropDescriptions, growthScales, cropRegions);
+//        uploader.uploadNutrients(nutrients);
+//        uploader.uploadUnits(units);
+//        uploader.createNutrientsToUnitsRelations(nutrients, units);
+//        uploader.uploadUnitConversions(unitConversions);
+//        uploader.createUnitsToConversionsRelations(units, unitConversions);
+        uploader.uploadFertilizers(fertilizers);
+
+//        TODO
+//        uploader.createFertilizersToNutrientsRelations(fertilizers, nutrients);
+//        uploader.createFertilizersToRegionsRelations(fertilizers, regions);
 
 
-        //      TODO
-//        uploader.createIncorrectGroupClassRelation();
+//        TODO
+//         uploader.createIncorrectGroupClassRelation();
 
         uploader.close();
 

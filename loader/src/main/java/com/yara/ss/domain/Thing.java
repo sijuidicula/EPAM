@@ -10,7 +10,7 @@ public class Thing {
     private String id;
     private UUID uuId;
 
-    //TODO need to remove "name" from arguments or from all child classes
+    //TODO need to remove "name" from arguments or from all child classes at the moment of final data load (1st iteration)
     public Thing(String source, String className, String id, String name) {
         this.id = id;
         this.source = source;
