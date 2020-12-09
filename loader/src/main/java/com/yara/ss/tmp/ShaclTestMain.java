@@ -24,9 +24,9 @@ public class ShaclTestMain {
         uploader.uploadShacl(shaclFileName);
         uploader.activateShaclValidationOfTransactions();
 
-        uploader.uploadCropClassAsRecord(cropClass);
-        uploader.uploadAnotherCropGroup();
-        uploader.createIncorrectCropSubClassRelation2();
+//        uploader.uploadCropClassAsRecord(cropClass);
+//        uploader.uploadAnotherCropGroup();
+//        uploader.createIncorrectCropSubClassRelation2();
 
         uploader.close();
     }

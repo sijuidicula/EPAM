@@ -8,7 +8,7 @@ public class Region extends Thing {
     private String name;
 
     public Region(String source, String className, String id, String countryId, String name) {
-        super(source, className, id, name);
+        super(source, className, id);
         this.countryId = countryId;
         this.name = name;
     }

@@ -17,7 +17,7 @@ public class UploadRecordsWithOdxNodesMain {
 
         List<CropClass> cropClasses = reader.readCropClassFromExcel(cropClassFileName);
 
-        cropClasses.forEach(cropClass -> uploader.uploadCropClassAsRecord(cropClass));
+//        cropClasses.forEach(cropClass -> uploader.uploadCropClassAsRecord(cropClass));
 
         uploader.close();
     }

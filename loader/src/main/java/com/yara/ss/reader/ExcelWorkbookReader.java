@@ -1,12 +1,15 @@
 package com.yara.ss.reader;
 
 import com.yara.ss.domain.*;
+import com.yara.ss.mapper.Mapper;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +19,43 @@ public class ExcelWorkbookReader {
 
     //Next field should be received from incoming file, not hardcoded
     private static final String POLARIS_SOURCE = "Polaris";
+
+    public List<? extends Object> readCollectionFromExcel(String resourcesFolder, String fileName, String fileExtension, Mapper mapper) {
+        XSSFSheet myExcelSheet = getExcelSheetFromFile(resourcesFolder, fileName, fileExtension);
+        int rowsCount = myExcelSheet.getPhysicalNumberOfRows();
+        System.out.println(String.format("Rows in %s file: %d", fileName, rowsCount));
+        return getObjectsCollection(myExcelSheet, rowsCount, mapper);
+    }
+
+    private List<? extends Object> getObjectsCollection(XSSFSheet myExcelSheet, int rowsCount, Mapper mapper) {
+        List<Object> collection = new ArrayList<>();
+        for (int i = 1; i < rowsCount; i++) {
+            XSSFRow row = myExcelSheet.getRow(i);
+            if (rowContainsData(row)) {
+                Object object = mapper.map(POLARIS_SOURCE, row);
+                collection.add(object);
+            }
+        }
+        return collection;
+    }
+
+    private boolean rowContainsData(XSSFRow row) {
+        return row != null
+                && row.getCell(0) != null
+                && row.getCell(0).getCellType() == CellType.STRING
+                && !row.getCell(0).getStringCellValue().isEmpty();
+    }
+
+    private XSSFSheet getExcelSheetFromFile(String resourcesFolder, String fileName, String fileExtension) {
+        String className = fileName;
+        XSSFWorkbook myExcelBook = null;
+        try (OPCPackage pkg = OPCPackage.open(new File(resourcesFolder + fileName + fileExtension))) {
+            myExcelBook = new XSSFWorkbook(pkg);
+        } catch (IOException | InvalidFormatException e) {
+            e.printStackTrace();
+        }
+        return myExcelBook.getSheet(className);
+    }
 
     public List<CropGroup> readCropGroupFromExcel(String fileName) {
         //Next two field should be received from incoming file, not hardcoded
@@ -40,8 +80,7 @@ public class ExcelWorkbookReader {
                     && !row.getCell(0).getStringCellValue().isEmpty()) {
                 String id = row.getCell(0).getStringCellValue();
                 String faoId = row.getCell(1).getRawValue();
-                String mediaUri = "";
-//                String mediaUri = row.getCell(2).getStringCellValue();
+                String mediaUri = getCellDataAsString(row, 2);
                 String name = row.getCell(3).getStringCellValue();
                 CropGroup cropGroup = new CropGroup(POLARIS_SOURCE, className, id, faoId, mediaUri, name);
                 cropGroups.add(cropGroup);
@@ -74,8 +113,7 @@ public class ExcelWorkbookReader {
                 String id = row.getCell(0).getStringCellValue();
                 String groupId = row.getCell(1).getStringCellValue();
                 String faoId = row.getCell(2).getRawValue();
-                String mediaUri = "";
-//                String mediaUri = row.getCell(3).getStringCellValue();
+                String mediaUri = getCellDataAsString(row, 3);
                 String name = row.getCell(4).getStringCellValue();
                 CropClass cropClass = new CropClass(POLARIS_SOURCE, className, id, groupId, faoId, mediaUri, name);
                 cropClasses.add(cropClass);
@@ -104,25 +142,15 @@ public class ExcelWorkbookReader {
 
             if (row != null
                     && row.getCell(0) != null
-//            ) {
                     && row.getCell(0).getCellType() == CellType.STRING
                     && !row.getCell(0).getStringCellValue().isEmpty()) {
-//                System.out.println(row != null);
-//                System.out.println(row.getCell(0) != null);
-//                System.out.println(row.getCell(0).getCellType() == CellType.STRING);
-//                System.out.println(!row.getCell(0).getStringCellValue().isEmpty());
-//                System.out.println(row.getCell(0).getStringCellValue());
                 String id = row.getCell(0).getStringCellValue();
                 String classId = row.getCell(1).getStringCellValue();
-                String faoId = "";
-                if (row.getCell(2) != null) {
-                    faoId = String.valueOf(row.getCell(2).getNumericCellValue());
-                }
-                String mediaUri = "";
-//                String mediaUri = row.getCell(3).getStringCellValue();
+                String faoId = getCellDataAsString(row, 2);
+                String mediaUri = getCellDataAsString(row, 3);
                 String name = row.getCell(4).getStringCellValue();
-                CropSubClass cropClass = new CropSubClass(POLARIS_SOURCE, className, id, classId, faoId, mediaUri, name);
-                subClasses.add(cropClass);
+                CropSubClass subClass = new CropSubClass(POLARIS_SOURCE, className, id, classId, faoId, mediaUri, name);
+                subClasses.add(subClass);
             }
         }
         return subClasses;
@@ -134,9 +162,9 @@ public class ExcelWorkbookReader {
 
         List<Country> countries = new ArrayList<>();
         XSSFWorkbook myExcelBook = null;
-        try {
-            myExcelBook = new XSSFWorkbook(new FileInputStream(fileName));
-        } catch (IOException e) {
+        try (OPCPackage pkg = OPCPackage.open(new File(fileName));) {
+            myExcelBook = new XSSFWorkbook(pkg);
+        } catch (IOException | InvalidFormatException e) {
             e.printStackTrace();
         }
         XSSFSheet myExcelSheet = myExcelBook.getSheet(className);
@@ -150,7 +178,8 @@ public class ExcelWorkbookReader {
                     && !row.getCell(0).getStringCellValue().isEmpty()) {
                 String id = row.getCell(0).getStringCellValue();
                 String name = row.getCell(1).getStringCellValue();
-                Country country = new Country(POLARIS_SOURCE, className, id, name);
+                String productSetCode = getCellDataAsString(row, 2);
+                Country country = new Country(POLARIS_SOURCE, className, id, name, productSetCode);
                 countries.add(country);
             }
         }
@@ -240,10 +269,8 @@ public class ExcelWorkbookReader {
                     && !row.getCell(0).getStringCellValue().isEmpty()) {
                 String id = row.getCell(0).getStringCellValue();
                 String subClassId = row.getCell(1).getStringCellValue();
-                boolean chlorideSensitiveBool = row.getCell(2).getBooleanCellValue();
-                String chlorideSensitive = Boolean.toString(chlorideSensitiveBool);
-                String mediaUri = "";
-//                String mediaUri = row.getCell(3).getStringCellValue();
+                String chlorideSensitive = getCellDataAsString(row, 2);
+                String mediaUri = getCellDataAsString(row, 3);
                 String name = row.getCell(4).getStringCellValue();
                 CropDescription description = new CropDescription(POLARIS_SOURCE, className, id, subClassId, chlorideSensitive, mediaUri, name);
                 descriptions.add(description);
@@ -339,9 +366,8 @@ public class ExcelWorkbookReader {
                 String growthScaleId = row.getCell(1).getStringCellValue();
                 String growthScaleStageDescription = row.getCell(2).getStringCellValue();
                 String ordinal = row.getCell(3).getStringCellValue();
-                String baseOrdinal = "";
-//                float baseOrdinal = (float) row.getCell(4).getNumericCellValue();
-                GrowthScaleStage scaleStage = new GrowthScaleStage(POLARIS_SOURCE, className, id, "GrowthScaleStage",
+                String baseOrdinal = getCellDataAsString(row, 4);
+                GrowthScaleStage scaleStage = new GrowthScaleStage(POLARIS_SOURCE, className, id, className,
                         growthScaleId, growthScaleStageDescription, ordinal, baseOrdinal);
                 growthScaleStages.add(scaleStage);
             }
@@ -400,16 +426,23 @@ public class ExcelWorkbookReader {
     }
 
     private String getCellDataAsString(XSSFRow row, int cellIndex) {
+        if (row.getCell(cellIndex) == null) {
+            return "";
+        }
+
         CellType cellType = row.getCell(cellIndex).getCellType();
-        if (cellType == CellType.NUMERIC) {
+        if (cellType == CellType.BLANK) {
+            return "";
+        } else if (cellType == CellType.NUMERIC) {
             return Double.toString(row.getCell(cellIndex).getNumericCellValue());
         } else if (cellType == CellType.STRING) {
             return row.getCell(cellIndex).getStringCellValue();
         } else if (cellType == CellType.BOOLEAN) {
             return Boolean.toString(row.getCell(cellIndex).getBooleanCellValue());
         } else {
-            System.out.println("WTF?");
-            return "WTF?";
+            System.out.println(String.format("In row # %d, cell # %d occurred unexpected problem", row.getRowNum(), cellIndex));
+            System.out.println(cellType);
+            return "?";
         }
     }
 
@@ -573,6 +606,17 @@ public class ExcelWorkbookReader {
                 String no3 = getCellDataAsString(row, 53);
                 String nh4 = getCellDataAsString(row, 54);
                 String urea = getCellDataAsString(row, 55);
+                String utilizationN = getCellDataAsString(row, 56);
+                String utilizationNh4 = getCellDataAsString(row, 57);
+                String tank = getCellDataAsString(row, 58);
+                String electricalConductivity = getCellDataAsString(row, 59);
+                String pH = getCellDataAsString(row, 60);
+                String solubility5C = getCellDataAsString(row, 61);
+                String solubility20C = getCellDataAsString(row, 62);
+                String dhCode = getCellDataAsString(row, 63);
+                String syncId = getCellDataAsString(row, 64);
+                String syncSource = getCellDataAsString(row, 65);
+                String lastSync = getCellDataAsString(row, 66);
                 Fertilizer fertilizer = new Fertilizer.Builder(
                         POLARIS_SOURCE,
                         className,
@@ -584,6 +628,24 @@ public class ExcelWorkbookReader {
                         dryMatter,
                         spreaderLoss,
                         density)
+                        .setNutrientUnitsContent(nUnitId, n)
+                        .setNutrientUnitsContent(pUnitId, p)
+                        .setNutrientUnitsContent(kUnitId, k)
+                        .setNutrientUnitsContent(mgUnitId, mg)
+                        .setNutrientUnitsContent(sUnitId, s)
+                        .setNutrientUnitsContent(caUnitId, ca)
+                        .setNutrientUnitsContent(bUnitId, b)
+                        .setNutrientUnitsContent(znUnitId, zn)
+                        .setNutrientUnitsContent(mnUnitId, mn)
+                        .setNutrientUnitsContent(cuUnitId, cu)
+                        .setNutrientUnitsContent(feUnitId, fe)
+                        .setNutrientUnitsContent(moUnitId, mo)
+                        .setNutrientUnitsContent(naUnitId, na)
+                        .setNutrientUnitsContent(seUnitId, se)
+                        .setNutrientUnitsContent(coUnitId, co)
+                        .setNutrientUnitsContent("70ae19e2-be4f-4745-b67f-8eeb8a9f12e9", no3)
+                        .setNutrientUnitsContent("c6deac28-14f4-4eb3-946d-4ef93e4e9c33", nh4)
+//                        .setNutrientUnitsContent("urea_id", urea)
                         .n(n)
                         .nUnitId(nUnitId)
                         .p(p)
@@ -617,7 +679,19 @@ public class ExcelWorkbookReader {
                         .no3(no3)
                         .nh4(nh4)
                         .urea(urea)
+                        .utilizationN(utilizationN)
+                        .utilizationNh4(utilizationNh4)
+                        .tank(tank)
+                        .electricalConductivity(electricalConductivity)
+                        .pH(pH)
+                        .solubility5C(solubility5C)
+                        .solubility20C(solubility20C)
+                        .dhCode(dhCode)
+                        .syncId(syncId)
+                        .syncSource(syncSource)
+                        .lastSync(lastSync)
                         .build();
+
                 fertilizers.add(fertilizer);
             }
         }
@@ -656,5 +730,6 @@ public class ExcelWorkbookReader {
                 fertilizerRegions.add(region);
             }
         }
-        return fertilizerRegions;   }
+        return fertilizerRegions;
+    }
 }

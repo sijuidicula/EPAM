@@ -9,7 +9,7 @@ public class Nutrient extends Thing {
     private String nutrientOrdinal;
 
     public Nutrient(String source, String className, String id, String name, String elementalName, String nutrientOrdinal) {
-        super(source, className, id, name);
+        super(source, className, id);
         this.name = name;
         this.elementalName = elementalName;
         this.nutrientOrdinal = nutrientOrdinal;

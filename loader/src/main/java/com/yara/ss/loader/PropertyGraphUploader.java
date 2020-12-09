@@ -26,6 +26,7 @@ public class PropertyGraphUploader implements AutoCloseable {
     }
 
     public void uploadCountries(List<Country> countries) {
+        AtomicInteger count = new AtomicInteger(0);
         String createCountryFormat = "CREATE (%s:%s{" +
                 "ODX_Country_UUId: \"%s\", " +
                 "ODX_Country_Uri: \"%s\", " +
@@ -42,6 +43,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         try (Session session = driver.session()) {
             countries.forEach(country -> {
                 if (!existsInDatabase(country)) {
+                    System.out.println("Uploading Country # " + count.incrementAndGet());
                     session.writeTransaction(tx -> tx.run(String.format(createCountryFormat,
                             createNodeName(country.getName()),
                             country.getClassName(), country.getUuId(),
@@ -50,7 +52,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                             country.getId(),
                             country.getName(),
                             country.getName(),
-                            "dummy_product_set_code",
+                            country.getProductSetCode(),
                             "dummy_M49_code",
                             "dummy_ISO_2_code",
                             "dummy_ISO_3_code",
@@ -60,9 +62,11 @@ public class PropertyGraphUploader implements AutoCloseable {
             });
         }
         System.out.println("Country uploading completed");
+        System.out.println(count.get() + " Countries uploaded");
     }
 
     public void uploadRegions(List<Region> regions) {
+        AtomicInteger count = new AtomicInteger(0);
         String createRegionFormat = "CREATE (%s:%s{" +
                 "ODX_Region_UUId: \"%s\", " +
                 "ODX_Region_Uri: \"%s\", " +
@@ -74,6 +78,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         try (Session session = driver.session()) {
             regions.forEach(region -> {
                 if (!existsInDatabase(region)) {
+                    System.out.println("Uploading Region # " + count.incrementAndGet());
                     session.writeTransaction(tx -> {
                         String newRegionName = createNodeName(region.getName());
                         return tx.run(String.format(createRegionFormat,
@@ -90,6 +95,7 @@ public class PropertyGraphUploader implements AutoCloseable {
             });
         }
         System.out.println("Region uploading completed");
+        System.out.println(count.get() + " Regions uploaded");
     }
 
     private boolean existsInDatabase(Thing thing) {
@@ -108,31 +114,34 @@ public class PropertyGraphUploader implements AutoCloseable {
     }
 
     public void uploadCropGroups(List<CropGroup> cropGroups) {
+        AtomicInteger count = new AtomicInteger(0);
         String createGroupFormat = "CREATE (%s:%s{" +
-                "ODX_CropGroup_UUId: \"%s\", " +
-                "CropGroupId: \"%s\", " +
                 "CG_FAOId: \"%s\", " +
                 "CG_MediaUri: \"%s\", " +
+                "CropGroupId: \"%s\", " +
                 "name: \"%s\", " +
-                "CropGroupName: \"%s\"})\n";
+                "CropGroupName: \"%s\", " +
+                "ODX_CropGroup_UUId: \"%s\"})\n";
         try (Session session = driver.session()) {
             cropGroups.forEach(group -> session.writeTransaction(tx -> {
+                System.out.println("Uploading CropGroup # " + count.incrementAndGet());
                 String newGroupName = createNodeName(group.getName());
-//                System.out.println(group);
                 return tx.run(String.format(createGroupFormat,
                         newGroupName, group.getClassName(),
-                        group.getUuId(),
-                        group.getId(),
                         group.getFaoId(),
                         group.getMediaUri(),
+                        group.getId(),
                         group.getName(),
-                        group.getName()));
+                        group.getName(),
+                        group.getUuId()));
             }));
         }
         System.out.println("CropGroup uploading completed");
+        System.out.println(count.get() + " CropGroups uploaded");
     }
 
     public void uploadCropClasses(List<CropClass> cropClasses) {
+        AtomicInteger count = new AtomicInteger(0);
         String createClassFormat = "CREATE (%s:%s{" +
                 "ODX_CropClass_UUId: \"%s\", " +
                 "CropClassId: \"%s\", " +
@@ -144,8 +153,8 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "CropClassName: \"%s\"})\n";
         try (Session session = driver.session()) {
             cropClasses.forEach(cropClass -> session.writeTransaction(tx -> {
+                System.out.println("Uploading CropClass # " + count.incrementAndGet());
                 String newClassName = createNodeName(cropClass.getName());
-//                System.out.println(cropClass);
                 return tx.run(String.format(createClassFormat,
                         newClassName, cropClass.getClassName(),
                         cropClass.getUuId(),
@@ -159,6 +168,7 @@ public class PropertyGraphUploader implements AutoCloseable {
             }));
         }
         System.out.println("CropClass uploading completed");
+        System.out.println(count.get() + " CropClasses uploaded");
     }
 
     public void uploadCropSubClasses(List<CropSubClass> cropSubClasses) {
@@ -422,7 +432,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         conversion.getCountryIdRef(),
                         conversion.getMultiplier(),
                         conversion.getId(),
-                        conversion.getOriginalUnitId(),
+                        conversion.getUnitIdRef(),
                         "dummy_Polaris"));
             }));
         }
@@ -500,7 +510,6 @@ public class PropertyGraphUploader implements AutoCloseable {
         try (Session session = driver.session()) {
             fertilizers.forEach(fertilizer -> session.writeTransaction(tx -> {
                 System.out.println("Uploading Fertilizer # " + count.incrementAndGet());
-                System.out.println(fertilizer);
                 String nodeName = createNodeName(fertilizer.getName());
                 return tx.run(String.format(createFertilizerCommandFormat,
                         nodeName, fertilizer.getClassName(),
@@ -514,15 +523,15 @@ public class PropertyGraphUploader implements AutoCloseable {
                         fertilizer.getCu(),
                         fertilizer.getCuUnitId(),
                         fertilizer.getDensity(),
-                        "dummy_DhCode",
+                        fertilizer.getDhCode(),
                         fertilizer.getDryMatter(),
-                        "dummy_ElectricalConductivity",
+                        fertilizer.getElectricalConductivity(),
                         fertilizer.getFe(),
                         fertilizer.getFeUnitId(),
                         "dummy_IsAvailable",
                         fertilizer.getK(),
                         fertilizer.getKUnitId(),
-                        "dummy_LastSync",
+                        fertilizer.getLastSync(),
                         "dummy_LocalizedName",
                         fertilizer.getLowChloride(),
                         fertilizer.getMg(),
@@ -542,7 +551,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         fertilizer.getUuId(),
                         fertilizer.getP(),
                         fertilizer.getPUnitId(),
-                        "dummy_Ph",
+                        fertilizer.getPh(),
                         "dummy_Prod_CountryId_Ref",
                         "dummy_Prod_RegionId_Ref",
                         "dummy_ProdCountry_UUId_Ref",
@@ -556,15 +565,15 @@ public class PropertyGraphUploader implements AutoCloseable {
                         fertilizer.getSUnitId(),
                         fertilizer.getSe(),
                         fertilizer.getSeUnitId(),
-                        "dummy_Solubility20C",
-                        "dummy_Solubility5C",
+                        fertilizer.getSolubility20C(),
+                        fertilizer.getSolubility5C(),
                         fertilizer.getSpreaderLoss(),
-                        "dummy_SyncId",
-                        "dummy_SyncSource",
-                        "dummy_Tank",
+                        fertilizer.getSyncId(),
+                        fertilizer.getSyncSource(),
+                        fertilizer.getTank(),
                         fertilizer.getUrea(),
-                        "dummy_UtilizationN",
-                        "dummy_UtilizationNH4",
+                        fertilizer.getUtilizationN(),
+                        fertilizer.getUtilizationNh4(),
                         fertilizer.getZn(),
                         fertilizer.getZnUnitId()));
             }));
@@ -574,33 +583,48 @@ public class PropertyGraphUploader implements AutoCloseable {
     }
 
     public void createCountryToRegionRelations(List<Country> countries, List<Region> regions) {
+        AtomicInteger count = new AtomicInteger(0);
         Map<Country, List<Region>> map = getCountryRegionMap(countries, regions);
         for (Map.Entry<Country, List<Region>> entry : map.entrySet()) {
             Country country = entry.getKey();
             List<Region> countryRegions = entry.getValue();
-            countryRegions.forEach(region -> createCountryRegionRelation(country, region));
+            countryRegions.forEach(region -> {
+                createCountryRegionRelation(country, region);
+                System.out.println(count.incrementAndGet() + " Country to Region relations created");
+            });
         }
         System.out.println("Country-Region relation uploading completed");
+        System.out.println(count.get() + " Country-Region relations uploaded");
     }
 
     public void createCropGroupToClassRelations(List<CropGroup> groups, List<CropClass> classes) {
+        AtomicInteger count = new AtomicInteger(0);
         Map<CropGroup, List<CropClass>> map = getCropGroupClassMap(groups, classes);
         for (Map.Entry<CropGroup, List<CropClass>> entry : map.entrySet()) {
             CropGroup group = entry.getKey();
             List<CropClass> groupClasses = entry.getValue();
-            groupClasses.forEach(clazz -> createGroupClassRelation(group, clazz));
+            groupClasses.forEach(cropClass -> {
+                createGroupClassRelation(group, cropClass);
+                System.out.println(count.incrementAndGet() + " CropGroup to CropClass relations created");
+            });
         }
         System.out.println("Group-Class relation uploading completed");
+        System.out.println(count.get() + " Group-Class relations uploaded");
     }
 
     public void createCropClassToSubClassRelations(List<CropClass> ancestors, List<CropSubClass> children) {
+        AtomicInteger count = new AtomicInteger(0);
         Map<CropClass, List<CropSubClass>> map = getAncestorSubClassMap(ancestors, children);
         for (Map.Entry<CropClass, List<CropSubClass>> entry : map.entrySet()) {
             CropClass ancestor = entry.getKey();
             List<CropSubClass> relatedChildren = entry.getValue();
-            relatedChildren.forEach(child -> createClassSubClassRelation(ancestor, child));
+            relatedChildren.forEach(child -> {
+                createClassSubClassRelation(ancestor, child);
+                System.out.println(count.incrementAndGet() + " Class to SubClass relations created");
+            });
         }
         System.out.println("Class-SubClass relation uploading completed");
+        System.out.println(count.get() + " Class-SubClass relations uploaded");
     }
 
     public void createCropSubClassToVarietyRelations(List<CropSubClass> subClasses, List<CropVariety> varieties) {
@@ -701,15 +725,11 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     public void createNutrientsToUnitsRelations(List<Nutrient> nutrients, List<Unit> units) {
         AtomicInteger count = new AtomicInteger(0);
-//        TODO don't need map here;
-//         need to perform relation creation while iterating over the collection
-        Map<Nutrient, Unit> map = getNutrientsToUnitsMap(nutrients, units);
-        for (Map.Entry<Nutrient, Unit> entry : map.entrySet()) {
-            Nutrient nutrient = entry.getKey();
-            Unit unit = entry.getValue();
+        nutrients.forEach(nutrient -> {
+            Unit unit = getUnitByName(units, nutrient.getElementalName());
             createNutrientToUnitRelation(nutrient, unit);
             System.out.println(count.incrementAndGet() + " Nutrient to Unit relations created");
-        }
+        });
         System.out.println("Nutrient-Unit relation uploading completed");
         System.out.println(count.get() + " Nutrient-Unit relations uploaded");
     }
@@ -717,11 +737,12 @@ public class PropertyGraphUploader implements AutoCloseable {
     public void createUnitsToConversionsRelations(List<Unit> units, List<UnitConversion> conversions) {
         AtomicInteger count = new AtomicInteger(0);
         conversions.forEach(conversion -> {
-            Unit unit = (Unit) getFromCollectionById(units, conversion.getOriginalUnitId());
+            Unit unit = (Unit) getFromCollectionById(units, conversion.getUnitIdRef());
             createUnitToConversionRelation(unit, conversion);
             System.out.println(count.incrementAndGet() + " Unit to UnitConversion relations created");
-
         });
+        System.out.println("Unit-UnitConversion relation uploading completed");
+        System.out.println(count.get() + " Unit-UnitConversion relations uploaded");
     }
 
     public void createFertilizersToRegionsRelations(List<Fertilizer> fertilizers, List<Region> regions, List<FertilizerRegion> fertilizerRegions) {
@@ -736,15 +757,25 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " Fertilizer-Region relations uploaded");
     }
 
-    public void createFertilizersToNutrientsRelations(List<Fertilizer> fertilizers, List<Nutrient> nutrients) {
-
+    public void createFertilizersToNutrientsRelations(List<Fertilizer> fertilizers, List<Nutrient> nutrients, List<Unit> units) {
+        AtomicInteger count = new AtomicInteger(0);
         fertilizers.forEach(fertilizer -> {
-            List<Nutrient> relatedNutrients = new ArrayList<>();
-            // TODO
-            //  проверить каждый нутриент в фертилайзере и если его сожержание не равно нулю,
-            //  то создать свзять между фертилайзером и нутриентом
-
+            Map<String, String> nutrientUnitsContent = fertilizer.getNutrientUnitsContent();
+            for (Map.Entry<String, String> entry : nutrientUnitsContent.entrySet()) {
+                String nutrientUnitId = entry.getKey();
+                Unit unit = (Unit) getFromCollectionById(units, nutrientUnitId);
+                String nutrientValue = entry.getValue();
+                if (existNutrientWithName(nutrients, unit.getTag())
+                        && !nutrientValue.equals("0.0")
+                        && !nutrientValue.isEmpty()) {
+                    Nutrient nutrient = getNutrientByElementalName(nutrients, unit.getTag());
+                    createFertilizerToNutrientRelation(fertilizer, nutrient);
+                    System.out.println(count.incrementAndGet() + " Fertilizer to Nutrient relations created");
+                }
+            }
         });
+        System.out.println("Fertilizer-Nutrient relation uploading completed");
+        System.out.println(count.get() + " Fertilizer-Nutrient relations uploaded");
     }
 
     public void uploadShacl(String shaclFileName) {
@@ -889,6 +920,13 @@ public class PropertyGraphUploader implements AutoCloseable {
         uploadRelationToDatabase(matchFertilizer, matchRegion, createRelation);
     }
 
+    private void createFertilizerToNutrientRelation(Fertilizer fertilizer, Nutrient nutrient) {
+        String matchFertilizer = String.format("MATCH (fertilizer:Fertilizer{ODX_Fertilizer_UUId:\"%s\"})\n", fertilizer.getUuId());
+        String matchNutrient = String.format("MATCH (nutrient:Nutrient{ODX_Nutrient_UUId:\"%s\"})\n", nutrient.getUuId());
+        String createRelation = "CREATE (fertilizer)-[:HAS_PROD_NUTRIENT]->(nutrient)";
+        uploadRelationToDatabase(matchFertilizer, matchNutrient, createRelation);
+    }
+
     private void uploadRelationToDatabase(String subject, String object, String predicate) {
         StringBuilder builder = new StringBuilder();
         builder.append(subject).append(object).append(predicate);
@@ -900,7 +938,6 @@ public class PropertyGraphUploader implements AutoCloseable {
     private Map<CropSubClass, List<CropVariety>> getSubClassesVarietiesMap(List<CropSubClass> subClasses, List<CropVariety> varieties) {
         Map<CropSubClass, List<CropVariety>> map = new HashMap();
         varieties.forEach(variety -> {
-//            CropSubClass subClass = getSubClassById(subClasses, variety.getSubClassId());
             CropSubClass subClass = (CropSubClass) getFromCollectionById(subClasses, variety.getSubClassId());
             List<CropVariety> relatedVarieties = new ArrayList<>();
             if (map.containsKey(subClass)) {
@@ -992,25 +1029,25 @@ public class PropertyGraphUploader implements AutoCloseable {
         return map;
     }
 
-    private Map<Nutrient, Unit> getNutrientsToUnitsMap(List<Nutrient> nutrients, List<Unit> units) {
-        Map<Nutrient, Unit> map = new HashMap();
-        nutrients.forEach(nutrient -> {
-            Unit unit = getFromCollectionByName(units, nutrient.getElementalName());
-            map.put(nutrient, unit);
-        });
-        return map;
-    }
+//    private Map<Nutrient, Unit> getNutrientsToUnitsMap(List<Nutrient> nutrients, List<Unit> units) {
+//        Map<Nutrient, Unit> map = new HashMap();
+//        nutrients.forEach(nutrient -> {
+//            Unit unit = getFromCollectionByName(units, nutrient.getElementalName());
+//            map.put(nutrient, unit);
+//        });
+//        return map;
+//    }
 
 
     private Map<Country, List<Region>> getCountryRegionMap(List<Country> countries, List<Region> regions) {
         Map<Country, List<Region>> map = new HashMap();
-        regions.forEach(r -> {
-            Country country = (Country) getFromCollectionById(countries, r.getCountryId());
+        regions.forEach(region -> {
+            Country country = (Country) getFromCollectionById(countries, region.getCountryId());
             List<Region> countryRegions = new ArrayList<>();
             if (map.containsKey(country)) {
                 countryRegions = map.get(country);
             }
-            countryRegions.add(r);
+            countryRegions.add(region);
             map.put(country, countryRegions);
         });
         return map;
@@ -1051,11 +1088,28 @@ public class PropertyGraphUploader implements AutoCloseable {
                 .orElseThrow(() -> new NoSuchElementException(String.format("No element with id %s in collection", id)));
     }
 
-    private Unit getFromCollectionByName(List<Unit> units, String elementalName) {
+    private boolean collectionContainsId(List<? extends Thing> things, String id) {
+        return things.stream()
+                .anyMatch(thing -> thing.getId().equals(id));
+    }
+
+    private boolean existNutrientWithName(List<Nutrient> nutrients, String tag) {
+        return nutrients.stream()
+                .anyMatch(nutrient -> nutrient.getElementalName().equals(tag));
+    }
+
+    private Unit getUnitByName(List<Unit> units, String elementalName) {
         return units.stream()
                 .filter(unit -> unit.getName().equals(elementalName))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException(String.format("No Unit with name %s in collection", elementalName)));
+    }
+
+    private Nutrient getNutrientByElementalName(List<Nutrient> nutrients, String tag) {
+        return nutrients.stream()
+                .filter(nutrient -> nutrient.getElementalName().equals(tag))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException(String.format("No Nutrient with name %s in collection", tag)));
     }
 
 

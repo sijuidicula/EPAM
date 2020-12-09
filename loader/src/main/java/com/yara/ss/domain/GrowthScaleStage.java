@@ -15,7 +15,7 @@ public class GrowthScaleStage extends Thing {
 
     public GrowthScaleStage(String source, String className, String id, String name,
                             String growthScaleId, String growthScaleStageDescription, String ordinal, String baseOrdinal) {
-        super(source, className, id, name);
+        super(source, className, id);
         this.growthScaleId = growthScaleId;
         this.growthScaleStageDescription = growthScaleStageDescription;
         this.ordinal = ordinal;

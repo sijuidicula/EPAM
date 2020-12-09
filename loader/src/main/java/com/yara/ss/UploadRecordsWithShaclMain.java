@@ -34,7 +34,7 @@ public class UploadRecordsWithShaclMain {
         List<CropVariety> cropVarieties = reader.readCropVarietyFromExcel(cropVarietyFileName);
         List<CropDescription> cropDescriptions = reader.readCropDescriptionsFromExcel(cropDescriptionFileName);
 
-        cropClasses.forEach(cropClass -> uploader.uploadCropClassAsRecord(cropClass));
+//        cropClasses.forEach(cropClass -> uploader.uploadCropClassAsRecord(cropClass));
 
 //        TODO
 //        uploader.createIncorrectCropClassRecord();

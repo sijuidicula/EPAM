@@ -10,7 +10,7 @@ public class CropClass extends Thing{
     private String name;
 
     public CropClass(String source, String className, String id,  String groupId, String faoId, String mediaUri, String name) {
-        super(source, className, id, name);
+        super(source, className, id);
         this.groupId = groupId;
         this.faoId = faoId;
         this.mediaUri = mediaUri;

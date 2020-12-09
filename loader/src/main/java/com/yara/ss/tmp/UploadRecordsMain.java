@@ -22,7 +22,7 @@ public class UploadRecordsMain {
 //        cropClasses.forEach(cc -> System.out.println(cc));
 //        System.out.println(cropClasses.size());
 
-        cropClasses.forEach(cropClass -> uploader.uploadCropClassAsRecord(cropClass));
+//        cropClasses.forEach(cropClass -> uploader.uploadCropClassAsRecord(cropClass));
 
         uploader.close();
     }

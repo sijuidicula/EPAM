@@ -10,7 +10,7 @@ public class CropDescription extends Thing {
     private String name;
 
     public CropDescription(String source, String className, String id, String subClassId, String chlorideSensitive, String mediaUri, String name) {
-        super(source, className, id, name);
+        super(source, className, id);
         this.subClassId = subClassId;
         this.chlorideSensitive = chlorideSensitive;
         this.mediaUri = mediaUri;

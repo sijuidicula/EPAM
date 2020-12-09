@@ -2,28 +2,25 @@ package com.yara.ss.tmp;
 
 import com.yara.ss.domain.Fertilizer;
 
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
-
 public class Experiments {
     public static void main(String[] args) {
 
-        Fertilizer fertilizer = new Fertilizer.Builder(
-                "Stas",
-                "classNameXx",
-                "xxx",
-                "nameXx",
-                "familyXx",
-                "typeXx",
-                "lcXx",
-                "dm",
-                "sl",
-                "dens")
-                .n("custom_n")
-                .nUnitId("custom_n_unit_is")
-                .build();
-
-        System.out.println(fertilizer);
+//        Fertilizer fertilizer = new Fertilizer.Builder(
+//                "Stas",
+//                "classNameXx",
+//                "xxx",
+//                "nameXx",
+//                "familyXx",
+//                "typeXx",
+//                "lcXx",
+//                "dm",
+//                "sl",
+//                "dens", nutrients)
+//                .n("custom_n")
+//                .nUnitId("custom_n_unit_is")
+//                .build();
+//
+//        System.out.println(fertilizer);
 
 
 //        String str = "";

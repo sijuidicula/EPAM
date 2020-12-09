@@ -10,12 +10,11 @@ public class Thing {
     private String id;
     private UUID uuId;
 
-    //TODO need to remove "name" from arguments or from all child classes at the moment of final data load (1st iteration)
-    public Thing(String source, String className, String id, String name) {
+    public Thing(String source, String className, String id) {
         this.id = id;
         this.source = source;
         this.className = className;
-        computeUUid(source + className + id + name);
+        computeUUid(source + className + id);
     }
 
     public String getSource() {

@@ -8,7 +8,7 @@ public class CropVariety extends Thing {
     private String name;
 
     public CropVariety(String source, String className, String id, String subClassId, String name) {
-        super(source, className, id, name);
+        super(source, className, id);
         this.subClassId = subClassId;
         this.name = name;
     }

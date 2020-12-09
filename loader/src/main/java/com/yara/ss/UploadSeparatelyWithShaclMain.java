@@ -2,11 +2,14 @@ package com.yara.ss;
 
 import com.yara.ss.domain.*;
 import com.yara.ss.loader.PropertyGraphUploader;
+import com.yara.ss.mapper.CountryMapper;
+import com.yara.ss.mapper.RegionMapper;
 import com.yara.ss.reader.ExcelWorkbookReader;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class UploadSeparatelyWithShaclMain {
 
@@ -78,10 +81,9 @@ public class UploadSeparatelyWithShaclMain {
         uploader.createNutrientsToUnitsRelations(nutrients, units);
         uploader.uploadUnitConversions(unitConversions);
         uploader.createUnitsToConversionsRelations(units, unitConversions);
-//        uploader.uploadFertilizers(fertilizers);
-
+        uploader.uploadFertilizers(fertilizers);
         uploader.createFertilizersToRegionsRelations(fertilizers, regions, fertilizerRegions);
-        uploader.createFertilizersToNutrientsRelations(fertilizers, nutrients);
+        uploader.createFertilizersToNutrientsRelations(fertilizers, nutrients, units);
 
         uploader.close();
 
@@ -91,5 +93,12 @@ public class UploadSeparatelyWithShaclMain {
         System.out.println("Total app runtime: " + elapsedTimeMillis + " milliseconds");
         System.out.println("Total app runtime: " + elapsedTimeMillis / 1000 + " seconds");
         System.out.println("Total app runtime: " + elapsedTimeMinutes + " minutes");
+
+//        String resourcesFolder = "loader/src/main/resources/";
+//        String fileExtension = ".xlsx";
+//        String countryFileName = "Country";
+
+//        List<Country> countries = (List<Country>) reader.readCollectionFromExcel(resourcesFolder, countryFileName, fileExtension, new CountryMapper());
+//        List<Region> regions = (List<Region>) reader.readCollectionFromExcel(resourcesFolder, regionFileName, fileExtension, new RegionMapper());
     }
 }

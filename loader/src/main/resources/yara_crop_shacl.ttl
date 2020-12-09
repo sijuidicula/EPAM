@@ -299,7 +299,8 @@ yara:CountryShape
     sh:property    [ sh:path     yara:ProductSetCode ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
-                     sh:pattern  "^(?!\s*$).+" ;
+#                     can be blank for now
+#                     sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:M49Code ;
                      sh:minCount 1 ;

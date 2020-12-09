@@ -8,7 +8,7 @@ public class Unit extends Thing {
     private String tag;
 
     public Unit(String source, String className, String id, String name, String tag) {
-        super(source, className, id, name);
+        super(source, className, id);
         this.name = name;
         this.tag = tag;
     }

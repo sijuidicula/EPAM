@@ -1,6 +1,10 @@
 package com.yara.ss.domain;
 
+import java.util.*;
+
 public class Fertilizer extends Thing {
+
+    private final Map<String, String> nutrientUnitsContent;
 
     private String family;
     private String type;
@@ -9,6 +13,18 @@ public class Fertilizer extends Thing {
     private String dryMatter;
     private String spreaderLoss;
     private String density;
+
+    private String utilizationN;
+    private String utilizationNh4;
+    private String tank;
+    private String electricalConductivity;
+    private String pH;
+    private String solubility5C;
+    private String solubility20C;
+    private String dhCode;
+    private String syncId;
+    private String syncSource;
+    private String lastSync;
 
     private String n;
     private String nUnitId;
@@ -44,21 +60,8 @@ public class Fertilizer extends Thing {
     private String nh4;
     private String urea;
 
-
-    public Fertilizer(String source, String className, String id, String name, String family, String type,
-                      String lowChloride, String dryMatter, String spreaderLoss, String density) {
-        super(source, className, id, name);
-        this.family = family;
-        this.type = type;
-        this.name = name;
-        this.lowChloride = lowChloride;
-        this.dryMatter = dryMatter;
-        this.spreaderLoss = spreaderLoss;
-        this.density = density;
-    }
-
     private Fertilizer(Builder builder) {
-        super(builder.source, builder.className, builder.id, builder.name);
+        super(builder.source, builder.className, builder.id);
         this.name = builder.name;
         this.family = builder.family;
         this.type = builder.type;
@@ -66,6 +69,7 @@ public class Fertilizer extends Thing {
         this.dryMatter = builder.dryMatter;
         this.spreaderLoss = builder.spreaderLoss;
         this.density = builder.density;
+        this.nutrientUnitsContent = builder.nutrientUnitsContent;
         this.n = builder.n;
         this.nUnitId = builder.nUnitId;
         this.p = builder.p;
@@ -99,6 +103,21 @@ public class Fertilizer extends Thing {
         this.no3 = builder.no3;
         this.nh4 = builder.nh4;
         this.urea = builder.urea;
+        this.utilizationN = builder.utilizationN;
+        this.utilizationNh4 = builder.utilizationNh4;
+        this.tank = builder.tank;
+        this.electricalConductivity = builder.electricalConductivity;
+        this.pH = builder.pH;
+        this.solubility5C = builder.solubility5C;
+        this.solubility20C = builder.solubility20C;
+        this.dhCode = builder.dhCode;
+        this.syncId = builder.syncId;
+        this.syncSource = builder.syncSource;
+        this.lastSync = builder.lastSync;
+    }
+
+    public Map<String, String> getNutrientUnitsContent() {
+        return nutrientUnitsContent;
     }
 
     public String getFamily() {
@@ -127,6 +146,50 @@ public class Fertilizer extends Thing {
 
     public String getDensity() {
         return density;
+    }
+
+    public String getUtilizationN() {
+        return utilizationN;
+    }
+
+    public String getUtilizationNh4() {
+        return utilizationNh4;
+    }
+
+    public String getTank() {
+        return tank;
+    }
+
+    public String getElectricalConductivity() {
+        return electricalConductivity;
+    }
+
+    public String getPh() {
+        return pH;
+    }
+
+    public String getSolubility5C() {
+        return solubility5C;
+    }
+
+    public String getSolubility20C() {
+        return solubility20C;
+    }
+
+    public String getDhCode() {
+        return dhCode;
+    }
+
+    public String getSyncId() {
+        return syncId;
+    }
+
+    public String getSyncSource() {
+        return syncSource;
+    }
+
+    public String getLastSync() {
+        return lastSync;
     }
 
     public String getN() {
@@ -262,12 +325,73 @@ public class Fertilizer extends Thing {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Fertilizer that = (Fertilizer) o;
+        return Objects.equals(nutrientUnitsContent, that.nutrientUnitsContent) &&
+                Objects.equals(family, that.family) &&
+                Objects.equals(type, that.type) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(lowChloride, that.lowChloride) &&
+                Objects.equals(dryMatter, that.dryMatter) &&
+                Objects.equals(spreaderLoss, that.spreaderLoss) &&
+                Objects.equals(density, that.density) &&
+                Objects.equals(utilizationN, that.utilizationN) &&
+                Objects.equals(utilizationNh4, that.utilizationNh4) &&
+                Objects.equals(tank, that.tank) &&
+                Objects.equals(electricalConductivity, that.electricalConductivity) &&
+                Objects.equals(pH, that.pH) &&
+                Objects.equals(solubility5C, that.solubility5C) &&
+                Objects.equals(solubility20C, that.solubility20C) &&
+                Objects.equals(dhCode, that.dhCode) &&
+                Objects.equals(syncId, that.syncId) &&
+                Objects.equals(syncSource, that.syncSource) &&
+                Objects.equals(lastSync, that.lastSync) &&
+                Objects.equals(n, that.n) &&
+                Objects.equals(nUnitId, that.nUnitId) &&
+                Objects.equals(p, that.p) &&
+                Objects.equals(pUnitId, that.pUnitId) &&
+                Objects.equals(k, that.k) &&
+                Objects.equals(kUnitId, that.kUnitId) &&
+                Objects.equals(mg, that.mg) &&
+                Objects.equals(mgUnitId, that.mgUnitId) &&
+                Objects.equals(s, that.s) &&
+                Objects.equals(sUnitId, that.sUnitId) &&
+                Objects.equals(ca, that.ca) &&
+                Objects.equals(caUnitId, that.caUnitId) &&
+                Objects.equals(b, that.b) &&
+                Objects.equals(bUnitId, that.bUnitId) &&
+                Objects.equals(zn, that.zn) &&
+                Objects.equals(znUnitId, that.znUnitId) &&
+                Objects.equals(mn, that.mn) &&
+                Objects.equals(mnUnitId, that.mnUnitId) &&
+                Objects.equals(cu, that.cu) &&
+                Objects.equals(cuUnitId, that.cuUnitId) &&
+                Objects.equals(fe, that.fe) &&
+                Objects.equals(feUnitId, that.feUnitId) &&
+                Objects.equals(mo, that.mo) &&
+                Objects.equals(moUnitId, that.moUnitId) &&
+                Objects.equals(na, that.na) &&
+                Objects.equals(naUnitId, that.naUnitId) &&
+                Objects.equals(se, that.se) &&
+                Objects.equals(seUnitId, that.seUnitId) &&
+                Objects.equals(co, that.co) &&
+                Objects.equals(coUnitId, that.coUnitId) &&
+                Objects.equals(no3, that.no3) &&
+                Objects.equals(nh4, that.nh4) &&
+                Objects.equals(urea, that.urea);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nutrientUnitsContent, family, type, name, lowChloride, dryMatter, spreaderLoss, density, utilizationN, utilizationNh4, tank, electricalConductivity, pH, solubility5C, solubility20C, dhCode, syncId, syncSource, lastSync, n, nUnitId, p, pUnitId, k, kUnitId, mg, mgUnitId, s, sUnitId, ca, caUnitId, b, bUnitId, zn, znUnitId, mn, mnUnitId, cu, cuUnitId, fe, feUnitId, mo, moUnitId, na, naUnitId, se, seUnitId, co, coUnitId, no3, nh4, urea);
+    }
+
+    @Override
     public String toString() {
         return "Fertilizer{" +
-                "source='" + super.getSource() + '\'' +
-                ", className='" + super.getClassName() + '\'' +
-                ", uuid='" + super.getUuId() + '\'' +
-                ", id='" + super.getId() + '\'' +
+                "nutrientsContent=" + nutrientUnitsContent +
                 ", family='" + family + '\'' +
                 ", type='" + type + '\'' +
                 ", name='" + name + '\'' +
@@ -275,6 +399,17 @@ public class Fertilizer extends Thing {
                 ", dryMatter='" + dryMatter + '\'' +
                 ", spreaderLoss='" + spreaderLoss + '\'' +
                 ", density='" + density + '\'' +
+                ", utilizationN='" + utilizationN + '\'' +
+                ", utilizationNh4='" + utilizationNh4 + '\'' +
+                ", tank='" + tank + '\'' +
+                ", electricalConductivity='" + electricalConductivity + '\'' +
+                ", pH='" + pH + '\'' +
+                ", solubility5C='" + solubility5C + '\'' +
+                ", solubility20C='" + solubility20C + '\'' +
+                ", dhCode='" + dhCode + '\'' +
+                ", syncId='" + syncId + '\'' +
+                ", syncSource='" + syncSource + '\'' +
+                ", lastSync='" + lastSync + '\'' +
                 ", n='" + n + '\'' +
                 ", nUnitId='" + nUnitId + '\'' +
                 ", p='" + p + '\'' +
@@ -312,6 +447,8 @@ public class Fertilizer extends Thing {
     }
 
     public static class Builder {
+        private final Map<String, String> nutrientUnitsContent = new HashMap<>();
+
         private String source;
         private String className;
         private String id;
@@ -322,6 +459,18 @@ public class Fertilizer extends Thing {
         private String dryMatter;
         private String spreaderLoss;
         private String density;
+
+        private String utilizationN = "";
+        private String utilizationNh4 = "";
+        private String tank = "";
+        private String electricalConductivity = "";
+        private String pH = "";
+        private String solubility5C = "";
+        private String solubility20C = "";
+        private String dhCode = "";
+        private String syncId = "";
+        private String syncSource = "";
+        private String lastSync = "";
 
         private String n = "";
         private String nUnitId = "";
@@ -373,6 +522,11 @@ public class Fertilizer extends Thing {
 
         public Fertilizer build() {
             return new Fertilizer(this);
+        }
+
+        public Builder setNutrientUnitsContent(String nutrientUnitId, String val) {
+            nutrientUnitsContent.put(nutrientUnitId, val);
+            return this;
         }
 
         public Builder n(String val) {
@@ -526,17 +680,72 @@ public class Fertilizer extends Thing {
         }
 
         public Builder no3(String val) {
-            co = val;
+            no3 = val;
             return this;
         }
 
         public Builder nh4(String val) {
-            co = val;
+            nh4 = val;
             return this;
         }
 
         public Builder urea(String val) {
-            co = val;
+            urea = val;
+            return this;
+        }
+
+        public Builder utilizationN(String val) {
+            utilizationN = val;
+            return this;
+        }
+
+        public Builder utilizationNh4(String val) {
+            utilizationNh4 = val;
+            return this;
+        }
+
+        public Builder tank(String val) {
+            tank = val;
+            return this;
+        }
+
+        public Builder electricalConductivity(String val) {
+            electricalConductivity = val;
+            return this;
+        }
+
+        public Builder pH(String val) {
+            pH = val;
+            return this;
+        }
+
+        public Builder solubility5C(String val) {
+            solubility5C = val;
+            return this;
+        }
+
+        public Builder solubility20C(String val) {
+            solubility20C = val;
+            return this;
+        }
+
+        public Builder dhCode(String val) {
+            dhCode = val;
+            return this;
+        }
+
+        public Builder syncId(String val) {
+            syncId = val;
+            return this;
+        }
+
+        public Builder syncSource(String val) {
+            syncSource = val;
+            return this;
+        }
+
+        public Builder lastSync(String val) {
+            lastSync = val;
             return this;
         }
     }
