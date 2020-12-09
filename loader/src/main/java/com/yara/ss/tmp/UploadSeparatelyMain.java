@@ -26,16 +26,16 @@ public class UploadSeparatelyMain {
         List<CropSubClass> cropSubClasses = reader.readCropSubClassFromExcel(cropSubClassFileName);
         List<CropVariety> cropVarieties = reader.readCropVarietyFromExcel(cropVarietyFileName);
 
-        uploader.uploadCountries(countries);
-        uploader.uploadRegions(regions);
-        uploader.createCountryToRegionRelations(countries, regions);
-        uploader.uploadCropGroups(cropGroups);
-        uploader.uploadCropClasses(cropClasses);
-        uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
-        uploader.uploadCropSubClasses(cropSubClasses);
-        uploader.createCropClassToSubClassRelations(cropClasses, cropSubClasses);
-        uploader.uploadCropVarieties(cropVarieties);
-        uploader.createCropSubClassToVarietyRelations(cropSubClasses, cropVarieties);
+//        uploader.uploadCountries(countries);
+//        uploader.uploadRegions(regions);
+//        uploader.createCountryToRegionRelations(countries, regions);
+//        uploader.uploadCropGroups(cropGroups);
+//        uploader.uploadCropClasses(cropClasses);
+//        uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
+//        uploader.uploadCropSubClasses(cropSubClasses);
+//        uploader.createCropClassToSubClassRelations(cropClasses, cropSubClasses);
+//        uploader.uploadCropVarieties(cropVarieties, cropDescriptions, cropDescVars);
+//        uploader.createCropSubClassToVarietyRelations(cropSubClasses, cropVarieties);
 
         uploader.close();
     }

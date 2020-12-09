@@ -65,7 +65,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " Countries uploaded");
     }
 
-    public void uploadRegions(List<Region> regions) {
+    public void uploadRegions(List<Region> regions, List<Country> countries) {
         AtomicInteger count = new AtomicInteger(0);
         String createRegionFormat = "CREATE (%s:%s{" +
                 "ODX_Region_UUId: \"%s\", " +
@@ -79,6 +79,7 @@ public class PropertyGraphUploader implements AutoCloseable {
             regions.forEach(region -> {
                 if (!existsInDatabase(region)) {
                     System.out.println("Uploading Region # " + count.incrementAndGet());
+                    Country country = (Country) getFromCollectionById(countries, region.getCountryId());
                     session.writeTransaction(tx -> {
                         String newRegionName = createNodeName(region.getName());
                         return tx.run(String.format(createRegionFormat,
@@ -87,7 +88,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                                 createOdxUri(region),
                                 region.getId(),
                                 region.getCountryId(),
-                                "dummy_Country_UUId_Ref",
+                                country.getUuId(),
                                 region.getName(),
                                 region.getName()));
                     });
@@ -140,7 +141,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " CropGroups uploaded");
     }
 
-    public void uploadCropClasses(List<CropClass> cropClasses) {
+    public void uploadCropClasses(List<CropClass> cropClasses, List<CropGroup> cropGroups) {
         AtomicInteger count = new AtomicInteger(0);
         String createClassFormat = "CREATE (%s:%s{" +
                 "ODX_CropClass_UUId: \"%s\", " +
@@ -154,13 +155,14 @@ public class PropertyGraphUploader implements AutoCloseable {
         try (Session session = driver.session()) {
             cropClasses.forEach(cropClass -> session.writeTransaction(tx -> {
                 System.out.println("Uploading CropClass # " + count.incrementAndGet());
+                CropGroup cropGroup = (CropGroup) getFromCollectionById(cropGroups, cropClass.getGroupId());
                 String newClassName = createNodeName(cropClass.getName());
                 return tx.run(String.format(createClassFormat,
                         newClassName, cropClass.getClassName(),
                         cropClass.getUuId(),
                         cropClass.getId(),
                         cropClass.getGroupId(),
-                        "dummy_ODX_CG_UUId_Ref",
+                        cropGroup.getUuId(),
                         cropClass.getFaoId(),
                         cropClass.getMediaUri(),
                         cropClass.getName(),
@@ -171,7 +173,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " CropClasses uploaded");
     }
 
-    public void uploadCropSubClasses(List<CropSubClass> cropSubClasses) {
+    public void uploadCropSubClasses(List<CropSubClass> cropSubClasses, List<CropClass> cropClasses) {
         String createSubClassFormat = "CREATE (%s:%s{" +
                 "ODX_CropSubClass_UUId: \"%s\", " +
                 "CropSubClassId: \"%s\", " +
@@ -185,14 +187,15 @@ public class PropertyGraphUploader implements AutoCloseable {
         AtomicInteger count = new AtomicInteger(0);
         try (Session session = driver.session()) {
             cropSubClasses.forEach(subClass -> session.writeTransaction(tx -> {
-                String newSubClassName = createNodeName(subClass.getName());
                 System.out.println("Uploading CSC # " + count.incrementAndGet());
+                CropClass cropClass = (CropClass) getFromCollectionById(cropClasses, subClass.getClassId());
+                String newSubClassName = createNodeName(subClass.getName());
                 return tx.run(String.format(createSubClassFormat,
                         newSubClassName, subClass.getClassName(),
                         subClass.getUuId(),
                         subClass.getId(),
                         subClass.getClassId(),
-                        "dummy_ODX_CC_UUId_Ref",
+                        cropClass.getUuId(),
                         subClass.getFaoId(),
                         subClass.getMediaUri(),
                         subClass.getName(),
@@ -203,7 +206,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " CropSubClasses uploaded");
     }
 
-    public void uploadCropVarieties(List<CropVariety> cropVarieties) {
+    public void uploadCropVarieties(List<CropVariety> cropVarieties, List<CropSubClass> cropSubClasses) {
         AtomicInteger count = new AtomicInteger(0);
         String createVarietyFormat = "CREATE (%s:%s{" +
                 "ODX_CropVariety_UUId: \"%s\", " +
@@ -217,8 +220,9 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "CropVarietyName: \"%s\"})\n";
         try (Session session = driver.session()) {
             cropVarieties.forEach(variety -> session.writeTransaction(tx -> {
-                String newVarietyName = createNodeName(variety.getName());
                 System.out.println("Uploading CV # " + count.incrementAndGet());
+                CropSubClass subClass = (CropSubClass) getFromCollectionById(cropSubClasses, variety.getSubClassId());
+                String newVarietyName = createNodeName(variety.getName());
                 return tx.run(String.format(createVarietyFormat,
                         newVarietyName, variety.getClassName(),
                         variety.getUuId(),
@@ -226,7 +230,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         "dummy_CV_CropDescriptionId_Ref",
                         "dummy_CV_CD_UUId_Ref",
                         variety.getSubClassId(),
-                        "dummy_CV_CSC_UUId_Ref",
+                        subClass.getUuId(),
                         variety.getId(),
                         variety.getName(),
                         variety.getName()));
@@ -236,60 +240,41 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " CropVariety uploaded");
     }
 
-    public void uploadCropDescriptions(List<CropDescription> cropDescriptions) {
+    public void uploadCropDescriptions(List<CropDescription> cropDescriptions, List<CropSubClass> cropSubClasses) {
         String createCreateVarietyCommandFormat = "CREATE (%s:%s{" +
                 "ODX_CropDescription_UUId: \"%s\", " +
-                "AdditionalProperties: \"%s\", " +
-                "CD_CountryIdRef: \"%s\", " +
-                "CD_GrowthScaleId_Ref: \"%s\", " +
                 "CD_MediaUri: \"%s\", " +
-                "CD_RegionIdRef: \"%s\", " +
                 "ChlorideSensitive: \"%s\", " +
                 "CropDescriptionId: \"%s\", " +
                 "name: \"%s\", " +
                 "CropDescriptionName: \"%s\", " +
                 "CD_CropSubClassId_Ref: \"%s\", " +
                 "CD_CSC_UUId_Ref: \"%s\", " +
-                "ODX_CD_SourceSystem: \"%s\", " +
-                "DefaultHarvestDate: \"%s\", " +
-                "DefaultSeedingDate: \"%s\", " +
-                "DefaultYield: \"%s\", " +
-                "DemandBaseUnitId: \"%s\", " +
-                "YieldBaseUnitId: \"%s\"})\n";
+                "ODX_CD_SourceSystem: \"%s\"})\n";
 
         AtomicInteger count = new AtomicInteger(0);
         try (Session session = driver.session()) {
             cropDescriptions.forEach(description -> session.writeTransaction(tx -> {
-                String descriptionNodeName = createNodeName(description.getName());
                 System.out.println("Uploading CD # " + count.incrementAndGet());
+                CropSubClass subClass = (CropSubClass) getFromCollectionById(cropSubClasses, description.getSubClassId());
+                String descriptionNodeName = createNodeName(description.getName());
                 return tx.run(String.format(createCreateVarietyCommandFormat,
                         descriptionNodeName, description.getClassName(),
                         description.getUuId(),
-                        "dummy_additional_property",
-                        "dummy_country_id_ref",
-                        "dummy_growth_scale_id_ref",
                         description.getMediaUri(),
-                        "dummy_region_id_ref",
                         description.isChlorideSensitive(),
                         description.getId(),
                         description.getName(),
                         description.getName(),
                         description.getSubClassId(),
-                        "dummy_CD_CSC_UUId_Ref",
-                        "dummy_Polaris",
-                        "dummy_default_harvest_date",
-                        "dummy_default_seeding_date",
-                        "dummy_default_yield",
-                        "dummy_demand_base_unit_id",
-                        "dummy_yield_base_unit_id"));
+                        subClass.getUuId(),
+                        "dummy_Polaris"));
             }));
         }
         System.out.println("CropDescription uploading completed");
         System.out.println(count.get() + " CropDescriptions uploaded");
     }
 
-
-    //TODO
     public void uploadGrowthScales(List<GrowthScale> growthScales) {
         String createGrowthScaleCommandFormat = "CREATE (%s:%s{" +
                 "ODX_GrowthScale_UUId: \"%s\", " +
@@ -316,6 +301,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " GrowthScales uploaded");
     }
 
+    //TODO continue from here
     public void uploadGrowthScaleStages(List<GrowthScaleStage> growthScaleStages) {
         String createGrowthScaleStageCommandFormat = "CREATE (%s:%s{" +
                 "ODX_GrowthScaleStage_UUId: \"%s\", " +
@@ -355,8 +341,8 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "ODX_Nutrient_UUId: \"%s\", " +
                 "ODX_Nutrient_Uri: \"%s\", " +
                 "NutrientId: \"%s\", " +
-                "name: \"%s\", " +
                 "NutrientName: \"%s\", " +
+                "name: \"%s\", " +
                 "ElementalName: \"%s\", " +
                 "Nutr_Ordinal: \"%s\", " +
                 "ODX_Nutr_SourceSystem: \"%s\"})\n";
@@ -372,7 +358,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         createOdxUri(nutrient),
                         nutrient.getId(),
                         nutrient.getName(),
-                        nutrient.getName(),
+                        nutrient.getElementalName(),
                         nutrient.getElementalName(),
                         nutrient.getNutrientOrdinal(),
                         "dummy_Polaris"));
@@ -408,10 +394,11 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " Units uploaded");
     }
 
-    public void uploadUnitConversions(List<UnitConversion> conversions) {
+    public void uploadUnitConversions(List<UnitConversion> conversions, List<Unit> units) {
         String createUnitConversionCommandFormat = "CREATE (%s:%s{" +
                 "ODX_UnitConversion_UUId: \"%s\", " +
                 "ODX_UC_Uri: \"%s\", " +
+                "name: \"%s\", " +
                 "ConvertToUnitId: \"%s\", " +
                 "CountryId_Ref: \"%s\", " +
                 "Multiplier: \"%s\", " +
@@ -422,12 +409,14 @@ public class PropertyGraphUploader implements AutoCloseable {
         AtomicInteger count = new AtomicInteger(0);
         try (Session session = driver.session()) {
             conversions.forEach(conversion -> session.writeTransaction(tx -> {
+                Unit convertToUnit = (Unit) getFromCollectionById(units, conversion.getConvertToUnitId());
                 System.out.println("Uploading UnitConversion # " + count.incrementAndGet());
                 String conversionNodeName = createNodeName(conversion.getName());
                 return tx.run(String.format(createUnitConversionCommandFormat,
                         conversionNodeName, conversion.getClassName(),
                         conversion.getUuId(),
                         createOdxUri(conversion),
+                        convertToUnit.getName(),
                         conversion.getConvertToUnitId(),
                         conversion.getCountryIdRef(),
                         conversion.getMultiplier(),
@@ -678,15 +667,13 @@ public class PropertyGraphUploader implements AutoCloseable {
                                                          List<Region> regions,
                                                          List<CropRegion> cropRegions) {
         AtomicInteger count = new AtomicInteger(0);
-        Map<Region, List<CropDescription>> map = getDescriptionsRegionsMap(cropDescriptions, regions, cropRegions);
-        for (Map.Entry<Region, List<CropDescription>> entry : map.entrySet()) {
-            Region region = entry.getKey();
-            List<CropDescription> relatedDescriptions = entry.getValue();
-            relatedDescriptions.forEach(description -> {
-                createDescriptionRegionRelation(description, region);
-                System.out.println(count.incrementAndGet() + " CD to Region relations created");
-            });
-        }
+        cropRegions.forEach(cropRegion -> {
+            Region region = (Region) getFromCollectionById(regions, cropRegion.getRegionIdRef());
+            CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, cropRegion.getDescriptionId());
+            createDescriptionToRegionRelationWithProperties(cropRegion, description, region);
+            System.out.println(count.incrementAndGet() + " CD to Region relations created");
+
+        });
         System.out.println("CropDescription-Region relation uploading completed");
         System.out.println(count.get() + " CropDescription-Region relations uploaded");
     }
@@ -891,6 +878,33 @@ public class PropertyGraphUploader implements AutoCloseable {
         String createRelation = "CREATE (description)-[:IS_AVAILABLE_IN]->(region)";
         uploadRelationToDatabase(matchDescription, matchRegion, createRelation);
     }
+
+    private void createDescriptionToRegionRelationWithProperties(CropRegion cropRegion,
+                                                                 CropDescription description,
+                                                                 Region region) {
+        String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
+        String matchRegion = String.format("MATCH (region:Region{ODX_Region_UUId:\"%s\"})\n", region.getUuId());
+        String createRelation = String.format("CREATE (description)-[:IS_AVAILABLE_IN {" +
+                        "AdditionalProperties: \"%s\", " +
+                        "CD_CountryIdRef: \"%s\", " +
+                        "CD_GrowthScaleId_Ref: \"%s\", " +
+                        "DefaultSeedingDate: \"%s\", " +
+                        "DefaultHarvestDate: \"%s\", " +
+                        "DefaultYield: \"%s\", " +
+                        "YieldBaseUnitId: \"%s\", " +
+                        "DemandBaseUnitId: \"%s\"" +
+                        "}]->(region)",
+                cropRegion.getAdditionalProperties(),
+                cropRegion.getCountryIdRef(),
+                cropRegion.getGrowthScaleIdRef(),
+                cropRegion.getDefaultSeedingDate(),
+                cropRegion.getDefaultHarvestDate(),
+                cropRegion.getDefaultYield(),
+                cropRegion.getYieldBaseUnitId(),
+                cropRegion.getDemandBaseUnitId());
+        uploadRelationToDatabase(matchDescription, matchRegion, createRelation);
+    }
+
 
     private void createDescriptionGrowthScaleRelation(CropDescription description, GrowthScale scale) {
         String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());

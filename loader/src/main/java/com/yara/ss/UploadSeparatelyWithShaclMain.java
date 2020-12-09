@@ -59,16 +59,16 @@ public class UploadSeparatelyWithShaclMain {
         uploader.activateShaclValidationOfTransactions();
 
         uploader.uploadCountries(countries);
-        uploader.uploadRegions(regions);
+        uploader.uploadRegions(regions, countries);
         uploader.createCountryToRegionRelations(countries, regions);
         uploader.uploadCropGroups(cropGroups);
-        uploader.uploadCropClasses(cropClasses);
+        uploader.uploadCropClasses(cropClasses, cropGroups);
         uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
-        uploader.uploadCropSubClasses(cropSubClasses);
+        uploader.uploadCropSubClasses(cropSubClasses, cropClasses);
         uploader.createCropClassToSubClassRelations(cropClasses, cropSubClasses);
-        uploader.uploadCropVarieties(cropVarieties);
+        uploader.uploadCropVarieties(cropVarieties, cropSubClasses);
         uploader.createCropSubClassToVarietyRelations(cropSubClasses, cropVarieties);
-        uploader.uploadCropDescriptions(cropDescriptions);
+        uploader.uploadCropDescriptions(cropDescriptions, cropSubClasses);
         uploader.createCropSubClassToDescriptionRelations(cropSubClasses, cropDescriptions);
         uploader.createCropVarietyToDescriptionRelations(cropVarieties, cropDescriptions, cropDescVars);
         uploader.uploadGrowthScales(growthScales);
@@ -79,7 +79,7 @@ public class UploadSeparatelyWithShaclMain {
         uploader.uploadNutrients(nutrients);
         uploader.uploadUnits(units);
         uploader.createNutrientsToUnitsRelations(nutrients, units);
-        uploader.uploadUnitConversions(unitConversions);
+        uploader.uploadUnitConversions(unitConversions, units);
         uploader.createUnitsToConversionsRelations(units, unitConversions);
         uploader.uploadFertilizers(fertilizers);
         uploader.createFertilizersToRegionsRelations(fertilizers, regions, fertilizerRegions);

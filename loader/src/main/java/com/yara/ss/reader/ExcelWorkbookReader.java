@@ -536,8 +536,8 @@ public class ExcelWorkbookReader {
                 String convertToUnitId = row.getCell(2).getStringCellValue();
                 String multiplier = getCellDataAsString(row, 3);
                 String countryIdRef = row.getCell(4).getStringCellValue();
-                String name = row.getCell(5).getStringCellValue();
-                UnitConversion conversion = new UnitConversion(POLARIS_SOURCE, className, id, name, unitIdRef, convertToUnitId, multiplier, countryIdRef);
+//                String name = row.getCell(5).getStringCellValue();
+                UnitConversion conversion = new UnitConversion(POLARIS_SOURCE, className, id, unitIdRef, convertToUnitId, multiplier, countryIdRef);
                 conversions.add(conversion);
             }
         }

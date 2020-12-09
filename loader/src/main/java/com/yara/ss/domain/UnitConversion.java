@@ -9,13 +9,13 @@ public class UnitConversion extends Thing {
     private String countryIdRef;
     private String name;
 
-    public UnitConversion(String source, String className, String id, String name, String unitIdRef, String convertToUnitId, String multiplier, String countryIdRef) {
+    public UnitConversion(String source, String className, String id, String unitIdRef, String convertToUnitId, String multiplier, String countryIdRef) {
         super(source, className, id);
         this.unitIdRef = unitIdRef;
         this.convertToUnitId = convertToUnitId;
         this.multiplier = multiplier;
         this.countryIdRef = countryIdRef;
-        this.name = name;
+        this.name = "originally_empty_name";
     }
 
     public String getUnitIdRef() {
