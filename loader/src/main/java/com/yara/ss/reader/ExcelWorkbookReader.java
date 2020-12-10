@@ -643,6 +643,7 @@ public class ExcelWorkbookReader {
                         .setNutrientUnitsContent(naUnitId, na)
                         .setNutrientUnitsContent(seUnitId, se)
                         .setNutrientUnitsContent(coUnitId, co)
+//                      should add these ids as columns to Fertilizer sheet
                         .setNutrientUnitsContent("70ae19e2-be4f-4745-b67f-8eeb8a9f12e9", no3)
                         .setNutrientUnitsContent("c6deac28-14f4-4eb3-946d-4ef93e4e9c33", nh4)
 //                        .setNutrientUnitsContent("urea_id", urea)

@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class PropertyGraphUploader implements AutoCloseable {
 
-//    private static final String URI = "bolt+s://odx-storage.yara.com:7687";
+    //    private static final String URI = "bolt+s://odx-storage.yara.com:7687";
 //    private static final String USER = "neo4j";
 //    private static final String PASSWORD = "MjY4Yjc0OTNmNjZmNzgxNDYyOWMzNDAz";
     private static final String URI = "bolt://localhost:7687";
@@ -33,34 +33,36 @@ public class PropertyGraphUploader implements AutoCloseable {
         String createCountryFormat = "CREATE (%s:%s{" +
                 "ODX_Country_UUId: \"%s\", " +
                 "ODX_Country_Uri: \"%s\", " +
-                "ODX_CS_UUId_Ref: \"%s\", " +
                 "CountryId: \"%s\", " +
                 "name: \"%s\", " +
                 "CountryName: \"%s\", " +
-                "ProductSetCode: \"%s\", " +
-                "M49Code: \"%s\", " +
-                "ISO2Code: \"%s\", " +
-                "ISO3Code: \"%s\", " +
-                "UN: \"%s\", " +
-                "FIPS: \"%s\"})";
+                "ProductSetCode: \"%s\"})";
+//                "ODX_CS_UUId_Ref: \"%s\", " +
+//                "ProductSetCode: \"%s\", " +
+//                "M49Code: \"%s\", " +
+//                "ISO2Code: \"%s\", " +
+//                "ISO3Code: \"%s\", " +
+//                "UN: \"%s\", " +
+//                "FIPS: \"%s\"})";
         try (Session session = driver.session()) {
             countries.forEach(country -> {
                 if (!existsInDatabase(country)) {
                     System.out.println("Uploading Country # " + count.incrementAndGet());
                     session.writeTransaction(tx -> tx.run(String.format(createCountryFormat,
-                            createNodeName(country.getName()),
-                            country.getClassName(), country.getUuId(),
+                            createNodeName(country.getName()), country.getClassName(),
+                            country.getUuId(),
                             createOdxUri(country),
-                            "dummy_CS_UUId_Ref",
                             country.getId(),
                             country.getName(),
                             country.getName(),
-                            country.getProductSetCode(),
-                            "dummy_M49_code",
-                            "dummy_ISO_2_code",
-                            "dummy_ISO_3_code",
-                            "dummy_UN",
-                            "dummy_FIPS")));
+                            country.getProductSetCode())));
+//                            "dummy_CS_UUId_Ref",
+//                            country.getProductSetCode(),
+//                            "dummy_M49_code",
+//                            "dummy_ISO_2_code",
+//                            "dummy_ISO_3_code",
+//                            "dummy_UN",
+//                            "dummy_FIPS")));
                 }
             });
         }
@@ -214,8 +216,6 @@ public class PropertyGraphUploader implements AutoCloseable {
         String createVarietyFormat = "CREATE (%s:%s{" +
                 "ODX_CropVariety_UUId: \"%s\", " +
                 "ODX_CV_Uri: \"%s\", " +
-                "CV_CropDescriptionId_Ref: \"%s\", " +
-                "CV_CD_UUId_Ref: \"%s\", " +
                 "CV_CropSubClassId_Ref: \"%s\", " +
                 "CV_CSC_UUId_Ref: \"%s\", " +
                 "CropVarietyId: \"%s\", " +
@@ -230,8 +230,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                         newVarietyName, variety.getClassName(),
                         variety.getUuId(),
                         createOdxUri(variety),
-                        "dummy_CV_CropDescriptionId_Ref",
-                        "dummy_CV_CD_UUId_Ref",
                         variety.getSubClassId(),
                         subClass.getUuId(),
                         variety.getId(),
@@ -506,8 +504,8 @@ public class PropertyGraphUploader implements AutoCloseable {
             fertilizers.forEach(fertilizer -> session.writeTransaction(tx -> {
                 System.out.println("Uploading Fertilizer # " + count.incrementAndGet());
                 FertilizerRegion fertilizerRegion = getFertilizerRegionByProductId(fertilizerRegions, fertilizer.getId());
-                Country country = (Country) getFromCollectionById(countries, fertilizerRegion.getCountryId());
-                Region region = (Region) getFromCollectionById(regions, fertilizerRegion.getRegionId());
+                Country country = getCountryFromCollectionById(countries, fertilizerRegion.getCountryId());
+                Region region = getRegionFromCollectionById(regions, fertilizerRegion.getRegionId());
                 String nodeName = createNodeName(fertilizer.getName());
                 return tx.run(String.format(createFertilizerCommandFormat,
                         nodeName, fertilizer.getClassName(),
@@ -544,7 +542,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         fertilizer.getNaUnitId(),
                         fertilizer.getNh4(),
                         fertilizer.getNo3(),
-                        "dummy_ODX_Fert_SourceSystem",
+                        "dummy_Polaris",
                         createOdxUri(fertilizer),
                         fertilizer.getUuId(),
                         fertilizer.getP(),
@@ -580,19 +578,45 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " Fertilizers uploaded");
     }
 
+    private Country getCountryFromCollectionById(List<Country> countries, String countryId) {
+        return countries.stream()
+                .filter(country -> country.getId().equals(countryId))
+                .findFirst()
+                .orElse(new Country(
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty"));
+
+    }
+
+    private Region getRegionFromCollectionById(List<Region> regions, String regionId) {
+        return regions.stream()
+                .filter(region -> region.getId().equals(regionId))
+                .findFirst()
+                .orElse(new Region(
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty"));
+
+    }
+
     private FertilizerRegion getFertilizerRegionByProductId(List<FertilizerRegion> fertilizerRegions, String fertilizerId) {
         return fertilizerRegions.stream()
                 .filter(fr -> fr.getProductId().equals(fertilizerId))
                 .findFirst()
                 //This is done because some productIds does not exist in Fertilizer_Reg file
                 .orElse(new FertilizerRegion(
-                        "ee0b0aa2-849b-41af-b5ea-06ed98e8e178",
-                        "2442570a-62d2-4719-b8d6-2bbc3daec9d6",
-                        "08dfead4-392e-4fe6-8966-505e6f16d7a4",
-                        "[NULL]",
-                        "c79ee3e0-71bd-40b4-ba6d-2116e44ef0cc",
-                        "TRUE",
-                        ""));
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty"));
 //                .orElseThrow(() -> new NoSuchElementException(String.format("No element with id %s in FertilizerRegions collection", fertilizerId)));
     }
 
@@ -761,9 +785,11 @@ public class PropertyGraphUploader implements AutoCloseable {
         AtomicInteger count = new AtomicInteger(0);
         fertilizerRegions.forEach(fr -> {
             Fertilizer fertilizer = (Fertilizer) getFromCollectionById(fertilizers, fr.getProductId());
-            Region region = (Region) getFromCollectionById(regions, fr.getRegionId());
-            createFertilizerToRegionRelation(fertilizer, region);
-            System.out.println(count.incrementAndGet() + " Fertilizer to Region relations created");
+            Region region = getRegionFromCollectionById(regions, fr.getRegionId());
+            if (!region.getId().equals("empty")) {
+                createFertilizerToRegionRelation(fertilizer, region);
+                System.out.println(count.incrementAndGet() + " Fertilizer to Region relations created");
+            }
         });
         System.out.println("Fertilizer-Region relation uploading completed");
         System.out.println(count.get() + " Fertilizer-Region relations uploaded");
@@ -886,7 +912,11 @@ public class PropertyGraphUploader implements AutoCloseable {
     private void createVarietyDescriptionRelation(CropVariety variety, CropDescription description) {
         String matchVariety = String.format("MATCH (variety:CropVariety{ODX_CropVariety_UUId:\"%s\"})\n", variety.getUuId());
         String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
-        String createRelation = "CREATE (variety)-[:HAS_CROP_DESCRIPTION]->(description)";
+        String createRelation = String.format("CREATE (variety)-[:HAS_CROP_DESCRIPTION {" +
+                        "CV_CropDescriptionId_Ref: \"%s\", " +
+                        "CV_CD_UUId_Ref: \"%s\"}]->(description)",
+                description.getId(),
+                description.getUuId());
         uploadRelationToDatabase(matchVariety, matchDescription, createRelation);
     }
 
