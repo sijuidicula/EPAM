@@ -10,6 +10,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class PropertyGraphUploader implements AutoCloseable {
 
+//    private static final String URI = "bolt+s://odx-storage.yara.com:7687";
+//    private static final String USER = "neo4j";
+//    private static final String PASSWORD = "MjY4Yjc0OTNmNjZmNzgxNDYyOWMzNDAz";
     private static final String URI = "bolt://localhost:7687";
     private static final String USER = "neo4j";
     private static final String PASSWORD = "1234";
@@ -301,8 +304,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " GrowthScales uploaded");
     }
 
-    //TODO continue from here
-    public void uploadGrowthScaleStages(List<GrowthScaleStage> growthScaleStages) {
+    public void uploadGrowthScaleStages(List<GrowthScaleStage> growthScaleStages, List<GrowthScale> growthScales) {
         String createGrowthScaleStageCommandFormat = "CREATE (%s:%s{" +
                 "ODX_GrowthScaleStage_UUId: \"%s\", " +
                 "ODX_GrowthScaleStage_Uri: \"%s\", " +
@@ -318,6 +320,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         try (Session session = driver.session()) {
             growthScaleStages.forEach(stage -> session.writeTransaction(tx -> {
                 System.out.println("Uploading GSS # " + count.incrementAndGet());
+                GrowthScale growthScale = (GrowthScale) getFromCollectionById(growthScales, stage.getGrowthScaleId());
                 String stageNodeName = createNodeName("GSS_number_" + count.get());
                 return tx.run(String.format(createGrowthScaleStageCommandFormat,
                         stageNodeName, stage.getClassName(),
@@ -325,7 +328,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         createOdxUri(stage),
                         stage.getBaseOrdinal(),
                         stage.getGrowthScaleId(),
-                        "dummy_ODX_GS_UUId_Ref",
+                        growthScale.getUuId(),
                         stage.getGrowthScaleStageDescription(),
                         stage.getId(),
                         "dummy_Polaris",
@@ -409,8 +412,8 @@ public class PropertyGraphUploader implements AutoCloseable {
         AtomicInteger count = new AtomicInteger(0);
         try (Session session = driver.session()) {
             conversions.forEach(conversion -> session.writeTransaction(tx -> {
-                Unit convertToUnit = (Unit) getFromCollectionById(units, conversion.getConvertToUnitId());
                 System.out.println("Uploading UnitConversion # " + count.incrementAndGet());
+                Unit convertToUnit = (Unit) getFromCollectionById(units, conversion.getConvertToUnitId());
                 String conversionNodeName = createNodeName(conversion.getName());
                 return tx.run(String.format(createUnitConversionCommandFormat,
                         conversionNodeName, conversion.getClassName(),
@@ -429,7 +432,10 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " UnitConversions uploaded");
     }
 
-    public void uploadFertilizers(List<Fertilizer> fertilizers) {
+    public void uploadFertilizers(List<Fertilizer> fertilizers,
+                                  List<FertilizerRegion> fertilizerRegions,
+                                  List<Country> countries,
+                                  List<Region> regions) {
         String createFertilizerCommandFormat = "CREATE (%s:%s{" +
                 "Application_tags: \"%s\", " +
                 "B: \"%s\", " +
@@ -499,10 +505,13 @@ public class PropertyGraphUploader implements AutoCloseable {
         try (Session session = driver.session()) {
             fertilizers.forEach(fertilizer -> session.writeTransaction(tx -> {
                 System.out.println("Uploading Fertilizer # " + count.incrementAndGet());
+                FertilizerRegion fertilizerRegion = getFertilizerRegionByProductId(fertilizerRegions, fertilizer.getId());
+                Country country = (Country) getFromCollectionById(countries, fertilizerRegion.getCountryId());
+                Region region = (Region) getFromCollectionById(regions, fertilizerRegion.getRegionId());
                 String nodeName = createNodeName(fertilizer.getName());
                 return tx.run(String.format(createFertilizerCommandFormat,
                         nodeName, fertilizer.getClassName(),
-                        "dummy_Application_tags",
+                        fertilizerRegion.getApplicationTags(),
                         fertilizer.getB(),
                         fertilizer.getBUnitId(),
                         fertilizer.getCa(),
@@ -517,11 +526,11 @@ public class PropertyGraphUploader implements AutoCloseable {
                         fertilizer.getElectricalConductivity(),
                         fertilizer.getFe(),
                         fertilizer.getFeUnitId(),
-                        "dummy_IsAvailable",
+                        fertilizerRegion.getIsAvailable(),
                         fertilizer.getK(),
                         fertilizer.getKUnitId(),
                         fertilizer.getLastSync(),
-                        "dummy_LocalizedName",
+                        fertilizerRegion.getLocalizedName(),
                         fertilizer.getLowChloride(),
                         fertilizer.getMg(),
                         fertilizer.getMgUnitId(),
@@ -541,13 +550,13 @@ public class PropertyGraphUploader implements AutoCloseable {
                         fertilizer.getP(),
                         fertilizer.getPUnitId(),
                         fertilizer.getPh(),
-                        "dummy_Prod_CountryId_Ref",
-                        "dummy_Prod_RegionId_Ref",
-                        "dummy_ProdCountry_UUId_Ref",
+                        fertilizerRegion.getCountryId(),
+                        fertilizerRegion.getRegionId(),
+                        country.getUuId(),
                         fertilizer.getFamily(),
                         fertilizer.getName(),
                         fertilizer.getName(),
-                        "dummy_ProdCountry_UUId_Ref",
+                        region.getUuId(),
                         fertilizer.getId(),
                         fertilizer.getType(),
                         fertilizer.getS(),
@@ -569,6 +578,22 @@ public class PropertyGraphUploader implements AutoCloseable {
         }
         System.out.println("Fertilizer uploading completed");
         System.out.println(count.get() + " Fertilizers uploaded");
+    }
+
+    private FertilizerRegion getFertilizerRegionByProductId(List<FertilizerRegion> fertilizerRegions, String fertilizerId) {
+        return fertilizerRegions.stream()
+                .filter(fr -> fr.getProductId().equals(fertilizerId))
+                .findFirst()
+                //This is done because some productIds does not exist in Fertilizer_Reg file
+                .orElse(new FertilizerRegion(
+                        "ee0b0aa2-849b-41af-b5ea-06ed98e8e178",
+                        "2442570a-62d2-4719-b8d6-2bbc3daec9d6",
+                        "08dfead4-392e-4fe6-8966-505e6f16d7a4",
+                        "[NULL]",
+                        "c79ee3e0-71bd-40b4-ba6d-2116e44ef0cc",
+                        "TRUE",
+                        ""));
+//                .orElseThrow(() -> new NoSuchElementException(String.format("No element with id %s in FertilizerRegions collection", fertilizerId)));
     }
 
     public void createCountryToRegionRelations(List<Country> countries, List<Region> regions) {
@@ -894,7 +919,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         "YieldBaseUnitId: \"%s\", " +
                         "DemandBaseUnitId: \"%s\"" +
                         "}]->(region)",
-                cropRegion.getAdditionalProperties(),
+                cropRegion.getAdditionalProperties().replace("\"", ""),
                 cropRegion.getCountryIdRef(),
                 cropRegion.getGrowthScaleIdRef(),
                 cropRegion.getDefaultSeedingDate(),

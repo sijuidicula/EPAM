@@ -13,7 +13,6 @@ public class Fertilizer extends Thing {
     private String dryMatter;
     private String spreaderLoss;
     private String density;
-
     private String utilizationN;
     private String utilizationNh4;
     private String tank;
@@ -25,7 +24,12 @@ public class Fertilizer extends Thing {
     private String syncId;
     private String syncSource;
     private String lastSync;
-
+//    private String applicationTags;
+//    private String isAvailable;
+//    private String localizedName;
+//    private String fertilizerSourceSystem;
+//    private String prodCountryIdRef;
+//    private String prodRegionIdRef;
     private String n;
     private String nUnitId;
     private String p;
@@ -114,6 +118,12 @@ public class Fertilizer extends Thing {
         this.syncId = builder.syncId;
         this.syncSource = builder.syncSource;
         this.lastSync = builder.lastSync;
+//        this.applicationTags = builder.applicationTags;
+//        this.isAvailable = builder.isAvailable;
+//        this.localizedName = builder.localizedName;
+//        this.fertilizerSourceSystem = builder.fertilizerSourceSystem;
+//        this.prodCountryIdRef = builder.prodCountryIdRef;
+//        this.prodRegionIdRef = builder.prodRegionIdRef;
     }
 
     public Map<String, String> getNutrientUnitsContent() {
@@ -324,6 +334,30 @@ public class Fertilizer extends Thing {
         return urea;
     }
 
+//    public String getApplicationTags() {
+//        return applicationTags;
+//    }
+//
+//    public String getIsAvailable() {
+//        return isAvailable;
+//    }
+//
+//    public String getLocalizedName() {
+//        return localizedName;
+//    }
+//
+//    public String getFertilizerSourceSystem() {
+//        return fertilizerSourceSystem;
+//    }
+//
+//    public String getProdCountryIdRef() {
+//        return prodCountryIdRef;
+//    }
+//
+//    public String getProdRegionIdRef() {
+//        return prodRegionIdRef;
+//    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -348,6 +382,12 @@ public class Fertilizer extends Thing {
                 Objects.equals(syncId, that.syncId) &&
                 Objects.equals(syncSource, that.syncSource) &&
                 Objects.equals(lastSync, that.lastSync) &&
+//                Objects.equals(applicationTags, that.applicationTags) &&
+//                Objects.equals(isAvailable, that.isAvailable) &&
+//                Objects.equals(localizedName, that.localizedName) &&
+//                Objects.equals(fertilizerSourceSystem, that.fertilizerSourceSystem) &&
+//                Objects.equals(prodCountryIdRef, that.prodCountryIdRef) &&
+//                Objects.equals(prodRegionIdRef, that.prodRegionIdRef) &&
                 Objects.equals(n, that.n) &&
                 Objects.equals(nUnitId, that.nUnitId) &&
                 Objects.equals(p, that.p) &&
@@ -385,13 +425,15 @@ public class Fertilizer extends Thing {
 
     @Override
     public int hashCode() {
-        return Objects.hash(nutrientUnitsContent, family, type, name, lowChloride, dryMatter, spreaderLoss, density, utilizationN, utilizationNh4, tank, electricalConductivity, pH, solubility5C, solubility20C, dhCode, syncId, syncSource, lastSync, n, nUnitId, p, pUnitId, k, kUnitId, mg, mgUnitId, s, sUnitId, ca, caUnitId, b, bUnitId, zn, znUnitId, mn, mnUnitId, cu, cuUnitId, fe, feUnitId, mo, moUnitId, na, naUnitId, se, seUnitId, co, coUnitId, no3, nh4, urea);
+        return Objects.hash(nutrientUnitsContent, family, type, name, lowChloride, dryMatter, spreaderLoss, density, utilizationN, utilizationNh4, tank, electricalConductivity, pH, solubility5C, solubility20C, dhCode, syncId, syncSource, lastSync,
+//                applicationTags, isAvailable, localizedName, fertilizerSourceSystem, prodCountryIdRef, prodRegionIdRef,
+                n, nUnitId, p, pUnitId, k, kUnitId, mg, mgUnitId, s, sUnitId, ca, caUnitId, b, bUnitId, zn, znUnitId, mn, mnUnitId, cu, cuUnitId, fe, feUnitId, mo, moUnitId, na, naUnitId, se, seUnitId, co, coUnitId, no3, nh4, urea);
     }
 
     @Override
     public String toString() {
         return "Fertilizer{" +
-                "nutrientsContent=" + nutrientUnitsContent +
+                "nutrientUnitsContent=" + nutrientUnitsContent +
                 ", family='" + family + '\'' +
                 ", type='" + type + '\'' +
                 ", name='" + name + '\'' +
@@ -410,6 +452,12 @@ public class Fertilizer extends Thing {
                 ", syncId='" + syncId + '\'' +
                 ", syncSource='" + syncSource + '\'' +
                 ", lastSync='" + lastSync + '\'' +
+//                ", applicationTags='" + applicationTags + '\'' +
+//                ", isAvailable='" + isAvailable + '\'' +
+//                ", localizedName='" + localizedName + '\'' +
+//                ", fertilizerSourceSystem='" + fertilizerSourceSystem + '\'' +
+//                ", prodCountryIdRef='" + prodCountryIdRef + '\'' +
+//                ", prodRegionIdRef='" + prodRegionIdRef + '\'' +
                 ", n='" + n + '\'' +
                 ", nUnitId='" + nUnitId + '\'' +
                 ", p='" + p + '\'' +
@@ -459,7 +507,6 @@ public class Fertilizer extends Thing {
         private String dryMatter;
         private String spreaderLoss;
         private String density;
-
         private String utilizationN = "";
         private String utilizationNh4 = "";
         private String tank = "";
@@ -471,7 +518,12 @@ public class Fertilizer extends Thing {
         private String syncId = "";
         private String syncSource = "";
         private String lastSync = "";
-
+//        private String applicationTags = "";
+//        private String isAvailable = "";
+//        private String localizedName = "";
+//        private String fertilizerSourceSystem = "";
+//        private String prodCountryIdRef = "";
+//        private String prodRegionIdRef = "";
         private String n = "";
         private String nUnitId = "";
         private String p = "";
@@ -748,5 +800,35 @@ public class Fertilizer extends Thing {
             lastSync = val;
             return this;
         }
+
+//        public Builder applicationTags(String val) {
+//            applicationTags = val;
+//            return this;
+//        }
+//
+//        public Builder isAvailable(String val) {
+//            isAvailable = val;
+//            return this;
+//        }
+//
+//        public Builder localizedName(String val) {
+//            localizedName = val;
+//            return this;
+//        }
+//
+//        public Builder fertilizerSourceSystem(String val) {
+//            fertilizerSourceSystem = val;
+//            return this;
+//        }
+//
+//        public Builder prodCountryIdRef(String val) {
+//            prodCountryIdRef = val;
+//            return this;
+//        }
+//
+//        public Builder prodRegionIdRef(String val) {
+//            prodRegionIdRef = val;
+//            return this;
+//        }
     }
 }
