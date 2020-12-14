@@ -397,16 +397,16 @@ public class ExcelWorkbookReader {
                     && row.getCell(0).getCellType() == CellType.STRING
                     && !row.getCell(0).getStringCellValue().isEmpty()) {
                 String id = row.getCell(0).getStringCellValue();
-                String descriptionId = row.getCell(1).getStringCellValue();
-                String countryIdRef = row.getCell(2).getStringCellValue();
-                String growthScaleIdRef = row.getCell(3).getStringCellValue();
+                String descriptionId = getCellDataAsString(row, 1);
+                String countryIdRef = getCellDataAsString(row, 2);
+                String growthScaleIdRef = getCellDataAsString(row, 3);
                 String defaultSeedingDate = getCellDataAsString(row, 4);
                 String defaultHarvestDate = getCellDataAsString(row, 5);
                 String defaultYield = getCellDataAsString(row, 6);
-                String yieldBaseUnitId = row.getCell(7).getStringCellValue();
-                String demandBaseUnitId = row.getCell(8).getStringCellValue();
-                String regionIdRef = row.getCell(9).getStringCellValue();
-                String additionalProperties = row.getCell(10).getStringCellValue();
+                String yieldBaseUnitId = getCellDataAsString(row, 7);
+                String demandBaseUnitId = getCellDataAsString(row, 8);
+                String regionIdRef = getCellDataAsString(row, 9);
+                String additionalProperties = getCellDataAsString(row, 10);
                 CropRegion cropRegion = new CropRegion(
                         id,
                         descriptionId,
@@ -701,7 +701,7 @@ public class ExcelWorkbookReader {
 
     public List<FertilizerRegion> readFertilizerRegionsFromExcel(String fileName) {
         //Next field should be received from incoming file, not hardcoded
-        String className = "FertilizerRegion";
+        String className = "Fertilizers_Reg";
 
         List<FertilizerRegion> fertilizerRegions = new ArrayList<>();
         XSSFWorkbook myExcelBook = null;

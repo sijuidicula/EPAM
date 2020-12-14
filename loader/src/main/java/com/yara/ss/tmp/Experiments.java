@@ -1,40 +1,35 @@
 package com.yara.ss.tmp;
 
-import com.yara.ss.domain.Fertilizer;
+import com.yara.ss.domain.*;
+import com.yara.ss.loader.PropertyGraphUploader;
+import com.yara.ss.reader.ExcelWorkbookReader;
+
+import java.util.List;
 
 public class Experiments {
     public static void main(String[] args) {
 
-//        Fertilizer fertilizer = new Fertilizer.Builder(
-//                "Stas",
-//                "classNameXx",
-//                "xxx",
-//                "nameXx",
-//                "familyXx",
-//                "typeXx",
-//                "lcXx",
-//                "dm",
-//                "sl",
-//                "dens", nutrients)
-//                .n("custom_n")
-//                .nUnitId("custom_n_unit_is")
-//                .build();
-//
-//        System.out.println(fertilizer);
+        String fileName = "loader/src/main/resources/Polaris_DB_Data_V4.xlsx";
 
+        ExcelWorkbookReader reader = new ExcelWorkbookReader();
+        PropertyGraphUploader uploader = new PropertyGraphUploader();
 
-//        String str = "";
-//        String str2 = str.replaceAll("^$", "xxx");
-//        System.out.println(str);
-//        System.out.println(str2);
-//        String str1 = "Polaris" + "CropGroup" + "bc09457f-cf85-4295-9fa3-9644a1eaf318";
-//        String str2 = "NotPolaris" + "CropGroup" + "bc09457f-cf85-4295-9fa3-9644a1eaf318";
-//        byte[] arr1 = str1.getBytes(StandardCharsets.UTF_8);
-//        byte[] arr2 = str2.getBytes(StandardCharsets.UTF_8);
-//        UUID id1 = UUID.nameUUIDFromBytes(arr1);
-//        UUID id2 = UUID.nameUUIDFromBytes(arr2);
-//
-//        System.out.println(id1);
-//        System.out.println(id2);
+        List<Country> countries = reader.readCountryFromExcel(fileName);
+        List<Region> regions = reader.readRegionFromExcel(fileName);
+        List<CropGroup> cropGroups = reader.readCropGroupFromExcel(fileName);
+        List<CropClass> cropClasses = reader.readCropClassFromExcel(fileName);
+        List<CropSubClass> cropSubClasses = reader.readCropSubClassFromExcel(fileName);
+        List<CropVariety> cropVarieties = reader.readCropVarietyFromExcel(fileName);
+        List<CropDescription> cropDescriptions = reader.readCropDescriptionsFromExcel(fileName);
+        List<CropDescriptionVariety> cropDescVars = reader.readCropDescriptionVarietyFromExcel(fileName);
+        List<GrowthScale> growthScales = reader.readGrowthScaleFromExcel(fileName);
+        List<GrowthScaleStage> growthScaleStages = reader.readGrowthScaleStageFromExcel(fileName);
+        List<CropRegion> cropRegions = reader.readCropRegionsFromExcel(fileName);
+        List<Nutrient> nutrients = reader.readNutrientsFromExcel(fileName);
+        List<Unit> units = reader.readUnitsFromExcel(fileName);
+        List<UnitConversion> unitConversions = reader.readUnitConversionsFromExcel(fileName);
+        List<Fertilizer> fertilizers = reader.readFertilizersFromExcel(fileName);
+        List<FertilizerRegion> fertilizerRegions = reader.readFertilizerRegionsFromExcel(fileName);
+
     }
 }
