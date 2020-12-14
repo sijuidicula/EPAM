@@ -371,7 +371,7 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     public void uploadUnits(List<Unit> units) {
         String createUnitCommandFormat = "CREATE (%s:%s{" +
-                "ODX_Unit_Uri: \"%s\", " +
+                "ODX_Units_Uri: \"%s\", " +
                 "UnitId: \"%s\", " +
                 "name: \"%s\", " +
                 "UnitName: \"%s\", " +
@@ -871,7 +871,7 @@ public class PropertyGraphUploader implements AutoCloseable {
 
         String matchCountry = String.format("MATCH (country:Country{ODX_Country_UUId:\"%s\"})\n", country.getUuId());
         String matchRegion = String.format("MATCH (region:Region{ODX_Region_UUId:\"%s\"})\n", region.getUuId());
-        String createRelation = "CREATE (country)-[:HAS_REGION]->(region)";
+        String createRelation = "CREATE (country)-[:hasRegion]->(region)";
 
         StringBuilder builder = new StringBuilder();
         builder.append(matchCountry).append(matchRegion).append(createRelation);
@@ -884,35 +884,35 @@ public class PropertyGraphUploader implements AutoCloseable {
     private void createGroupClassRelation(CropGroup group, CropClass cropClass) {
         String matchGroup = String.format("MATCH (group:CropGroup{ODX_CropGroup_UUId:\"%s\"})\n", group.getUuId());
         String matchClass = String.format("MATCH (class:CropClass{ODX_CropClass_UUId:\"%s\"})\n", cropClass.getUuId());
-        String createRelation = "CREATE (group)-[:HAS_CROP_CLASS]->(class)";
+        String createRelation = "CREATE (group)-[:hasCropClass]->(class)";
         uploadRelationToDatabase(matchGroup, matchClass, createRelation);
     }
 
     private void createClassSubClassRelation(CropClass ancestor, CropSubClass child) {
         String matchAncestor = String.format("MATCH (ancestor:CropClass{ODX_CropClass_UUId:\"%s\"})\n", ancestor.getUuId());
         String matchChild = String.format("MATCH (child:CropSubClass{ODX_CropSubClass_UUId:\"%s\"})\n", child.getUuId());
-        String createRelation = "CREATE (ancestor)-[:HAS_CROP_SUB_CLASS]->(child)";
+        String createRelation = "CREATE (ancestor)-[:hasCropSubClass]->(child)";
         uploadRelationToDatabase(matchAncestor, matchChild, createRelation);
     }
 
     private void createSubClassVarietyRelation(CropSubClass subClass, CropVariety variety) {
         String matchSubClass = String.format("MATCH (subClass:CropSubClass{ODX_CropSubClass_UUId:\"%s\"})\n", subClass.getUuId());
         String matchVariety = String.format("MATCH (variety:CropVariety{ODX_CropVariety_UUId:\"%s\"})\n", variety.getUuId());
-        String createRelation = "CREATE (subClass)-[:HAS_CROP_VARIETY]->(variety)";
+        String createRelation = "CREATE (subClass)-[:hasCropVariety]->(variety)";
         uploadRelationToDatabase(matchSubClass, matchVariety, createRelation);
     }
 
     private void createSubClassDescriptionRelation(CropSubClass subClass, CropDescription description) {
         String matchSubClass = String.format("MATCH (subClass:CropSubClass{ODX_CropSubClass_UUId:\"%s\"})\n", subClass.getUuId());
         String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
-        String createRelation = "CREATE (subClass)-[:HAS_CROP_DESCRIPTION]->(description)";
+        String createRelation = "CREATE (subClass)-[:hasCropDescription]->(description)";
         uploadRelationToDatabase(matchSubClass, matchDescription, createRelation);
     }
 
     private void createVarietyDescriptionRelation(CropVariety variety, CropDescription description) {
         String matchVariety = String.format("MATCH (variety:CropVariety{ODX_CropVariety_UUId:\"%s\"})\n", variety.getUuId());
         String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
-        String createRelation = String.format("CREATE (variety)-[:HAS_CROP_DESCRIPTION {" +
+        String createRelation = String.format("CREATE (variety)-[:hasCropDescription {" +
                         "CV_CropDescriptionId_Ref: \"%s\", " +
                         "CV_CD_UUId_Ref: \"%s\"}]->(description)",
                 description.getId(),
@@ -922,15 +922,15 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     private void createGrowthScaleToStageRelation(GrowthScale scale, GrowthScaleStage stage) {
         String matchScale = String.format("MATCH (scale:GrowthScale{ODX_GrowthScale_UUId:\"%s\"})\n", scale.getUuId());
-        String matchStage = String.format("MATCH (stage:GrowthScaleStage{ODX_GrowthScaleStage_UUId:\"%s\"})\n", stage.getUuId());
-        String createRelation = "CREATE (scale)-[:HAS_GROWTH_SCALE_STAGE]->(stage)";
+        String matchStage = String.format("MATCH (stage:GrowthScaleStages{ODX_GrowthScaleStage_UUId:\"%s\"})\n", stage.getUuId());
+        String createRelation = "CREATE (scale)-[:hasGrowthScaleStages]->(stage)";
         uploadRelationToDatabase(matchScale, matchStage, createRelation);
     }
 
     private void createDescriptionRegionRelation(CropDescription description, Region region) {
         String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
         String matchRegion = String.format("MATCH (region:Region{ODX_Region_UUId:\"%s\"})\n", region.getUuId());
-        String createRelation = "CREATE (description)-[:IS_AVAILABLE_IN]->(region)";
+        String createRelation = "CREATE (description)-[:isAvailableIn]->(region)";
         uploadRelationToDatabase(matchDescription, matchRegion, createRelation);
     }
 
@@ -939,7 +939,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                                                                  Region region) {
         String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
         String matchRegion = String.format("MATCH (region:Region{ODX_Region_UUId:\"%s\"})\n", region.getUuId());
-        String createRelation = String.format("CREATE (description)-[:IS_AVAILABLE_IN {" +
+        String createRelation = String.format("CREATE (description)-[:isAvailableIn {" +
                         "AdditionalProperties: \"%s\", " +
                         "CD_CountryIdRef: \"%s\", " +
                         "CD_GrowthScaleId_Ref: \"%s\", " +
@@ -964,35 +964,35 @@ public class PropertyGraphUploader implements AutoCloseable {
     private void createDescriptionGrowthScaleRelation(CropDescription description, GrowthScale scale) {
         String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
         String matchScale = String.format("MATCH (scale:GrowthScale{ODX_GrowthScale_UUId:\"%s\"})\n", scale.getUuId());
-        String createRelation = "CREATE (description)-[:HAS_GROWTH_SCALE]->(scale)";
+        String createRelation = "CREATE (description)-[:hasGrowthScale]->(scale)";
         uploadRelationToDatabase(matchDescription, matchScale, createRelation);
     }
 
     private void createNutrientToUnitRelation(Nutrient nutrient, Unit unit) {
         String matchNutrient = String.format("MATCH (nutrient:Nutrient{ODX_Nutrient_UUId:\"%s\"})\n", nutrient.getUuId());
-        String matchUnit = String.format("MATCH (unit:Unit{UnitName:\"%s\"})\n", unit.getName());
-        String createRelation = "CREATE (nutrient)-[:HAS_NUTRIENT_UNIT]->(unit)";
+        String matchUnit = String.format("MATCH (unit:Units{UnitName:\"%s\"})\n", unit.getName());
+        String createRelation = "CREATE (nutrient)-[:hasNutrientUnit]->(unit)";
         uploadRelationToDatabase(matchNutrient, matchUnit, createRelation);
     }
 
     private void createUnitToConversionRelation(Unit unit, UnitConversion conversion) {
-        String matchUnit = String.format("MATCH (unit:Unit{UnitName:\"%s\"})\n", unit.getName());
+        String matchUnit = String.format("MATCH (unit:Units{UnitName:\"%s\"})\n", unit.getName());
         String matchConversion = String.format("MATCH (conversion:UnitConversion{ODX_UnitConversion_UUId:\"%s\"})\n", conversion.getUuId());
-        String createRelation = "CREATE (unit)-[:HAS_UNIT_CONVERSION]->(conversion)";
+        String createRelation = "CREATE (unit)-[:hasUnitConversion]->(conversion)";
         uploadRelationToDatabase(matchUnit, matchConversion, createRelation);
     }
 
     private void createFertilizerToRegionRelation(Fertilizer fertilizer, Region region) {
-        String matchFertilizer = String.format("MATCH (fertilizer:Fertilizer{ODX_Fertilizer_UUId:\"%s\"})\n", fertilizer.getUuId());
+        String matchFertilizer = String.format("MATCH (fertilizer:Fertilizers{ODX_Fertilizer_UUId:\"%s\"})\n", fertilizer.getUuId());
         String matchRegion = String.format("MATCH (region:Region{ODX_Region_UUId:\"%s\"})\n", region.getUuId());
-        String createRelation = "CREATE (fertilizer)-[:IS_AVAILABLE_IN]->(region)";
+        String createRelation = "CREATE (fertilizer)-[:isAvailableIn]->(region)";
         uploadRelationToDatabase(matchFertilizer, matchRegion, createRelation);
     }
 
     private void createFertilizerToNutrientRelation(Fertilizer fertilizer, Nutrient nutrient) {
-        String matchFertilizer = String.format("MATCH (fertilizer:Fertilizer{ODX_Fertilizer_UUId:\"%s\"})\n", fertilizer.getUuId());
+        String matchFertilizer = String.format("MATCH (fertilizer:Fertilizers{ODX_Fertilizer_UUId:\"%s\"})\n", fertilizer.getUuId());
         String matchNutrient = String.format("MATCH (nutrient:Nutrient{ODX_Nutrient_UUId:\"%s\"})\n", nutrient.getUuId());
-        String createRelation = "CREATE (fertilizer)-[:HAS_PROD_NUTRIENT]->(nutrient)";
+        String createRelation = "CREATE (fertilizer)-[:hasProdNutrient]->(nutrient)";
         uploadRelationToDatabase(matchFertilizer, matchNutrient, createRelation);
     }
 

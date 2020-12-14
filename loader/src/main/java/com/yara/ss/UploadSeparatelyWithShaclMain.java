@@ -27,12 +27,12 @@ public class UploadSeparatelyWithShaclMain {
         String cropDescriptionFileName = "loader/src/main/resources/CropDescription.xlsx";
         String cropDescriptionVarietyFileName = "loader/src/main/resources/CropDescriptionVariety.xlsx";
         String growthScaleFileName = "loader/src/main/resources/GrowthScale.xlsx";
-        String growthScaleStageFileName = "loader/src/main/resources/GrowthScaleStage.xlsx";
+        String growthScaleStageFileName = "loader/src/main/resources/GrowthScaleStages.xlsx";
         String cropRegionFileName = "loader/src/main/resources/CropRegion.xlsx";
         String nutrientFileName = "loader/src/main/resources/Nutrient.xlsx";
-        String unitsFileName = "loader/src/main/resources/Unit.xlsx";
+        String unitsFileName = "loader/src/main/resources/Units.xlsx";
         String unitConversionsFileName = "loader/src/main/resources/UnitConversion.xlsx";
-        String fertilizersFileName = "loader/src/main/resources/Fertilizer.xlsx";
+        String fertilizersFileName = "loader/src/main/resources/Fertilizers.xlsx";
         String fertilizerRegionFileName = "loader/src/main/resources/FertilizerRegion.xlsx";
 
         ExcelWorkbookReader reader = new ExcelWorkbookReader();

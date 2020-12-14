@@ -343,7 +343,7 @@ public class ExcelWorkbookReader {
 
     public List<GrowthScaleStage> readGrowthScaleStageFromExcel(String fileName) {
         //Next field should be received from incoming file, not hardcoded
-        String className = "GrowthScaleStage";
+        String className = "GrowthScaleStages";
 
         List<GrowthScaleStage> growthScaleStages = new ArrayList<>();
         XSSFWorkbook myExcelBook = null;
@@ -481,7 +481,7 @@ public class ExcelWorkbookReader {
 
     public List<Unit> readUnitsFromExcel(String fileName) {
         //Next field should be received from incoming file, not hardcoded
-        String className = "Unit";
+        String className = "Units";
 
         List<Unit> units = new ArrayList<>();
         XSSFWorkbook myExcelBook = null;
@@ -546,7 +546,7 @@ public class ExcelWorkbookReader {
 
     public List<Fertilizer> readFertilizersFromExcel(String fileName) {
         //Next field should be received from incoming file, not hardcoded
-        String className = "Fertilizer";
+        String className = "Fertilizers";
 
         List<Fertilizer> fertilizers = new ArrayList<>();
         XSSFWorkbook myExcelBook = null;

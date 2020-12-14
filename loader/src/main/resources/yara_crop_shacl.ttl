@@ -29,7 +29,7 @@ yara:CropGroupShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path  yara:HAS_CROP_CLASS ;
+    sh:property    [ sh:path  yara:hasCropClass ;
                      sh:class yara:CropClass ; ] ;
 .
 
@@ -72,9 +72,9 @@ yara:CropClassShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path  yara:HAS_CROP_SUB_CLASS ;
+    sh:property    [ sh:path  yara:hasCropSubClass ;
                      sh:class yara:CropSubClass ; ] ;
-    sh:property    [ sh:path  [ sh:inversePath yara:HAS_CROP_CLASS ] ;
+    sh:property    [ sh:path  [ sh:inversePath yara:hasCropClass ] ;
                      sh:class yara:CropClass ; ] ;
 .
 
@@ -118,9 +118,9 @@ yara:CropSubClassShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path  yara:HAS_CROP_VARIETY ;
+    sh:property    [ sh:path  yara:hasCropVariety ;
                      sh:class yara:CropVariety ; ] ;
-    sh:property    [ sh:path  yara:HAS_CROP_DESCRIPTION ;
+    sh:property    [ sh:path  yara:hasCropDescription ;
                      sh:class yara:CropDescription ; ] ;
 .
 
@@ -169,7 +169,7 @@ yara:CropVarietyShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path  yara:HAS_CROP_DESCRIPTION ;
+    sh:property    [ sh:path  yara:hasCropDescription ;
                      sh:class yara:CropDescription ; ] ;
 .
 
@@ -217,9 +217,9 @@ yara:CropDescriptionShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path  yara:IS_AVAILABLE_IN ;
+    sh:property    [ sh:path  yara:isAvailableIn ;
                      sh:class yara:Region ; ] ;
-    sh:property    [ sh:path  yara:HAS_GROWTH_SCALE ;
+    sh:property    [ sh:path  yara:hasGrowthScale ;
                      sh:class yara:GrowthScale ; ] ;
 .
 
@@ -284,7 +284,7 @@ yara:CountryShape
 #                     sh:maxCount 1 ;
 #                     sh:pattern  "^(?!\s*$).+" ;
 #                     sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path  yara:HAS_REGION ;
+    sh:property    [ sh:path  yara:hasRegion ;
                      sh:class yara:Region ; ] ;
 .
 
@@ -362,8 +362,8 @@ yara:NutrientShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path  yara:HAS_NUTRIENT_UNIT ;
-                     sh:class yara:Unit ; ] ;
+    sh:property    [ sh:path  yara:hasNutrientUnit ;
+                     sh:class yara:Units ; ] ;
 .
 
 yara:FertilizerShape
@@ -663,9 +663,9 @@ yara:FertilizerShape
 #                     sh:maxCount 1 ;
 #                     sh:pattern  "^(?!\s*$).+" ;
 #                     sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path  yara:HAS_PROD_NUTRIENT ;
+    sh:property    [ sh:path  yara:hasProdNutrient ;
                      sh:class yara:Nutrient ; ] ;
-    sh:property    [ sh:path  yara:IS_AVAILABLE_IN ;
+    sh:property    [ sh:path  yara:isAvailableIn ;
                      sh:class yara:Region ; ] ;
 .
 
@@ -692,8 +692,8 @@ yara:GrowthScaleShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path  yara:HAS_GROWTH_SCALE_STAGE ;
-                     sh:class yara:GrowthScaleStage ; ] ;
+    sh:property    [ sh:path  yara:hasGrowthScaleStages ;
+                     sh:class yara:GrowthScaleStages ; ] ;
 .
 
 yara:GrowthScaleStageShape
@@ -772,7 +772,7 @@ yara:UnitsShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path  yara:HAS_UNIT_CONVERSION ;
+    sh:property    [ sh:path  yara:hasUnitConversion ;
                      sh:class yara:UnitConversion ; ] ;
 .
 
