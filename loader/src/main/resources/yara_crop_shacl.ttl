@@ -218,8 +218,8 @@ yara:CropDescriptionShape
     sh:property    [ sh:path  yara:hasGrowthScale ;
                      sh:class yara:GrowthScale ; ] ;
 #                    Need to check if Neo4j supports this
-    sh:property    [ sh:path  [ sh:inversePath yara:hasCropDescription ] ;
-                     sh:class [ sh:alternativePath ( yara:CropSubClass yara:CropVariety ) ] ; ] ;
+#    sh:property    [ sh:path  [ sh:inversePath yara:hasCropDescription ] ;
+#                     sh:class [ sh:alternativePath ( yara:CropSubClass yara:CropVariety ) ] ; ] ;
 .
 
 yara:CountryShape
@@ -618,12 +618,14 @@ yara:FertilizersShape
     sh:property    [ sh:path     yara:Solubility20C ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
-                     sh:pattern  "^(?!\s*$).+" ;
+#                     empty in Excel sheet
+#                     sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:Solubility5C ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
-                     sh:pattern  "^(?!\s*$).+" ;
+#                     empty in Excel sheet
+#                     sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:SpreaderLoss ;
                      sh:minCount 1 ;

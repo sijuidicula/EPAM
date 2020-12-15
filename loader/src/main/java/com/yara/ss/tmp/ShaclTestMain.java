@@ -8,7 +8,7 @@ public class ShaclTestMain {
     public static void main(String[] args) {
 
         // Need to create file in directory
-        String shaclFileName = "loader/src/main/resources/test_shacl.ttl";
+        String shaclFileName = "loader/src/main/resources/test_shacl1.ttl";
 
         CropClass cropClass = new CropClass(
                 "Polaris",

@@ -2,7 +2,7 @@ package com.yara.ss.domain;
 
 import java.util.*;
 
-public class Fertilizer extends Thing {
+public class Fertilizers extends Thing {
 
     private final Map<String, String> nutrientUnitsContent;
 
@@ -64,7 +64,7 @@ public class Fertilizer extends Thing {
     private String nh4;
     private String urea;
 
-    private Fertilizer(Builder builder) {
+    private Fertilizers(Builder builder) {
         super(builder.source, builder.className, builder.id);
         this.name = builder.name;
         this.family = builder.family;
@@ -362,7 +362,7 @@ public class Fertilizer extends Thing {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Fertilizer that = (Fertilizer) o;
+        Fertilizers that = (Fertilizers) o;
         return Objects.equals(nutrientUnitsContent, that.nutrientUnitsContent) &&
                 Objects.equals(family, that.family) &&
                 Objects.equals(type, that.type) &&
@@ -572,8 +572,8 @@ public class Fertilizer extends Thing {
             this.density = density;
         }
 
-        public Fertilizer build() {
-            return new Fertilizer(this);
+        public Fertilizers build() {
+            return new Fertilizers(this);
         }
 
         public Builder setNutrientUnitsContent(String nutrientUnitId, String val) {

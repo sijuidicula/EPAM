@@ -20,14 +20,14 @@ public class ExcelWorkbookReader {
     //Next field should be received from incoming file, not hardcoded
     private static final String POLARIS_SOURCE = "Polaris";
 
-    public List<? extends Object> readCollectionFromExcel(String resourcesFolder, String fileName, String fileExtension, Mapper mapper) {
+    public List<?> readCollectionFromExcel(String resourcesFolder, String fileName, String fileExtension, Mapper mapper) {
         XSSFSheet myExcelSheet = getExcelSheetFromFile(resourcesFolder, fileName, fileExtension);
         int rowsCount = myExcelSheet.getPhysicalNumberOfRows();
         System.out.println(String.format("Rows in %s file: %d", fileName, rowsCount));
         return getObjectsCollection(myExcelSheet, rowsCount, mapper);
     }
 
-    private List<? extends Object> getObjectsCollection(XSSFSheet myExcelSheet, int rowsCount, Mapper mapper) {
+    private List<?> getObjectsCollection(XSSFSheet myExcelSheet, int rowsCount, Mapper mapper) {
         List<Object> collection = new ArrayList<>();
         for (int i = 1; i < rowsCount; i++) {
             XSSFRow row = myExcelSheet.getRow(i);
@@ -162,7 +162,7 @@ public class ExcelWorkbookReader {
 
         List<Country> countries = new ArrayList<>();
         XSSFWorkbook myExcelBook = null;
-        try (OPCPackage pkg = OPCPackage.open(new File(fileName));) {
+        try (OPCPackage pkg = OPCPackage.open(new File(fileName))) {
             myExcelBook = new XSSFWorkbook(pkg);
         } catch (IOException | InvalidFormatException e) {
             e.printStackTrace();
@@ -341,11 +341,11 @@ public class ExcelWorkbookReader {
         return growthScales;
     }
 
-    public List<GrowthScaleStage> readGrowthScaleStageFromExcel(String fileName) {
+    public List<GrowthScaleStages> readGrowthScaleStageFromExcel(String fileName) {
         //Next field should be received from incoming file, not hardcoded
         String className = "GrowthScaleStages";
 
-        List<GrowthScaleStage> growthScaleStages = new ArrayList<>();
+        List<GrowthScaleStages> growthScaleStages = new ArrayList<>();
         XSSFWorkbook myExcelBook = null;
         try {
             myExcelBook = new XSSFWorkbook(new FileInputStream(fileName));
@@ -367,7 +367,7 @@ public class ExcelWorkbookReader {
                 String growthScaleStageDescription = row.getCell(2).getStringCellValue();
                 String ordinal = row.getCell(3).getStringCellValue();
                 String baseOrdinal = getCellDataAsString(row, 4);
-                GrowthScaleStage scaleStage = new GrowthScaleStage(POLARIS_SOURCE, className, id, className,
+                GrowthScaleStages scaleStage = new GrowthScaleStages(POLARIS_SOURCE, className, id, className,
                         growthScaleId, growthScaleStageDescription, ordinal, baseOrdinal);
                 growthScaleStages.add(scaleStage);
             }
@@ -479,11 +479,11 @@ public class ExcelWorkbookReader {
         return nutrients;
     }
 
-    public List<Unit> readUnitsFromExcel(String fileName) {
+    public List<Units> readUnitsFromExcel(String fileName) {
         //Next field should be received from incoming file, not hardcoded
         String className = "Units";
 
-        List<Unit> units = new ArrayList<>();
+        List<Units> units = new ArrayList<>();
         XSSFWorkbook myExcelBook = null;
         try {
             myExcelBook = new XSSFWorkbook(new FileInputStream(fileName));
@@ -503,7 +503,7 @@ public class ExcelWorkbookReader {
                 String id = row.getCell(0).getStringCellValue();
                 String name = row.getCell(1).getStringCellValue();
                 String tag = row.getCell(2).getStringCellValue();
-                Unit unit = new Unit(POLARIS_SOURCE, className, id, name, tag);
+                Units unit = new Units(POLARIS_SOURCE, className, id, name, tag);
                 units.add(unit);
             }
         }
@@ -544,11 +544,11 @@ public class ExcelWorkbookReader {
         return conversions;
     }
 
-    public List<Fertilizer> readFertilizersFromExcel(String fileName) {
+    public List<Fertilizers> readFertilizersFromExcel(String fileName) {
         //Next field should be received from incoming file, not hardcoded
         String className = "Fertilizers";
 
-        List<Fertilizer> fertilizers = new ArrayList<>();
+        List<Fertilizers> fertilizers = new ArrayList<>();
         XSSFWorkbook myExcelBook = null;
         try {
             myExcelBook = new XSSFWorkbook(new FileInputStream(fileName));
@@ -617,7 +617,7 @@ public class ExcelWorkbookReader {
                 String syncId = getCellDataAsString(row, 64);
                 String syncSource = getCellDataAsString(row, 65);
                 String lastSync = getCellDataAsString(row, 66);
-                Fertilizer fertilizer = new Fertilizer.Builder(
+                Fertilizers fertilizer = new Fertilizers.Builder(
                         POLARIS_SOURCE,
                         className,
                         id,

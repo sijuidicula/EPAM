@@ -1,4 +1,4 @@
-package com.yara.ss;
+package com.yara.ss.tmp;
 
 import com.sun.xml.internal.bind.v2.TODO;
 import com.yara.ss.domain.*;

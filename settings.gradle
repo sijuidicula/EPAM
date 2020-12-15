@@ -1,3 +1,4 @@
 rootProject.name = 'yara'
 include 'loader'
+include 'validator'
 

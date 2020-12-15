@@ -2,12 +2,12 @@ package com.yara.ss.domain;
 
 import java.util.Objects;
 
-public class Unit extends Thing {
+public class Units extends Thing {
 
     private String name;
     private String tag;
 
-    public Unit(String source, String className, String id, String name, String tag) {
+    public Units(String source, String className, String id, String name, String tag) {
         super(source, className, id);
         this.name = name;
         this.tag = tag;
@@ -25,7 +25,7 @@ public class Unit extends Thing {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Unit unit = (Unit) o;
+        Units unit = (Units) o;
         return Objects.equals(name, unit.name) &&
                 Objects.equals(tag, unit.tag);
     }

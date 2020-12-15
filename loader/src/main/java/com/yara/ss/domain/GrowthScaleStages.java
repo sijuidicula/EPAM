@@ -2,7 +2,7 @@ package com.yara.ss.domain;
 
 import java.util.Objects;
 
-public class GrowthScaleStage extends Thing {
+public class GrowthScaleStages extends Thing {
 
     private String growthScaleId;
     private String growthScaleStageDescription;
@@ -13,8 +13,8 @@ public class GrowthScaleStage extends Thing {
     private String baseOrdinal;
 //    private float baseOrdinal;
 
-    public GrowthScaleStage(String source, String className, String id, String name,
-                            String growthScaleId, String growthScaleStageDescription, String ordinal, String baseOrdinal) {
+    public GrowthScaleStages(String source, String className, String id, String name,
+                             String growthScaleId, String growthScaleStageDescription, String ordinal, String baseOrdinal) {
         super(source, className, id);
         this.growthScaleId = growthScaleId;
         this.growthScaleStageDescription = growthScaleStageDescription;
@@ -42,7 +42,7 @@ public class GrowthScaleStage extends Thing {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GrowthScaleStage that = (GrowthScaleStage) o;
+        GrowthScaleStages that = (GrowthScaleStages) o;
         return Objects.equals(ordinal, that.ordinal) &&
                 Objects.equals(baseOrdinal, that.baseOrdinal) &&
                 Objects.equals(growthScaleId, that.growthScaleId) &&
