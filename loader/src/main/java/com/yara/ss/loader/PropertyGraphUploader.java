@@ -573,80 +573,55 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     public void createCountryToRegionRelations(List<Country> countries, List<Region> regions) {
         AtomicInteger count = new AtomicInteger(0);
-        Map<Country, List<Region>> map = getCountryRegionMap(countries, regions);
-        for (Map.Entry<Country, List<Region>> entry : map.entrySet()) {
-            Country country = entry.getKey();
-            List<Region> countryRegions = entry.getValue();
-            countryRegions.forEach(region -> {
-                createCountryRegionRelation(country, region);
-                System.out.println(count.incrementAndGet() + " Country to Region relations created");
-            });
-        }
+        regions.forEach(region -> {
+            Country country = (Country) getFromCollectionById(countries, region.getCountryId());
+            createCountryRegionRelation(country, region);
+            System.out.println(count.incrementAndGet() + " Country to Region relations created");
+        });
         System.out.println("Country-Region relation uploading completed");
         System.out.println(count.get() + " Country-Region relations uploaded");
     }
 
     public void createCropGroupToClassRelations(List<CropGroup> groups, List<CropClass> classes) {
         AtomicInteger count = new AtomicInteger(0);
-        Map<CropGroup, List<CropClass>> map = getCropGroupClassMap(groups, classes);
-        for (Map.Entry<CropGroup, List<CropClass>> entry : map.entrySet()) {
-            CropGroup group = entry.getKey();
-            List<CropClass> groupClasses = entry.getValue();
-            groupClasses.forEach(cropClass -> {
-                createGroupClassRelation(group, cropClass);
-                System.out.println(count.incrementAndGet() + " CropGroup to CropClass relations created");
-            });
-        }
+        classes.forEach(cropClass -> {
+            CropGroup group = (CropGroup) getFromCollectionById(groups, cropClass.getGroupId());
+            createGroupClassRelation(group, cropClass);
+            System.out.println(count.incrementAndGet() + " CropGroup to CropClass relations created");
+        });
         System.out.println("Group-Class relation uploading completed");
         System.out.println(count.get() + " Group-Class relations uploaded");
     }
 
     public void createCropClassToSubClassRelations(List<CropClass> ancestors, List<CropSubClass> children) {
         AtomicInteger count = new AtomicInteger(0);
-        Map<CropClass, List<CropSubClass>> map = getAncestorSubClassMap(ancestors, children);
-        for (Map.Entry<CropClass, List<CropSubClass>> entry : map.entrySet()) {
-            CropClass ancestor = entry.getKey();
-            List<CropSubClass> relatedChildren = entry.getValue();
-            relatedChildren.forEach(child -> {
-                createClassSubClassRelation(ancestor, child);
-                System.out.println(count.incrementAndGet() + " Class to SubClass relations created");
-            });
-        }
+        children.forEach(child -> {
+            CropClass ancestor = (CropClass) getFromCollectionById(ancestors, child.getClassId());
+            createClassSubClassRelation(ancestor, child);
+            System.out.println(count.incrementAndGet() + " Class to SubClass relations created");
+        });
         System.out.println("Class-SubClass relation uploading completed");
         System.out.println(count.get() + " Class-SubClass relations uploaded");
     }
 
     public void createCropSubClassToVarietyRelations(List<CropSubClass> subClasses, List<CropVariety> varieties) {
         AtomicInteger count = new AtomicInteger(0);
-//        Map<CropSubClass, List<CropVariety>> map = getSubClassesVarietiesMap(subClasses, varieties);
         varieties.forEach(variety -> {
             CropSubClass subClass = (CropSubClass) getFromCollectionById(subClasses, variety.getSubClassId());
             createSubClassVarietyRelation(subClass, variety);
+            System.out.println(count.incrementAndGet() + " CSC to CV relations created");
         });
-
-//        for (Map.Entry<CropSubClass, List<CropVariety>> entry : map.entrySet()) {
-//            CropSubClass subClass = entry.getKey();
-//            List<CropVariety> relatedVarieties = entry.getValue();
-//            relatedVarieties.forEach(variety -> {
-//                createSubClassVarietyRelation(subClass, variety);
-//                System.out.println(count.incrementAndGet() + " CSC to CV relations created");
-//            });
-//        }
         System.out.println("CropSubClass-CropVariety relation uploading completed");
         System.out.println(count.get() + " CropSubClass-CropVariety relations uploaded");
     }
 
     public void createCropSubClassToDescriptionRelations(List<CropSubClass> subClasses, List<CropDescription> descriptions) {
         AtomicInteger count = new AtomicInteger(0);
-        Map<CropSubClass, List<CropDescription>> map = getSubClassesDescriptionsMap(subClasses, descriptions);
-        for (Map.Entry<CropSubClass, List<CropDescription>> entry : map.entrySet()) {
-            CropSubClass subClass = entry.getKey();
-            List<CropDescription> relatedDescriptions = entry.getValue();
-            relatedDescriptions.forEach(description -> {
-                createSubClassDescriptionRelation(subClass, description);
-                System.out.println(count.incrementAndGet() + " CSC to CD relations created");
-            });
-        }
+        descriptions.forEach(description -> {
+            CropSubClass subClass = (CropSubClass) getFromCollectionById(subClasses, description.getSubClassId());
+            createSubClassDescriptionRelation(subClass, description);
+            System.out.println(count.incrementAndGet() + " CSC to CD relations created");
+        });
         System.out.println("CropSubClass-CropDescription relation uploading completed");
         System.out.println(count.get() + " CropSubClass-CropDescription relations uploaded");
     }
@@ -655,15 +630,12 @@ public class PropertyGraphUploader implements AutoCloseable {
                                                         List<CropDescription> cropDescriptions,
                                                         List<CropDescriptionVariety> cropDescVars) {
         AtomicInteger count = new AtomicInteger(0);
-        Map<CropDescription, List<CropVariety>> map = getVarietiesDescriptionsMap(cropVarieties, cropDescriptions, cropDescVars);
-        for (Map.Entry<CropDescription, List<CropVariety>> entry : map.entrySet()) {
-            CropDescription description = entry.getKey();
-            List<CropVariety> relatedVarieties = entry.getValue();
-            relatedVarieties.forEach(variety -> {
-                createVarietyDescriptionRelation(variety, description);
-                System.out.println(count.incrementAndGet() + " CV to CD relations created");
-            });
-        }
+        cropDescVars.forEach(descvar -> {
+            CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, descvar.getDescId());
+            CropVariety variety = (CropVariety) getFromCollectionById(cropVarieties, descvar.getVarId());
+            createVarietyDescriptionRelation(variety, description);
+            System.out.println(count.incrementAndGet() + " CV to CD relations created");
+        });
         System.out.println("CropVariety-CropDescription relation uploading completed");
         System.out.println(count.get() + " CropVariety-CropDescription relations uploaded");
     }
@@ -687,30 +659,23 @@ public class PropertyGraphUploader implements AutoCloseable {
                                                              List<GrowthScale> growthScales,
                                                              List<CropRegion> cropRegions) {
         AtomicInteger count = new AtomicInteger(0);
-        Map<GrowthScale, List<CropDescription>> map = getGrowthScalesDescriptionsMap(cropDescriptions, growthScales, cropRegions);
-        for (Map.Entry<GrowthScale, List<CropDescription>> entry : map.entrySet()) {
-            GrowthScale scale = entry.getKey();
-            List<CropDescription> relatedDescriptions = entry.getValue();
-            relatedDescriptions.forEach(description -> {
-                createDescriptionGrowthScaleRelation(description, scale);
-                System.out.println(count.incrementAndGet() + " CropDescription to GrowthScale relations created");
-            });
-        }
+        cropRegions.forEach(cr -> {
+            GrowthScale scale = (GrowthScale) getFromCollectionById(growthScales, cr.getGrowthScaleIdRef());
+            CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, cr.getDescriptionId());
+            createDescriptionGrowthScaleRelation(description, scale);
+            System.out.println(count.incrementAndGet() + " CropDescription to GrowthScale relations created");
+        });
         System.out.println("CropDescription-GrowthScale relation uploading completed");
         System.out.println(count.get() + " CropDescription-GrowthScale relations uploaded");
     }
 
     public void createGrowthScaleToStagesRelations(List<GrowthScale> growthScales, List<GrowthScaleStages> growthScaleStages) {
         AtomicInteger count = new AtomicInteger(0);
-        Map<GrowthScale, List<GrowthScaleStages>> map = getGrowthScalesToStagesMap(growthScales, growthScaleStages);
-        for (Map.Entry<GrowthScale, List<GrowthScaleStages>> entry : map.entrySet()) {
-            GrowthScale scale = entry.getKey();
-            List<GrowthScaleStages> stages = entry.getValue();
-            stages.forEach(stage -> {
-                createGrowthScaleToStageRelation(scale, stage);
-                System.out.println(count.incrementAndGet() + " GS to GSS relations created");
-            });
-        }
+        growthScaleStages.forEach(stage -> {
+            GrowthScale scale = (GrowthScale) getFromCollectionById(growthScales, stage.getGrowthScaleId());
+            createGrowthScaleToStageRelation(scale, stage);
+            System.out.println(count.incrementAndGet() + " GS to GSS relations created");
+        });
         System.out.println("GrowthScale-GrowthScaleStage relation uploading completed");
         System.out.println(count.get() + " GrowthScale-GrowthScaleStage relations uploaded");
     }
@@ -980,124 +945,6 @@ public class PropertyGraphUploader implements AutoCloseable {
         }
     }
 
-    private Map<CropSubClass, List<CropVariety>> getSubClassesVarietiesMap(List<CropSubClass> subClasses, List<CropVariety> varieties) {
-        Map<CropSubClass, List<CropVariety>> map = new HashMap();
-        varieties.forEach(variety -> {
-            CropSubClass subClass = (CropSubClass) getFromCollectionById(subClasses, variety.getSubClassId());
-            List<CropVariety> relatedVarieties = new ArrayList<>();
-            if (map.containsKey(subClass)) {
-                relatedVarieties = map.get(subClass);
-            }
-            relatedVarieties.add(variety);
-            map.put(subClass, relatedVarieties);
-        });
-        return map;
-    }
-
-    private Map<CropSubClass, List<CropDescription>> getSubClassesDescriptionsMap(List<CropSubClass> subClasses, List<CropDescription> descriptions) {
-        Map<CropSubClass, List<CropDescription>> map = new HashMap();
-        descriptions.forEach(description -> {
-            CropSubClass subClass = (CropSubClass) getFromCollectionById(subClasses, description.getSubClassId());
-            List<CropDescription> relatedDescriptions = new ArrayList<>();
-            if (map.containsKey(subClass)) {
-                relatedDescriptions = map.get(subClass);
-            }
-            relatedDescriptions.add(description);
-            map.put(subClass, relatedDescriptions);
-        });
-        return map;
-    }
-
-    private Map<CropDescription, List<CropVariety>> getVarietiesDescriptionsMap(List<CropVariety> varieties,
-                                                                                List<CropDescription> descriptions,
-                                                                                List<CropDescriptionVariety> cropDescVars) {
-        Map<CropDescription, List<CropVariety>> map = new HashMap();
-        cropDescVars.forEach(descvar -> {
-            CropDescription description = (CropDescription) getFromCollectionById(descriptions, descvar.getDescId());
-            CropVariety variety = (CropVariety) getFromCollectionById(varieties, descvar.getVarId());
-            List<CropVariety> relatedVarieties = new ArrayList<>();
-            if (map.containsKey(description)) {
-                relatedVarieties = map.get(description);
-            }
-            relatedVarieties.add(variety);
-            map.put(description, relatedVarieties);
-        });
-        return map;
-    }
-
-    private Map<GrowthScale, List<CropDescription>> getGrowthScalesDescriptionsMap(List<CropDescription> cropDescriptions,
-                                                                                   List<GrowthScale> growthScales,
-                                                                                   List<CropRegion> cropRegions) {
-        Map<GrowthScale, List<CropDescription>> map = new HashMap();
-        cropRegions.forEach(cr -> {
-            GrowthScale scale = (GrowthScale) getFromCollectionById(growthScales, cr.getGrowthScaleIdRef());
-            CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, cr.getDescriptionId());
-            List<CropDescription> relatedDescriptions = new ArrayList<>();
-            if (map.containsKey(scale)) {
-                relatedDescriptions = map.get(scale);
-            }
-            relatedDescriptions.add(description);
-            map.put(scale, relatedDescriptions);
-        });
-        return map;
-
-    }
-
-    private Map<GrowthScale, List<GrowthScaleStages>> getGrowthScalesToStagesMap(List<GrowthScale> growthScales, List<GrowthScaleStages> growthScaleStages) {
-        Map<GrowthScale, List<GrowthScaleStages>> map = new HashMap();
-        growthScaleStages.forEach(stage -> {
-            GrowthScale scale = (GrowthScale) getFromCollectionById(growthScales, stage.getGrowthScaleId());
-            List<GrowthScaleStages> relatedStages = new ArrayList<>();
-            if (map.containsKey(scale)) {
-                relatedStages = map.get(scale);
-            }
-            relatedStages.add(stage);
-            map.put(scale, relatedStages);
-        });
-        return map;
-    }
-
-    private Map<Country, List<Region>> getCountryRegionMap(List<Country> countries, List<Region> regions) {
-        Map<Country, List<Region>> map = new HashMap();
-        regions.forEach(region -> {
-            Country country = (Country) getFromCollectionById(countries, region.getCountryId());
-            List<Region> countryRegions = new ArrayList<>();
-            if (map.containsKey(country)) {
-                countryRegions = map.get(country);
-            }
-            countryRegions.add(region);
-            map.put(country, countryRegions);
-        });
-        return map;
-    }
-
-    private Map<CropGroup, List<CropClass>> getCropGroupClassMap(List<CropGroup> groups, List<CropClass> classes) {
-        Map<CropGroup, List<CropClass>> map = new HashMap();
-        classes.forEach(cl -> {
-            CropGroup group = (CropGroup) getFromCollectionById(groups, cl.getGroupId());
-            List<CropClass> groupClasses = new ArrayList<>();
-            if (map.containsKey(group)) {
-                groupClasses = map.get(group);
-            }
-            groupClasses.add(cl);
-            map.put(group, groupClasses);
-        });
-        return map;
-    }
-
-    private Map<CropClass, List<CropSubClass>> getAncestorSubClassMap(List<CropClass> ancestors, List<CropSubClass> subClasses) {
-        Map<CropClass, List<CropSubClass>> map = new HashMap();
-        subClasses.forEach(scl -> {
-            CropClass ancestor = (CropClass) getFromCollectionById(ancestors, scl.getClassId());
-            List<CropSubClass> relatedChildren = new ArrayList<>();
-            if (map.containsKey(ancestor)) {
-                relatedChildren = map.get(ancestor);
-            }
-            relatedChildren.add(scl);
-            map.put(ancestor, relatedChildren);
-        });
-        return map;
-    }
 
     private Thing getFromCollectionById(List<? extends Thing> things, String id) {
         return things.stream()
@@ -1342,6 +1189,7 @@ public class PropertyGraphUploader implements AutoCloseable {
 //            System.out.println(e.getMessage());
 //        }
 //    }
+
     //    public void uploadCropClassAsRecordWithOdxNodes(CropClass cropClass) {
 //        if (uuIdExistsInDatabase(cropClass.getUuId())) {
 //            return;
@@ -1495,5 +1343,122 @@ public class PropertyGraphUploader implements AutoCloseable {
 //        }
 //    }
 //
+//    private Map<CropSubClass, List<CropVariety>> getSubClassesVarietiesMap(List<CropSubClass> subClasses, List<CropVariety> varieties) {
+//        Map<CropSubClass, List<CropVariety>> map = new HashMap();
+//        varieties.forEach(variety -> {
+//            CropSubClass subClass = (CropSubClass) getFromCollectionById(subClasses, variety.getSubClassId());
+//            List<CropVariety> relatedVarieties = new ArrayList<>();
+//            if (map.containsKey(subClass)) {
+//                relatedVarieties = map.get(subClass);
+//            }
+//            relatedVarieties.add(variety);
+//            map.put(subClass, relatedVarieties);
+//        });
+//        return map;
+//    }
+//
+//    private Map<CropSubClass, List<CropDescription>> getSubClassesDescriptionsMap(List<CropSubClass> subClasses, List<CropDescription> descriptions) {
+//        Map<CropSubClass, List<CropDescription>> map = new HashMap();
+//        descriptions.forEach(description -> {
+//            CropSubClass subClass = (CropSubClass) getFromCollectionById(subClasses, description.getSubClassId());
+//            List<CropDescription> relatedDescriptions = new ArrayList<>();
+//            if (map.containsKey(subClass)) {
+//                relatedDescriptions = map.get(subClass);
+//            }
+//            relatedDescriptions.add(description);
+//            map.put(subClass, relatedDescriptions);
+//        });
+//        return map;
+//    }
+//
+//    private Map<CropDescription, List<CropVariety>> getVarietiesDescriptionsMap(List<CropVariety> varieties,
+//                                                                                List<CropDescription> descriptions,
+//                                                                                List<CropDescriptionVariety> cropDescVars) {
+//        Map<CropDescription, List<CropVariety>> map = new HashMap();
+//        cropDescVars.forEach(descvar -> {
+//            CropDescription description = (CropDescription) getFromCollectionById(descriptions, descvar.getDescId());
+//            CropVariety variety = (CropVariety) getFromCollectionById(varieties, descvar.getVarId());
+//            List<CropVariety> relatedVarieties = new ArrayList<>();
+//            if (map.containsKey(description)) {
+//                relatedVarieties = map.get(description);
+//            }
+//            relatedVarieties.add(variety);
+//            map.put(description, relatedVarieties);
+//        });
+//        return map;
+//    }
+//
+//    private Map<GrowthScale, List<CropDescription>> getGrowthScalesDescriptionsMap(List<CropDescription> cropDescriptions,
+//                                                                                   List<GrowthScale> growthScales,
+//                                                                                   List<CropRegion> cropRegions) {
+//        Map<GrowthScale, List<CropDescription>> map = new HashMap();
+//        cropRegions.forEach(cr -> {
+//            GrowthScale scale = (GrowthScale) getFromCollectionById(growthScales, cr.getGrowthScaleIdRef());
+//            CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, cr.getDescriptionId());
+//            List<CropDescription> relatedDescriptions = new ArrayList<>();
+//            if (map.containsKey(scale)) {
+//                relatedDescriptions = map.get(scale);
+//            }
+//            relatedDescriptions.add(description);
+//            map.put(scale, relatedDescriptions);
+//        });
+//        return map;
+//
+//    }
+//
+//    private Map<GrowthScale, List<GrowthScaleStages>> getGrowthScalesToStagesMap(List<GrowthScale> growthScales, List<GrowthScaleStages> growthScaleStages) {
+//        Map<GrowthScale, List<GrowthScaleStages>> map = new HashMap();
+//        growthScaleStages.forEach(stage -> {
+//            GrowthScale scale = (GrowthScale) getFromCollectionById(growthScales, stage.getGrowthScaleId());
+//            List<GrowthScaleStages> relatedStages = new ArrayList<>();
+//            if (map.containsKey(scale)) {
+//                relatedStages = map.get(scale);
+//            }
+//            relatedStages.add(stage);
+//            map.put(scale, relatedStages);
+//        });
+//        return map;
+//    }
+//
+//    private Map<Country, List<Region>> getCountryRegionMap(List<Country> countries, List<Region> regions) {
+//        Map<Country, List<Region>> map = new HashMap();
+//        regions.forEach(region -> {
+//            Country country = (Country) getFromCollectionById(countries, region.getCountryId());
+//            List<Region> countryRegions = new ArrayList<>();
+//            if (map.containsKey(country)) {
+//                countryRegions = map.get(country);
+//            }
+//            countryRegions.add(region);
+//            map.put(country, countryRegions);
+//        });
+//        return map;
+//    }
+//
+//    private Map<CropGroup, List<CropClass>> getCropGroupClassMap(List<CropGroup> groups, List<CropClass> classes) {
+//        Map<CropGroup, List<CropClass>> map = new HashMap();
+//        classes.forEach(cl -> {
+//            CropGroup group = (CropGroup) getFromCollectionById(groups, cl.getGroupId());
+//            List<CropClass> groupClasses = new ArrayList<>();
+//            if (map.containsKey(group)) {
+//                groupClasses = map.get(group);
+//            }
+//            groupClasses.add(cl);
+//            map.put(group, groupClasses);
+//        });
+//        return map;
+//    }
+//
+//    private Map<CropClass, List<CropSubClass>> getAncestorSubClassMap(List<CropClass> ancestors, List<CropSubClass> subClasses) {
+//        Map<CropClass, List<CropSubClass>> map = new HashMap();
+//        subClasses.forEach(scl -> {
+//            CropClass ancestor = (CropClass) getFromCollectionById(ancestors, scl.getClassId());
+//            List<CropSubClass> relatedChildren = new ArrayList<>();
+//            if (map.containsKey(ancestor)) {
+//                relatedChildren = map.get(ancestor);
+//            }
+//            relatedChildren.add(scl);
+//            map.put(ancestor, relatedChildren);
+//        });
+//        return map;
+//    }
 }
-
