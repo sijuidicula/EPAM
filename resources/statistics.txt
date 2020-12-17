@@ -12,5 +12,4 @@
   "Nutrient" : 29,
   "CropDescription" : 441,
   "CropSubClass" : 238
-}Country,9
-Country,250
+}

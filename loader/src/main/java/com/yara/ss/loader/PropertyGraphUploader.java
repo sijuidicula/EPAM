@@ -15,13 +15,13 @@ public class PropertyGraphUploader implements AutoCloseable {
 //    private static final String USER = "neo4j";
 //    private static final String PASSWORD = "diagnosis-lifeboats-completions";
 
-//    private static final String URI = "bolt+s://odx-storage.yara.com:7687";
-//    private static final String USER = "neo4j";
-//    private static final String PASSWORD = "MjY4Yjc0OTNmNjZmNzgxNDYyOWMzNDAz";
-
-    private static final String URI = "bolt://localhost:7687";
+    private static final String URI = "bolt+s://odx-storage.yara.com:7687";
     private static final String USER = "neo4j";
-    private static final String PASSWORD = "1234";
+    private static final String PASSWORD = "MjY4Yjc0OTNmNjZmNzgxNDYyOWMzNDAz";
+//
+//    private static final String URI = "bolt://localhost:7687";
+//    private static final String USER = "neo4j";
+//    private static final String PASSWORD = "1234";
 
     private final Driver driver;
     private final StatisticsReporter reporter = new StatisticsReporter();
@@ -71,6 +71,62 @@ public class PropertyGraphUploader implements AutoCloseable {
 //                            "dummy_UN",
 //                            "dummy_FIPS")));
                 }
+            });
+        }
+        System.out.println("Country uploading completed");
+        System.out.println(count.get() + " Countries uploaded");
+        reporter.writeStatisticsToFile(countries);
+    }
+
+    public void uploadCountriesAtOnce(List<Country> countries) {
+        AtomicInteger count = new AtomicInteger(0);
+        String createCountryFormat = "CREATE (%s:%s{" +
+                "ODX_Country_UUId: \"%s\", " +
+                "ODX_Country_Uri: \"%s\", " +
+                "CountryId: \"%s\", " +
+//                "name: \"%s\", " +
+                "CountryName: \"%s\", " +
+                "ProductSetCode: \"%s\"})";
+//                "ODX_CS_UUId_Ref: \"%s\", " +
+//                "ProductSetCode: \"%s\", " +
+//                "M49Code: \"%s\", " +
+//                "ISO2Code: \"%s\", " +
+//                "ISO3Code: \"%s\", " +
+//                "UN: \"%s\", " +
+//                "FIPS: \"%s\"})";
+        StringBuilder builder = new StringBuilder();
+
+        countries.forEach(country -> {
+            System.out.println("Appending Country Command# " + count.incrementAndGet());
+            String createCountryCommand  = String.format(createCountryFormat,
+                    createNodeName(country.getName()), country.getClassName(),
+                    country.getUuId(),
+                    createOdxUri(country),
+                    country.getId(),
+                    country.getName(),
+                    country.getProductSetCode());
+            builder.append(createCountryCommand);
+        });
+        try (Session session = driver.session()) {
+            countries.forEach(country -> {
+//                if (!existsInDatabase(country)) {
+                    System.out.println("Uploading Country # " + count.incrementAndGet());
+                    session.writeTransaction(tx -> tx.run(String.format(createCountryFormat,
+                            createNodeName(country.getName()), country.getClassName(),
+                            country.getUuId(),
+                            createOdxUri(country),
+                            country.getId(),
+//                            country.getName(),
+                            country.getName(),
+                            country.getProductSetCode())));
+//                            "dummy_CS_UUId_Ref",
+//                            country.getProductSetCode(),
+//                            "dummy_M49_code",
+//                            "dummy_ISO_2_code",
+//                            "dummy_ISO_3_code",
+//                            "dummy_UN",
+//                            "dummy_FIPS")));
+//                }
             });
         }
         System.out.println("Country uploading completed");
@@ -921,13 +977,13 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     private void createNutrientToUnitRelation(Nutrient nutrient, Units unit) {
         String matchNutrient = String.format("MATCH (nutrient:Nutrient{ODX_Nutrient_UUId:\"%s\"})\n", nutrient.getUuId());
-        String matchUnit = String.format("MATCH (unit:Units{UnitName:\"%s\"})\n", unit.getName());
+        String matchUnit = String.format("MATCH (unit:Units{UnitsName:\"%s\"})\n", unit.getName());
         String createRelation = "CREATE (nutrient)-[:hasNutrientUnit]->(unit)";
         uploadRelationToDatabase(matchNutrient, matchUnit, createRelation);
     }
 
     private void createUnitToConversionRelation(Units unit, UnitConversion conversion) {
-        String matchUnit = String.format("MATCH (unit:Units{UnitName:\"%s\"})\n", unit.getName());
+        String matchUnit = String.format("MATCH (unit:Units{UnitsName:\"%s\"})\n", unit.getName());
         String matchConversion = String.format("MATCH (conversion:UnitConversion{ODX_UnitConversion_UUId:\"%s\"})\n", conversion.getUuId());
         String createRelation = "CREATE (unit)-[:hasUnitConversion]->(conversion)";
         uploadRelationToDatabase(matchUnit, matchConversion, createRelation);

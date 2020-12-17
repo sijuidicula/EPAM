@@ -136,7 +136,7 @@ yara:CropVarietyShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ODX_CV_Uri ;
+    sh:property    [ sh:path     yara:ODX_CropVariety_Uri ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
@@ -785,17 +785,17 @@ yara:UnitsShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:UnitId ;
+    sh:property    [ sh:path     yara:UnitsId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:UnitName ;
+    sh:property    [ sh:path     yara:UnitsName ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:UnitTags ;
+    sh:property    [ sh:path     yara:UnitsTags ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
@@ -814,7 +814,7 @@ yara:UnitConversionShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ODX_UC_Uri ;
+    sh:property    [ sh:path     yara:ODX_UnitConversion_Uri ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
