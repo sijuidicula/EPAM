@@ -14,9 +14,9 @@ public class ValidatorMain {
         StatisticsValidator validator = new StatisticsValidator();
 
         Map<String, Integer> statistics = reader.getStatistics();
-        validator.validateNodesCount(requestor, statistics);
-        validator.validateNonEmptyUuids(requestor, statistics);
-        validator.validateNonEmptyURIs(requestor, statistics);
+//        validator.validateNodesCount(requestor, statistics);
+//        validator.validateNonEmptyUuids(requestor, statistics);
+//        validator.validateNonEmptyURIs(requestor, statistics);
         validator.validateNonEmptyLabels(requestor, statistics);
 
         requestor.close();

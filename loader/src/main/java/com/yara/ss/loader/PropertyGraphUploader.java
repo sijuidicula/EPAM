@@ -120,6 +120,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "CropGroupId: \"%s\", " +
 //                "name: \"%s\", " +
                 "CropGroupName: \"%s\", " +
+                "ODX_CropGroup_Uri: \"%s\", " +
                 "ODX_CropGroup_UUId: \"%s\"})\n";
         try (Session session = driver.session()) {
             cropGroups.forEach(group -> session.writeTransaction(tx -> {
@@ -132,6 +133,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         group.getId(),
 //                        group.getName(),
                         group.getName(),
+                        createOdxUri(group),
                         group.getUuId()));
             }));
         }
@@ -143,6 +145,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         AtomicInteger count = new AtomicInteger(0);
         String createClassFormat = "CREATE (%s:%s{" +
                 "ODX_CropClass_UUId: \"%s\", " +
+                "ODX_CropClass_Uri: \"%s\", " +
                 "CropClassId: \"%s\", " +
                 "CropGroupId_Ref: \"%s\", " +
                 "ODX_CG_UUId_Ref: \"%s\", " +
@@ -158,6 +161,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 return tx.run(String.format(createClassFormat,
                         newClassName, cropClass.getClassName(),
                         cropClass.getUuId(),
+                        createOdxUri(cropClass),
                         cropClass.getId(),
                         cropClass.getGroupId(),
                         cropGroup.getUuId(),
@@ -174,6 +178,7 @@ public class PropertyGraphUploader implements AutoCloseable {
     public void uploadCropSubClasses(List<CropSubClass> cropSubClasses, List<CropClass> cropClasses) {
         String createSubClassFormat = "CREATE (%s:%s{" +
                 "ODX_CropSubClass_UUId: \"%s\", " +
+                "ODX_CropSubClass_Uri: \"%s\", " +
                 "CropSubClassId: \"%s\", " +
                 "CropClassId_Ref: \"%s\", " +
                 "ODX_CC_UUId_Ref: \"%s\", " +
@@ -191,6 +196,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 return tx.run(String.format(createSubClassFormat,
                         newSubClassName, subClass.getClassName(),
                         subClass.getUuId(),
+                        createOdxUri(subClass),
                         subClass.getId(),
                         subClass.getClassId(),
                         cropClass.getUuId(),
@@ -208,7 +214,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         AtomicInteger count = new AtomicInteger(0);
         String createVarietyFormat = "CREATE (%s:%s{" +
                 "ODX_CropVariety_UUId: \"%s\", " +
-                "ODX_CV_Uri: \"%s\", " +
+                "ODX_CropVariety_Uri: \"%s\", " +
                 "CV_CropSubClassId_Ref: \"%s\", " +
                 "CV_CSC_UUId_Ref: \"%s\", " +
                 "CropVarietyId: \"%s\", " +
@@ -237,6 +243,7 @@ public class PropertyGraphUploader implements AutoCloseable {
     public void uploadCropDescriptions(List<CropDescription> cropDescriptions, List<CropSubClass> cropSubClasses) {
         String createCreateVarietyCommandFormat = "CREATE (%s:%s{" +
                 "ODX_CropDescription_UUId: \"%s\", " +
+                "ODX_CropDescription_Uri: \"%s\", " +
                 "CD_MediaUri: \"%s\", " +
                 "ChlorideSensitive: \"%s\", " +
                 "CropDescriptionId: \"%s\", " +
@@ -255,6 +262,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 return tx.run(String.format(createCreateVarietyCommandFormat,
                         descriptionNodeName, description.getClassName(),
                         description.getUuId(),
+                        createOdxUri(description),
                         description.getMediaUri(),
                         description.isChlorideSensitive(),
                         description.getId(),
@@ -364,11 +372,12 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     public void uploadUnits(List<Units> units) {
         String createUnitCommandFormat = "CREATE (%s:%s{" +
+                "ODX_Units_UUId: \"%s\", " +
                 "ODX_Units_Uri: \"%s\", " +
-                "UnitId: \"%s\", " +
+                "UnitsId: \"%s\", " +
 //                "name: \"%s\", " +
-                "UnitName: \"%s\", " +
-                "UnitTags: \"%s\"})\n";
+                "UnitsName: \"%s\", " +
+                "UnitsTags: \"%s\"})\n";
 
         AtomicInteger count = new AtomicInteger(0);
         try (Session session = driver.session()) {
@@ -377,6 +386,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 String unitNodeName = createNodeName(unit.getName());
                 return tx.run(String.format(createUnitCommandFormat,
                         unitNodeName, unit.getClassName(),
+                        unit.getUuId(),
                         createOdxUri(unit),
                         unit.getId(),
 //                        unit.getName(),
@@ -391,7 +401,7 @@ public class PropertyGraphUploader implements AutoCloseable {
     public void uploadUnitConversions(List<UnitConversion> conversions, List<Units> units) {
         String createUnitConversionCommandFormat = "CREATE (%s:%s{" +
                 "ODX_UnitConversion_UUId: \"%s\", " +
-                "ODX_UC_Uri: \"%s\", " +
+                "ODX_UnitConversion_Uri: \"%s\", " +
                 "UnitConversionName: \"%s\", " +
                 "ConvertToUnitId: \"%s\", " +
                 "CountryId_Ref: \"%s\", " +

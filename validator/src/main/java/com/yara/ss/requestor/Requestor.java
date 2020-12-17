@@ -49,6 +49,9 @@ public class Requestor implements AutoCloseable {
                 "n.ODX_%2$s_UUId IS NULL " +
                 "RETURN COUNT(n)";
         String command = String.format(commandFormat, className, singleItemName);
+
+//        System.out.println(command);
+
         try (Session session = driver.session()) {
             nodesCount = session.readTransaction(tx -> {
                 Result result = tx.run(command);
@@ -65,7 +68,8 @@ public class Requestor implements AutoCloseable {
 
     private String getSingleItemName(String className) {
         if (className.endsWith("s") &&
-                !className.endsWith("ss")) {
+                !className.endsWith("ss") &&
+                !className.equals("Units")) {
 //            System.out.println(className);
             int lastIndex = className.lastIndexOf("s");
             String singleItemName = className.substring(0, lastIndex);
@@ -107,6 +111,9 @@ public class Requestor implements AutoCloseable {
                 "n.%2$sName IS NULL " +
                 "RETURN COUNT(n)";
         String command = String.format(commandFormat, className, singleItemName);
+
+        System.out.println(command);
+
         try (Session session = driver.session()) {
             nodesCount = session.readTransaction(tx -> {
                 Result result = tx.run(command);
