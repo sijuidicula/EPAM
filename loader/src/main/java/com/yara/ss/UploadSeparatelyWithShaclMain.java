@@ -15,6 +15,7 @@ public class UploadSeparatelyWithShaclMain {
     public static void main(String[] args) {
         Instant start = Instant.now();
 
+//        String shaclFileName = "/import/yara_crop_shacl.ttl";
         String shaclFileName = "C:/dev/repository/yara/loader/src/main/resources/yara_crop_shacl.ttl";
 
         String countryFileName = "loader/src/main/resources/Country.xlsx";
@@ -63,48 +64,48 @@ public class UploadSeparatelyWithShaclMain {
         collector.collectStatistics(cropSubClasses);
         collector.collectStatistics(cropVarieties);
         collector.collectStatistics(cropDescriptions);
-        collector.collectStatistics(cropDescVars); // why?
+//        collector.collectStatistics(cropDescVars); // why?
         collector.collectStatistics(growthScales);
         collector.collectStatistics(growthScaleStages);
-        collector.collectStatistics(cropRegions); // why?
+//        collector.collectStatistics(cropRegions); // why?
         collector.collectStatistics(nutrients);
         collector.collectStatistics(units);
         collector.collectStatistics(unitConversions);
         collector.collectStatistics(fertilizers);
-        collector.collectStatistics(fertilizerRegions); // why?
+//        collector.collectStatistics(fertilizerRegions); // why?
 
         reporter.createStatisticsFile();
         reporter.writeStatisticsToFileAsJson(collector);
 
-//        uploader.uploadShacl(shaclFileName);
-//        uploader.activateShaclValidationOfTransactions();
-//
-//        uploader.uploadCountries(countries);
-//        uploader.uploadRegions(regions, countries);
-//        uploader.createCountryToRegionRelations(countries, regions);
-//        uploader.uploadCropGroups(cropGroups);
-//        uploader.uploadCropClasses(cropClasses, cropGroups);
-//        uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
-//        uploader.uploadCropSubClasses(cropSubClasses, cropClasses);
-//        uploader.createCropClassToSubClassRelations(cropClasses, cropSubClasses);
-//        uploader.uploadCropVarieties(cropVarieties, cropSubClasses);
-//        uploader.createCropSubClassToVarietyRelations(cropSubClasses, cropVarieties);
-//        uploader.uploadCropDescriptions(cropDescriptions, cropSubClasses);
-//        uploader.createCropSubClassToDescriptionRelations(cropSubClasses, cropDescriptions);
-//        uploader.createCropVarietyToDescriptionRelations(cropVarieties, cropDescriptions, cropDescVars);
-//        uploader.uploadGrowthScales(growthScales);
-//        uploader.uploadGrowthScaleStages(growthScaleStages, growthScales);
-//        uploader.createGrowthScaleToStagesRelations(growthScales, growthScaleStages);
-//        uploader.createCropDescriptionsToRegionsRelations(cropDescriptions, regions, cropRegions);
-//        uploader.createCropDescriptionsToGrowthScaleRelations(cropDescriptions, growthScales, cropRegions);
-//        uploader.uploadNutrients(nutrients);
-//        uploader.uploadUnits(units);
-//        uploader.createNutrientsToUnitsRelations(nutrients, units);
-//        uploader.uploadUnitConversions(unitConversions, units);
-//        uploader.createUnitsToConversionsRelations(units, unitConversions);
-//        uploader.uploadFertilizers(fertilizers, fertilizerRegions, countries, regions);
-//        uploader.createFertilizersToRegionsRelations(fertilizers, regions, fertilizerRegions);
-//        uploader.createFertilizersToNutrientsRelations(fertilizers, nutrients, units);
+        uploader.uploadShacl(shaclFileName);
+        uploader.activateShaclValidationOfTransactions();
+
+        uploader.uploadCountries(countries);
+        uploader.uploadRegions(regions, countries);
+        uploader.createCountryToRegionRelations(countries, regions);
+        uploader.uploadCropGroups(cropGroups);
+        uploader.uploadCropClasses(cropClasses, cropGroups);
+        uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
+        uploader.uploadCropSubClasses(cropSubClasses, cropClasses);
+        uploader.createCropClassToSubClassRelations(cropClasses, cropSubClasses);
+        uploader.uploadCropVarieties(cropVarieties, cropSubClasses);
+        uploader.createCropSubClassToVarietyRelations(cropSubClasses, cropVarieties);
+        uploader.uploadCropDescriptions(cropDescriptions, cropSubClasses);
+        uploader.createCropSubClassToDescriptionRelations(cropSubClasses, cropDescriptions);
+        uploader.createCropVarietyToDescriptionRelations(cropVarieties, cropDescriptions, cropDescVars);
+        uploader.uploadGrowthScales(growthScales);
+        uploader.uploadGrowthScaleStages(growthScaleStages, growthScales);
+        uploader.createGrowthScaleToStagesRelations(growthScales, growthScaleStages);
+        uploader.createCropDescriptionsToRegionsRelations(cropDescriptions, regions, cropRegions);
+        uploader.createCropDescriptionsToGrowthScaleRelations(cropDescriptions, growthScales, cropRegions);
+        uploader.uploadNutrients(nutrients);
+        uploader.uploadUnits(units);
+        uploader.createNutrientsToUnitsRelations(nutrients, units);
+        uploader.uploadUnitConversions(unitConversions, units);
+        uploader.createUnitsToConversionsRelations(units, unitConversions);
+        uploader.uploadFertilizers(fertilizers, fertilizerRegions, countries, regions);
+        uploader.createFertilizersToRegionsRelations(fertilizers, regions, fertilizerRegions);
+        uploader.createFertilizersToNutrientsRelations(fertilizers, nutrients, units);
 
         uploader.close();
 

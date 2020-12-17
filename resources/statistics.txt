@@ -1,8 +1,6 @@
 {
   "GrowthScaleStages" : 773,
-  "FertilizerRegion" : 1774,
   "GrowthScale" : 21,
-  "CropDescriptionVariety" : 12056,
   "CropClass" : 52,
   "CropVariety" : 3011,
   "Units" : 100,
@@ -13,6 +11,6 @@
   "Region" : 305,
   "Nutrient" : 29,
   "CropDescription" : 441,
-  "CropSubClass" : 238,
-  "CropRegion" : 388
-}
+  "CropSubClass" : 238
+}Country,9
+Country,250

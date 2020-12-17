@@ -218,8 +218,13 @@ yara:CropDescriptionShape
     sh:property    [ sh:path  yara:hasGrowthScale ;
                      sh:class yara:GrowthScale ; ] ;
 #                    Need to check if Neo4j supports this
-#    sh:property    [ sh:path  [ sh:inversePath yara:hasCropDescription ] ;
-#                     sh:class [ sh:alternativePath ( yara:CropSubClass yara:CropVariety ) ] ; ] ;
+    sh:property    [ sh:path  [ sh:inversePath yara:hasCropDescription ] ;
+                     sh:class yara:CropSubClass ; ]
+#                     sh:property [ sh:path  yara:hasCropDescription ;
+#                                   sh:class yara:CropVariety ; ] )
+#    sh:property    [ sh:path yara:hasCropDescription ;
+#                     sh:or   ( [ sh:class yara:CropSubClass ; ]
+#                               [ sh:class yara:CropVariety ; ] ) ] ;
 .
 
 yara:CountryShape

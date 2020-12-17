@@ -11,9 +11,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class PropertyGraphUploader implements AutoCloseable {
 
-    //    private static final String URI = "bolt+s://odx-storage.yara.com:7687";
+//    private static final String URI = "bolt://52.87.18.107:32804";
+//    private static final String USER = "neo4j";
+//    private static final String PASSWORD = "diagnosis-lifeboats-completions";
+
+//    private static final String URI = "bolt+s://odx-storage.yara.com:7687";
 //    private static final String USER = "neo4j";
 //    private static final String PASSWORD = "MjY4Yjc0OTNmNjZmNzgxNDYyOWMzNDAz";
+
     private static final String URI = "bolt://localhost:7687";
     private static final String USER = "neo4j";
     private static final String PASSWORD = "1234";
@@ -36,7 +41,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "ODX_Country_UUId: \"%s\", " +
                 "ODX_Country_Uri: \"%s\", " +
                 "CountryId: \"%s\", " +
-                "name: \"%s\", " +
+//                "name: \"%s\", " +
                 "CountryName: \"%s\", " +
                 "ProductSetCode: \"%s\"})";
 //                "ODX_CS_UUId_Ref: \"%s\", " +
@@ -55,7 +60,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                             country.getUuId(),
                             createOdxUri(country),
                             country.getId(),
-                            country.getName(),
+//                            country.getName(),
                             country.getName(),
                             country.getProductSetCode())));
 //                            "dummy_CS_UUId_Ref",
@@ -81,7 +86,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "RegionId: \"%s\", " +
                 "Region_CountryId_Ref: \"%s\", " +
                 "Region_Country_UUId_Ref: \"%s\", " +
-                "name: \"%s\", " +
+//                "name: \"%s\", " +
                 "RegionName: \"%s\"})\n";
         try (Session session = driver.session()) {
             regions.forEach(region -> {
@@ -97,7 +102,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                                 region.getId(),
                                 region.getCountryId(),
                                 country.getUuId(),
-                                region.getName(),
+//                                region.getName(),
                                 region.getName()));
                     });
                 }
@@ -107,28 +112,13 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " Regions uploaded");
     }
 
-    private boolean existsInDatabase(Thing thing) {
-        boolean answer;
-        String existCheckQueryFormat = "MATCH (n) WHERE n.ODX_%s_UUId =\"%s\"" +
-                "RETURN count(n)>0";
-        String existCheckQuery = String.format(existCheckQueryFormat, thing.getClassName(), thing.getUuId().toString());
-
-        try (Session session = driver.session()) {
-            answer = session.readTransaction(tx -> {
-                List<Record> records = tx.run(existCheckQuery).list();
-                return records.get(0).get(0).asBoolean();
-            });
-        }
-        return answer;
-    }
-
     public void uploadCropGroups(List<CropGroup> cropGroups) {
         AtomicInteger count = new AtomicInteger(0);
         String createGroupFormat = "CREATE (%s:%s{" +
                 "CG_FAOId: \"%s\", " +
                 "CG_MediaUri: \"%s\", " +
                 "CropGroupId: \"%s\", " +
-                "name: \"%s\", " +
+//                "name: \"%s\", " +
                 "CropGroupName: \"%s\", " +
                 "ODX_CropGroup_UUId: \"%s\"})\n";
         try (Session session = driver.session()) {
@@ -140,7 +130,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         group.getFaoId(),
                         group.getMediaUri(),
                         group.getId(),
-                        group.getName(),
+//                        group.getName(),
                         group.getName(),
                         group.getUuId()));
             }));
@@ -158,7 +148,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "ODX_CG_UUId_Ref: \"%s\", " +
                 "CC_FAOId: \"%s\", " +
                 "CC_MediaUri: \"%s\", " +
-                "name: \"%s\", " +
+//                "name: \"%s\", " +
                 "CropClassName: \"%s\"})\n";
         try (Session session = driver.session()) {
             cropClasses.forEach(cropClass -> session.writeTransaction(tx -> {
@@ -173,7 +163,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         cropGroup.getUuId(),
                         cropClass.getFaoId(),
                         cropClass.getMediaUri(),
-                        cropClass.getName(),
+//                        cropClass.getName(),
                         cropClass.getName()));
             }));
         }
@@ -189,7 +179,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "ODX_CC_UUId_Ref: \"%s\", " +
                 "CSC_FAOId: \"%s\", " +
                 "CSC_MediaUri: \"%s\", " +
-                "name: \"%s\", " +
+//                "name: \"%s\", " +
                 "CropSubClassName: \"%s\"})\n";
 
         AtomicInteger count = new AtomicInteger(0);
@@ -206,7 +196,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         cropClass.getUuId(),
                         subClass.getFaoId(),
                         subClass.getMediaUri(),
-                        subClass.getName(),
+//                        subClass.getName(),
                         subClass.getName()));
             }));
         }
@@ -222,7 +212,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "CV_CropSubClassId_Ref: \"%s\", " +
                 "CV_CSC_UUId_Ref: \"%s\", " +
                 "CropVarietyId: \"%s\", " +
-                "name: \"%s\", " +
+//                "name: \"%s\", " +
                 "CropVarietyName: \"%s\"})\n";
         try (Session session = driver.session()) {
             cropVarieties.forEach(variety -> session.writeTransaction(tx -> {
@@ -236,7 +226,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         variety.getSubClassId(),
                         subClass.getUuId(),
                         variety.getId(),
-                        variety.getName(),
+//                        variety.getName(),
                         variety.getName()));
             }));
         }
@@ -250,7 +240,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "CD_MediaUri: \"%s\", " +
                 "ChlorideSensitive: \"%s\", " +
                 "CropDescriptionId: \"%s\", " +
-                "name: \"%s\", " +
+//                "name: \"%s\", " +
                 "CropDescriptionName: \"%s\", " +
                 "CD_CropSubClassId_Ref: \"%s\", " +
                 "CD_CSC_UUId_Ref: \"%s\", " +
@@ -268,7 +258,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         description.getMediaUri(),
                         description.isChlorideSensitive(),
                         description.getId(),
-                        description.getName(),
+//                        description.getName(),
                         description.getName(),
                         description.getSubClassId(),
                         subClass.getUuId(),
@@ -283,7 +273,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         String createGrowthScaleCommandFormat = "CREATE (%s:%s{" +
                 "ODX_GrowthScale_UUId: \"%s\", " +
                 "GrowthScaleId: \"%s\", " +
-                "name: \"%s\", " +
+//                "name: \"%s\", " +
                 "GrowthScaleName: \"%s\", " +
                 "ODX_GrowthScale_Uri: \"%s\"})\n";
 
@@ -296,7 +286,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         scaleNodeName, scale.getClassName(),
                         scale.getUuId(),
                         scale.getId(),
-                        scale.getName(),
+//                        scale.getName(),
                         scale.getName(),
                         createOdxUri(scale)));
             }));
@@ -346,7 +336,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "ODX_Nutrient_Uri: \"%s\", " +
                 "NutrientId: \"%s\", " +
                 "NutrientName: \"%s\", " +
-                "name: \"%s\", " +
+//                "name: \"%s\", " +
                 "ElementalName: \"%s\", " +
                 "Nutr_Ordinal: \"%s\", " +
                 "ODX_Nutr_SourceSystem: \"%s\"})\n";
@@ -362,7 +352,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         createOdxUri(nutrient),
                         nutrient.getId(),
                         nutrient.getName(),
-                        nutrient.getElementalName(),
+//                        nutrient.getElementalName(),
                         nutrient.getElementalName(),
                         nutrient.getNutrientOrdinal(),
                         "dummy_Polaris"));
@@ -376,7 +366,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         String createUnitCommandFormat = "CREATE (%s:%s{" +
                 "ODX_Units_Uri: \"%s\", " +
                 "UnitId: \"%s\", " +
-                "name: \"%s\", " +
+//                "name: \"%s\", " +
                 "UnitName: \"%s\", " +
                 "UnitTags: \"%s\"})\n";
 
@@ -389,7 +379,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         unitNodeName, unit.getClassName(),
                         createOdxUri(unit),
                         unit.getId(),
-                        unit.getName(),
+//                        unit.getName(),
                         unit.getName(),
                         unit.getTag()));
             }));
@@ -402,7 +392,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         String createUnitConversionCommandFormat = "CREATE (%s:%s{" +
                 "ODX_UnitConversion_UUId: \"%s\", " +
                 "ODX_UC_Uri: \"%s\", " +
-                "name: \"%s\", " +
+                "UnitConversionName: \"%s\", " +
                 "ConvertToUnitId: \"%s\", " +
                 "CountryId_Ref: \"%s\", " +
                 "Multiplier: \"%s\", " +
@@ -481,7 +471,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "Prod_RegionId_Ref: \"%s\", " +
                 "ProdCountry_UUId_Ref: \"%s\", " +
                 "ProdFamily: \"%s\", " +
-                "name: \"%s\", " +
+//                "name: \"%s\", " +
                 "ProdName: \"%s\", " +
                 "ProdRegion_UUId_Ref: \"%s\", " +
                 "ProductId: \"%s\", " +
@@ -555,7 +545,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         fertilizerRegion.getRegionId(),
                         country.getUuId(),
                         fertilizer.getFamily(),
-                        fertilizer.getName(),
+//                        fertilizer.getName(),
                         fertilizer.getName(),
                         region.getUuId(),
                         fertilizer.getId(),
@@ -579,48 +569,6 @@ public class PropertyGraphUploader implements AutoCloseable {
         }
         System.out.println("Fertilizer uploading completed");
         System.out.println(count.get() + " Fertilizers uploaded");
-    }
-
-    private Country getCountryFromCollectionById(List<Country> countries, String countryId) {
-        return countries.stream()
-                .filter(country -> country.getId().equals(countryId))
-                .findFirst()
-                .orElse(new Country(
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty"));
-
-    }
-
-    private Region getRegionFromCollectionById(List<Region> regions, String regionId) {
-        return regions.stream()
-                .filter(region -> region.getId().equals(regionId))
-                .findFirst()
-                .orElse(new Region(
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty"));
-
-    }
-
-    private FertilizerRegion getFertilizerRegionByProductId(List<FertilizerRegion> fertilizerRegions, String fertilizerId) {
-        return fertilizerRegions.stream()
-                .filter(fr -> fr.getProductId().equals(fertilizerId))
-                .findFirst()
-                //This is done because some productIds does not exist in Fertilizer_Reg file
-                .orElse(new FertilizerRegion(
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty"));
-//                .orElseThrow(() -> new NoSuchElementException(String.format("No element with id %s in FertilizerRegions collection", fertilizerId)));
     }
 
     public void createCountryToRegionRelations(List<Country> countries, List<Region> regions) {
@@ -670,15 +618,20 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     public void createCropSubClassToVarietyRelations(List<CropSubClass> subClasses, List<CropVariety> varieties) {
         AtomicInteger count = new AtomicInteger(0);
-        Map<CropSubClass, List<CropVariety>> map = getSubClassesVarietiesMap(subClasses, varieties);
-        for (Map.Entry<CropSubClass, List<CropVariety>> entry : map.entrySet()) {
-            CropSubClass subClass = entry.getKey();
-            List<CropVariety> relatedVarieties = entry.getValue();
-            relatedVarieties.forEach(variety -> {
-                createSubClassVarietyRelation(subClass, variety);
-                System.out.println(count.incrementAndGet() + " CSC to CV relations created");
-            });
-        }
+//        Map<CropSubClass, List<CropVariety>> map = getSubClassesVarietiesMap(subClasses, varieties);
+        varieties.forEach(variety -> {
+            CropSubClass subClass = (CropSubClass) getFromCollectionById(subClasses, variety.getSubClassId());
+            createSubClassVarietyRelation(subClass, variety);
+        });
+
+//        for (Map.Entry<CropSubClass, List<CropVariety>> entry : map.entrySet()) {
+//            CropSubClass subClass = entry.getKey();
+//            List<CropVariety> relatedVarieties = entry.getValue();
+//            relatedVarieties.forEach(variety -> {
+//                createSubClassVarietyRelation(subClass, variety);
+//                System.out.println(count.incrementAndGet() + " CSC to CV relations created");
+//            });
+//        }
         System.out.println("CropSubClass-CropVariety relation uploading completed");
         System.out.println(count.get() + " CropSubClass-CropVariety relations uploaded");
     }
@@ -840,34 +793,61 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     }
 
-    private void appendCropClassCommand(StringBuilder builder, CropClass cropClass, String newClassName, CropGroup cropGroup) {
-        String createClassFormat = "CREATE (%s:%s{" +
-                "CropClassId: \"%s\", " +
-                "CropGroupId_Ref: \"%s\", " +
-                "CC_FAOId: \"%s\", " +
-                "CC_MediaUri: \"%s\", " +
-                "name: \"%s\", " +
-                "CropClassName: \"%s\", " +
-                "ODX_CropClass_UUId: \"%s\", " +
-                "ODX_CropClass_URI: \"%s\", " +
-                "ODX_CG_UUId_Ref: \"%s\"})\n";
-        String createClassCommand = String.format(createClassFormat,
-                newClassName, cropClass.getClassName(),
-                cropClass.getId(),
-                cropClass.getGroupId(),
-                cropClass.getFaoId(),
-                cropClass.getMediaUri(),
-                cropClass.getName(),
-                cropClass.getName(),
-                cropClass.getUuId(),
-                createOdxUri(cropClass),
-                cropGroup.getUuId());
-        builder.append(createClassCommand);
+    private boolean existsInDatabase(Thing thing) {
+        boolean answer;
+        String existCheckQueryFormat = "MATCH (n) WHERE n.ODX_%s_UUId =\"%s\"" +
+                "RETURN count(n)>0";
+        String existCheckQuery = String.format(existCheckQueryFormat, thing.getClassName(), thing.getUuId().toString());
+
+        try (Session session = driver.session()) {
+            answer = session.readTransaction(tx -> {
+                List<Record> records = tx.run(existCheckQuery).list();
+                return records.get(0).get(0).asBoolean();
+            });
+        }
+        return answer;
     }
 
-    private void appendGroupClassRelationCommand(StringBuilder builder, String cropGroupNodeName, String cropClassNodeName) {
-        String createRelationFormat = "CREATE (%s)-[:HAS_CROP_CLASS]->(%s)";
-        builder.append(String.format(createRelationFormat, cropGroupNodeName, cropClassNodeName));
+    private Country getCountryFromCollectionById(List<Country> countries, String countryId) {
+        return countries.stream()
+                .filter(country -> country.getId().equals(countryId))
+                .findFirst()
+                .orElse(new Country(
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty"));
+
+    }
+
+    private Region getRegionFromCollectionById(List<Region> regions, String regionId) {
+        return regions.stream()
+                .filter(region -> region.getId().equals(regionId))
+                .findFirst()
+                .orElse(new Region(
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty"));
+
+    }
+
+    private FertilizerRegion getFertilizerRegionByProductId(List<FertilizerRegion> fertilizerRegions, String fertilizerId) {
+        return fertilizerRegions.stream()
+                .filter(fr -> fr.getProductId().equals(fertilizerId))
+                .findFirst()
+                //This is done because some productIds does not exist in Fertilizer_Reg file
+                .orElse(new FertilizerRegion(
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty"));
+//                .orElseThrow(() -> new NoSuchElementException(String.format("No element with id %s in FertilizerRegions collection", fertilizerId)));
     }
 
     private void createCountryRegionRelation(Country country, Region region) {
@@ -928,13 +908,6 @@ public class PropertyGraphUploader implements AutoCloseable {
         String matchStage = String.format("MATCH (stage:GrowthScaleStages{ODX_GrowthScaleStage_UUId:\"%s\"})\n", stage.getUuId());
         String createRelation = "CREATE (scale)-[:hasGrowthScaleStages]->(stage)";
         uploadRelationToDatabase(matchScale, matchStage, createRelation);
-    }
-
-    private void createDescriptionRegionRelation(CropDescription description, Region region) {
-        String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
-        String matchRegion = String.format("MATCH (region:Region{ODX_Region_UUId:\"%s\"})\n", region.getUuId());
-        String createRelation = "CREATE (description)-[:isAvailableIn]->(region)";
-        uploadRelationToDatabase(matchDescription, matchRegion, createRelation);
     }
 
     private void createDescriptionToRegionRelationWithProperties(CropRegion cropRegion,
@@ -1052,23 +1025,6 @@ public class PropertyGraphUploader implements AutoCloseable {
         return map;
     }
 
-    private Map<Region, List<CropDescription>> getDescriptionsRegionsMap(List<CropDescription> cropDescriptions,
-                                                                         List<Region> regions,
-                                                                         List<CropRegion> cropRegions) {
-        Map<Region, List<CropDescription>> map = new HashMap();
-        cropRegions.forEach(cr -> {
-            Region region = (Region) getFromCollectionById(regions, cr.getRegionIdRef());
-            CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, cr.getDescriptionId());
-            List<CropDescription> relatedDescriptions = new ArrayList<>();
-            if (map.containsKey(region)) {
-                relatedDescriptions = map.get(region);
-            }
-            relatedDescriptions.add(description);
-            map.put(region, relatedDescriptions);
-        });
-        return map;
-    }
-
     private Map<GrowthScale, List<CropDescription>> getGrowthScalesDescriptionsMap(List<CropDescription> cropDescriptions,
                                                                                    List<GrowthScale> growthScales,
                                                                                    List<CropRegion> cropRegions) {
@@ -1100,16 +1056,6 @@ public class PropertyGraphUploader implements AutoCloseable {
         });
         return map;
     }
-
-//    private Map<Nutrient, Unit> getNutrientsToUnitsMap(List<Nutrient> nutrients, List<Unit> units) {
-//        Map<Nutrient, Unit> map = new HashMap();
-//        nutrients.forEach(nutrient -> {
-//            Unit unit = getFromCollectionByName(units, nutrient.getElementalName());
-//            map.put(nutrient, unit);
-//        });
-//        return map;
-//    }
-
 
     private Map<Country, List<Region>> getCountryRegionMap(List<Country> countries, List<Region> regions) {
         Map<Country, List<Region>> map = new HashMap();
@@ -1160,11 +1106,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                 .orElseThrow(() -> new NoSuchElementException(String.format("No element with id %s in collection", id)));
     }
 
-    private boolean collectionContainsId(List<? extends Thing> things, String id) {
-        return things.stream()
-                .anyMatch(thing -> thing.getId().equals(id));
-    }
-
     private boolean existNutrientWithName(List<Nutrient> nutrients, String tag) {
         return nutrients.stream()
                 .anyMatch(nutrient -> nutrient.getElementalName().equals(tag));
@@ -1183,7 +1124,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException(String.format("No Nutrient with name %s in collection", tag)));
     }
-
 
     private String createNodeName(String oldName) {
         return oldName.replace("[^A-Za-z0-9]", "_")
@@ -1213,28 +1153,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                 .replace(")", "_RightRoundBracket_");
     }
 
-    private String composeCreateCropGroupCommand(CropGroup group) {
-        String createGroupFormat = "CREATE (%s:%s{" +
-                "CropGroupId: \"%s\", " +
-                "CG_FAOId: \"%s\", " +
-                "CG_MediaUri: \"%s\", " +
-                "name: \"%s\", " +
-                "CropGroupName: \"%s\", " +
-                "ODX_CropGroup_UUId: \"%s\", " +
-                "ODX_CropGroup_URI: \"%s\"})\n";
-        String newGroupName = createNodeName(group.getName());
-        String createGroupNode = String.format(createGroupFormat,
-                newGroupName, group.getClassName(),
-                group.getId(),
-                group.getFaoId(),
-                group.getMediaUri(),
-                group.getName(),
-                group.getName(),
-                group.getUuId(),
-                createOdxUri(group));
-        return new StringBuilder().append(createGroupNode).toString();
-    }
-
     private String createOdxUri(Thing thing) {
         return new StringBuilder()
                 .append("ODX/")
@@ -1244,38 +1162,126 @@ public class PropertyGraphUploader implements AutoCloseable {
                 .toString();
     }
 
-    private CropGroup createGroupFromExcel(String groupId) {
-        //Need to pass this variable from outside
-        String cropGroupFileName = "loader/src/main/resources/CropGroup.xlsx";
+    //    private Map<Nutrient, Unit> getNutrientsToUnitsMap(List<Nutrient> nutrients, List<Unit> units) {
+//        Map<Nutrient, Unit> map = new HashMap();
+//        nutrients.forEach(nutrient -> {
+//            Unit unit = getFromCollectionByName(units, nutrient.getElementalName());
+//            map.put(nutrient, unit);
+//        });
+//        return map;
+//    }
 
-        //May be need to pass this from outside as well
-        ExcelWorkbookReader excelWorkbookReader = new ExcelWorkbookReader();
+    //    private String composeCreateCropGroupCommand(CropGroup group) {
+//        String createGroupFormat = "CREATE (%s:%s{" +
+//                "CropGroupId: \"%s\", " +
+//                "CG_FAOId: \"%s\", " +
+//                "CG_MediaUri: \"%s\", " +
+//                "name: \"%s\", " +
+//                "CropGroupName: \"%s\", " +
+//                "ODX_CropGroup_UUId: \"%s\", " +
+//                "ODX_CropGroup_URI: \"%s\"})\n";
+//        String newGroupName = createNodeName(group.getName());
+//        String createGroupNode = String.format(createGroupFormat,
+//                newGroupName, group.getClassName(),
+//                group.getId(),
+//                group.getFaoId(),
+//                group.getMediaUri(),
+//                group.getName(),
+//                group.getName(),
+//                group.getUuId(),
+//                createOdxUri(group));
+//        return new StringBuilder().append(createGroupNode).toString();
+//    }
 
-        List<CropGroup> cropGroups = excelWorkbookReader.readCropGroupFromExcel(cropGroupFileName);
+//    private boolean collectionContainsId(List<? extends Thing> things, String id) {
+//        return things.stream()
+//                .anyMatch(thing -> thing.getId().equals(id));
+//    }
 
-        return cropGroups.stream()
-                .filter(group -> group.getId().equals(groupId))
-                .findAny()
-                .orElse(new CropGroup("dummy_group", "dummy_group", "dummy_group", "dummy_group", "dummy_group", "dummy_group"));
-    }
 
-    //TODO need to be implemented
-    public void createIncorrectCropClassRecord() {
+    //    private Map<Region, List<CropDescription>> getDescriptionsRegionsMap(List<CropDescription> cropDescriptions,
+//                                                                         List<Region> regions,
+//                                                                         List<CropRegion> cropRegions) {
+//        Map<Region, List<CropDescription>> map = new HashMap();
+//        cropRegions.forEach(cr -> {
+//            Region region = (Region) getFromCollectionById(regions, cr.getRegionIdRef());
+//            CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, cr.getDescriptionId());
+//            List<CropDescription> relatedDescriptions = new ArrayList<>();
+//            if (map.containsKey(region)) {
+//                relatedDescriptions = map.get(region);
+//            }
+//            relatedDescriptions.add(description);
+//            map.put(region, relatedDescriptions);
+//        });
+//        return map;
+//    }
 
-    }
 
-    public void createIncorrectGroupClassRelation() {
-        String commandFormat = "MATCH (rice:CropClass{name: 'Rice'})" +
-                "MATCH (maize:CropClass{name: 'Maize'})" +
-                "CREATE (rice)-[r:HAS_CROP_CLASS]->(maize)";
-        try (Session session = driver.session()) {
-            session.writeTransaction(tx -> tx.run(commandFormat));
-            System.out.println("Creating incorrect relation completed");
-        } catch (ClientException e) {
-            System.out.println("Creation of incorrect relation is impossible");
-            System.out.println(e.getMessage());
-        }
-    }
+    //    private void createDescriptionRegionRelation(CropDescription description, Region region) {
+//        String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
+//        String matchRegion = String.format("MATCH (region:Region{ODX_Region_UUId:\"%s\"})\n", region.getUuId());
+//        String createRelation = "CREATE (description)-[:isAvailableIn]->(region)";
+//        uploadRelationToDatabase(matchDescription, matchRegion, createRelation);
+//    }
+//
+
+    //    private void appendCropClassCommand(StringBuilder builder, CropClass cropClass, String newClassName, CropGroup cropGroup) {
+//        String createClassFormat = "CREATE (%s:%s{" +
+//                "CropClassId: \"%s\", " +
+//                "CropGroupId_Ref: \"%s\", " +
+//                "CC_FAOId: \"%s\", " +
+//                "CC_MediaUri: \"%s\", " +
+//                "name: \"%s\", " +
+//                "CropClassName: \"%s\", " +
+//                "ODX_CropClass_UUId: \"%s\", " +
+//                "ODX_CropClass_URI: \"%s\", " +
+//                "ODX_CG_UUId_Ref: \"%s\"})\n";
+//        String createClassCommand = String.format(createClassFormat,
+//                newClassName, cropClass.getClassName(),
+//                cropClass.getId(),
+//                cropClass.getGroupId(),
+//                cropClass.getFaoId(),
+//                cropClass.getMediaUri(),
+//                cropClass.getName(),
+//                cropClass.getName(),
+//                cropClass.getUuId(),
+//                createOdxUri(cropClass),
+//                cropGroup.getUuId());
+//        builder.append(createClassCommand);
+//    }
+
+    //    private void appendGroupClassRelationCommand(StringBuilder builder, String cropGroupNodeName, String cropClassNodeName) {
+//        String createRelationFormat = "CREATE (%s)-[:HAS_CROP_CLASS]->(%s)";
+//        builder.append(String.format(createRelationFormat, cropGroupNodeName, cropClassNodeName));
+//    }
+//
+//    private CropGroup createGroupFromExcel(String groupId) {
+//        //Need to pass this variable from outside
+//        String cropGroupFileName = "loader/src/main/resources/CropGroup.xlsx";
+//
+//        //May be need to pass this from outside as well
+//        ExcelWorkbookReader excelWorkbookReader = new ExcelWorkbookReader();
+//
+//        List<CropGroup> cropGroups = excelWorkbookReader.readCropGroupFromExcel(cropGroupFileName);
+//
+//        return cropGroups.stream()
+//                .filter(group -> group.getId().equals(groupId))
+//                .findAny()
+//                .orElse(new CropGroup("dummy_group", "dummy_group", "dummy_group", "dummy_group", "dummy_group", "dummy_group"));
+//    }
+
+//    public void createIncorrectGroupClassRelation() {
+//        String commandFormat = "MATCH (rice:CropClass{name: 'Rice'})" +
+//                "MATCH (maize:CropClass{name: 'Maize'})" +
+//                "CREATE (rice)-[r:HAS_CROP_CLASS]->(maize)";
+//        try (Session session = driver.session()) {
+//            session.writeTransaction(tx -> tx.run(commandFormat));
+//            System.out.println("Creating incorrect relation completed");
+//        } catch (ClientException e) {
+//            System.out.println("Creation of incorrect relation is impossible");
+//            System.out.println(e.getMessage());
+//        }
+//    }
 
     //    private boolean cropClassUUIdExistsInDatabase(UUID uuid) {
 //        boolean answer;
