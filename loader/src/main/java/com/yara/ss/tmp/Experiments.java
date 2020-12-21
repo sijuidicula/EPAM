@@ -54,12 +54,12 @@ public class Experiments {
         uploader.uploadShacl(shaclFileName);
         uploader.activateShaclValidationOfTransactions();
 
-        uploader.uploadCountries(countries);
-        uploader.uploadRegions(regions, countries);
-        uploader.createCountryToRegionRelations(countries, regions);
-        uploader.uploadCropGroups(cropGroups);
-        uploader.uploadCropClasses(cropClasses, cropGroups);
-        uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
+//        uploader.uploadCountries(countries);
+//        uploader.uploadRegions(regions, countries);
+//        uploader.createCountryToRegionRelations(countries, regions);
+//        uploader.uploadCropGroups(cropGroups);
+//        uploader.uploadCropClasses(cropClasses, cropGroups);
+//        uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
 //        uploader.uploadCropSubClasses(cropSubClasses, cropClasses);
 //        uploader.createCropClassToSubClassRelations(cropClasses, cropSubClasses);
 //        uploader.uploadCropVarieties(cropVarieties, cropSubClasses);
