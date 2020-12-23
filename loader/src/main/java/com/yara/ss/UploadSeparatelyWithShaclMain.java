@@ -82,34 +82,49 @@ public class UploadSeparatelyWithShaclMain {
 
 //        uploader.uploadCountries(countries);
 //        uploader.uploadRegions(regions, countries);
-//        uploader.createCountryToRegionRelations(countries, regions);
 //        uploader.uploadCropGroups(cropGroups);
 //        uploader.uploadCropClasses(cropClasses, cropGroups);
-//        uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
 //        uploader.uploadCropSubClasses(cropSubClasses, cropClasses);
-//        uploader.createCropClassToSubClassRelations(cropClasses, cropSubClasses);
 //        uploader.uploadCropVarieties(cropVarieties, cropSubClasses);
-//        uploader.createCropSubClassToVarietyRelations(cropSubClasses, cropVarieties);
 //        uploader.uploadCropDescriptions(cropDescriptions, cropSubClasses);
-//        uploader.createCropSubClassToDescriptionRelations(cropSubClasses, cropDescriptions);
-//        uploader.createCropVarietyToDescriptionRelations(cropVarieties, cropDescriptions, cropDescVars);
 //        uploader.uploadGrowthScales(growthScales);
 //        uploader.uploadGrowthScaleStages(growthScaleStages, growthScales);
-//        uploader.createGrowthScaleToStagesRelations(growthScales, growthScaleStages);
-//        uploader.createCropDescriptionsToRegionsRelations(cropDescriptions, regions, cropRegions);
-//        uploader.createCropDescriptionsToGrowthScaleRelations(cropDescriptions, growthScales, cropRegions);
 //        uploader.uploadNutrients(nutrients);
 //        uploader.uploadUnits(units);
-//        uploader.createNutrientsToUnitsRelations(nutrients, units);
 //        uploader.uploadUnitConversions(unitConversions, units);
-//        uploader.createUnitsToConversionsRelations(units, unitConversions);
-//        uploader.uploadFertilizers(fertilizers, fertilizerRegions, countries, regions);
-//        uploader.createFertilizersToRegionsRelations(fertilizers, regions, fertilizerRegions);
-//        uploader.createFertilizersToNutrientsRelations(fertilizers, nutrients, units);
-
+//        uploader.uploadFertilizers(fertilizers);
 
         uploader.uploadCountriesAsBatch(countries);
         uploader.uploadRegionsAsBatch(regions, countries);
+        uploader.uploadCropGroupsAsBatch(cropGroups);
+        uploader.uploadCropClassAsBatch(cropClasses, cropGroups);
+        uploader.uploadCropSubClassesAsBatch(cropSubClasses, cropClasses);
+        uploader.uploadCropVarietiesAsBatch(cropVarieties, cropSubClasses);
+        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses);
+        uploader.uploadGrowthScalesAsBatch(growthScales);
+        uploader.uploadGrowthScaleStagesAsBatch(growthScaleStages, growthScales);
+        uploader.uploadNutrientsAsBatch(nutrients);
+        uploader.uploadUnitsAsBatch(units);
+        uploader.uploadUnitConversionsAsBatch(unitConversions, units);
+        uploader.uploadFertilizersAsBatch(fertilizers);
+
+        uploader.createCountryToRegionRelations(countries, regions);
+        uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
+        uploader.createCropClassToSubClassRelations(cropClasses, cropSubClasses);
+        uploader.createCropSubClassToVarietyRelations(cropSubClasses, cropVarieties);
+        uploader.createCropSubClassToDescriptionRelations(cropSubClasses, cropDescriptions);
+        uploader.createCropVarietyToDescriptionRelations(cropVarieties, cropDescriptions, cropDescVars);
+        uploader.createGrowthScaleToStagesRelations(growthScales, growthScaleStages);
+        uploader.createCropDescriptionsToRegionsRelations(cropDescriptions, regions, cropRegions);
+        uploader.createCropDescriptionsToGrowthScaleRelations(cropDescriptions, growthScales, cropRegions);
+        uploader.createNutrientsToUnitsRelations(nutrients, units);
+        uploader.createUnitsToConversionsRelations(units, unitConversions);
+        uploader.createFertilizersToRegionsRelations(fertilizers, countries, regions, fertilizerRegions);
+        uploader.createFertilizersToNutrientsRelations(fertilizers, nutrients, units);
+
+
+//        uploader.uploadCountriesAsBatch(countries);
+//        uploader.uploadRegionsAsBatch(regions, countries);
 //        uploader.uploadCropGroupsAsBatch(cropGroups);
 //        uploader.uploadCropClassAsBatch(cropClasses, cropGroups);
 //        uploader.uploadCropSubClassesAsBatch(cropSubClasses, cropClasses);
@@ -121,20 +136,20 @@ public class UploadSeparatelyWithShaclMain {
 //        uploader.uploadUnitsAsBatch(units);
 //        uploader.uploadUnitConversionsAsBatch(unitConversions, units);
 //        uploader.uploadFertilizersAsBatch(fertilizers, fertilizerRegions, countries, regions);
-
-        uploader.createCountryToRegionRelationsAsBatch(countries, regions);
-        uploader.createCropGroupToClassRelationsAsBatch(cropGroups, cropClasses);
-        uploader.createCropClassToSubClassRelationsAsBatch(cropClasses, cropSubClasses);
-        uploader.createCropSubClassToVarietyRelationsAsBatch(cropSubClasses, cropVarieties);
-        uploader.createCropSubClassToDescriptionRelations(cropSubClasses, cropDescriptions);
-//        uploader.createCropVarietyToDescriptionRelations(cropVarieties, cropDescriptions, cropDescVars);
-//        uploader.createGrowthScaleToStagesRelations(growthScales, growthScaleStages);
-//        uploader.createCropDescriptionsToRegionsRelations(cropDescriptions, regions, cropRegions);
-//        uploader.createCropDescriptionsToGrowthScaleRelations(cropDescriptions, growthScales, cropRegions);
-//        uploader.createNutrientsToUnitsRelations(nutrients, units);
-//        uploader.createUnitsToConversionsRelations(units, unitConversions);
-//        uploader.createFertilizersToRegionsRelations(fertilizers, regions, fertilizerRegions);
-//        uploader.createFertilizersToNutrientsRelations(fertilizers, nutrients, units);
+//
+//        uploader.createCountryToRegionRelationsAsBatch(countries, regions);
+//        uploader.createCropGroupToClassRelationsAsBatch(cropGroups, cropClasses);
+//        uploader.createCropClassToSubClassRelationsAsBatch(cropClasses, cropSubClasses);
+//        uploader.createCropSubClassToVarietyRelationsAsBatch(cropSubClasses, cropVarieties);
+//        uploader.createCropSubClassToDescriptionRelationsAsBatch(cropSubClasses, cropDescriptions);
+//        uploader.createCropVarietyToDescriptionRelationsAsBatch(cropVarieties, cropDescriptions, cropDescVars);
+//        uploader.createGrowthScaleToStagesRelationsAsBatch(growthScales, growthScaleStages);
+//        uploader.createCropDescriptionsToRegionsRelationsAsBatch(cropDescriptions, regions, cropRegions);
+//        uploader.createCropDescriptionsToGrowthScaleRelationsAsBatch(cropDescriptions, growthScales, cropRegions);
+//        uploader.createNutrientsToUnitsRelationsAsBatch(nutrients, units);
+//        uploader.createUnitsToConversionsRelationsAsBatch(units, unitConversions);
+//        uploader.createFertilizersToRegionsRelationsAsBatch(fertilizers, regions, fertilizerRegions);
+//        uploader.createFertilizersToNutrientsRelationsAsBatch(fertilizers, nutrients, units);
 
         uploader.close();
 

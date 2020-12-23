@@ -2,7 +2,7 @@ package com.yara.ss.domain;
 
 import java.util.Objects;
 
-public class FertilizerRegion {
+public class FertilizerRegion implements Duplicate {
 
     private String id;
     private String countryId;
@@ -80,5 +80,18 @@ public class FertilizerRegion {
                 ", isAvailable='" + isAvailable + '\'' +
                 ", applicationTags='" + applicationTags + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean sameAs(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FertilizerRegion that = (FertilizerRegion) o;
+        return Objects.equals(countryId, that.countryId) &&
+                Objects.equals(regionId, that.regionId) &&
+                Objects.equals(localizedName, that.localizedName) &&
+                Objects.equals(productId, that.productId) &&
+                Objects.equals(isAvailable, that.isAvailable) &&
+                Objects.equals(applicationTags, that.applicationTags);
     }
 }

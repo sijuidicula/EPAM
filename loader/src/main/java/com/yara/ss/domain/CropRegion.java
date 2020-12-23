@@ -1,6 +1,8 @@
 package com.yara.ss.domain;
 
-public class CropRegion {
+import java.util.Objects;
+
+public class CropRegion implements Duplicate {
 
     private String id;
     private String descriptionId;
@@ -97,5 +99,45 @@ public class CropRegion {
                 ", demandBaseUnitId='" + demandBaseUnitId + '\'' +
                 ", additionalProperties='" + additionalProperties + '\'' +
                 "}\n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CropRegion that = (CropRegion) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(descriptionId, that.descriptionId) &&
+                Objects.equals(countryIdRef, that.countryIdRef) &&
+                Objects.equals(regionIdRef, that.regionIdRef) &&
+                Objects.equals(growthScaleIdRef, that.growthScaleIdRef) &&
+                Objects.equals(defaultSeedingDate, that.defaultSeedingDate) &&
+                Objects.equals(defaultHarvestDate, that.defaultHarvestDate) &&
+                Objects.equals(defaultYield, that.defaultYield) &&
+                Objects.equals(yieldBaseUnitId, that.yieldBaseUnitId) &&
+                Objects.equals(demandBaseUnitId, that.demandBaseUnitId) &&
+                Objects.equals(additionalProperties, that.additionalProperties);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, descriptionId, countryIdRef, regionIdRef, growthScaleIdRef, defaultSeedingDate, defaultHarvestDate, defaultYield, yieldBaseUnitId, demandBaseUnitId, additionalProperties);
+    }
+
+    @Override
+    public boolean sameAs(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CropRegion that = (CropRegion) o;
+        return Objects.equals(descriptionId, that.descriptionId) &&
+                Objects.equals(countryIdRef, that.countryIdRef) &&
+                Objects.equals(regionIdRef, that.regionIdRef) &&
+                Objects.equals(growthScaleIdRef, that.growthScaleIdRef) &&
+//                Objects.equals(def aultSeedingDate, that.defaultSeedingDate) &&
+//                Objects.equals(defaultHarvestDate, that.defaultHarvestDate) &&
+//                Objects.equals(defaultYield, that.defaultYield) &&
+                Objects.equals(yieldBaseUnitId, that.yieldBaseUnitId) &&
+                Objects.equals(demandBaseUnitId, that.demandBaseUnitId) &&
+                Objects.equals(additionalProperties, that.additionalProperties);
     }
 }

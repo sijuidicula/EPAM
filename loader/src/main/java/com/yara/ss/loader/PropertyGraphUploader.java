@@ -1,29 +1,29 @@
 package com.yara.ss.loader;
 
 import com.yara.ss.domain.*;
-import com.yara.ss.reporter.StatisticsReporter;
 import org.neo4j.driver.*;
-import org.neo4j.driver.internal.shaded.io.netty.util.concurrent.SingleThreadEventExecutor;
 
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PropertyGraphUploader implements AutoCloseable {
 
-    //    private static final String URI = "bolt+s://odx-storage.yara.com:7687";
-//    private static final String USER = "neo4j";
-//    private static final String PASSWORD = "MjY4Yjc0OTNmNjZmNzgxNDYyOWMzNDAz";
-//
-    private static final String URI = "bolt://localhost:7687";
+    private static final String URI = "bolt+s://odx-storage.yara.com:7687";
     private static final String USER = "neo4j";
-    private static final String PASSWORD = "1234";
+    private static final String PASSWORD = "MjY4Yjc0OTNmNjZmNzgxNDYyOWMzNDAz";
+
+//    private static final String URI = "bolt://localhost:7687";
+//    private static final String USER = "neo4j";
+//    private static final String PASSWORD = "1234";
+
     public static final int BUILDER_LENGTH_THRESHOLD = 300_000;
+    public static final int BUILDER_LENGTH_THRESHOLD_FOR_RELATIONS = 100_000;
+    public static final int NODES_BATCH_SIZE = 25;
+    public static final int RELATION_BATCH_SIZE = 25;
 
     private final Driver driver;
-    private final StatisticsReporter reporter = new StatisticsReporter();
 
+    //    private final StatisticsReporter reporter = new StatisticsReporter();
     public PropertyGraphUploader() {
         driver = GraphDatabase.driver(URI, AuthTokens.basic(USER, PASSWORD));
     }
@@ -97,6 +97,9 @@ public class PropertyGraphUploader implements AutoCloseable {
                     country.getName(),
                     country.getProductSetCode());
             builder.append(createCountryCommand);
+            if (count.get() % NODES_BATCH_SIZE == 0) {
+                flushBuilderForNodes(builder, count.get(), country.getClassName());
+            }
         });
         writeToGraph(builder);
         System.out.println(count.get() + " Countries uploaded");
@@ -160,6 +163,9 @@ public class PropertyGraphUploader implements AutoCloseable {
                     country.getUuId(),
                     region.getName());
             builder.append(createRegionCommand);
+            if (count.get() % NODES_BATCH_SIZE == 0) {
+                flushBuilderForNodes(builder, count.get(), region.getClassName());
+            }
         });
 
         writeToGraph(builder);
@@ -218,6 +224,9 @@ public class PropertyGraphUploader implements AutoCloseable {
                     createOdxUri(group),
                     group.getUuId());
             builder.append(createGroupCommand);
+            if (count.get() % NODES_BATCH_SIZE == 0) {
+                flushBuilderForNodes(builder, count.get(), group.getClassName());
+            }
         });
         writeToGraph(builder);
         System.out.println(count.get() + " CropGroups uploaded");
@@ -285,6 +294,9 @@ public class PropertyGraphUploader implements AutoCloseable {
                     cropClass.getMediaUri(),
                     cropClass.getName());
             builder.append(createClassCommand);
+            if (count.get() % NODES_BATCH_SIZE == 0) {
+                flushBuilderForNodes(builder, count.get(), cropClass.getClassName());
+            }
         });
         writeToGraph(builder);
         System.out.println(count.get() + " CropClasses uploaded");
@@ -353,6 +365,9 @@ public class PropertyGraphUploader implements AutoCloseable {
                     subClass.getMediaUri(),
                     subClass.getName());
             builder.append(createClassCommand);
+            if (count.get() % NODES_BATCH_SIZE == 0) {
+                flushBuilderForNodes(builder, count.get(), subClass.getClassName());
+            }
         });
         writeToGraph(builder);
         System.out.println(count.get() + " CropSubClasses uploaded");
@@ -412,7 +427,9 @@ public class PropertyGraphUploader implements AutoCloseable {
                     variety.getId(),
                     variety.getName());
             builder.append(createVarietyCommand);
-            flushBuilder(builder);
+            if (count.get() % NODES_BATCH_SIZE == 0) {
+                flushBuilderForNodes(builder, count.get(), variety.getClassName());
+            }
         });
         writeToGraph(builder);
         System.out.println(count.get() + " CropVarieties uploaded");
@@ -485,6 +502,9 @@ public class PropertyGraphUploader implements AutoCloseable {
                     subClass.getUuId(),
                     "dummy_Polaris");
             builder.append(createDescriptionCommand);
+            if (count.get() % NODES_BATCH_SIZE == 0) {
+                flushBuilderForNodes(builder, count.get(), description.getClassName());
+            }
         });
         writeToGraph(builder);
         System.out.println(count.get() + " CropDescriptions uploaded");
@@ -535,6 +555,9 @@ public class PropertyGraphUploader implements AutoCloseable {
                     scale.getName(),
                     createOdxUri(scale));
             builder.append(createGrowthScaleCommand);
+            if (count.get() % NODES_BATCH_SIZE == 0) {
+                flushBuilderForNodes(builder, count.get(), scale.getClassName());
+            }
         });
 
         writeToGraph(builder);
@@ -606,6 +629,9 @@ public class PropertyGraphUploader implements AutoCloseable {
                     "dummy_Polaris",
                     stage.getOrdinal());
             builder.append(createGrowthScaleCommand);
+            if (count.get() % NODES_BATCH_SIZE == 0) {
+                flushBuilderForNodes(builder, count.get(), stage.getClassName());
+            }
         });
 
         writeToGraph(builder);
@@ -669,6 +695,9 @@ public class PropertyGraphUploader implements AutoCloseable {
                     nutrient.getNutrientOrdinal(),
                     "dummy_Polaris");
             builder.append(createNutrientCommand);
+            if (count.get() % NODES_BATCH_SIZE == 0) {
+                flushBuilderForNodes(builder, count.get(), nutrient.getClassName());
+            }
         });
 
         writeToGraph(builder);
@@ -724,6 +753,9 @@ public class PropertyGraphUploader implements AutoCloseable {
                     unit.getName(),
                     unit.getTag());
             builder.append(createUnitCommand);
+            if (count.get() % NODES_BATCH_SIZE == 0) {
+                flushBuilderForNodes(builder, count.get(), unit.getClassName());
+            }
         });
 
         writeToGraph(builder);
@@ -795,18 +827,18 @@ public class PropertyGraphUploader implements AutoCloseable {
                     conversion.getUnitIdRef(),
                     "dummy_Polaris");
             builder.append(createConversionCommand);
+            if (count.get() % NODES_BATCH_SIZE == 0) {
+                flushBuilderForNodes(builder, count.get(), conversion.getClassName());
+            }
         });
 
         writeToGraph(builder);
         System.out.println(count.get() + " UnitConversions uploaded");
     }
 
-    public void uploadFertilizers(List<Fertilizers> fertilizers,
-                                  List<FertilizerRegion> fertilizerRegions,
-                                  List<Country> countries,
-                                  List<Region> regions) {
+    public void uploadFertilizers(List<Fertilizers> fertilizers) {
         String createFertilizerCommandFormat = "CREATE (%s:%s{" +
-                "ApplicationTags: \"%s\", " +
+//                "ApplicationTags: \"%s\", " +
                 "B: \"%s\", " +
                 "BUnitId: \"%s\", " +
                 "Ca: \"%s\", " +
@@ -821,11 +853,11 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "ElectricalConductivity: \"%s\", " +
                 "Fe: \"%s\", " +
                 "FeUnitId: \"%s\", " +
-                "IsAvailable: \"%s\", " +
+//                "IsAvailable: \"%s\", " +
                 "K: \"%s\", " +
                 "KUnitId: \"%s\", " +
                 "LastSync: \"%s\", " +
-                "LocalizedName: \"%s\", " +
+//                "LocalizedName: \"%s\", " +
                 "LowChloride: \"%s\", " +
                 "Mg: \"%s\", " +
                 "MgUnitId: \"%s\", " +
@@ -845,13 +877,13 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "P: \"%s\", " +
                 "PUnitId: \"%s\", " +
                 "Ph: \"%s\", " +
-                "Prod_CountryId_Ref: \"%s\", " +
-                "Prod_RegionId_Ref: \"%s\", " +
-                "ProdCountry_UUId_Ref: \"%s\", " +
+//                "Prod_CountryId_Ref: \"%s\", " +
+//                "Prod_RegionId_Ref: \"%s\", " +
+//                "ProdCountry_UUId_Ref: \"%s\", " +
                 "ProdFamily: \"%s\", " +
 //                "name: \"%s\", " +
                 "ProdName: \"%s\", " +
-                "ProdRegion_UUId_Ref: \"%s\", " +
+//                "ProdRegion_UUId_Ref: \"%s\", " +
                 "ProductId: \"%s\", " +
                 "ProductType: \"%s\", " +
                 "S: \"%s\", " +
@@ -874,13 +906,13 @@ public class PropertyGraphUploader implements AutoCloseable {
         try (Session session = driver.session()) {
             fertilizers.forEach(fertilizer -> session.writeTransaction(tx -> {
                 System.out.println("Uploading Fertilizer # " + count.incrementAndGet());
-                FertilizerRegion fertilizerRegion = getFertilizerRegionByProductId(fertilizerRegions, fertilizer.getId());
-                Country country = getCountryFromCollectionById(countries, fertilizerRegion.getCountryId());
-                Region region = getRegionFromCollectionById(regions, fertilizerRegion.getRegionId());
+//                FertilizerRegion fertilizerRegion = getFertilizerRegionByProductId(fertilizerRegions, fertilizer.getId());
+//                Country country = getCountryFromCollectionById(countries, fertilizerRegion.getCountryId());
+//                Region region = getRegionFromCollectionById(regions, fertilizerRegion.getRegionId());
                 String nodeName = createNodeName(fertilizer.getName());
                 return tx.run(String.format(createFertilizerCommandFormat,
                         nodeName, fertilizer.getClassName(),
-                        fertilizerRegion.getApplicationTags(),
+//                        fertilizerRegion.getApplicationTags(),
                         fertilizer.getB(),
                         fertilizer.getBUnitId(),
                         fertilizer.getCa(),
@@ -895,11 +927,11 @@ public class PropertyGraphUploader implements AutoCloseable {
                         fertilizer.getElectricalConductivity(),
                         fertilizer.getFe(),
                         fertilizer.getFeUnitId(),
-                        fertilizerRegion.getIsAvailable(),
+//                        fertilizerRegion.getIsAvailable(),
                         fertilizer.getK(),
                         fertilizer.getKUnitId(),
                         fertilizer.getLastSync(),
-                        fertilizerRegion.getLocalizedName(),
+//                        fertilizerRegion.getLocalizedName(),
                         fertilizer.getLowChloride(),
                         fertilizer.getMg(),
                         fertilizer.getMgUnitId(),
@@ -919,13 +951,13 @@ public class PropertyGraphUploader implements AutoCloseable {
                         fertilizer.getP(),
                         fertilizer.getPUnitId(),
                         fertilizer.getPh(),
-                        fertilizerRegion.getCountryId(),
-                        fertilizerRegion.getRegionId(),
-                        country.getUuId(),
+//                        fertilizerRegion.getCountryId(),
+//                        fertilizerRegion.getRegionId(),
+//                        country.getUuId(),
                         fertilizer.getFamily(),
 //                        fertilizer.getName(),
                         fertilizer.getName(),
-                        region.getUuId(),
+//                        region.getUuId(),
                         fertilizer.getId(),
                         fertilizer.getType(),
                         fertilizer.getS(),
@@ -949,14 +981,11 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " Fertilizers uploaded");
     }
 
-    public void uploadFertilizersAsBatch(List<Fertilizers> fertilizers,
-                                         List<FertilizerRegion> fertilizerRegions,
-                                         List<Country> countries,
-                                         List<Region> regions) {
+    public void uploadFertilizersAsBatch(List<Fertilizers> fertilizers) {
         AtomicInteger count = new AtomicInteger(0);
         StringBuilder builder = new StringBuilder();
         String createFertilizerFormat = "CREATE (%s:%s{" +
-                "ApplicationTags: \"%s\", " +
+//                "ApplicationTags: \"%s\", " +
                 "B: \"%s\", " +
                 "BUnitId: \"%s\", " +
                 "Ca: \"%s\", " +
@@ -971,11 +1000,11 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "ElectricalConductivity: \"%s\", " +
                 "Fe: \"%s\", " +
                 "FeUnitId: \"%s\", " +
-                "IsAvailable: \"%s\", " +
+//                "IsAvailable: \"%s\", " +
                 "K: \"%s\", " +
                 "KUnitId: \"%s\", " +
                 "LastSync: \"%s\", " +
-                "LocalizedName: \"%s\", " +
+//                "LocalizedName: \"%s\", " +
                 "LowChloride: \"%s\", " +
                 "Mg: \"%s\", " +
                 "MgUnitId: \"%s\", " +
@@ -995,12 +1024,12 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "P: \"%s\", " +
                 "PUnitId: \"%s\", " +
                 "Ph: \"%s\", " +
-                "Prod_CountryId_Ref: \"%s\", " +
-                "Prod_RegionId_Ref: \"%s\", " +
-                "ProdCountry_UUId_Ref: \"%s\", " +
+//                "Prod_CountryId_Ref: \"%s\", " +
+//                "Prod_RegionId_Ref: \"%s\", " +
+//                "ProdCountry_UUId_Ref: \"%s\", " +
                 "ProdFamily: \"%s\", " +
                 "ProdName: \"%s\", " +
-                "ProdRegion_UUId_Ref: \"%s\", " +
+//                "ProdRegion_UUId_Ref: \"%s\", " +
                 "ProductId: \"%s\", " +
                 "ProductType: \"%s\", " +
                 "S: \"%s\", " +
@@ -1021,13 +1050,13 @@ public class PropertyGraphUploader implements AutoCloseable {
 
         fertilizers.forEach(fertilizer -> {
             count.incrementAndGet();
-            FertilizerRegion fertilizerRegion = getFertilizerRegionByProductId(fertilizerRegions, fertilizer.getId());
-            Country country = getCountryFromCollectionById(countries, fertilizerRegion.getCountryId());
-            Region region = getRegionFromCollectionById(regions, fertilizerRegion.getRegionId());
+//            FertilizerRegion fertilizerRegion = getFertilizerRegionByProductId(fertilizerRegions, fertilizer.getId());
+//            Country country = getCountryFromCollectionById(countries, fertilizerRegion.getCountryId());
+//            Region region = getRegionFromCollectionById(regions, fertilizerRegion.getRegionId());
             String fertilizerNodeName = createUniqueNodeName(fertilizer.getName(), Integer.toString(count.get()));
             String createConversionCommand = String.format(createFertilizerFormat,
                     fertilizerNodeName, fertilizer.getClassName(),
-                    fertilizerRegion.getApplicationTags(),
+//                    fertilizerRegion.getApplicationTags(),
                     fertilizer.getB(),
                     fertilizer.getBUnitId(),
                     fertilizer.getCa(),
@@ -1042,11 +1071,11 @@ public class PropertyGraphUploader implements AutoCloseable {
                     fertilizer.getElectricalConductivity(),
                     fertilizer.getFe(),
                     fertilizer.getFeUnitId(),
-                    fertilizerRegion.getIsAvailable(),
+//                    fertilizerRegion.getIsAvailable(),
                     fertilizer.getK(),
                     fertilizer.getKUnitId(),
                     fertilizer.getLastSync(),
-                    fertilizerRegion.getLocalizedName(),
+//                    fertilizerRegion.getLocalizedName(),
                     fertilizer.getLowChloride(),
                     fertilizer.getMg(),
                     fertilizer.getMgUnitId(),
@@ -1066,12 +1095,12 @@ public class PropertyGraphUploader implements AutoCloseable {
                     fertilizer.getP(),
                     fertilizer.getPUnitId(),
                     fertilizer.getPh(),
-                    fertilizerRegion.getCountryId(),
-                    fertilizerRegion.getRegionId(),
-                    country.getUuId(),
+//                    fertilizerRegion.getCountryId(),
+//                    fertilizerRegion.getRegionId(),
+//                    country.getUuId(),
                     fertilizer.getFamily(),
                     fertilizer.getName(),
-                    region.getUuId(),
+//                    region.getUuId(),
                     fertilizer.getId(),
                     fertilizer.getType(),
                     fertilizer.getS(),
@@ -1090,9 +1119,10 @@ public class PropertyGraphUploader implements AutoCloseable {
                     fertilizer.getZn(),
                     fertilizer.getZnUnitId());
             builder.append(createConversionCommand);
-            flushBuilder(builder);
+            if (count.get() % NODES_BATCH_SIZE == 0) {
+                flushBuilderForNodes(builder, count.get(), fertilizer.getClassName());
+            }
         });
-
         writeToGraph(builder);
         System.out.println(count.get() + " Fertilizers uploaded");
     }
@@ -1117,7 +1147,9 @@ public class PropertyGraphUploader implements AutoCloseable {
             count.incrementAndGet();
             Country country = (Country) getFromCollectionById(countries, region.getCountryId());
             appendCountryRegionRelation(country, region, matchBuilder, createBuilder, count);
-            flushBuilders(matchBuilder, createBuilder);
+            if (count.get() % RELATION_BATCH_SIZE == 0) {
+                flushBuildersForRelations(matchBuilder, createBuilder, count.get(), country.getClassName(), region.getClassName());
+            }
         });
         writeBuildersToGraph(matchBuilder, createBuilder);
         System.out.println(count.get() + " Country-Region relations uploaded");
@@ -1134,12 +1166,20 @@ public class PropertyGraphUploader implements AutoCloseable {
         }
     }
 
+    private void flushBuildersForRelations(StringBuilder matchBuilder, StringBuilder createBuilder, int count, String fromNode, String toNode) {
+        writeBuildersToGraph(matchBuilder, createBuilder);
+        matchBuilder.delete(0, matchBuilder.length());
+        createBuilder.delete(0, createBuilder.length());
+        System.out.println(String.format("Totally uploaded %d of %s-%s relations from builder to graph", count, fromNode, toNode));
+    }
+
     private void writeBuildersToGraph(StringBuilder matchBuilder, StringBuilder createBuilder) {
-        System.out.println("Started writing to graph");
+        if (matchBuilder.length() + createBuilder.length() == 0) return;
+//        System.out.print("Started writing to graph *** ");
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> tx.run(matchBuilder.append(createBuilder.toString()).toString()));
         }
-        System.out.println("Completed writing to graph");
+//        System.out.print("Completed writing to graph *** ");
     }
 
     public void createCropGroupToClassRelations(List<CropGroup> groups, List<CropClass> classes) {
@@ -1162,7 +1202,10 @@ public class PropertyGraphUploader implements AutoCloseable {
             count.incrementAndGet();
             CropGroup group = (CropGroup) getFromCollectionById(groups, cropClass.getGroupId());
             appendGroupClassRelation(group, cropClass, matchBuilder, createBuilder, count);
-            flushBuilders(matchBuilder, createBuilder);
+            if (count.get() % RELATION_BATCH_SIZE == 0) {
+                flushBuildersForRelations(matchBuilder, createBuilder, count.get(), group.getClassName(), cropClass.getClassName());
+            }
+//            flushBuilders(matchBuilder, createBuilder);
         });
         writeBuildersToGraph(matchBuilder, createBuilder);
         System.out.println(count.get() + " Group-Class relations uploaded");
@@ -1188,7 +1231,10 @@ public class PropertyGraphUploader implements AutoCloseable {
             count.incrementAndGet();
             CropClass cropClass = (CropClass) getFromCollectionById(cropClasses, subClass.getClassId());
             appendClassSubClassRelation(cropClass, subClass, matchBuilder, createBuilder, count);
-            flushBuilders(matchBuilder, createBuilder);
+            if (count.get() % RELATION_BATCH_SIZE == 0) {
+                flushBuildersForRelations(matchBuilder, createBuilder, count.get(), cropClass.getClassName(), subClass.getClassName());
+            }
+//            flushBuilders(matchBuilder, createBuilder);
         });
         writeBuildersToGraph(matchBuilder, createBuilder);
         System.out.println(count.get() + " Class-SubClass relations uploaded");
@@ -1202,7 +1248,15 @@ public class PropertyGraphUploader implements AutoCloseable {
         }
     }
 
+    private void flushBuilderForNodes(StringBuilder builder, int count, String nodeType) {
+        writeToGraph(builder);
+        builder.delete(0, builder.length());
+        System.out.println(String.format("Totally uploaded %d of %s nodes from builder to graph", count, nodeType));
+    }
+
     private void writeToGraph(StringBuilder builder) {
+        if (builder.length() == 0) return;
+
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> tx.run(builder.toString()));
         }
@@ -1228,7 +1282,9 @@ public class PropertyGraphUploader implements AutoCloseable {
             count.incrementAndGet();
             CropSubClass subClass = (CropSubClass) getFromCollectionById(subClasses, variety.getSubClassId());
             appendSubClassVarietyRelation(subClass, variety, matchBuilder, createBuilder, count);
-            flushBuilders(matchBuilder, createBuilder);
+            if (count.get() % RELATION_BATCH_SIZE == 0) {
+                flushBuildersForRelations(matchBuilder, createBuilder, count.get(), subClass.getClassName(), variety.getClassName());
+            }
         });
         writeBuildersToGraph(matchBuilder, createBuilder);
         System.out.println(count.get() + " CropSubClass-CropVariety relations uploaded");
@@ -1246,6 +1302,23 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " CropSubClass-CropDescription relations uploaded");
     }
 
+    public void createCropSubClassToDescriptionRelationsAsBatch(List<CropSubClass> subClasses, List<CropDescription> descriptions) {
+        AtomicInteger count = new AtomicInteger(0);
+        StringBuilder matchBuilder = new StringBuilder();
+        StringBuilder createBuilder = new StringBuilder();
+        System.out.println("Started creating CropSubClass-CropDescription relations");
+        descriptions.forEach(description -> {
+            CropSubClass subClass = (CropSubClass) getFromCollectionById(subClasses, description.getSubClassId());
+            createSubClassDescriptionRelationWithBuilders(subClass, description, matchBuilder, createBuilder, count);
+            if (count.get() % RELATION_BATCH_SIZE == 0) {
+                flushBuildersForRelations(matchBuilder, createBuilder, count.get(), subClass.getClassName(), description.getClassName());
+            }
+//            flushBuilders(matchBuilder, createBuilder);
+        });
+        writeBuildersToGraph(matchBuilder, createBuilder);
+        System.out.println(count.get() + " CropSubClass-CropDescription relations uploaded");
+    }
+
     public void createCropVarietyToDescriptionRelations(List<CropVariety> cropVarieties,
                                                         List<CropDescription> cropDescriptions,
                                                         List<CropDescriptionVariety> cropDescVars) {
@@ -1257,6 +1330,26 @@ public class PropertyGraphUploader implements AutoCloseable {
             System.out.println(count.incrementAndGet() + " CV to CD relations created");
         });
         System.out.println("CropVariety-CropDescription relation uploading completed");
+        System.out.println(count.get() + " CropVariety-CropDescription relations uploaded");
+    }
+
+    public void createCropVarietyToDescriptionRelationsAsBatch(List<CropVariety> cropVarieties,
+                                                               List<CropDescription> cropDescriptions,
+                                                               List<CropDescriptionVariety> cropDescVars) {
+        AtomicInteger count = new AtomicInteger(0);
+        StringBuilder matchBuilder = new StringBuilder();
+        StringBuilder createBuilder = new StringBuilder();
+        System.out.println("Started creating CropVariety-CropDescription relations");
+        cropDescVars.forEach(descvar -> {
+            CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, descvar.getDescId());
+            CropVariety variety = (CropVariety) getFromCollectionById(cropVarieties, descvar.getVarId());
+            createVarietyDescriptionRelationWithBuilders(variety, description, matchBuilder, createBuilder, count);
+            if (count.get() % RELATION_BATCH_SIZE == 0) {
+                flushBuildersForRelations(matchBuilder, createBuilder, count.get(), variety.getClassName(), description.getClassName());
+            }
+//            flushBuilders(matchBuilder, createBuilder);
+        });
+        writeBuildersToGraph(matchBuilder, createBuilder);
         System.out.println(count.get() + " CropVariety-CropDescription relations uploaded");
     }
 
@@ -1275,6 +1368,26 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " CropDescription-Region relations uploaded");
     }
 
+    public void createCropDescriptionsToRegionsRelationsAsBatch(List<CropDescription> cropDescriptions,
+                                                                List<Region> regions,
+                                                                List<CropRegion> cropRegions) {
+        AtomicInteger count = new AtomicInteger(0);
+        StringBuilder matchBuilder = new StringBuilder();
+        StringBuilder createBuilder = new StringBuilder();
+        System.out.println("Started creating CropDescription-Region relations");
+        cropRegions.forEach(cropRegion -> {
+            Region region = (Region) getFromCollectionById(regions, cropRegion.getRegionIdRef());
+            CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, cropRegion.getDescriptionId());
+            createDescriptionToRegionRelationWithBuilders(cropRegion, description, region, matchBuilder, createBuilder, count);
+            if (count.get() % RELATION_BATCH_SIZE == 0) {
+                flushBuildersForRelations(matchBuilder, createBuilder, count.get(), description.getClassName(), region.getClassName());
+            }
+//            flushBuilders(matchBuilder, createBuilder);
+        });
+        writeBuildersToGraph(matchBuilder, createBuilder);
+        System.out.println(count.get() + " CropDescription-Region relations uploaded");
+    }
+
     public void createCropDescriptionsToGrowthScaleRelations(List<CropDescription> cropDescriptions,
                                                              List<GrowthScale> growthScales,
                                                              List<CropRegion> cropRegions) {
@@ -1282,10 +1395,30 @@ public class PropertyGraphUploader implements AutoCloseable {
         cropRegions.forEach(cr -> {
             GrowthScale scale = (GrowthScale) getFromCollectionById(growthScales, cr.getGrowthScaleIdRef());
             CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, cr.getDescriptionId());
-            createDescriptionGrowthScaleRelation(description, scale);
+            createDescriptionGrowthScaleRelation(description, scale, cr);
             System.out.println(count.incrementAndGet() + " CropDescription to GrowthScale relations created");
         });
         System.out.println("CropDescription-GrowthScale relation uploading completed");
+        System.out.println(count.get() + " CropDescription-GrowthScale relations uploaded");
+    }
+
+    public void createCropDescriptionsToGrowthScaleRelationsAsBatch(List<CropDescription> cropDescriptions,
+                                                                    List<GrowthScale> growthScales,
+                                                                    List<CropRegion> cropRegions) {
+        AtomicInteger count = new AtomicInteger(0);
+        StringBuilder matchBuilder = new StringBuilder();
+        StringBuilder createBuilder = new StringBuilder();
+        System.out.println("Started creating CropDescription-GrowthScale relations");
+        cropRegions.forEach(cr -> {
+            GrowthScale scale = (GrowthScale) getFromCollectionById(growthScales, cr.getGrowthScaleIdRef());
+            CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, cr.getDescriptionId());
+            createDescriptionGrowthScaleRelationWithBuilders(description, scale, matchBuilder, createBuilder, count);
+            if (count.get() % RELATION_BATCH_SIZE == 0) {
+                flushBuildersForRelations(matchBuilder, createBuilder, count.get(), description.getClassName(), scale.getClassName());
+            }
+//            flushBuilders(matchBuilder, createBuilder);
+        });
+        writeBuildersToGraph(matchBuilder, createBuilder);
         System.out.println(count.get() + " CropDescription-GrowthScale relations uploaded");
     }
 
@@ -1300,6 +1433,23 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " GrowthScale-GrowthScaleStage relations uploaded");
     }
 
+    public void createGrowthScaleToStagesRelationsAsBatch(List<GrowthScale> growthScales, List<GrowthScaleStages> growthScaleStages) {
+        AtomicInteger count = new AtomicInteger(0);
+        StringBuilder matchBuilder = new StringBuilder();
+        StringBuilder createBuilder = new StringBuilder();
+        System.out.println("Started creating GrowthScale-GrowthScaleStage relations");
+        growthScaleStages.forEach(stage -> {
+            GrowthScale scale = (GrowthScale) getFromCollectionById(growthScales, stage.getGrowthScaleId());
+            createGrowthScaleToStageRelationWithBuilders(scale, stage, matchBuilder, createBuilder, count);
+            if (count.get() % RELATION_BATCH_SIZE == 0) {
+                flushBuildersForRelations(matchBuilder, createBuilder, count.get(), scale.getClassName(), stage.getClassName());
+            }
+//            flushBuilders(matchBuilder, createBuilder);
+        });
+        writeBuildersToGraph(matchBuilder, createBuilder);
+        System.out.println(count.get() + " GrowthScale-GrowthScaleStage relations uploaded");
+    }
+
     public void createNutrientsToUnitsRelations(List<Nutrient> nutrients, List<Units> units) {
         AtomicInteger count = new AtomicInteger(0);
         nutrients.forEach(nutrient -> {
@@ -1308,6 +1458,23 @@ public class PropertyGraphUploader implements AutoCloseable {
             System.out.println(count.incrementAndGet() + " Nutrient to Unit relations created");
         });
         System.out.println("Nutrient-Unit relation uploading completed");
+        System.out.println(count.get() + " Nutrient-Unit relations uploaded");
+    }
+
+    public void createNutrientsToUnitsRelationsAsBatch(List<Nutrient> nutrients, List<Units> units) {
+        AtomicInteger count = new AtomicInteger(0);
+        StringBuilder matchBuilder = new StringBuilder();
+        StringBuilder createBuilder = new StringBuilder();
+        System.out.println("Started creating Nutrient-Unit relations");
+        nutrients.forEach(nutrient -> {
+            Units unit = getUnitByName(units, nutrient.getElementalName());
+            createNutrientToUnitRelationWithBuilders(nutrient, unit, matchBuilder, createBuilder, count);
+            if (count.get() % RELATION_BATCH_SIZE == 0) {
+                flushBuildersForRelations(matchBuilder, createBuilder, count.get(), nutrient.getClassName(), unit.getClassName());
+            }
+//            flushBuilders(matchBuilder, createBuilder);
+        });
+        writeBuildersToGraph(matchBuilder, createBuilder);
         System.out.println(count.get() + " Nutrient-Unit relations uploaded");
     }
 
@@ -1322,17 +1489,58 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " Unit-UnitConversion relations uploaded");
     }
 
-    public void createFertilizersToRegionsRelations(List<Fertilizers> fertilizers, List<Region> regions, List<FertilizerRegion> fertilizerRegions) {
+    public void createUnitsToConversionsRelationsAsBatch(List<Units> units, List<UnitConversion> conversions) {
+        AtomicInteger count = new AtomicInteger(0);
+        StringBuilder matchBuilder = new StringBuilder();
+        StringBuilder createBuilder = new StringBuilder();
+        System.out.println("Started creating Unit-UnitConversion relations");
+        conversions.forEach(conversion -> {
+            Units unit = (Units) getFromCollectionById(units, conversion.getUnitIdRef());
+            createUnitToConversionRelationWithBuilders(unit, conversion, matchBuilder, createBuilder, count);
+            if (count.get() % RELATION_BATCH_SIZE == 0) {
+                flushBuildersForRelations(matchBuilder, createBuilder, count.get(), unit.getClassName(), conversion.getClassName());
+            }
+//            flushBuilders(matchBuilder, createBuilder);
+        });
+        writeBuildersToGraph(matchBuilder, createBuilder);
+        System.out.println(count.get() + " Unit-UnitConversion relations uploaded");
+    }
+
+    public void createFertilizersToRegionsRelations(List<Fertilizers> fertilizers, List<Country> countries, List<Region> regions, List<FertilizerRegion> fertilizerRegions) {
         AtomicInteger count = new AtomicInteger(0);
         fertilizerRegions.forEach(fr -> {
             Fertilizers fertilizer = (Fertilizers) getFromCollectionById(fertilizers, fr.getProductId());
+            Country country = getCountryFromCollectionById(countries, fr.getCountryId());
             Region region = getRegionFromCollectionById(regions, fr.getRegionId());
+
             if (!region.getId().equals("empty")) {
-                createFertilizerToRegionRelation(fertilizer, region);
+                createFertilizerToRegionRelation(fertilizer, country, region, fr);
                 System.out.println(count.incrementAndGet() + " Fertilizer to Region relations created");
             }
         });
         System.out.println("Fertilizer-Region relation uploading completed");
+        System.out.println(count.get() + " Fertilizer-Region relations uploaded");
+    }
+
+    public void createFertilizersToRegionsRelationsAsBatch(List<Fertilizers> fertilizers,
+                                                           List<Region> regions,
+                                                           List<FertilizerRegion> fertilizerRegions) {
+        AtomicInteger count = new AtomicInteger(0);
+        StringBuilder matchBuilder = new StringBuilder();
+        StringBuilder createBuilder = new StringBuilder();
+        System.out.println("Started creating Fertilizer-Region relations");
+        fertilizerRegions.forEach(fr -> {
+            Fertilizers fertilizer = (Fertilizers) getFromCollectionById(fertilizers, fr.getProductId());
+            Region region = getRegionFromCollectionById(regions, fr.getRegionId());
+            if (!region.getId().equals("empty")) {
+                createFertilizerToRegionRelationWithBuilders(fertilizer, region, matchBuilder, createBuilder, count);
+                if (count.get() % RELATION_BATCH_SIZE == 0) {
+                    flushBuildersForRelations(matchBuilder, createBuilder, count.get(), fertilizer.getClassName(), region.getClassName());
+                }
+//            flushBuilders(matchBuilder, createBuilder);
+            }
+        });
+        writeBuildersToGraph(matchBuilder, createBuilder);
         System.out.println(count.get() + " Fertilizer-Region relations uploaded");
     }
 
@@ -1354,6 +1562,35 @@ public class PropertyGraphUploader implements AutoCloseable {
             }
         });
         System.out.println("Fertilizer-Nutrient relation uploading completed");
+        System.out.println(count.get() + " Fertilizer-Nutrient relations uploaded");
+    }
+
+    public void createFertilizersToNutrientsRelationsAsBatch(List<Fertilizers> fertilizers,
+                                                             List<Nutrient> nutrients,
+                                                             List<Units> units) {
+        AtomicInteger count = new AtomicInteger(0);
+        StringBuilder matchBuilder = new StringBuilder();
+        StringBuilder createBuilder = new StringBuilder();
+        System.out.println("Started creating Fertilizer-Nutrient relations");
+        fertilizers.forEach(fertilizer -> {
+            Map<String, String> nutrientUnitsContent = fertilizer.getNutrientUnitsContent();
+            for (Map.Entry<String, String> entry : nutrientUnitsContent.entrySet()) {
+                String nutrientUnitId = entry.getKey();
+                Units unit = (Units) getFromCollectionById(units, nutrientUnitId);
+                String nutrientValue = entry.getValue();
+                if (existNutrientWithName(nutrients, unit.getTag())
+                        && !nutrientValue.equals("0.0")
+                        && !nutrientValue.isEmpty()) {
+                    Nutrient nutrient = getNutrientByElementalName(nutrients, unit.getTag());
+                    createFertilizerToNutrientRelationWithBuilders(fertilizer, nutrient, matchBuilder, createBuilder, count);
+                    if (count.get() % RELATION_BATCH_SIZE == 0) {
+                        flushBuildersForRelations(matchBuilder, createBuilder, count.get(), fertilizer.getClassName(), nutrient.getClassName());
+                    }
+//            flushBuilders(matchBuilder, createBuilder);
+                }
+            }
+        });
+        writeBuildersToGraph(matchBuilder, createBuilder);
         System.out.println(count.get() + " Fertilizer-Nutrient relations uploaded");
     }
 
@@ -1439,11 +1676,13 @@ public class PropertyGraphUploader implements AutoCloseable {
         String matchCountry = String.format("MATCH (country:Country{ODX_Country_UUId:\"%s\"})\n", country.getUuId());
         String matchRegion = String.format("MATCH (region:Region{ODX_Region_UUId:\"%s\"})\n", region.getUuId());
         String createRelation = "CREATE (country)-[:hasRegion]->(region)";
+        uploadRelationToDatabase(matchCountry, matchRegion, createRelation);
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(matchCountry).append(matchRegion).append(createRelation);
+//        StringBuilder builder = new StringBuilder();
+//        builder.append(matchCountry).append(matchRegion).append(createRelation);
+//
+//        writeToGraph(builder);
 
-        writeToGraph(builder);
     }
 
     private void appendCountryRegionRelation(Country country,
@@ -1472,7 +1711,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                                           AtomicInteger count) {
         String matchGroup = String.format("MATCH (group_%d:CropGroup{ODX_CropGroup_UUId:\"%s\"})\n", count.get(), group.getUuId());
         String matchClass = String.format("MATCH (class_%d:CropClass{ODX_CropClass_UUId:\"%s\"})\n", count.get(), cropClass.getUuId());
-        String createRelation = String.format("CREATE (group_%1$d)-[:hasCropClass]->(class%1$d)\n", count.get());
+        String createRelation = String.format("CREATE (group_%1$d)-[:hasCropClass]->(class_%1$d)\n", count.get());
         matchBuilder.append(matchGroup).append(matchClass);
         createBuilder.append(createRelation);
     }
@@ -1522,6 +1761,18 @@ public class PropertyGraphUploader implements AutoCloseable {
         uploadRelationToDatabase(matchSubClass, matchDescription, createRelation);
     }
 
+    private void createSubClassDescriptionRelationWithBuilders(CropSubClass subClass,
+                                                               CropDescription description,
+                                                               StringBuilder matchBuilder,
+                                                               StringBuilder createBuilder,
+                                                               AtomicInteger count) {
+        String matchSubClass = String.format("MATCH (subClass_%d:CropSubClass{ODX_CropSubClass_UUId:\"%s\"})\n", count.get(), subClass.getUuId());
+        String matchDescription = String.format("MATCH (description_%d:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", count.get(), description.getUuId());
+        String createRelation = String.format("CREATE (subClass_%1$d)-[:hasCropDescription]->(description_%1$d)\n", count.get());
+        matchBuilder.append(matchSubClass).append(matchDescription);
+        createBuilder.append(createRelation);
+    }
+
     private void createVarietyDescriptionRelation(CropVariety variety, CropDescription description) {
         String matchVariety = String.format("MATCH (variety:CropVariety{ODX_CropVariety_UUId:\"%s\"})\n", variety.getUuId());
         String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
@@ -1533,11 +1784,40 @@ public class PropertyGraphUploader implements AutoCloseable {
         uploadRelationToDatabase(matchVariety, matchDescription, createRelation);
     }
 
+    private void createVarietyDescriptionRelationWithBuilders(CropVariety variety,
+                                                              CropDescription description,
+                                                              StringBuilder matchBuilder,
+                                                              StringBuilder createBuilder,
+                                                              AtomicInteger count) {
+        String matchVariety = String.format("MATCH (variety_%d:CropVariety{ODX_CropVariety_UUId:\"%s\"})\n", count.get(), variety.getUuId());
+        String matchDescription = String.format("MATCH (description_%d:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", count.get(), description.getUuId());
+        String createRelation = String.format("CREATE (variety_%1$d)-[:hasCropDescription {" +
+                        "CV_CropDescriptionId_Ref: \"%2$s\", " +
+                        "CV_CD_UUId_Ref: \"%3$s\"}]->(description_%1$d)",
+                count.get(),
+                description.getId(),
+                description.getUuId());
+        matchBuilder.append(matchVariety).append(matchDescription);
+        createBuilder.append(createRelation);
+    }
+
     private void createGrowthScaleToStageRelation(GrowthScale scale, GrowthScaleStages stage) {
         String matchScale = String.format("MATCH (scale:GrowthScale{ODX_GrowthScale_UUId:\"%s\"})\n", scale.getUuId());
         String matchStage = String.format("MATCH (stage:GrowthScaleStages{ODX_GrowthScaleStage_UUId:\"%s\"})\n", stage.getUuId());
         String createRelation = "CREATE (scale)-[:hasGrowthScaleStages]->(stage)";
         uploadRelationToDatabase(matchScale, matchStage, createRelation);
+    }
+
+    private void createGrowthScaleToStageRelationWithBuilders(GrowthScale scale,
+                                                              GrowthScaleStages stage,
+                                                              StringBuilder matchBuilder,
+                                                              StringBuilder createBuilder,
+                                                              AtomicInteger count) {
+        String matchScale = String.format("MATCH (scale_%d:GrowthScale{ODX_GrowthScale_UUId:\"%s\"})\n", count.get(), scale.getUuId());
+        String matchStage = String.format("MATCH (stage_%d:GrowthScaleStages{ODX_GrowthScaleStage_UUId:\"%s\"})\n", count.get(), stage.getUuId());
+        String createRelation = String.format("CREATE (scale_%1$d)-[:hasCropDescription]->(stage_%1$d)\n", count.get());
+        matchBuilder.append(matchScale).append(matchStage);
+        createBuilder.append(createRelation);
     }
 
     private void createDescriptionToRegionRelationWithProperties(CropRegion cropRegion,
@@ -1553,8 +1833,39 @@ public class PropertyGraphUploader implements AutoCloseable {
                         "DefaultHarvestDate: \"%s\", " +
                         "DefaultYield: \"%s\", " +
                         "YieldBaseUnitId: \"%s\", " +
+                        "DemandBaseUnitId: \"%s\", " +
+                        "CD_RegionIdRef: \"%s\"}]->(region)\n",
+                cropRegion.getAdditionalProperties().replace("\"", ""),
+                cropRegion.getCountryIdRef(),
+                cropRegion.getGrowthScaleIdRef(),
+                cropRegion.getDefaultSeedingDate(),
+                cropRegion.getDefaultHarvestDate(),
+                cropRegion.getDefaultYield(),
+                cropRegion.getYieldBaseUnitId(),
+                cropRegion.getDemandBaseUnitId(),
+                cropRegion.getRegionIdRef());
+        uploadRelationToDatabase(matchDescription, matchRegion, createRelation);
+    }
+
+    private void createDescriptionToRegionRelationWithBuilders(CropRegion cropRegion,
+                                                               CropDescription description,
+                                                               Region region,
+                                                               StringBuilder matchBuilder,
+                                                               StringBuilder createBuilder,
+                                                               AtomicInteger count) {
+        String matchDescription = String.format("MATCH (description_%d:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", count.get(), description.getUuId());
+        String matchRegion = String.format("MATCH (region_%d:Region{ODX_Region_UUId:\"%s\"})\n", count.get(), region.getUuId());
+        String createRelation = String.format("CREATE (description_%1$d)-[:isAvailableIn {" +
+                        "AdditionalProperties: \"%s\", " +
+                        "CD_CountryIdRef: \"%s\", " +
+                        "CD_GrowthScaleId_Ref: \"%s\", " +
+                        "DefaultSeedingDate: \"%s\", " +
+                        "DefaultHarvestDate: \"%s\", " +
+                        "DefaultYield: \"%s\", " +
+                        "YieldBaseUnitId: \"%s\", " +
                         "DemandBaseUnitId: \"%s\"" +
-                        "}]->(region)",
+                        "}]->(region_%1$d)",
+                count.get(),
                 cropRegion.getAdditionalProperties().replace("\"", ""),
                 cropRegion.getCountryIdRef(),
                 cropRegion.getGrowthScaleIdRef(),
@@ -1563,15 +1874,48 @@ public class PropertyGraphUploader implements AutoCloseable {
                 cropRegion.getDefaultYield(),
                 cropRegion.getYieldBaseUnitId(),
                 cropRegion.getDemandBaseUnitId());
-        uploadRelationToDatabase(matchDescription, matchRegion, createRelation);
+        matchBuilder.append(matchDescription).append(matchRegion);
+        createBuilder.append(createRelation);
     }
 
-
-    private void createDescriptionGrowthScaleRelation(CropDescription description, GrowthScale scale) {
+    private void createDescriptionGrowthScaleRelation(CropDescription description,
+                                                      GrowthScale scale,
+                                                      CropRegion cropRegion) {
         String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
         String matchScale = String.format("MATCH (scale:GrowthScale{ODX_GrowthScale_UUId:\"%s\"})\n", scale.getUuId());
-        String createRelation = "CREATE (description)-[:hasGrowthScale]->(scale)";
+        String createRelation = String.format("CREATE (description)-[:hasGrowthScale {" +
+                        "AdditionalProperties: \"%s\", " +
+                        "CD_CountryIdRef: \"%s\", " +
+                        "CD_GrowthScaleId_Ref: \"%s\", " +
+                        "DefaultSeedingDate: \"%s\", " +
+                        "DefaultHarvestDate: \"%s\", " +
+                        "DefaultYield: \"%s\", " +
+                        "YieldBaseUnitId: \"%s\", " +
+                        "DemandBaseUnitId: \"%s\", " +
+                        "CD_RegionIdRef: \"%s\"}]->(scale)\n",
+                cropRegion.getAdditionalProperties().replace("\"", ""),
+                cropRegion.getCountryIdRef(),
+                cropRegion.getGrowthScaleIdRef(),
+                cropRegion.getDefaultSeedingDate(),
+                cropRegion.getDefaultHarvestDate(),
+                cropRegion.getDefaultYield(),
+                cropRegion.getYieldBaseUnitId(),
+                cropRegion.getDemandBaseUnitId(),
+                cropRegion.getRegionIdRef());
+
         uploadRelationToDatabase(matchDescription, matchScale, createRelation);
+    }
+
+    private void createDescriptionGrowthScaleRelationWithBuilders(CropDescription description,
+                                                                  GrowthScale scale,
+                                                                  StringBuilder matchBuilder,
+                                                                  StringBuilder createBuilder,
+                                                                  AtomicInteger count) {
+        String matchDescription = String.format("MATCH (description_%d:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", count.get(), description.getUuId());
+        String matchScale = String.format("MATCH (scale_%d:GrowthScale{ODX_GrowthScale_UUId:\"%s\"})\n", count.get(), scale.getUuId());
+        String createRelation = String.format("CREATE (description_%1$d)-[:hasGrowthScale]->(scale_%1$d)\n", count.get());
+        matchBuilder.append(matchDescription).append(matchScale);
+        createBuilder.append(createRelation);
     }
 
     private void createNutrientToUnitRelation(Nutrient nutrient, Units unit) {
@@ -1581,6 +1925,18 @@ public class PropertyGraphUploader implements AutoCloseable {
         uploadRelationToDatabase(matchNutrient, matchUnit, createRelation);
     }
 
+    private void createNutrientToUnitRelationWithBuilders(Nutrient nutrient,
+                                                          Units unit,
+                                                          StringBuilder matchBuilder,
+                                                          StringBuilder createBuilder,
+                                                          AtomicInteger count) {
+        String matchNutrient = String.format("MATCH (nutrient_%d:Nutrient{ODX_Nutrient_UUId:\"%s\"})\n", count.get(), nutrient.getUuId());
+        String matchUnit = String.format("MATCH (unit_%d:Units{UnitsName:\"%s\"})\n", count.get(), unit.getName());
+        String createRelation = String.format("CREATE (nutrient_%1$d)-[:hasNutrientUnit]->(unit_%1$d)\n", count.get());
+        matchBuilder.append(matchNutrient).append(matchUnit);
+        createBuilder.append(createRelation);
+    }
+
     private void createUnitToConversionRelation(Units unit, UnitConversion conversion) {
         String matchUnit = String.format("MATCH (unit:Units{UnitsName:\"%s\"})\n", unit.getName());
         String matchConversion = String.format("MATCH (conversion:UnitConversion{ODX_UnitConversion_UUId:\"%s\"})\n", conversion.getUuId());
@@ -1588,11 +1944,49 @@ public class PropertyGraphUploader implements AutoCloseable {
         uploadRelationToDatabase(matchUnit, matchConversion, createRelation);
     }
 
-    private void createFertilizerToRegionRelation(Fertilizers fertilizer, Region region) {
+    private void createUnitToConversionRelationWithBuilders(Units unit,
+                                                            UnitConversion conversion,
+                                                            StringBuilder matchBuilder,
+                                                            StringBuilder createBuilder,
+                                                            AtomicInteger count) {
+        String matchUnit = String.format("MATCH (unit_%d:Units{UnitsName:\"%s\"})\n", count.get(), unit.getName());
+        String matchConversion = String.format("MATCH (conversion_%d:UnitConversion{ODX_UnitConversion_UUId:\"%s\"})\n", count.get(), conversion.getUuId());
+        String createRelation = String.format("CREATE (unit_%1$d)-[:hasUnitConversion]->(conversion_%1$d)\n", count.get());
+        matchBuilder.append(matchUnit).append(matchConversion);
+        createBuilder.append(createRelation);
+    }
+
+    private void createFertilizerToRegionRelation(Fertilizers fertilizer, Country country, Region region, FertilizerRegion fr) {
         String matchFertilizer = String.format("MATCH (fertilizer:Fertilizers{ODX_Fertilizer_UUId:\"%s\"})\n", fertilizer.getUuId());
         String matchRegion = String.format("MATCH (region:Region{ODX_Region_UUId:\"%s\"})\n", region.getUuId());
-        String createRelation = "CREATE (fertilizer)-[:isAvailableIn]->(region)";
+        String createRelation = String.format("CREATE (fertilizer)-[:isAvailableIn{" +
+                        "ApplicationTags: \"%s\", " +
+                        "Prod_CountryId_Ref: \"%s\"," +
+                        "Prod_RegionId_Ref: \"%s\"," +
+                        "ProdCountry_UUId_Ref: \"%s\", " +
+                        "ProdRegion_UUId_Ref: \"%s\", " +
+                        "LocalizedName: \"%s\"," +
+                        "IsAvailable: \"%s\"}]->(region)\n",
+                fr.getApplicationTags(),
+                fr.getCountryId(),
+                fr.getRegionId(),
+                country.getUuId(),
+                region.getUuId(),
+                fr.getLocalizedName(),
+                fr.getIsAvailable());
         uploadRelationToDatabase(matchFertilizer, matchRegion, createRelation);
+    }
+
+    private void createFertilizerToRegionRelationWithBuilders(Fertilizers fertilizer,
+                                                              Region region,
+                                                              StringBuilder matchBuilder,
+                                                              StringBuilder createBuilder,
+                                                              AtomicInteger count) {
+        String matchFertilizer = String.format("MATCH (fertilizer_%d:Fertilizers{ODX_Fertilizer_UUId:\"%s\"})\n", count.get(), fertilizer.getUuId());
+        String matchRegion = String.format("MATCH (region_%d:Region{ODX_Region_UUId:\"%s\"})\n", count.get(), region.getUuId());
+        String createRelation = String.format("CREATE (fertilizer_%1$d)-[:isAvailableIn]->(region_%1$d)\n", count.get());
+        matchBuilder.append(matchFertilizer).append(matchRegion);
+        createBuilder.append(createRelation);
     }
 
     private void createFertilizerToNutrientRelation(Fertilizers fertilizer, Nutrient nutrient) {
@@ -1600,6 +1994,18 @@ public class PropertyGraphUploader implements AutoCloseable {
         String matchNutrient = String.format("MATCH (nutrient:Nutrient{ODX_Nutrient_UUId:\"%s\"})\n", nutrient.getUuId());
         String createRelation = "CREATE (fertilizer)-[:hasProdNutrient]->(nutrient)";
         uploadRelationToDatabase(matchFertilizer, matchNutrient, createRelation);
+    }
+
+    private void createFertilizerToNutrientRelationWithBuilders(Fertilizers fertilizer,
+                                                                Nutrient nutrient,
+                                                                StringBuilder matchBuilder,
+                                                                StringBuilder createBuilder,
+                                                                AtomicInteger count) {
+        String matchFertilizer = String.format("MATCH (fertilizer_%d:Fertilizers{ODX_Fertilizer_UUId:\"%s\"})\n", count.get(), fertilizer.getUuId());
+        String matchNutrient = String.format("MATCH (nutrient_%d:Nutrient{ODX_Nutrient_UUId:\"%s\"})\n", count.get(), nutrient.getUuId());
+        String createRelation = String.format("CREATE (fertilizer_%1$d)-[:hasProdNutrient]->(nutrient_%1$d)\n", count.get());
+        matchBuilder.append(matchFertilizer).append(matchNutrient);
+        createBuilder.append(createRelation);
     }
 
     private void uploadRelationToDatabase(String subject, String object, String predicate) {

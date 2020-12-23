@@ -3,7 +3,10 @@ package com.yara.ss.requestor;
 import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Requestor implements AutoCloseable {
 
@@ -126,5 +129,18 @@ public class Requestor implements AutoCloseable {
             e.printStackTrace();
         }
         return nodesCount;
+    }
+
+    public List<Record> requestUseCase(String useCase) {
+        List<Record> records = new ArrayList<>();
+        try (Session session = driver.session()) {
+            records = session.readTransaction(tx -> {
+                Result result = tx.run(useCase);
+                return result.list();
+            });
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return records;
     }
 }

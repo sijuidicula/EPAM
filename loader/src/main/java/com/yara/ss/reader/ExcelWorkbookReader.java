@@ -14,6 +14,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class ExcelWorkbookReader {
 
@@ -419,11 +421,73 @@ public class ExcelWorkbookReader {
                         yieldBaseUnitId,
                         demandBaseUnitId,
                         additionalProperties);
-                cropRegions.add(cropRegion);
+
+                if (containsSame(cropRegions, cropRegion)) {
+                    saveFull(cropRegions, cropRegion);
+                } else {
+                    cropRegions.add(cropRegion);
+                }
             }
         }
         return cropRegions;
     }
+
+    private void saveFull(List<? extends Duplicate> list, Duplicate newObject) {
+        Duplicate oldObject = list.stream()
+                .filter(cr -> cr.sameAs(newObject))
+                .findFirst()
+                .get();
+
+        switch (newObject.getClass().getSimpleName()) {
+            case ("CropRegion"):
+                saveFullCropRegion((List<CropRegion>) list, (CropRegion) oldObject, (CropRegion) newObject);
+                break;
+            case ("Fertilizers_Reg"):
+                saveFullFertilizerRegion((List<FertilizerRegion>) list, (FertilizerRegion) oldObject, (FertilizerRegion) newObject);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + newObject.getClass());
+        }
+    }
+
+    private void saveFullFertilizerRegion(List<FertilizerRegion> list, FertilizerRegion oldObject, FertilizerRegion newObject) {
+        if (oldObject.getLocalizedName() == "NULL" &&
+                newObject.getLocalizedName() != "NULL") {
+            list.remove(oldObject);
+            list.add(newObject);
+        }
+    }
+
+    private void saveFullCropRegion(List<CropRegion> list, CropRegion oldObject, CropRegion newObject) {
+        if (oldObject.getDefaultSeedingDate() == "NULL" &&
+                newObject.getDefaultSeedingDate() != "NULL") {
+            list.remove(oldObject);
+            list.add(newObject);
+        }
+    }
+
+
+//    private void saveFull(List<CropRegion> cropRegions, CropRegion cropRegion) {
+//        CropRegion old = cropRegions.stream()
+//                .filter(cr -> cr.sameAs(cropRegion))
+//                .findFirst()
+//                .get();
+//
+//        if (old.getDefaultSeedingDate() == "NULL" &&
+//                cropRegion.getDefaultSeedingDate() != "NULL") {
+//            cropRegions.remove(old);
+//            cropRegions.add(cropRegion);
+//        }
+//    }
+
+    private boolean containsSame(List<? extends Duplicate> list, Duplicate object) {
+        return list.stream()
+                .anyMatch(cr -> cr.sameAs(object));
+    }
+//    private boolean containsSame(List<CropRegion> cropRegions, CropRegion region) {
+//        return cropRegions.stream()
+//                .anyMatch(cr -> cr.sameAs(region));
+//    }
 
     private String getCellDataAsString(XSSFRow row, int cellIndex) {
         if (row.getCell(cellIndex) == null) {
@@ -728,6 +792,13 @@ public class ExcelWorkbookReader {
                 String isAvailable = getCellDataAsString(row, 5);
                 String appTags = "dummy_empty_app_tags";
                 FertilizerRegion region = new FertilizerRegion(id, countryId, regionId, localizedName, productId, isAvailable, appTags);
+
+                if (containsSame(fertilizerRegions, region)) {
+                    saveFull(fertilizerRegions, region);
+                } else {
+                    fertilizerRegions.add(region);
+                }
+
                 fertilizerRegions.add(region);
             }
         }

@@ -357,12 +357,12 @@ yara:FertilizersShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ApplicationTags ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
+#    sh:property    [ sh:path     yara:ApplicationTags ;
+#                     sh:minCount 1 ;
+#                     sh:maxCount 1 ;
 #                     empty in Excel sheet
 #                     sh:pattern  "^(?!\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:B ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
@@ -440,11 +440,11 @@ yara:FertilizersShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:IsAvailable ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
+#    sh:property    [ sh:path     yara:IsAvailable ;
+#                     sh:minCount 1 ;
+#                     sh:maxCount 1 ;
+#                     sh:pattern  "^(?!\s*$).+" ;
+#                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:K ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
@@ -461,12 +461,12 @@ yara:FertilizersShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:LocalizedName ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
+#    sh:property    [ sh:path     yara:LocalizedName ;
+#                     sh:minCount 1 ;
+#                     sh:maxCount 1 ;
 #                     empty in Excel sheet
 #                     sh:pattern  "^(?!\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:LowChloride ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
@@ -556,16 +556,16 @@ yara:FertilizersShape
 #                     will be string as in Excel sheet
                      sh:datatype xsd:string ; ] ;
 #                     sh:datatype xsd:float ; ] ;
-    sh:property    [ sh:path     yara:Prod_CountryId_Ref ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:Prod_RegionId_Ref ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
+#    sh:property    [ sh:path     yara:Prod_CountryId_Ref ;
+#                     sh:minCount 1 ;
+#                     sh:maxCount 1 ;
+#                     sh:pattern  "^(?!\s*$).+" ;
+#                     sh:datatype xsd:string ; ] ;
+#    sh:property    [ sh:path     yara:Prod_RegionId_Ref ;
+#                     sh:minCount 1 ;
+#                     sh:maxCount 1 ;
+#                     sh:pattern  "^(?!\s*$).+" ;
+#                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:ProdFamily ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
@@ -577,17 +577,17 @@ yara:FertilizersShape
                      sh:pattern  "^(?!\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
 #    Possibly need to put a constraint of existance in DB
-    sh:property    [ sh:path     yara:ProdRegion_UUId_Ref ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
+#    sh:property    [ sh:path     yara:ProdRegion_UUId_Ref ;
+#                     sh:minCount 1 ;
+#                     sh:maxCount 1 ;
+#                     sh:pattern  "^(?!\s*$).+" ;
+#                     sh:datatype xsd:string ; ] ;
 ##    Possibly need to put a constraint of existance in DB
-    sh:property    [ sh:path     yara:ProdCountry_UUId_Ref ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
+#    sh:property    [ sh:path     yara:ProdCountry_UUId_Ref ;
+#                     sh:minCount 1 ;
+#                     sh:maxCount 1 ;
+#                     sh:pattern  "^(?!\s*$).+" ;
+#                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:ProductId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;

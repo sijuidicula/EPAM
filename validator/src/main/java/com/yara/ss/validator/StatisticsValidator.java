@@ -1,8 +1,12 @@
 package com.yara.ss.validator;
 
 import com.yara.ss.requestor.Requestor;
+import org.neo4j.driver.Record;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class StatisticsValidator {
 
@@ -63,5 +67,23 @@ public class StatisticsValidator {
             }
         }
 
+    }
+
+    public void validateUseCases(Requestor requestor, List<String> useCases) {
+        for (int i = 0; i < useCases.size(); i++) {
+            String useCase = useCases.get(i);
+            validateUseCase(requestor, useCase, i);
+        }
+    }
+
+    private void validateUseCase(Requestor requestor, String useCase, int index) {
+        List<Record> records = requestor.requestUseCase(useCase);
+
+        //here need actually to parse through result and check if required nodes and relations are there
+        if (records.isEmpty()) {
+            System.out.printf("Result for UseCase # %d is empty\n", ++index);
+        } else {
+            System.out.printf("Result for UseCase # %d is NOT empty\n", ++index);
+        }
     }
 }
