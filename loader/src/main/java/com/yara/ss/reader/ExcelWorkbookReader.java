@@ -442,10 +442,11 @@ public class ExcelWorkbookReader {
             case ("CropRegion"):
                 saveFullCropRegion((List<CropRegion>) list, (CropRegion) oldObject, (CropRegion) newObject);
                 break;
-            case ("Fertilizers_Reg"):
+            case ("FertilizerRegion"):
                 saveFullFertilizerRegion((List<FertilizerRegion>) list, (FertilizerRegion) oldObject, (FertilizerRegion) newObject);
                 break;
             default:
+                System.out.println(newObject.getClass().getSimpleName());
                 throw new IllegalStateException("Unexpected value: " + newObject.getClass());
         }
     }

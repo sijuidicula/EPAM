@@ -1,5 +1,7 @@
 package com.yara.ss;
 
+import com.yara.ss.domain.OntologyStructure;
+import com.yara.ss.reader.OntologyReader;
 import com.yara.ss.reader.StatisticsReader;
 import com.yara.ss.reader.UseCaseReader;
 import com.yara.ss.requestor.Requestor;
@@ -15,12 +17,16 @@ public class ValidatorMain {
         StatisticsReader statisticsReader = new StatisticsReader();
         StatisticsValidator validator = new StatisticsValidator();
         UseCaseReader useCaseReader = new UseCaseReader();
-        useCaseReader.readUseCases();
+        OntologyReader ontologyReader = new OntologyReader();
 
         Map<String, Integer> statistics = statisticsReader.getStatistics();
-        List<String> useCases = useCaseReader.getUseCases();
+        OntologyStructure ontologyStructure = ontologyReader.getOntologyStructure();
+        List<String> useCases = useCaseReader.readUseCases();
 
-        validator.validateUseCases(requestor, useCases);
+//        System.out.println(ontologyStructure);
+
+        validator.validateSchema(requestor, ontologyStructure);
+//        validator.validateUseCases(requestor, useCases);
 //        validator.validateNodesCount(requestor, statistics);
 //        validator.validateNonEmptyUuids(requestor, statistics);
 //        validator.validateNonEmptyURIs(requestor, statistics);

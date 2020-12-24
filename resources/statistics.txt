@@ -1,15 +1,1 @@
-{
-  "GrowthScaleStages" : 773,
-  "GrowthScale" : 21,
-  "CropClass" : 52,
-  "CropVariety" : 3011,
-  "Units" : 100,
-  "Fertilizers" : 1534,
-  "CropGroup" : 9,
-  "UnitConversion" : 101,
-  "Country" : 250,
-  "Region" : 305,
-  "Nutrient" : 29,
-  "CropDescription" : 441,
-  "CropSubClass" : 238
-}
+{ }

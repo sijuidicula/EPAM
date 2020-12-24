@@ -11,9 +11,8 @@ public class UseCaseReader {
 
     private static final String USE_CASES_FILE = "validator/src/main/resources/UseCases.cypher";
 
-    private List<String> useCases = new ArrayList<>();
-
-    public void readUseCases() {
+    public List<String> readUseCases() {
+        List<String> useCases = new ArrayList<>();
         try (FileReader fileReader = new FileReader(USE_CASES_FILE);
              BufferedReader bufferedReader = new BufferedReader(fileReader)) {
             StringBuilder builder = new StringBuilder();
@@ -22,20 +21,14 @@ public class UseCaseReader {
                 if (line.equals("")) {
                     useCases.add(builder.toString());
                     builder.delete(0, builder.length());
-                    continue;
                 } else {
                     builder.append(line);
                 }
             }
             useCases.add(builder.toString());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public List<String> getUseCases() {
         return useCases;
     }
 }

@@ -11,7 +11,7 @@ public class PropertyGraphUploader implements AutoCloseable {
     private static final String URI = "bolt+s://odx-storage.yara.com:7687";
     private static final String USER = "neo4j";
     private static final String PASSWORD = "MjY4Yjc0OTNmNjZmNzgxNDYyOWMzNDAz";
-
+//
 //    private static final String URI = "bolt://localhost:7687";
 //    private static final String USER = "neo4j";
 //    private static final String PASSWORD = "1234";
@@ -1592,6 +1592,15 @@ public class PropertyGraphUploader implements AutoCloseable {
         });
         writeBuildersToGraph(matchBuilder, createBuilder);
         System.out.println(count.get() + " Fertilizer-Nutrient relations uploaded");
+    }
+
+    public void uploadShaclFromUrl(String url) {
+        String commandFormat = "CALL n10s.validation.shacl.import.fetch" +
+                "(\"%s\",\"Turtle\")";
+        try (Session session = driver.session()) {
+            session.run(String.format(commandFormat, url));
+        }
+        System.out.println("Shacl uploading completed");
     }
 
     public void uploadShacl(String shaclFileName) {

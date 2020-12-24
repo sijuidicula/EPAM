@@ -1,32 +1,30 @@
 package com.yara.ss.reader;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yara.ss.domain.OntologyStructure;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-public class StatisticsReader {
+public class OntologyReader {
 
-    private static final String STATISTICS_FILE_NAME = "C:/dev/repository/yara/resources/statistics.txt";
+    private static final String ONTOLOGY_STRUCTURE_FILE_NAME = "validator/src/main/resources/OntologyStructure.json";
 
-    public Map<String, Integer> getStatistics() {
+    public OntologyStructure getOntologyStructure() {
         ObjectMapper mapper = new ObjectMapper();
-        Map statistics = new HashMap<>();
-        try (FileReader reader = new FileReader(STATISTICS_FILE_NAME);
+        OntologyStructure ontologyStructure = new OntologyStructure();
+        try (FileReader reader = new FileReader(ONTOLOGY_STRUCTURE_FILE_NAME);
              BufferedReader bufferedReader = new BufferedReader(reader)) {
             StringBuilder builder = new StringBuilder();
             while (bufferedReader.ready()) {
                 builder.append(bufferedReader.readLine());
             }
             String json = builder.toString();
-            statistics = mapper.readValue(json, Map.class);
+            ontologyStructure = mapper.readValue(json, OntologyStructure.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return statistics;
+        return ontologyStructure;
     }
-
 }

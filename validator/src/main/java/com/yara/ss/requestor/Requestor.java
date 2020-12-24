@@ -73,11 +73,8 @@ public class Requestor implements AutoCloseable {
         if (className.endsWith("s") &&
                 !className.endsWith("ss") &&
                 !className.equals("Units")) {
-//            System.out.println(className);
             int lastIndex = className.lastIndexOf("s");
-            String singleItemName = className.substring(0, lastIndex);
-//            System.out.println(singleItemName);
-            return singleItemName;
+            return className.substring(0, lastIndex);
         }
         return className;
     }
@@ -142,5 +139,76 @@ public class Requestor implements AutoCloseable {
             e.printStackTrace();
         }
         return records;
+    }
+
+    public List<String> getAllClassNames() {
+        List<String> classNames = new ArrayList<>();
+        String command = "MATCH (n) RETURN distinct labels(n)";
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> {
+                Result result = tx.run(command);
+                List<Record> list = result.list();
+                for (Record record : list) {
+                    Map<String, String> map = record.asMap(v -> String.valueOf(v)
+                            .replaceAll("\"", "")
+                            .replaceAll("\\[", "")
+                            .replaceAll("\\]", ""));
+                    map.forEach((k, v) -> classNames.add(v));
+                }
+                return null;
+            });
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return classNames;
+    }
+
+    public List<String> getAllRelationshipNames() {
+        List<String> relationshipNames = new ArrayList<>();
+        String command = "MATCH (n)-[r]-(m) RETURN DISTINCT type(r)\n";
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> {
+                Result result = tx.run(command);
+                List<Record> list = result.list();
+                for (Record record : list) {
+                    Map<String, String> map = record.asMap(v -> String.valueOf(v)
+                            .replaceAll("\"", "")
+                            .replaceAll("\\[", "")
+                            .replaceAll("\\]", ""));
+                    map.forEach((k, v) -> relationshipNames.add(v));
+                }
+                return null;
+            });
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return relationshipNames;
+    }
+
+    public Map<String, List<String>> getAllNodesAttributes() {
+        Map<String, List<String>> attributeMap = new HashMap<>();
+        String command = "MATCH(n) \n" +
+                "WITH LABELS(n) AS labels , KEYS(n) AS keys\n" +
+                "UNWIND labels AS label\n" +
+                "UNWIND keys AS key\n" +
+                "RETURN DISTINCT label AS className, COLLECT(DISTINCT key) AS attributes\n" +
+                "ORDER BY label\n";
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> {
+                Result result = tx.run(command);
+                List<Record> list = result.list();
+                for (Record record : list) {
+
+                    Map<String, Object> map = record.asMap();
+                    String className = (String) map.get("className");
+                    List<String> attributes = (List<String>) map.get("attributes");
+                    attributeMap.put(className, attributes);
+                }
+                return null;
+            });
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return attributeMap;
     }
 }
