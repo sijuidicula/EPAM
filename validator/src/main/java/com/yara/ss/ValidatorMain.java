@@ -25,8 +25,8 @@ public class ValidatorMain {
 
 //        System.out.println(ontologyStructure);
 
-        validator.validateSchema(requestor, ontologyStructure);
-//        validator.validateUseCases(requestor, useCases);
+//        validator.validateSchema(requestor, ontologyStructure);
+        validator.validateUseCases(requestor, useCases);
 //        validator.validateNodesCount(requestor, statistics);
 //        validator.validateNonEmptyUuids(requestor, statistics);
 //        validator.validateNonEmptyURIs(requestor, statistics);

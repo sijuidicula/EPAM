@@ -9,7 +9,8 @@ import java.util.List;
 
 public class UseCaseReader {
 
-    private static final String USE_CASES_FILE = "validator/src/main/resources/UseCases.cypher";
+    private static final String USE_CASES_FILE = "validator/src/main/resources/UseCasesWithRelations.cypher";
+//    private static final String USE_CASES_FILE = "validator/src/main/resources/UseCases.cypher";
 
     public List<String> readUseCases() {
         List<String> useCases = new ArrayList<>();
