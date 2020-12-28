@@ -8,13 +8,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class PropertyGraphUploader implements AutoCloseable {
 
-    private static final String URI = "bolt+s://odx-storage.yara.com:7687";
-    private static final String USER = "neo4j";
-    private static final String PASSWORD = "MjY4Yjc0OTNmNjZmNzgxNDYyOWMzNDAz";
-//
-//    private static final String URI = "bolt://localhost:7687";
+//    private static final String URI = "bolt+s://odx-storage.yara.com:7687";
 //    private static final String USER = "neo4j";
-//    private static final String PASSWORD = "1234";
+//    private static final String PASSWORD = "MjY4Yjc0OTNmNjZmNzgxNDYyOWMzNDAz";
+
+    private static final String URI = "bolt://localhost:7687";
+    private static final String USER = "neo4j";
+    private static final String PASSWORD = "1234";
 
     public static final int BUILDER_LENGTH_THRESHOLD = 300_000;
     public static final int BUILDER_LENGTH_THRESHOLD_FOR_RELATIONS = 100_000;

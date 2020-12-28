@@ -16,8 +16,8 @@ public class UploadSeparatelyWithShaclMain {
         Instant start = Instant.now();
 
 //        String shaclFileName = "/import/yara_crop_shacl.ttl";
-//        String shaclFileName = "C:/dev/repository/yara/loader/src/main/resources/yara_crop_shacl.ttl";
-        String shaclUrlName = "https://file.io/NUFF5tHMW5E1";
+        String shaclFileName = "C:/dev/repository/yara/loader/src/main/resources/yara_crop_shacl.ttl";
+//        String shaclUrlName = "https://file.io/NUFF5tHMW5E1";
 
         String countryFileName = "loader/src/main/resources/Country.xlsx";
         String regionFileName = "loader/src/main/resources/Region.xlsx";
@@ -43,47 +43,44 @@ public class UploadSeparatelyWithShaclMain {
 
         List<Country> countries = reader.readCountryFromExcel(countryFileName);
         List<Region> regions = reader.readRegionFromExcel(regionFileName);
-//        List<CropGroup> cropGroups = reader.readCropGroupFromExcel(cropGroupFileName);
-//        List<CropClass> cropClasses = reader.readCropClassFromExcel(cropClassFileName);
-//        List<CropSubClass> cropSubClasses = reader.readCropSubClassFromExcel(cropSubClassFileName);
-//        List<CropVariety> cropVarieties = reader.readCropVarietyFromExcel(cropVarietyFileName);
-//        List<CropDescription> cropDescriptions = reader.readCropDescriptionsFromExcel(cropDescriptionFileName);
-//        List<CropDescriptionVariety> cropDescVars = reader.readCropDescriptionVarietyFromExcel(cropDescriptionVarietyFileName);
-//        List<GrowthScale> growthScales = reader.readGrowthScaleFromExcel(growthScaleFileName);
-//        List<GrowthScaleStages> growthScaleStages = reader.readGrowthScaleStageFromExcel(growthScaleStageFileName);
-//        List<CropRegion> cropRegions = reader.readCropRegionsFromExcel(cropRegionFileName);
-//        List<Nutrient> nutrients = reader.readNutrientsFromExcel(nutrientFileName);
-//        List<Units> units = reader.readUnitsFromExcel(unitsFileName);
-//        List<UnitConversion> unitConversions = reader.readUnitConversionsFromExcel(unitConversionsFileName);
-//        List<Fertilizers> fertilizers = reader.readFertilizersFromExcel(fertilizersFileName);
-//        List<FertilizerRegion> fertilizerRegions = reader.readFertilizerRegionsFromExcel(fertilizerRegionFileName);
-//
-//        collector.collectStatistics(countries);
-//        collector.collectStatistics(regions);
-//        collector.collectStatistics(cropGroups);
-//        collector.collectStatistics(cropClasses);
-//        collector.collectStatistics(cropSubClasses);
-//        collector.collectStatistics(cropVarieties);
-//        collector.collectStatistics(cropDescriptions);
-////        collector.collectStatistics(cropDescVars); // why?
-//        collector.collectStatistics(growthScales);
-//        collector.collectStatistics(growthScaleStages);
-////        collector.collectStatistics(cropRegions); // why?
-//        collector.collectStatistics(nutrients);
-//        collector.collectStatistics(units);
-//        collector.collectStatistics(unitConversions);
-//        collector.collectStatistics(fertilizers);
-////        collector.collectStatistics(fertilizerRegions); // why?
+        List<CropGroup> cropGroups = reader.readCropGroupFromExcel(cropGroupFileName);
+        List<CropClass> cropClasses = reader.readCropClassFromExcel(cropClassFileName);
+        List<CropSubClass> cropSubClasses = reader.readCropSubClassFromExcel(cropSubClassFileName);
+        List<CropVariety> cropVarieties = reader.readCropVarietyFromExcel(cropVarietyFileName);
+        List<CropDescription> cropDescriptions = reader.readCropDescriptionsFromExcel(cropDescriptionFileName);
+        List<CropDescriptionVariety> cropDescVars = reader.readCropDescriptionVarietyFromExcel(cropDescriptionVarietyFileName);
+        List<GrowthScale> growthScales = reader.readGrowthScaleFromExcel(growthScaleFileName);
+        List<GrowthScaleStages> growthScaleStages = reader.readGrowthScaleStageFromExcel(growthScaleStageFileName);
+        List<CropRegion> cropRegions = reader.readCropRegionsFromExcel(cropRegionFileName);
+        List<Nutrient> nutrients = reader.readNutrientsFromExcel(nutrientFileName);
+        List<Units> units = reader.readUnitsFromExcel(unitsFileName);
+        List<UnitConversion> unitConversions = reader.readUnitConversionsFromExcel(unitConversionsFileName);
+        List<Fertilizers> fertilizers = reader.readFertilizersFromExcel(fertilizersFileName);
+        List<FertilizerRegion> fertilizerRegions = reader.readFertilizerRegionsFromExcel(fertilizerRegionFileName);
+
+        collector.collectStatistics(countries);
+        collector.collectStatistics(regions);
+        collector.collectStatistics(cropGroups);
+        collector.collectStatistics(cropClasses);
+        collector.collectStatistics(cropSubClasses);
+        collector.collectStatistics(cropVarieties);
+        collector.collectStatistics(cropDescriptions);
+        collector.collectStatistics(growthScales);
+        collector.collectStatistics(growthScaleStages);
+        collector.collectStatistics(nutrients);
+        collector.collectStatistics(units);
+        collector.collectStatistics(unitConversions);
+        collector.collectStatistics(fertilizers);
 
         reporter.createStatisticsFile();
         reporter.writeStatisticsToFileAsJson(collector);
 
-        uploader.uploadShaclFromUrl(shaclUrlName);
-//        uploader.uploadShacl(shaclFileName);
+//        uploader.uploadShaclFromUrl(shaclUrlName);
+        uploader.uploadShacl(shaclFileName);
         uploader.activateShaclValidationOfTransactions();
 
-        uploader.uploadCountries(countries);
-        uploader.uploadRegions(regions, countries);
+//        uploader.uploadCountries(countries);
+//        uploader.uploadRegions(regions, countries);
 //        uploader.uploadCropGroups(cropGroups);
 //        uploader.uploadCropClasses(cropClasses, cropGroups);
 //        uploader.uploadCropSubClasses(cropSubClasses, cropClasses);
@@ -96,33 +93,33 @@ public class UploadSeparatelyWithShaclMain {
 //        uploader.uploadUnitConversions(unitConversions, units);
 //        uploader.uploadFertilizers(fertilizers);
 
-//        uploader.uploadCountriesAsBatch(countries);
-//        uploader.uploadRegionsAsBatch(regions, countries);
-//        uploader.uploadCropGroupsAsBatch(cropGroups);
-//        uploader.uploadCropClassAsBatch(cropClasses, cropGroups);
-//        uploader.uploadCropSubClassesAsBatch(cropSubClasses, cropClasses);
-//        uploader.uploadCropVarietiesAsBatch(cropVarieties, cropSubClasses);
-//        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses);
-//        uploader.uploadGrowthScalesAsBatch(growthScales);
-//        uploader.uploadGrowthScaleStagesAsBatch(growthScaleStages, growthScales);
-//        uploader.uploadNutrientsAsBatch(nutrients);
-//        uploader.uploadUnitsAsBatch(units);
-//        uploader.uploadUnitConversionsAsBatch(unitConversions, units);
-//        uploader.uploadFertilizersAsBatch(fertilizers);
-//
+        uploader.uploadCountriesAsBatch(countries);
+        uploader.uploadRegionsAsBatch(regions, countries);
+        uploader.uploadCropGroupsAsBatch(cropGroups);
+        uploader.uploadCropClassAsBatch(cropClasses, cropGroups);
+        uploader.uploadCropSubClassesAsBatch(cropSubClasses, cropClasses);
+        uploader.uploadCropVarietiesAsBatch(cropVarieties, cropSubClasses);
+        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses);
+        uploader.uploadGrowthScalesAsBatch(growthScales);
+        uploader.uploadGrowthScaleStagesAsBatch(growthScaleStages, growthScales);
+        uploader.uploadNutrientsAsBatch(nutrients);
+        uploader.uploadUnitsAsBatch(units);
+        uploader.uploadUnitConversionsAsBatch(unitConversions, units);
+        uploader.uploadFertilizersAsBatch(fertilizers);
+
         uploader.createCountryToRegionRelations(countries, regions);
-//        uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
-//        uploader.createCropClassToSubClassRelations(cropClasses, cropSubClasses);
-//        uploader.createCropSubClassToVarietyRelations(cropSubClasses, cropVarieties);
-//        uploader.createCropSubClassToDescriptionRelations(cropSubClasses, cropDescriptions);
-//        uploader.createCropVarietyToDescriptionRelations(cropVarieties, cropDescriptions, cropDescVars);
-//        uploader.createGrowthScaleToStagesRelations(growthScales, growthScaleStages);
-//        uploader.createCropDescriptionsToRegionsRelations(cropDescriptions, regions, cropRegions);
-//        uploader.createCropDescriptionsToGrowthScaleRelations(cropDescriptions, growthScales, cropRegions);
-//        uploader.createNutrientsToUnitsRelations(nutrients, units);
-//        uploader.createUnitsToConversionsRelations(units, unitConversions);
-//        uploader.createFertilizersToRegionsRelations(fertilizers, countries, regions, fertilizerRegions);
-//        uploader.createFertilizersToNutrientsRelations(fertilizers, nutrients, units);
+        uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
+        uploader.createCropClassToSubClassRelations(cropClasses, cropSubClasses);
+        uploader.createCropSubClassToVarietyRelations(cropSubClasses, cropVarieties);
+        uploader.createCropSubClassToDescriptionRelations(cropSubClasses, cropDescriptions);
+        uploader.createCropVarietyToDescriptionRelations(cropVarieties, cropDescriptions, cropDescVars);
+        uploader.createGrowthScaleToStagesRelations(growthScales, growthScaleStages);
+        uploader.createCropDescriptionsToRegionsRelations(cropDescriptions, regions, cropRegions);
+        uploader.createCropDescriptionsToGrowthScaleRelations(cropDescriptions, growthScales, cropRegions);
+        uploader.createNutrientsToUnitsRelations(nutrients, units);
+        uploader.createUnitsToConversionsRelations(units, unitConversions);
+        uploader.createFertilizersToRegionsRelations(fertilizers, countries, regions, fertilizerRegions);
+        uploader.createFertilizersToNutrientsRelations(fertilizers, nutrients, units);
 
 
 //        uploader.uploadCountriesAsBatch(countries);

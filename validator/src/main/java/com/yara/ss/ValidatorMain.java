@@ -1,6 +1,8 @@
 package com.yara.ss;
 
 import com.yara.ss.domain.OntologyStructure;
+import com.yara.ss.domain.UseCaseAnswer;
+import com.yara.ss.reader.AnswerReader;
 import com.yara.ss.reader.OntologyReader;
 import com.yara.ss.reader.StatisticsReader;
 import com.yara.ss.reader.UseCaseReader;
@@ -18,19 +20,19 @@ public class ValidatorMain {
         StatisticsValidator validator = new StatisticsValidator();
         UseCaseReader useCaseReader = new UseCaseReader();
         OntologyReader ontologyReader = new OntologyReader();
+        AnswerReader answerReader = new AnswerReader();
 
         Map<String, Integer> statistics = statisticsReader.getStatistics();
         OntologyStructure ontologyStructure = ontologyReader.getOntologyStructure();
         List<String> useCases = useCaseReader.readUseCases();
+        List<UseCaseAnswer> useCaseAnswers = answerReader.readValidAnswers();
 
-//        System.out.println(ontologyStructure);
-
-//        validator.validateSchema(requestor, ontologyStructure);
-        validator.validateUseCases(requestor, useCases);
-//        validator.validateNodesCount(requestor, statistics);
-//        validator.validateNonEmptyUuids(requestor, statistics);
-//        validator.validateNonEmptyURIs(requestor, statistics);
-//        validator.validateNonEmptyLabels(requestor, statistics);
+        validator.validateUseCases(requestor, useCases, useCaseAnswers);
+        validator.validateSchema(requestor, ontologyStructure);
+        validator.validateNodesCount(requestor, statistics);
+        validator.validateNonEmptyLabels(requestor, statistics);
+        validator.validateNonEmptyUuids(requestor, statistics);
+        validator.validateNonEmptyURIs(requestor, statistics);
 
         requestor.close();
     }

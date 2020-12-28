@@ -1,14 +1,18 @@
 package com.yara.ss.validator;
 
+import com.yara.ss.domain.Info;
 import com.yara.ss.domain.OntologyStructure;
+import com.yara.ss.domain.UseCaseAnswer;
 import com.yara.ss.requestor.Requestor;
 import org.neo4j.driver.Record;
+import org.neo4j.driver.Value;
+import org.neo4j.driver.types.Node;
+import org.neo4j.driver.types.Relationship;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
 
 public class StatisticsValidator {
 
@@ -71,21 +75,87 @@ public class StatisticsValidator {
 
     }
 
-    public void validateUseCases(Requestor requestor, List<String> useCases) {
+    public void validateUseCases(Requestor requestor, List<String> useCases, List<UseCaseAnswer> useCaseAnswers) {
         for (int i = 0; i < useCases.size(); i++) {
             String useCase = useCases.get(i);
-            validateUseCase(requestor, useCase, i);
+
+            UseCaseAnswer useCaseAnswer = useCaseAnswers.get(i);
+            validateUseCaseNotEmpty(requestor, useCase, i);
+            validateUseCaseByAnswer(requestor, useCase, useCaseAnswer, i);
         }
     }
 
-    private void validateUseCase(Requestor requestor, String useCase, int index) {
+    private void validateUseCaseByAnswer(Requestor requestor, String useCase, UseCaseAnswer validAnswer, int index) {
+        int count = ++index;
+        Record record = requestor.requestUseCase(useCase).get(0);
+        List<String> keys = record.keys();
+        Map<String, Info> infoMap = validAnswer.getInfoMap();
+
+        for (int i = 0; i < record.size(); i++) {
+            String key = keys.get(i);
+            Value value = record.get(key);
+            Info info = infoMap.get(key);
+
+            if (value.type().name() == "NODE") {
+                validateNode(count, key, value, info);
+            } else if (value.type().name() == "RELATIONSHIP") {
+                validateRelationship(count, key, value, info);
+            } else {
+                System.out.println("Unknown value type");
+            }
+        }
+    }
+
+    private void validateRelationship(int count, String key, Value value, Info info) {
+        Relationship relationship = value.asRelationship();
+        String type = relationship.type();
+        Map<String, String> properties = relationship.asMap(v -> String.valueOf(v).replace("\"", ""));
+
+        String validType = info.getType();
+        Map<String, String> validProperties = info.getProperties();
+
+        if (type.equals(validType)) {
+            System.out.printf("UseCase # %d %s type is equal to expected type.\n", count, key);
+        } else {
+            System.out.printf("UseCase # %d %s type IS NOT equal to expected type.\n", count, key);
+            System.out.println("***************************************************");
+        }
+        if (properties.equals(validProperties)) {
+            System.out.printf("UseCase # %d %s value properties are equal expected properties.\n", count, key);
+        } else {
+            System.out.printf("UseCase # %d %s value properties are not equal expected properties.\n", count, key);
+            System.out.println("***************************************************");
+        }
+    }
+
+    private void validateNode(int count, String key, Value value, Info info) {
+        Node node = value.asNode();
+        Iterable<String> labels = node.labels();
+        Map<String, String> properties = node.asMap(v -> String.valueOf(v).replace("\"", ""));
+
+        List<String> validLabels = info.getLabels();
+        Map<String, String> validProperties = info.getProperties();
+
+        if (labels.equals(validLabels)) {
+            System.out.printf("UseCase # %d %s value labels are equal to expected labels.\n", count, key);
+        } else {
+            System.out.printf("UseCase # %d %s value labels are not equal to expected labels.\n", count, key);
+        }
+        if (properties.equals(validProperties)) {
+            System.out.printf("UseCase # %d %s value properties are equal to expected properties.\n", count, key);
+        } else {
+            System.out.printf("UseCase # %d %s value properties ARE NOT equal to expected properties.\n", count, key);
+        }
+    }
+
+    private void validateUseCaseNotEmpty(Requestor requestor, String useCase, int index) {
         List<Record> records = requestor.requestUseCase(useCase);
 
         //here need actually to parse through result and check if required nodes and relations are there
         if (records.isEmpty()) {
-            System.out.printf("Result for UseCase # %d is empty\n", ++index);
+            System.out.printf("UseCase # %d result IS EMPTY\n", ++index);
         } else {
-            System.out.printf("Result for UseCase # %d is NOT empty\n", ++index);
+            System.out.printf("UseCase # %d result is not empty\n", ++index);
         }
     }
 
