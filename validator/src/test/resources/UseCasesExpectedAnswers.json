@@ -1,0 +1,4090 @@
+[
+  {
+    "infoMap": {
+      "CG": {
+        "identity": 25959,
+        "labels": [
+          "CropGroup"
+        ],
+        "properties": {
+          "CG_MediaUri": "",
+          "ODX_CropGroup_UUId": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupName": "Cereals",
+          "ODX_CropGroup_Uri": "ODX/CropGroup/2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CG_FAOId": "1",
+          "CropGroupId": "bc09457f-cf85-4295-9fa3-9644a1eaf318"
+        }
+      },
+      "CC": {
+        "identity": 25968,
+        "labels": [
+          "CropClass"
+        ],
+        "properties": {
+          "ODX_CropClass_Uri": "ODX/CropClass/d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CC_MediaUri": "",
+          "CC_FAOId": "11",
+          "ODX_CG_UUId_Ref": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupId_Ref": "bc09457f-cf85-4295-9fa3-9644a1eaf318",
+          "ODX_CropClass_UUId": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CropClassId": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "CropClassName": "Wheat"
+        }
+      },
+      "CSC": {
+        "identity": 26021,
+        "labels": [
+          "CropSubClass"
+        ],
+        "properties": {
+          "ODX_CropSubClass_Uri": "ODX/CropSubClass/cb499189-f66c-3fd0-a964-27ab1ca4d85a",
+          "ODX_CC_UUId_Ref": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CSC_FAOId": "",
+          "CropSubClassName": "Spring wheat",
+          "CropClassId_Ref": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "ODX_CropSubClass_UUId": "cb499189-f66c-3fd0-a964-27ab1ca4d85a",
+          "CropSubClassId": "862e97f5-4305-4354-b53c-b4b802ed2c25",
+          "CSC_MediaUri": ""
+        }
+      },
+      "CD": {
+        "identity": 29288,
+        "labels": [
+          "CropDescription"
+        ],
+        "properties": {
+          "ChlorideSensitive": "false",
+          "CD_CSC_UUId_Ref": "cb499189-f66c-3fd0-a964-27ab1ca4d85a",
+          "CD_CropSubClassId_Ref": "862e97f5-4305-4354-b53c-b4b802ed2c25",
+          "ODX_CropDescription_Uri": "ODX/CropDescription/1fe4dc75-fef9-3354-812e-3da5ed415e4e",
+          "ODX_CropDescription_UUId": "1fe4dc75-fef9-3354-812e-3da5ed415e4e",
+          "ODX_CD_SourceSystem": "dummy_Polaris",
+          "CD_MediaUri": "",
+          "CropDescriptionName": "Milling",
+          "CropDescriptionId": "d3f7dfbb-da12-45b1-804b-a5f10fe08eb1"
+        }
+      },
+      "CV": {
+        "identity": 29268,
+        "labels": [
+          "CropVariety"
+        ],
+        "properties": {
+          "CV_CSC_UUId_Ref": "cb499189-f66c-3fd0-a964-27ab1ca4d85a",
+          "ODX_CropVariety_Uri": "ODX/CropVariety/19a5dd1d-75dd-3aaf-ba22-b37eaefa9d84",
+          "CV_CropSubClassId_Ref": "862e97f5-4305-4354-b53c-b4b802ed2c25",
+          "CropVarietyName": "Sibelius 13,5",
+          "CropVarietyId": "a6b83071-03c4-4470-9938-17225433c5f4",
+          "ODX_CropVariety_UUId": "19a5dd1d-75dd-3aaf-ba22-b37eaefa9d84"
+        }
+      },
+      "C": {
+        "identity": 25413,
+        "labels": [
+          "Country"
+        ],
+        "properties": {
+          "CountryId": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "ODX_Country_UUId": "5c5fb79d-b66c-3597-8543-9a43b685a8a3",
+          "ProductSetCode": "11",
+          "CountryName": "Argentina",
+          "ODX_Country_Uri": "ODX/Country/5c5fb79d-b66c-3597-8543-9a43b685a8a3"
+        }
+      },
+      "R": {
+        "identity": 25694,
+        "labels": [
+          "Region"
+        ],
+        "properties": {
+          "RegionName": "All",
+          "Region_Country_UUId_Ref": "5c5fb79d-b66c-3597-8543-9a43b685a8a3",
+          "ODX_Region_UUId": "2e7efdd4-b059-3d6d-bf4a-cab0963d86e5",
+          "Region_CountryId_Ref": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "RegionId": "eb290e84-1d10-472e-aa66-50d554362aea",
+          "ODX_Region_Uri": "ODX/Region/2e7efdd4-b059-3d6d-bf4a-cab0963d86e5"
+        }
+      },
+      "GS": {
+        "identity": 29715,
+        "labels": [
+          "GrowthScale"
+        ],
+        "properties": {
+          "ODX_GrowthScale_UUId": "22074af4-f9f3-373a-8bf7-e73a2d1efd01",
+          "GrowthScaleId": "899e7951-8113-4158-bd62-53abadbaead1",
+          "ODX_GrowthScale_Uri": "ODX/GrowthScale/22074af4-f9f3-373a-8bf7-e73a2d1efd01",
+          "GrowthScaleName": "Zadok - Cereals"
+        }
+      },
+      "GSS": {
+        "identity": 29947,
+        "labels": [
+          "GrowthScaleStages"
+        ],
+        "properties": {
+          "ODX_GrowthScaleStage_Uri": "ODX/GrowthScaleStages/632ce666-bdbf-3287-bca6-6be1b2ba142c",
+          "ODX_GrowthScaleStage_UUId": "632ce666-bdbf-3287-bca6-6be1b2ba142c",
+          "GrowthScaleStageId": "37d4585a-5958-4e2c-8177-c50f638951b8",
+          "GrowthScaleStageDescription": "99 Secondary dormancy lost",
+          "BaseOrdinal": "",
+          "Ordinal": "99.0",
+          "GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "ODX_GSS_SourceSystem": "dummy_Polaris",
+          "ODX_GS_UUId_Ref": "22074af4-f9f3-373a-8bf7-e73a2d1efd01"
+        }
+      },
+      "HR": {
+        "identity": 1246,
+        "start": 25413,
+        "end": 25694,
+        "type": "hasRegion",
+        "properties": {
+        }
+      },
+      "IAI": {
+        "identity": 21519,
+        "start": 29288,
+        "end": 25694,
+        "type": "isAvailableIn",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "eb290e84-1d10-472e-aa66-50d554362aea",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HCC": {
+        "identity": 1511,
+        "start": 25959,
+        "end": 25968,
+        "type": "hasCropClass",
+        "properties": {
+        }
+      },
+      "HCSC": {
+        "identity": 1564,
+        "start": 25968,
+        "end": 26021,
+        "type": "hasCropSubClass",
+        "properties": {
+        }
+      },
+      "CSCHCD": {
+        "identity": 8253,
+        "start": 26021,
+        "end": 29288,
+        "type": "hasCropDescription",
+        "properties": {
+        }
+      },
+      "CVHCD": {
+        "identity": 20720,
+        "start": 29268,
+        "end": 29288,
+        "type": "hasCropDescription",
+        "properties": {
+          "CV_CD_UUId_Ref": "1fe4dc75-fef9-3354-812e-3da5ed415e4e",
+          "CV_CropDescriptionId_Ref": "d3f7dfbb-da12-45b1-804b-a5f10fe08eb1"
+        }
+      },
+      "HCV": {
+        "identity": 8233,
+        "start": 26021,
+        "end": 29268,
+        "type": "hasCropVariety",
+        "properties": {
+        }
+      },
+      "HGS": {
+        "identity": 21787,
+        "start": 29288,
+        "end": 29715,
+        "type": "hasGrowthScale",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "3f42afc2-a271-41fb-b26e-80c862a9d6c8",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "de982433-4a83-4013-b63f-2311c68d51b5",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HGSS": {
+        "identity": 20947,
+        "start": 29715,
+        "end": 29947,
+        "type": "hasGrowthScaleStages",
+        "properties": {
+        }
+      }
+    }
+  },
+  {
+    "infoMap": {
+      "CG": {
+        "identity": 25959,
+        "labels": [
+          "CropGroup"
+        ],
+        "properties": {
+          "CG_MediaUri": "",
+          "ODX_CropGroup_UUId": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupName": "Cereals",
+          "ODX_CropGroup_Uri": "ODX/CropGroup/2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CG_FAOId": "1",
+          "CropGroupId": "bc09457f-cf85-4295-9fa3-9644a1eaf318"
+        }
+      },
+      "CC": {
+        "identity": 25968,
+        "labels": [
+          "CropClass"
+        ],
+        "properties": {
+          "ODX_CropClass_Uri": "ODX/CropClass/d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CC_MediaUri": "",
+          "CC_FAOId": "11",
+          "ODX_CG_UUId_Ref": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupId_Ref": "bc09457f-cf85-4295-9fa3-9644a1eaf318",
+          "ODX_CropClass_UUId": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CropClassId": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "CropClassName": "Wheat"
+        }
+      },
+      "CSC": {
+        "identity": 26021,
+        "labels": [
+          "CropSubClass"
+        ],
+        "properties": {
+          "ODX_CropSubClass_Uri": "ODX/CropSubClass/cb499189-f66c-3fd0-a964-27ab1ca4d85a",
+          "ODX_CC_UUId_Ref": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CSC_FAOId": "",
+          "CropSubClassName": "Spring wheat",
+          "CropClassId_Ref": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "ODX_CropSubClass_UUId": "cb499189-f66c-3fd0-a964-27ab1ca4d85a",
+          "CropSubClassId": "862e97f5-4305-4354-b53c-b4b802ed2c25",
+          "CSC_MediaUri": ""
+        }
+      },
+      "CD": {
+        "identity": 29288,
+        "labels": [
+          "CropDescription"
+        ],
+        "properties": {
+          "ChlorideSensitive": "false",
+          "CD_CSC_UUId_Ref": "cb499189-f66c-3fd0-a964-27ab1ca4d85a",
+          "CD_CropSubClassId_Ref": "862e97f5-4305-4354-b53c-b4b802ed2c25",
+          "ODX_CropDescription_Uri": "ODX/CropDescription/1fe4dc75-fef9-3354-812e-3da5ed415e4e",
+          "ODX_CropDescription_UUId": "1fe4dc75-fef9-3354-812e-3da5ed415e4e",
+          "ODX_CD_SourceSystem": "dummy_Polaris",
+          "CD_MediaUri": "",
+          "CropDescriptionName": "Milling",
+          "CropDescriptionId": "d3f7dfbb-da12-45b1-804b-a5f10fe08eb1"
+        }
+      },
+      "CV": {
+        "identity": 29268,
+        "labels": [
+          "CropVariety"
+        ],
+        "properties": {
+          "CV_CSC_UUId_Ref": "cb499189-f66c-3fd0-a964-27ab1ca4d85a",
+          "ODX_CropVariety_Uri": "ODX/CropVariety/19a5dd1d-75dd-3aaf-ba22-b37eaefa9d84",
+          "CV_CropSubClassId_Ref": "862e97f5-4305-4354-b53c-b4b802ed2c25",
+          "CropVarietyName": "Sibelius 13,5",
+          "CropVarietyId": "a6b83071-03c4-4470-9938-17225433c5f4",
+          "ODX_CropVariety_UUId": "19a5dd1d-75dd-3aaf-ba22-b37eaefa9d84"
+        }
+      },
+      "C": {
+        "identity": 25413,
+        "labels": [
+          "Country"
+        ],
+        "properties": {
+          "CountryId": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "ODX_Country_UUId": "5c5fb79d-b66c-3597-8543-9a43b685a8a3",
+          "ProductSetCode": "11",
+          "CountryName": "Argentina",
+          "ODX_Country_Uri": "ODX/Country/5c5fb79d-b66c-3597-8543-9a43b685a8a3"
+        }
+      },
+      "R": {
+        "identity": 25694,
+        "labels": [
+          "Region"
+        ],
+        "properties": {
+          "RegionName": "All",
+          "Region_Country_UUId_Ref": "5c5fb79d-b66c-3597-8543-9a43b685a8a3",
+          "ODX_Region_UUId": "2e7efdd4-b059-3d6d-bf4a-cab0963d86e5",
+          "Region_CountryId_Ref": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "RegionId": "eb290e84-1d10-472e-aa66-50d554362aea",
+          "ODX_Region_Uri": "ODX/Region/2e7efdd4-b059-3d6d-bf4a-cab0963d86e5"
+        }
+      },
+      "GS": {
+        "identity": 29715,
+        "labels": [
+          "GrowthScale"
+        ],
+        "properties": {
+          "ODX_GrowthScale_UUId": "22074af4-f9f3-373a-8bf7-e73a2d1efd01",
+          "GrowthScaleId": "899e7951-8113-4158-bd62-53abadbaead1",
+          "ODX_GrowthScale_Uri": "ODX/GrowthScale/22074af4-f9f3-373a-8bf7-e73a2d1efd01",
+          "GrowthScaleName": "Zadok - Cereals"
+        }
+      },
+      "GSS": {
+        "identity": 29947,
+        "labels": [
+          "GrowthScaleStages"
+        ],
+        "properties": {
+          "ODX_GrowthScaleStage_Uri": "ODX/GrowthScaleStages/632ce666-bdbf-3287-bca6-6be1b2ba142c",
+          "ODX_GrowthScaleStage_UUId": "632ce666-bdbf-3287-bca6-6be1b2ba142c",
+          "GrowthScaleStageId": "37d4585a-5958-4e2c-8177-c50f638951b8",
+          "GrowthScaleStageDescription": "99 Secondary dormancy lost",
+          "BaseOrdinal": "",
+          "Ordinal": "99.0",
+          "GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "ODX_GSS_SourceSystem": "dummy_Polaris",
+          "ODX_GS_UUId_Ref": "22074af4-f9f3-373a-8bf7-e73a2d1efd01"
+        }
+      },
+      "HR": {
+        "identity": 1246,
+        "start": 25413,
+        "end": 25694,
+        "type": "hasRegion",
+        "properties": {
+        }
+      },
+      "IAI": {
+        "identity": 21519,
+        "start": 29288,
+        "end": 25694,
+        "type": "isAvailableIn",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "eb290e84-1d10-472e-aa66-50d554362aea",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HCC": {
+        "identity": 1511,
+        "start": 25959,
+        "end": 25968,
+        "type": "hasCropClass",
+        "properties": {
+        }
+      },
+      "HCSC": {
+        "identity": 1564,
+        "start": 25968,
+        "end": 26021,
+        "type": "hasCropSubClass",
+        "properties": {
+        }
+      },
+      "CSCHCD": {
+        "identity": 8253,
+        "start": 26021,
+        "end": 29288,
+        "type": "hasCropDescription",
+        "properties": {
+        }
+      },
+      "CVHCD": {
+        "identity": 20720,
+        "start": 29268,
+        "end": 29288,
+        "type": "hasCropDescription",
+        "properties": {
+          "CV_CD_UUId_Ref": "1fe4dc75-fef9-3354-812e-3da5ed415e4e",
+          "CV_CropDescriptionId_Ref": "d3f7dfbb-da12-45b1-804b-a5f10fe08eb1"
+        }
+      },
+      "HCV": {
+        "identity": 8233,
+        "start": 26021,
+        "end": 29268,
+        "type": "hasCropVariety",
+        "properties": {
+        }
+      },
+      "HGS": {
+        "identity": 21787,
+        "start": 29288,
+        "end": 29715,
+        "type": "hasGrowthScale",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "3f42afc2-a271-41fb-b26e-80c862a9d6c8",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "de982433-4a83-4013-b63f-2311c68d51b5",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HGSS": {
+        "identity": 20947,
+        "start": 29715,
+        "end": 29947,
+        "type": "hasGrowthScaleStages",
+        "properties": {
+        }
+      }
+    }
+  },
+  {
+    "infoMap":  {
+      "CG": {
+        "identity": 25959,
+        "labels": [
+          "CropGroup"
+        ],
+        "properties": {
+          "CG_MediaUri": "",
+          "ODX_CropGroup_UUId": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupName": "Cereals",
+          "ODX_CropGroup_Uri": "ODX/CropGroup/2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CG_FAOId": "1",
+          "CropGroupId": "bc09457f-cf85-4295-9fa3-9644a1eaf318"
+        }
+      },
+      "CC": {
+        "identity": 25972,
+        "labels": [
+          "CropClass"
+        ],
+        "properties": {
+          "ODX_CropClass_Uri": "ODX/CropClass/f99cacc9-29b7-365b-9dff-0eb6c458fcb4",
+          "CC_MediaUri": "",
+          "CC_FAOId": "15",
+          "ODX_CG_UUId_Ref": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupId_Ref": "bc09457f-cf85-4295-9fa3-9644a1eaf318",
+          "ODX_CropClass_UUId": "f99cacc9-29b7-365b-9dff-0eb6c458fcb4",
+          "CropClassId": "8b0eace7-1c95-40fb-b85f-3a3f26ca61db",
+          "CropClassName": "Barley"
+        }
+      },
+      "CSC": {
+        "identity": 26030,
+        "labels": [
+          "CropSubClass"
+        ],
+        "properties": {
+          "ODX_CropSubClass_Uri": "ODX/CropSubClass/cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "ODX_CC_UUId_Ref": "f99cacc9-29b7-365b-9dff-0eb6c458fcb4",
+          "CSC_FAOId": "",
+          "CropSubClassName": "Spring barley",
+          "CropClassId_Ref": "8b0eace7-1c95-40fb-b85f-3a3f26ca61db",
+          "ODX_CropSubClass_UUId": "cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "CropSubClassId": "13e524f7-b224-434b-8716-5fae78c56ce9",
+          "CSC_MediaUri": ""
+        }
+      },
+      "CD": {
+        "identity": 29356,
+        "labels": [
+          "CropDescription"
+        ],
+        "properties": {
+          "ChlorideSensitive": "false",
+          "CD_CSC_UUId_Ref": "cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "CD_CropSubClassId_Ref": "13e524f7-b224-434b-8716-5fae78c56ce9",
+          "ODX_CropDescription_Uri": "ODX/CropDescription/a2874d8d-efb7-3d3f-8339-f417d6649c8c",
+          "ODX_CropDescription_UUId": "a2874d8d-efb7-3d3f-8339-f417d6649c8c",
+          "ODX_CD_SourceSystem": "dummy_Polaris",
+          "CD_MediaUri": "",
+          "CropDescriptionName": "Malting",
+          "CropDescriptionId": "5d77e030-ab07-4819-a8ee-1f93fe94e5b5"
+        }
+      },
+      "CV": {
+        "identity": 29259,
+        "labels": [
+          "CropVariety"
+        ],
+        "properties": {
+          "CV_CSC_UUId_Ref": "cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "ODX_CropVariety_Uri": "ODX/CropVariety/95743793-c80f-34cf-b928-48488ec60140",
+          "CV_CropSubClassId_Ref": "13e524f7-b224-434b-8716-5fae78c56ce9",
+          "CropVarietyName": "Tipple",
+          "CropVarietyId": "844b0ff8-621d-4c82-b819-25f9c6ff0411",
+          "ODX_CropVariety_UUId": "95743793-c80f-34cf-b928-48488ec60140"
+        }
+      },
+      "C": {
+        "identity": 25413,
+        "labels": [
+          "Country"
+        ],
+        "properties": {
+          "CountryId": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "ODX_Country_UUId": "5c5fb79d-b66c-3597-8543-9a43b685a8a3",
+          "ProductSetCode": "11",
+          "CountryName": "Argentina",
+          "ODX_Country_Uri": "ODX/Country/5c5fb79d-b66c-3597-8543-9a43b685a8a3"
+        }
+      },
+      "R": {
+        "identity": 25694,
+        "labels": [
+          "Region"
+        ],
+        "properties": {
+          "RegionName": "All",
+          "Region_Country_UUId_Ref": "5c5fb79d-b66c-3597-8543-9a43b685a8a3",
+          "ODX_Region_UUId": "2e7efdd4-b059-3d6d-bf4a-cab0963d86e5",
+          "Region_CountryId_Ref": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "RegionId": "eb290e84-1d10-472e-aa66-50d554362aea",
+          "ODX_Region_Uri": "ODX/Region/2e7efdd4-b059-3d6d-bf4a-cab0963d86e5"
+        }
+      },
+      "GS": {
+        "identity": 29714,
+        "labels": [
+          "GrowthScale"
+        ],
+        "properties": {
+          "ODX_GrowthScale_UUId": "d1cb72a9-76da-39ea-a366-227ceaeb2d66",
+          "GrowthScaleId": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "ODX_GrowthScale_Uri": "ODX/GrowthScale/d1cb72a9-76da-39ea-a366-227ceaeb2d66",
+          "GrowthScaleName": "BBCH - Cereals"
+        }
+      },
+      "GSS": {
+        "identity": 29887,
+        "labels": [
+          "GrowthScaleStages"
+        ],
+        "properties": {
+          "ODX_GrowthScaleStage_Uri": "ODX/GrowthScaleStages/ed09b776-1c90-335d-ad32-fbac5d49a848",
+          "ODX_GrowthScaleStage_UUId": "ed09b776-1c90-335d-ad32-fbac5d49a848",
+          "BaseOrdinal": "",
+          "GrowthScaleStageId": "6a6a09cc-2f92-43ce-a48b-82b1bed6f406",
+          "GrowthScaleStageDescription": "99 Harvested product",
+          "Ordinal": "99.0",
+          "GrowthScaleId_Ref": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "ODX_GSS_SourceSystem": "dummy_Polaris",
+          "ODX_GS_UUId_Ref": "d1cb72a9-76da-39ea-a366-227ceaeb2d66"
+        }
+      },
+      "HR": {
+        "identity": 1246,
+        "start": 25413,
+        "end": 25694,
+        "type": "hasRegion",
+        "properties": {
+
+        }
+      },
+      "IAI": {
+        "identity": 21518,
+        "start": 29356,
+        "end": 25694,
+        "type": "isAvailableIn",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "eb290e84-1d10-472e-aa66-50d554362aea",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HCC": {
+        "identity": 1515,
+        "start": 25959,
+        "end": 25972,
+        "type": "hasCropClass",
+        "properties": {
+
+        }
+      },
+      "HCSC": {
+        "identity": 1573,
+        "start": 25972,
+        "end": 26030,
+        "type": "hasCropSubClass",
+        "properties": {
+
+        }
+      },
+      "CSCHCD": {
+        "identity": 8321,
+        "start": 26030,
+        "end": 29356,
+        "type": "hasCropDescription",
+        "properties": {
+
+        }
+      },
+      "CVHCD": {
+        "identity": 20703,
+        "start": 29259,
+        "end": 29356,
+        "type": "hasCropDescription",
+        "properties": {
+          "CV_CD_UUId_Ref": "a2874d8d-efb7-3d3f-8339-f417d6649c8c",
+          "CV_CropDescriptionId_Ref": "5d77e030-ab07-4819-a8ee-1f93fe94e5b5"
+        }
+      },
+      "HCV": {
+        "identity": 8224,
+        "start": 26030,
+        "end": 29259,
+        "type": "hasCropVariety",
+        "properties": {
+
+        }
+      },
+      "HGS": {
+        "identity": 21842,
+        "start": 29356,
+        "end": 29714,
+        "type": "hasGrowthScale",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "CD_CountryIdRef": "0cbc1e72-cc07-4bcd-aafe-a4641fa7c06c",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "b1672940-3a58-425e-a72c-b0555fec0fba",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HGSS": {
+        "identity": 20887,
+        "start": 29714,
+        "end": 29887,
+        "type": "hasGrowthScaleStages",
+        "properties": {
+
+        }
+      }
+    }
+  },
+  {
+    "infoMap": {
+      "CG": {
+        "identity": 25959,
+        "labels": [
+          "CropGroup"
+        ],
+        "properties": {
+          "CG_MediaUri": "",
+          "ODX_CropGroup_UUId": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupName": "Cereals",
+          "ODX_CropGroup_Uri": "ODX/CropGroup/2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CG_FAOId": "1",
+          "CropGroupId": "bc09457f-cf85-4295-9fa3-9644a1eaf318"
+        }
+      },
+      "CC": {
+        "identity": 25972,
+        "labels": [
+          "CropClass"
+        ],
+        "properties": {
+          "ODX_CropClass_Uri": "ODX/CropClass/f99cacc9-29b7-365b-9dff-0eb6c458fcb4",
+          "CC_MediaUri": "",
+          "CC_FAOId": "15",
+          "ODX_CG_UUId_Ref": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupId_Ref": "bc09457f-cf85-4295-9fa3-9644a1eaf318",
+          "ODX_CropClass_UUId": "f99cacc9-29b7-365b-9dff-0eb6c458fcb4",
+          "CropClassId": "8b0eace7-1c95-40fb-b85f-3a3f26ca61db",
+          "CropClassName": "Barley"
+        }
+      },
+      "CSC": {
+        "identity": 26030,
+        "labels": [
+          "CropSubClass"
+        ],
+        "properties": {
+          "ODX_CropSubClass_Uri": "ODX/CropSubClass/cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "ODX_CC_UUId_Ref": "f99cacc9-29b7-365b-9dff-0eb6c458fcb4",
+          "CSC_FAOId": "",
+          "CropSubClassName": "Spring barley",
+          "CropClassId_Ref": "8b0eace7-1c95-40fb-b85f-3a3f26ca61db",
+          "ODX_CropSubClass_UUId": "cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "CropSubClassId": "13e524f7-b224-434b-8716-5fae78c56ce9",
+          "CSC_MediaUri": ""
+        }
+      },
+      "CD": {
+        "identity": 29356,
+        "labels": [
+          "CropDescription"
+        ],
+        "properties": {
+          "ChlorideSensitive": "false",
+          "CD_CSC_UUId_Ref": "cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "CD_CropSubClassId_Ref": "13e524f7-b224-434b-8716-5fae78c56ce9",
+          "ODX_CropDescription_Uri": "ODX/CropDescription/a2874d8d-efb7-3d3f-8339-f417d6649c8c",
+          "ODX_CropDescription_UUId": "a2874d8d-efb7-3d3f-8339-f417d6649c8c",
+          "ODX_CD_SourceSystem": "dummy_Polaris",
+          "CD_MediaUri": "",
+          "CropDescriptionName": "Malting",
+          "CropDescriptionId": "5d77e030-ab07-4819-a8ee-1f93fe94e5b5"
+        }
+      },
+      "CV": {
+        "identity": 29259,
+        "labels": [
+          "CropVariety"
+        ],
+        "properties": {
+          "CV_CSC_UUId_Ref": "cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "ODX_CropVariety_Uri": "ODX/CropVariety/95743793-c80f-34cf-b928-48488ec60140",
+          "CV_CropSubClassId_Ref": "13e524f7-b224-434b-8716-5fae78c56ce9",
+          "CropVarietyName": "Tipple",
+          "CropVarietyId": "844b0ff8-621d-4c82-b819-25f9c6ff0411",
+          "ODX_CropVariety_UUId": "95743793-c80f-34cf-b928-48488ec60140"
+        }
+      },
+      "C": {
+        "identity": 25413,
+        "labels": [
+          "Country"
+        ],
+        "properties": {
+          "CountryId": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "ODX_Country_UUId": "5c5fb79d-b66c-3597-8543-9a43b685a8a3",
+          "ProductSetCode": "11",
+          "CountryName": "Argentina",
+          "ODX_Country_Uri": "ODX/Country/5c5fb79d-b66c-3597-8543-9a43b685a8a3"
+        }
+      },
+      "R": {
+        "identity": 25694,
+        "labels": [
+          "Region"
+        ],
+        "properties": {
+          "RegionName": "All",
+          "Region_Country_UUId_Ref": "5c5fb79d-b66c-3597-8543-9a43b685a8a3",
+          "ODX_Region_UUId": "2e7efdd4-b059-3d6d-bf4a-cab0963d86e5",
+          "Region_CountryId_Ref": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "RegionId": "eb290e84-1d10-472e-aa66-50d554362aea",
+          "ODX_Region_Uri": "ODX/Region/2e7efdd4-b059-3d6d-bf4a-cab0963d86e5"
+        }
+      },
+      "GS": {
+        "identity": 29714,
+        "labels": [
+          "GrowthScale"
+        ],
+        "properties": {
+          "ODX_GrowthScale_UUId": "d1cb72a9-76da-39ea-a366-227ceaeb2d66",
+          "GrowthScaleId": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "ODX_GrowthScale_Uri": "ODX/GrowthScale/d1cb72a9-76da-39ea-a366-227ceaeb2d66",
+          "GrowthScaleName": "BBCH - Cereals"
+        }
+      },
+      "GSS": {
+        "identity": 29887,
+        "labels": [
+          "GrowthScaleStages"
+        ],
+        "properties": {
+          "ODX_GrowthScaleStage_Uri": "ODX/GrowthScaleStages/ed09b776-1c90-335d-ad32-fbac5d49a848",
+          "ODX_GrowthScaleStage_UUId": "ed09b776-1c90-335d-ad32-fbac5d49a848",
+          "BaseOrdinal": "",
+          "GrowthScaleStageId": "6a6a09cc-2f92-43ce-a48b-82b1bed6f406",
+          "GrowthScaleStageDescription": "99 Harvested product",
+          "Ordinal": "99.0",
+          "GrowthScaleId_Ref": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "ODX_GSS_SourceSystem": "dummy_Polaris",
+          "ODX_GS_UUId_Ref": "d1cb72a9-76da-39ea-a366-227ceaeb2d66"
+        }
+      },
+      "HR": {
+        "identity": 1246,
+        "start": 25413,
+        "end": 25694,
+        "type": "hasRegion",
+        "properties": {
+
+        }
+      },
+      "IAI": {
+        "identity": 21518,
+        "start": 29356,
+        "end": 25694,
+        "type": "isAvailableIn",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "eb290e84-1d10-472e-aa66-50d554362aea",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HCC": {
+        "identity": 1515,
+        "start": 25959,
+        "end": 25972,
+        "type": "hasCropClass",
+        "properties": {
+
+        }
+      },
+      "HCSC": {
+        "identity": 1573,
+        "start": 25972,
+        "end": 26030,
+        "type": "hasCropSubClass",
+        "properties": {
+
+        }
+      },
+      "CSCHCD": {
+        "identity": 8321,
+        "start": 26030,
+        "end": 29356,
+        "type": "hasCropDescription",
+        "properties": {
+
+        }
+      },
+      "CVHCD": {
+        "identity": 20703,
+        "start": 29259,
+        "end": 29356,
+        "type": "hasCropDescription",
+        "properties": {
+          "CV_CD_UUId_Ref": "a2874d8d-efb7-3d3f-8339-f417d6649c8c",
+          "CV_CropDescriptionId_Ref": "5d77e030-ab07-4819-a8ee-1f93fe94e5b5"
+        }
+      },
+      "HCV": {
+        "identity": 8224,
+        "start": 26030,
+        "end": 29259,
+        "type": "hasCropVariety",
+        "properties": {
+
+        }
+      },
+      "HGS": {
+        "identity": 21842,
+        "start": 29356,
+        "end": 29714,
+        "type": "hasGrowthScale",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "CD_CountryIdRef": "0cbc1e72-cc07-4bcd-aafe-a4641fa7c06c",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "b1672940-3a58-425e-a72c-b0555fec0fba",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HGSS": {
+        "identity": 20887,
+        "start": 29714,
+        "end": 29887,
+        "type": "hasGrowthScaleStages",
+        "properties": {
+
+        }
+      }
+    }
+  },
+  {
+    "infoMap": {
+      "CG": {
+        "identity": 25959,
+        "labels": [
+          "CropGroup"
+        ],
+        "properties": {
+          "CG_MediaUri": "",
+          "ODX_CropGroup_UUId": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupName": "Cereals",
+          "ODX_CropGroup_Uri": "ODX/CropGroup/2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CG_FAOId": "1",
+          "CropGroupId": "bc09457f-cf85-4295-9fa3-9644a1eaf318"
+        }
+      },
+      "CC": {
+        "identity": 25972,
+        "labels": [
+          "CropClass"
+        ],
+        "properties": {
+          "ODX_CropClass_Uri": "ODX/CropClass/f99cacc9-29b7-365b-9dff-0eb6c458fcb4",
+          "CC_MediaUri": "",
+          "CC_FAOId": "15",
+          "ODX_CG_UUId_Ref": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupId_Ref": "bc09457f-cf85-4295-9fa3-9644a1eaf318",
+          "ODX_CropClass_UUId": "f99cacc9-29b7-365b-9dff-0eb6c458fcb4",
+          "CropClassId": "8b0eace7-1c95-40fb-b85f-3a3f26ca61db",
+          "CropClassName": "Barley"
+        }
+      },
+      "CSC": {
+        "identity": 26030,
+        "labels": [
+          "CropSubClass"
+        ],
+        "properties": {
+          "ODX_CropSubClass_Uri": "ODX/CropSubClass/cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "ODX_CC_UUId_Ref": "f99cacc9-29b7-365b-9dff-0eb6c458fcb4",
+          "CSC_FAOId": "",
+          "CropSubClassName": "Spring barley",
+          "CropClassId_Ref": "8b0eace7-1c95-40fb-b85f-3a3f26ca61db",
+          "ODX_CropSubClass_UUId": "cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "CropSubClassId": "13e524f7-b224-434b-8716-5fae78c56ce9",
+          "CSC_MediaUri": ""
+        }
+      },
+      "CD": {
+        "identity": 29356,
+        "labels": [
+          "CropDescription"
+        ],
+        "properties": {
+          "ChlorideSensitive": "false",
+          "CD_CSC_UUId_Ref": "cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "CD_CropSubClassId_Ref": "13e524f7-b224-434b-8716-5fae78c56ce9",
+          "ODX_CropDescription_Uri": "ODX/CropDescription/a2874d8d-efb7-3d3f-8339-f417d6649c8c",
+          "ODX_CropDescription_UUId": "a2874d8d-efb7-3d3f-8339-f417d6649c8c",
+          "ODX_CD_SourceSystem": "dummy_Polaris",
+          "CD_MediaUri": "",
+          "CropDescriptionName": "Malting",
+          "CropDescriptionId": "5d77e030-ab07-4819-a8ee-1f93fe94e5b5"
+        }
+      },
+      "CV": {
+        "identity": 29084,
+        "labels": [
+          "CropVariety"
+        ],
+        "properties": {
+          "CV_CSC_UUId_Ref": "cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "ODX_CropVariety_Uri": "ODX/CropVariety/5a86922b-7a21-391d-837e-5e056be0ceaf",
+          "CV_CropSubClassId_Ref": "13e524f7-b224-434b-8716-5fae78c56ce9",
+          "CropVarietyName": "Tamtam",
+          "CropVarietyId": "702daab7-2bba-4e8c-9a31-f6b228cfcf18",
+          "ODX_CropVariety_UUId": "5a86922b-7a21-391d-837e-5e056be0ceaf"
+        }
+      },
+      "C": {
+        "identity": 25413,
+        "labels": [
+          "Country"
+        ],
+        "properties": {
+          "CountryId": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "ODX_Country_UUId": "5c5fb79d-b66c-3597-8543-9a43b685a8a3",
+          "ProductSetCode": "11",
+          "CountryName": "Argentina",
+          "ODX_Country_Uri": "ODX/Country/5c5fb79d-b66c-3597-8543-9a43b685a8a3"
+        }
+      },
+      "R": {
+        "identity": 25694,
+        "labels": [
+          "Region"
+        ],
+        "properties": {
+          "RegionName": "All",
+          "Region_Country_UUId_Ref": "5c5fb79d-b66c-3597-8543-9a43b685a8a3",
+          "ODX_Region_UUId": "2e7efdd4-b059-3d6d-bf4a-cab0963d86e5",
+          "Region_CountryId_Ref": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "RegionId": "eb290e84-1d10-472e-aa66-50d554362aea",
+          "ODX_Region_Uri": "ODX/Region/2e7efdd4-b059-3d6d-bf4a-cab0963d86e5"
+        }
+      },
+      "GS": {
+        "identity": 29714,
+        "labels": [
+          "GrowthScale"
+        ],
+        "properties": {
+          "ODX_GrowthScale_UUId": "d1cb72a9-76da-39ea-a366-227ceaeb2d66",
+          "GrowthScaleId": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "ODX_GrowthScale_Uri": "ODX/GrowthScale/d1cb72a9-76da-39ea-a366-227ceaeb2d66",
+          "GrowthScaleName": "BBCH - Cereals"
+        }
+      },
+      "GSS": {
+        "identity": 29887,
+        "labels": [
+          "GrowthScaleStages"
+        ],
+        "properties": {
+          "ODX_GrowthScaleStage_Uri": "ODX/GrowthScaleStages/ed09b776-1c90-335d-ad32-fbac5d49a848",
+          "ODX_GrowthScaleStage_UUId": "ed09b776-1c90-335d-ad32-fbac5d49a848",
+          "BaseOrdinal": "",
+          "GrowthScaleStageId": "6a6a09cc-2f92-43ce-a48b-82b1bed6f406",
+          "GrowthScaleStageDescription": "99 Harvested product",
+          "Ordinal": "99.0",
+          "GrowthScaleId_Ref": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "ODX_GSS_SourceSystem": "dummy_Polaris",
+          "ODX_GS_UUId_Ref": "d1cb72a9-76da-39ea-a366-227ceaeb2d66"
+        }
+      },
+      "HR": {
+        "identity": 1246,
+        "start": 25413,
+        "end": 25694,
+        "type": "hasRegion",
+        "properties": {
+
+        }
+      },
+      "IAI": {
+        "identity": 21518,
+        "start": 29356,
+        "end": 25694,
+        "type": "isAvailableIn",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "eb290e84-1d10-472e-aa66-50d554362aea",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HCC": {
+        "identity": 1515,
+        "start": 25959,
+        "end": 25972,
+        "type": "hasCropClass",
+        "properties": {
+
+        }
+      },
+      "HCSC": {
+        "identity": 1573,
+        "start": 25972,
+        "end": 26030,
+        "type": "hasCropSubClass",
+        "properties": {
+
+        }
+      },
+      "CSCHCD": {
+        "identity": 8321,
+        "start": 26030,
+        "end": 29356,
+        "type": "hasCropDescription",
+        "properties": {
+
+        }
+      },
+      "CVHCD": {
+        "identity": 20702,
+        "start": 29084,
+        "end": 29356,
+        "type": "hasCropDescription",
+        "properties": {
+          "CV_CD_UUId_Ref": "a2874d8d-efb7-3d3f-8339-f417d6649c8c",
+          "CV_CropDescriptionId_Ref": "5d77e030-ab07-4819-a8ee-1f93fe94e5b5"
+        }
+      },
+      "HCV": {
+        "identity": 8049,
+        "start": 26030,
+        "end": 29084,
+        "type": "hasCropVariety",
+        "properties": {
+
+        }
+      },
+      "HGS": {
+        "identity": 21842,
+        "start": 29356,
+        "end": 29714,
+        "type": "hasGrowthScale",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "CD_CountryIdRef": "0cbc1e72-cc07-4bcd-aafe-a4641fa7c06c",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "b1672940-3a58-425e-a72c-b0555fec0fba",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HGSS": {
+        "identity": 20887,
+        "start": 29714,
+        "end": 29887,
+        "type": "hasGrowthScaleStages",
+        "properties": {
+
+        }
+      }
+    }
+  },
+  {
+    "infoMap": {
+      "CG": {
+        "identity": 25959,
+        "labels": [
+          "CropGroup"
+        ],
+        "properties": {
+          "CG_MediaUri": "",
+          "ODX_CropGroup_UUId": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupName": "Cereals",
+          "ODX_CropGroup_Uri": "ODX/CropGroup/2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CG_FAOId": "1",
+          "CropGroupId": "bc09457f-cf85-4295-9fa3-9644a1eaf318"
+        }
+      },
+      "CC": {
+        "identity": 25972,
+        "labels": [
+          "CropClass"
+        ],
+        "properties": {
+          "ODX_CropClass_Uri": "ODX/CropClass/f99cacc9-29b7-365b-9dff-0eb6c458fcb4",
+          "CC_MediaUri": "",
+          "CC_FAOId": "15",
+          "ODX_CG_UUId_Ref": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupId_Ref": "bc09457f-cf85-4295-9fa3-9644a1eaf318",
+          "ODX_CropClass_UUId": "f99cacc9-29b7-365b-9dff-0eb6c458fcb4",
+          "CropClassId": "8b0eace7-1c95-40fb-b85f-3a3f26ca61db",
+          "CropClassName": "Barley"
+        }
+      },
+      "CSC": {
+        "identity": 26030,
+        "labels": [
+          "CropSubClass"
+        ],
+        "properties": {
+          "ODX_CropSubClass_Uri": "ODX/CropSubClass/cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "ODX_CC_UUId_Ref": "f99cacc9-29b7-365b-9dff-0eb6c458fcb4",
+          "CSC_FAOId": "",
+          "CropSubClassName": "Spring barley",
+          "CropClassId_Ref": "8b0eace7-1c95-40fb-b85f-3a3f26ca61db",
+          "ODX_CropSubClass_UUId": "cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "CropSubClassId": "13e524f7-b224-434b-8716-5fae78c56ce9",
+          "CSC_MediaUri": ""
+        }
+      },
+      "CD": {
+        "identity": 29356,
+        "labels": [
+          "CropDescription"
+        ],
+        "properties": {
+          "ChlorideSensitive": "false",
+          "CD_CSC_UUId_Ref": "cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "CD_CropSubClassId_Ref": "13e524f7-b224-434b-8716-5fae78c56ce9",
+          "ODX_CropDescription_Uri": "ODX/CropDescription/a2874d8d-efb7-3d3f-8339-f417d6649c8c",
+          "ODX_CropDescription_UUId": "a2874d8d-efb7-3d3f-8339-f417d6649c8c",
+          "ODX_CD_SourceSystem": "dummy_Polaris",
+          "CD_MediaUri": "",
+          "CropDescriptionName": "Malting",
+          "CropDescriptionId": "5d77e030-ab07-4819-a8ee-1f93fe94e5b5"
+        }
+      },
+      "CV": {
+        "identity": 29084,
+        "labels": [
+          "CropVariety"
+        ],
+        "properties": {
+          "CV_CSC_UUId_Ref": "cb596935-d5bb-3e0f-836c-3e0debc83cee",
+          "ODX_CropVariety_Uri": "ODX/CropVariety/5a86922b-7a21-391d-837e-5e056be0ceaf",
+          "CV_CropSubClassId_Ref": "13e524f7-b224-434b-8716-5fae78c56ce9",
+          "CropVarietyName": "Tamtam",
+          "CropVarietyId": "702daab7-2bba-4e8c-9a31-f6b228cfcf18",
+          "ODX_CropVariety_UUId": "5a86922b-7a21-391d-837e-5e056be0ceaf"
+        }
+      },
+      "C": {
+        "identity": 25413,
+        "labels": [
+          "Country"
+        ],
+        "properties": {
+          "CountryId": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "ODX_Country_UUId": "5c5fb79d-b66c-3597-8543-9a43b685a8a3",
+          "ProductSetCode": "11",
+          "CountryName": "Argentina",
+          "ODX_Country_Uri": "ODX/Country/5c5fb79d-b66c-3597-8543-9a43b685a8a3"
+        }
+      },
+      "R": {
+        "identity": 25694,
+        "labels": [
+          "Region"
+        ],
+        "properties": {
+          "RegionName": "All",
+          "Region_Country_UUId_Ref": "5c5fb79d-b66c-3597-8543-9a43b685a8a3",
+          "ODX_Region_UUId": "2e7efdd4-b059-3d6d-bf4a-cab0963d86e5",
+          "Region_CountryId_Ref": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "RegionId": "eb290e84-1d10-472e-aa66-50d554362aea",
+          "ODX_Region_Uri": "ODX/Region/2e7efdd4-b059-3d6d-bf4a-cab0963d86e5"
+        }
+      },
+      "GS": {
+        "identity": 29714,
+        "labels": [
+          "GrowthScale"
+        ],
+        "properties": {
+          "ODX_GrowthScale_UUId": "d1cb72a9-76da-39ea-a366-227ceaeb2d66",
+          "GrowthScaleId": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "ODX_GrowthScale_Uri": "ODX/GrowthScale/d1cb72a9-76da-39ea-a366-227ceaeb2d66",
+          "GrowthScaleName": "BBCH - Cereals"
+        }
+      },
+      "GSS": {
+        "identity": 29887,
+        "labels": [
+          "GrowthScaleStages"
+        ],
+        "properties": {
+          "ODX_GrowthScaleStage_Uri": "ODX/GrowthScaleStages/ed09b776-1c90-335d-ad32-fbac5d49a848",
+          "ODX_GrowthScaleStage_UUId": "ed09b776-1c90-335d-ad32-fbac5d49a848",
+          "BaseOrdinal": "",
+          "GrowthScaleStageId": "6a6a09cc-2f92-43ce-a48b-82b1bed6f406",
+          "GrowthScaleStageDescription": "99 Harvested product",
+          "Ordinal": "99.0",
+          "GrowthScaleId_Ref": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "ODX_GSS_SourceSystem": "dummy_Polaris",
+          "ODX_GS_UUId_Ref": "d1cb72a9-76da-39ea-a366-227ceaeb2d66"
+        }
+      },
+      "HR": {
+        "identity": 1246,
+        "start": 25413,
+        "end": 25694,
+        "type": "hasRegion",
+        "properties": {
+
+        }
+      },
+      "IAI": {
+        "identity": 21518,
+        "start": 29356,
+        "end": 25694,
+        "type": "isAvailableIn",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "8ca9994b-cfda-4699-9381-61c1f801ac97",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "eb290e84-1d10-472e-aa66-50d554362aea",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HCC": {
+        "identity": 1515,
+        "start": 25959,
+        "end": 25972,
+        "type": "hasCropClass",
+        "properties": {
+
+        }
+      },
+      "HCSC": {
+        "identity": 1573,
+        "start": 25972,
+        "end": 26030,
+        "type": "hasCropSubClass",
+        "properties": {
+
+        }
+      },
+      "CSCHCD": {
+        "identity": 8321,
+        "start": 26030,
+        "end": 29356,
+        "type": "hasCropDescription",
+        "properties": {
+
+        }
+      },
+      "CVHCD": {
+        "identity": 20702,
+        "start": 29084,
+        "end": 29356,
+        "type": "hasCropDescription",
+        "properties": {
+          "CV_CD_UUId_Ref": "a2874d8d-efb7-3d3f-8339-f417d6649c8c",
+          "CV_CropDescriptionId_Ref": "5d77e030-ab07-4819-a8ee-1f93fe94e5b5"
+        }
+      },
+      "HCV": {
+        "identity": 8049,
+        "start": 26030,
+        "end": 29084,
+        "type": "hasCropVariety",
+        "properties": {
+
+        }
+      },
+      "HGS": {
+        "identity": 21842,
+        "start": 29356,
+        "end": 29714,
+        "type": "hasGrowthScale",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "CD_CountryIdRef": "0cbc1e72-cc07-4bcd-aafe-a4641fa7c06c",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "b1672940-3a58-425e-a72c-b0555fec0fba",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HGSS": {
+        "identity": 20887,
+        "start": 29714,
+        "end": 29887,
+        "type": "hasGrowthScaleStages",
+        "properties": {
+
+        }
+      }
+    }
+  },
+  {
+    "infoMap": {
+      "C": {
+        "identity": 25460,
+        "labels": [
+          "Country"
+        ],
+        "properties": {
+          "CountryId": "a8ccbf57-6056-44ec-9561-e60bd0f30abc",
+          "ODX_Country_UUId": "6980f5b6-0ced-3593-9c72-1914fece80ed",
+          "ProductSetCode": "31",
+          "CountryName": "Germany",
+          "ODX_Country_Uri": "ODX/Country/6980f5b6-0ced-3593-9c72-1914fece80ed"
+        }
+      },
+      "R": {
+        "identity": 25707,
+        "labels": [
+          "Region"
+        ],
+        "properties": {
+          "RegionName": "All",
+          "Region_Country_UUId_Ref": "6980f5b6-0ced-3593-9c72-1914fece80ed",
+          "ODX_Region_UUId": "1fba86fd-c2b9-3b07-8ccf-d434e82c845c",
+          "Region_CountryId_Ref": "a8ccbf57-6056-44ec-9561-e60bd0f30abc",
+          "RegionId": "f932d668-0230-4da8-bc20-389fc30e3196",
+          "ODX_Region_Uri": "ODX/Region/1fba86fd-c2b9-3b07-8ccf-d434e82c845c"
+        }
+      },
+      "F": {
+        "identity": 30809,
+        "labels": [
+          "Fertilizers"
+        ],
+        "properties": {
+          "CuUnitId": "168bc22c-a9ad-4cce-9ede-5b465aa48754",
+          "SUnitId": "2a3d91f7-e1f2-4811-944b-32da80507d6b",
+          "ElectricalConductivity": "",
+          "BUnitId": "0ca37d40-bb10-45b4-b2a3-664072b4693b",
+          "ProductId": "f7849fd1-3c32-4ae7-bb14-7eda412e4d0e",
+          "Co": "0.0",
+          "Density": "1.0",
+          "PUnitId": "3eacac5f-d65d-4248-89c9-8d7f9337ebe9",
+          "Cu": "0.0",
+          "NO3": "0.0",
+          "MnUnitId": "46dc12da-31c5-4611-a7c3-a88344f7d682",
+          "Solubility5C": "",
+          "DryMatter": "",
+          "Ph": "",
+          "ODX_Fert_SourceSystem": "dummy_Polaris",
+          "SpreaderLoss": "",
+          "ProductType": "SOLID",
+          "CaUnitId": "c93686e7-d4c5-4b37-9733-c00a882e7d56",
+          "LastSync": "[NULL]",
+          "Tank": "",
+          "ODX_Fertilizer_Uri": "ODX/Fertilizers/ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Urea": "0.0",
+          "Solubility20C": "",
+          "Mg": "0.0",
+          "NH4": "0.0",
+          "MgUnitId": "041057eb-e8d3-492f-b82f-656e93b32800",
+          "ProdFamily": "YaraBela",
+          "UtilizationNH4": "",
+          "Mn": "0.0",
+          "Mo": "0.0",
+          "B": "0.0",
+          "UtilizationN": "",
+          "SyncId": "[NULL]",
+          "K": "0.0",
+          "FeUnitId": "9d3fc031-9c67-46c0-a259-126a2db5863d",
+          "N": "26.0",
+          "P": "0.0",
+          "ZnUnitId": "0a9927a7-c44d-417d-bdb1-c2e63b1689e3",
+          "NaUnitId": "47216f05-d68e-4777-83ca-c97267db1cee",
+          "SyncSource": "[NULL]",
+          "DhCode": "[NULL]",
+          "Na": "0.0",
+          "S": "35.0",
+          "Zn": "0.0",
+          "LowChloride": "true",
+          "KUnitId": "ae2132a8-f1e6-4170-877c-ab8ccc2c6656",
+          "ProdName": "Sulfan",
+          "NUnitId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "Fe": "0.0",
+          "CoUnitId": "e337da8e-6cbc-4831-8a5f-9fe180179d5f",
+          "ODX_Fertilizer_UUId": "ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Se": "0.0",
+          "SeUnitId": "a888bf4a-a438-4e11-862d-b1a6aea8ce5a",
+          "MoUnitId": "3a65cae7-d5cf-46e4-be63-b69171d367da",
+          "Ca": "0.0"
+        }
+      },
+      "N": {
+        "identity": 30504,
+        "labels": [
+          "Nutrient"
+        ],
+        "properties": {
+          "ElementalName": "N",
+          "ODX_Nutrient_Uri": "ODX/Nutrient/c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "ODX_Nutrient_UUId": "c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "NutrientName": "Nitrogen",
+          "NutrientId": "880abcda-5ee5-4068-879c-94489be314d5",
+          "Nutr_Ordinal": "4.0",
+          "ODX_Nutr_SourceSystem": "dummy_Polaris"
+        }
+      },
+      "U": {
+        "identity": 30550,
+        "labels": [
+          "Units"
+        ],
+        "properties": {
+          "ODX_Units_UUId": "9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "ODX_Units_Uri": "ODX/Units/9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "UnitsId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "UnitsTags": "N",
+          "UnitsName": "N"
+        }
+      },
+      "UC": {
+        "identity": 30661,
+        "labels": [
+          "UnitConversion"
+        ],
+        "properties": {
+          "UnitConversionId": "8ff1eb1d-36f3-47c4-8e67-9cb89650b336",
+          "ODX_UnitConversion_UUId": "b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "ConvertToUnitId": "c6deac28-14f4-4eb3-946d-4ef93e4e9c33",
+          "UnitId_Ref": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "ODX_UnitConversion_Uri": "ODX/UnitConversion/b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "Multiplier": "1.28783",
+          "ODX_UC_SourceSystem": "dummy_Polaris",
+          "CountryId_Ref": "NULL",
+          "UnitConversionName": "NH4"
+        }
+      },
+      "IAI": {
+        "identity": 22262,
+        "start": 30809,
+        "end": 25707,
+        "type": "isAvailableIn",
+        "properties": {
+          "Prod_CountryId_Ref": "a8ccbf57-6056-44ec-9561-e60bd0f30abc",
+          "ProdCountry_UUId_Ref": "6980f5b6-0ced-3593-9c72-1914fece80ed",
+          "ApplicationTags": "dummy_empty_app_tags",
+          "ProdRegion_UUId_Ref": "1fba86fd-c2b9-3b07-8ccf-d434e82c845c",
+          "LocalizedName": "",
+          "Prod_RegionId_Ref": "f932d668-0230-4da8-bc20-389fc30e3196",
+          "IsAvailable": "true"
+        }
+      },
+      "HR": {
+        "identity": 1259,
+        "start": 25460,
+        "end": 25707,
+        "type": "hasRegion",
+        "properties": {
+
+        }
+      },
+      "HPN": {
+        "identity": 23972,
+        "start": 30809,
+        "end": 30504,
+        "type": "hasProdNutrient",
+        "properties": {
+
+        }
+      },
+      "HNU": {
+        "identity": 21974,
+        "start": 30504,
+        "end": 30550,
+        "type": "hasNutrientUnit",
+        "properties": {
+
+        }
+      },
+      "HUC": {
+        "identity": 22031,
+        "start": 30550,
+        "end": 30661,
+        "type": "hasUnitConversion",
+        "properties": {
+
+        }
+      }
+    }
+  },
+  {
+    "infoMap": {
+      "C": {
+        "identity": 25460,
+        "labels": [
+          "Country"
+        ],
+        "properties": {
+          "CountryId": "a8ccbf57-6056-44ec-9561-e60bd0f30abc",
+          "ODX_Country_UUId": "6980f5b6-0ced-3593-9c72-1914fece80ed",
+          "ProductSetCode": "31",
+          "CountryName": "Germany",
+          "ODX_Country_Uri": "ODX/Country/6980f5b6-0ced-3593-9c72-1914fece80ed"
+        }
+      },
+      "R": {
+        "identity": 25707,
+        "labels": [
+          "Region"
+        ],
+        "properties": {
+          "RegionName": "All",
+          "Region_Country_UUId_Ref": "6980f5b6-0ced-3593-9c72-1914fece80ed",
+          "ODX_Region_UUId": "1fba86fd-c2b9-3b07-8ccf-d434e82c845c",
+          "Region_CountryId_Ref": "a8ccbf57-6056-44ec-9561-e60bd0f30abc",
+          "RegionId": "f932d668-0230-4da8-bc20-389fc30e3196",
+          "ODX_Region_Uri": "ODX/Region/1fba86fd-c2b9-3b07-8ccf-d434e82c845c"
+        }
+      },
+      "F": {
+        "identity": 30809,
+        "labels": [
+          "Fertilizers"
+        ],
+        "properties": {
+          "CuUnitId": "168bc22c-a9ad-4cce-9ede-5b465aa48754",
+          "SUnitId": "2a3d91f7-e1f2-4811-944b-32da80507d6b",
+          "ElectricalConductivity": "",
+          "BUnitId": "0ca37d40-bb10-45b4-b2a3-664072b4693b",
+          "ProductId": "f7849fd1-3c32-4ae7-bb14-7eda412e4d0e",
+          "Co": "0.0",
+          "Density": "1.0",
+          "PUnitId": "3eacac5f-d65d-4248-89c9-8d7f9337ebe9",
+          "Cu": "0.0",
+          "NO3": "0.0",
+          "MnUnitId": "46dc12da-31c5-4611-a7c3-a88344f7d682",
+          "Solubility5C": "",
+          "DryMatter": "",
+          "Ph": "",
+          "ODX_Fert_SourceSystem": "dummy_Polaris",
+          "SpreaderLoss": "",
+          "ProductType": "SOLID",
+          "CaUnitId": "c93686e7-d4c5-4b37-9733-c00a882e7d56",
+          "LastSync": "[NULL]",
+          "Tank": "",
+          "ODX_Fertilizer_Uri": "ODX/Fertilizers/ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Urea": "0.0",
+          "Solubility20C": "",
+          "Mg": "0.0",
+          "NH4": "0.0",
+          "MgUnitId": "041057eb-e8d3-492f-b82f-656e93b32800",
+          "ProdFamily": "YaraBela",
+          "UtilizationNH4": "",
+          "Mn": "0.0",
+          "Mo": "0.0",
+          "B": "0.0",
+          "UtilizationN": "",
+          "SyncId": "[NULL]",
+          "K": "0.0",
+          "FeUnitId": "9d3fc031-9c67-46c0-a259-126a2db5863d",
+          "N": "26.0",
+          "P": "0.0",
+          "ZnUnitId": "0a9927a7-c44d-417d-bdb1-c2e63b1689e3",
+          "NaUnitId": "47216f05-d68e-4777-83ca-c97267db1cee",
+          "SyncSource": "[NULL]",
+          "DhCode": "[NULL]",
+          "Na": "0.0",
+          "S": "35.0",
+          "Zn": "0.0",
+          "LowChloride": "true",
+          "KUnitId": "ae2132a8-f1e6-4170-877c-ab8ccc2c6656",
+          "ProdName": "Sulfan",
+          "NUnitId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "Fe": "0.0",
+          "CoUnitId": "e337da8e-6cbc-4831-8a5f-9fe180179d5f",
+          "ODX_Fertilizer_UUId": "ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Se": "0.0",
+          "SeUnitId": "a888bf4a-a438-4e11-862d-b1a6aea8ce5a",
+          "MoUnitId": "3a65cae7-d5cf-46e4-be63-b69171d367da",
+          "Ca": "0.0"
+        }
+      },
+      "N": {
+        "identity": 30504,
+        "labels": [
+          "Nutrient"
+        ],
+        "properties": {
+          "ElementalName": "N",
+          "ODX_Nutrient_Uri": "ODX/Nutrient/c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "ODX_Nutrient_UUId": "c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "NutrientName": "Nitrogen",
+          "NutrientId": "880abcda-5ee5-4068-879c-94489be314d5",
+          "Nutr_Ordinal": "4.0",
+          "ODX_Nutr_SourceSystem": "dummy_Polaris"
+        }
+      },
+      "U": {
+        "identity": 30550,
+        "labels": [
+          "Units"
+        ],
+        "properties": {
+          "ODX_Units_UUId": "9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "ODX_Units_Uri": "ODX/Units/9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "UnitsId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "UnitsTags": "N",
+          "UnitsName": "N"
+        }
+      },
+      "UC": {
+        "identity": 30661,
+        "labels": [
+          "UnitConversion"
+        ],
+        "properties": {
+          "UnitConversionId": "8ff1eb1d-36f3-47c4-8e67-9cb89650b336",
+          "ODX_UnitConversion_UUId": "b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "ConvertToUnitId": "c6deac28-14f4-4eb3-946d-4ef93e4e9c33",
+          "UnitId_Ref": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "ODX_UnitConversion_Uri": "ODX/UnitConversion/b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "Multiplier": "1.28783",
+          "ODX_UC_SourceSystem": "dummy_Polaris",
+          "CountryId_Ref": "NULL",
+          "UnitConversionName": "NH4"
+        }
+      },
+      "IAI": {
+        "identity": 22262,
+        "start": 30809,
+        "end": 25707,
+        "type": "isAvailableIn",
+        "properties": {
+          "Prod_CountryId_Ref": "a8ccbf57-6056-44ec-9561-e60bd0f30abc",
+          "ProdCountry_UUId_Ref": "6980f5b6-0ced-3593-9c72-1914fece80ed",
+          "ApplicationTags": "dummy_empty_app_tags",
+          "ProdRegion_UUId_Ref": "1fba86fd-c2b9-3b07-8ccf-d434e82c845c",
+          "LocalizedName": "",
+          "Prod_RegionId_Ref": "f932d668-0230-4da8-bc20-389fc30e3196",
+          "IsAvailable": "true"
+        }
+      },
+      "HR": {
+        "identity": 1259,
+        "start": 25460,
+        "end": 25707,
+        "type": "hasRegion",
+        "properties": {
+
+        }
+      },
+      "HPN": {
+        "identity": 23972,
+        "start": 30809,
+        "end": 30504,
+        "type": "hasProdNutrient",
+        "properties": {
+
+        }
+      },
+      "HNU": {
+        "identity": 21974,
+        "start": 30504,
+        "end": 30550,
+        "type": "hasNutrientUnit",
+        "properties": {
+
+        }
+      },
+      "HUC": {
+        "identity": 22031,
+        "start": 30550,
+        "end": 30661,
+        "type": "hasUnitConversion",
+        "properties": {
+
+        }
+      }
+    }
+  },
+  {
+    "infoMap": {
+      "CG": {
+        "identity": 25959,
+        "labels": [
+          "CropGroup"
+        ],
+        "properties": {
+          "CG_MediaUri": "",
+          "ODX_CropGroup_UUId": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupName": "Cereals",
+          "ODX_CropGroup_Uri": "ODX/CropGroup/2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CG_FAOId": "1",
+          "CropGroupId": "bc09457f-cf85-4295-9fa3-9644a1eaf318"
+        }
+      },
+      "CC": {
+        "identity": 25968,
+        "labels": [
+          "CropClass"
+        ],
+        "properties": {
+          "ODX_CropClass_Uri": "ODX/CropClass/d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CC_MediaUri": "",
+          "CC_FAOId": "11",
+          "ODX_CG_UUId_Ref": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupId_Ref": "bc09457f-cf85-4295-9fa3-9644a1eaf318",
+          "ODX_CropClass_UUId": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CropClassId": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "CropClassName": "Wheat"
+        }
+      },
+      "CSC": {
+        "identity": 26022,
+        "labels": [
+          "CropSubClass"
+        ],
+        "properties": {
+          "ODX_CropSubClass_Uri": "ODX/CropSubClass/f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "ODX_CC_UUId_Ref": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CSC_FAOId": "",
+          "CropSubClassName": "Winter wheat",
+          "CropClassId_Ref": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "ODX_CropSubClass_UUId": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "CropSubClassId": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "CSC_MediaUri": ""
+        }
+      },
+      "CD": {
+        "identity": 29293,
+        "labels": [
+          "CropDescription"
+        ],
+        "properties": {
+          "ChlorideSensitive": "false",
+          "CD_CSC_UUId_Ref": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "CD_CropSubClassId_Ref": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "ODX_CropDescription_Uri": "ODX/CropDescription/0e2de42d-9498-3215-9478-9d4f4248228c",
+          "ODX_CropDescription_UUId": "0e2de42d-9498-3215-9478-9d4f4248228c",
+          "ODX_CD_SourceSystem": "dummy_Polaris",
+          "CD_MediaUri": "",
+          "CropDescriptionName": "Generic",
+          "CropDescriptionId": "249b2266-dc5f-4a7c-9d16-22dc7c3a71e2"
+        }
+      },
+      "CV": {
+        "identity": 27664,
+        "labels": [
+          "CropVariety"
+        ],
+        "properties": {
+          "CV_CSC_UUId_Ref": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "ODX_CropVariety_Uri": "ODX/CropVariety/52d3dec2-8d26-38e3-9f6d-8729985d6130",
+          "CV_CropSubClassId_Ref": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "CropVarietyName": "Zulu",
+          "CropVarietyId": "1ee89579-d810-4adb-bf6a-faf2799dca4a",
+          "ODX_CropVariety_UUId": "52d3dec2-8d26-38e3-9f6d-8729985d6130"
+        }
+      },
+      "C": {
+        "identity": 25441,
+        "labels": [
+          "Country"
+        ],
+        "properties": {
+          "CountryId": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "ODX_Country_UUId": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ProductSetCode": "07",
+          "CountryName": "Canada",
+          "ODX_Country_Uri": "ODX/Country/85f5664e-eeab-37f4-82d4-964e01ef0158"
+        }
+      },
+      "R": {
+        "identity": 25713,
+        "labels": [
+          "Region"
+        ],
+        "properties": {
+          "RegionName": "All",
+          "Region_Country_UUId_Ref": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ODX_Region_UUId": "475764b7-8660-34db-ac14-0922f991c239",
+          "Region_CountryId_Ref": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "RegionId": "6615db9b-203b-4174-9669-182f683f891f",
+          "ODX_Region_Uri": "ODX/Region/475764b7-8660-34db-ac14-0922f991c239"
+        }
+      },
+      "GS": {
+        "identity": 29714,
+        "labels": [
+          "GrowthScale"
+        ],
+        "properties": {
+          "ODX_GrowthScale_UUId": "d1cb72a9-76da-39ea-a366-227ceaeb2d66",
+          "GrowthScaleId": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "ODX_GrowthScale_Uri": "ODX/GrowthScale/d1cb72a9-76da-39ea-a366-227ceaeb2d66",
+          "GrowthScaleName": "BBCH - Cereals"
+        }
+      },
+      "GSS": {
+        "identity": 29887,
+        "labels": [
+          "GrowthScaleStages"
+        ],
+        "properties": {
+          "ODX_GrowthScaleStage_Uri": "ODX/GrowthScaleStages/ed09b776-1c90-335d-ad32-fbac5d49a848",
+          "ODX_GrowthScaleStage_UUId": "ed09b776-1c90-335d-ad32-fbac5d49a848",
+          "BaseOrdinal": "",
+          "GrowthScaleStageId": "6a6a09cc-2f92-43ce-a48b-82b1bed6f406",
+          "GrowthScaleStageDescription": "99 Harvested product",
+          "Ordinal": "99.0",
+          "GrowthScaleId_Ref": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "ODX_GSS_SourceSystem": "dummy_Polaris",
+          "ODX_GS_UUId_Ref": "d1cb72a9-76da-39ea-a366-227ceaeb2d66"
+        }
+      },
+      "F": {
+        "identity": 30809,
+        "labels": [
+          "Fertilizers"
+        ],
+        "properties": {
+          "CuUnitId": "168bc22c-a9ad-4cce-9ede-5b465aa48754",
+          "SUnitId": "2a3d91f7-e1f2-4811-944b-32da80507d6b",
+          "ElectricalConductivity": "",
+          "BUnitId": "0ca37d40-bb10-45b4-b2a3-664072b4693b",
+          "ProductId": "f7849fd1-3c32-4ae7-bb14-7eda412e4d0e",
+          "Co": "0.0",
+          "Density": "1.0",
+          "PUnitId": "3eacac5f-d65d-4248-89c9-8d7f9337ebe9",
+          "Cu": "0.0",
+          "NO3": "0.0",
+          "MnUnitId": "46dc12da-31c5-4611-a7c3-a88344f7d682",
+          "Solubility5C": "",
+          "DryMatter": "",
+          "Ph": "",
+          "ODX_Fert_SourceSystem": "dummy_Polaris",
+          "SpreaderLoss": "",
+          "ProductType": "SOLID",
+          "CaUnitId": "c93686e7-d4c5-4b37-9733-c00a882e7d56",
+          "LastSync": "[NULL]",
+          "Tank": "",
+          "ODX_Fertilizer_Uri": "ODX/Fertilizers/ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Urea": "0.0",
+          "Solubility20C": "",
+          "Mg": "0.0",
+          "NH4": "0.0",
+          "MgUnitId": "041057eb-e8d3-492f-b82f-656e93b32800",
+          "ProdFamily": "YaraBela",
+          "UtilizationNH4": "",
+          "Mn": "0.0",
+          "Mo": "0.0",
+          "B": "0.0",
+          "UtilizationN": "",
+          "SyncId": "[NULL]",
+          "K": "0.0",
+          "FeUnitId": "9d3fc031-9c67-46c0-a259-126a2db5863d",
+          "N": "26.0",
+          "P": "0.0",
+          "ZnUnitId": "0a9927a7-c44d-417d-bdb1-c2e63b1689e3",
+          "NaUnitId": "47216f05-d68e-4777-83ca-c97267db1cee",
+          "SyncSource": "[NULL]",
+          "DhCode": "[NULL]",
+          "Na": "0.0",
+          "S": "35.0",
+          "Zn": "0.0",
+          "LowChloride": "true",
+          "KUnitId": "ae2132a8-f1e6-4170-877c-ab8ccc2c6656",
+          "ProdName": "Sulfan",
+          "NUnitId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "Fe": "0.0",
+          "CoUnitId": "e337da8e-6cbc-4831-8a5f-9fe180179d5f",
+          "ODX_Fertilizer_UUId": "ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Se": "0.0",
+          "SeUnitId": "a888bf4a-a438-4e11-862d-b1a6aea8ce5a",
+          "MoUnitId": "3a65cae7-d5cf-46e4-be63-b69171d367da",
+          "Ca": "0.0"
+        }
+      },
+      "N": {
+        "identity": 30504,
+        "labels": [
+          "Nutrient"
+        ],
+        "properties": {
+          "ElementalName": "N",
+          "ODX_Nutrient_Uri": "ODX/Nutrient/c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "ODX_Nutrient_UUId": "c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "NutrientName": "Nitrogen",
+          "NutrientId": "880abcda-5ee5-4068-879c-94489be314d5",
+          "Nutr_Ordinal": "4.0",
+          "ODX_Nutr_SourceSystem": "dummy_Polaris"
+        }
+      },
+      "U": {
+        "identity": 30550,
+        "labels": [
+          "Units"
+        ],
+        "properties": {
+          "ODX_Units_UUId": "9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "ODX_Units_Uri": "ODX/Units/9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "UnitsId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "UnitsTags": "N",
+          "UnitsName": "N"
+        }
+      },
+      "UC": {
+        "identity": 30661,
+        "labels": [
+          "UnitConversion"
+        ],
+        "properties": {
+          "UnitConversionId": "8ff1eb1d-36f3-47c4-8e67-9cb89650b336",
+          "ODX_UnitConversion_UUId": "b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "ConvertToUnitId": "c6deac28-14f4-4eb3-946d-4ef93e4e9c33",
+          "UnitId_Ref": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "ODX_UnitConversion_Uri": "ODX/UnitConversion/b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "Multiplier": "1.28783",
+          "ODX_UC_SourceSystem": "dummy_Polaris",
+          "CountryId_Ref": "NULL",
+          "UnitConversionName": "NH4"
+        }
+      },
+      "HCC": {
+        "identity": 1511,
+        "start": 25959,
+        "end": 25968,
+        "type": "hasCropClass",
+        "properties": {
+
+        }
+      },
+      "HCSC": {
+        "identity": 1565,
+        "start": 25968,
+        "end": 26022,
+        "type": "hasCropSubClass",
+        "properties": {
+
+        }
+      },
+      "CSCHCD": {
+        "identity": 8258,
+        "start": 26022,
+        "end": 29293,
+        "type": "hasCropDescription",
+        "properties": {
+
+        }
+      },
+      "CDIAI": {
+        "identity": 21533,
+        "start": 29293,
+        "end": 25713,
+        "type": "isAvailableIn",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "361b1059-ce7b-414a-bfd5-cab992b4cfef",
+          "CD_RegionIdRef": "6615db9b-203b-4174-9669-182f683f891f",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "16dc8d16-e4a0-45cb-b2b7-10da5e0cd1cc",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "FIAI": {
+        "identity": 23759,
+        "start": 30809,
+        "end": 25713,
+        "type": "isAvailableIn",
+        "properties": {
+          "Prod_CountryId_Ref": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "ProdCountry_UUId_Ref": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ApplicationTags": "dummy_empty_app_tags",
+          "ProdRegion_UUId_Ref": "475764b7-8660-34db-ac14-0922f991c239",
+          "LocalizedName": "[NULL]",
+          "Prod_RegionId_Ref": "6615db9b-203b-4174-9669-182f683f891f",
+          "IsAvailable": "true"
+        }
+      },
+      "HR": {
+        "identity": 1265,
+        "start": 25441,
+        "end": 25713,
+        "type": "hasRegion",
+        "properties": {
+
+        }
+      },
+      "HCV": {
+        "identity": 6629,
+        "start": 26022,
+        "end": 27664,
+        "type": "hasCropVariety",
+        "properties": {
+
+        }
+      },
+      "CVHCD": {
+        "identity": 20289,
+        "start": 27664,
+        "end": 29293,
+        "type": "hasCropDescription",
+        "properties": {
+          "CV_CD_UUId_Ref": "0e2de42d-9498-3215-9478-9d4f4248228c",
+          "CV_CropDescriptionId_Ref": "249b2266-dc5f-4a7c-9d16-22dc7c3a71e2"
+        }
+      },
+      "HGS": {
+        "identity": 21943,
+        "start": 29293,
+        "end": 29714,
+        "type": "hasGrowthScale",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "CD_CountryIdRef": "0cbc1e72-cc07-4bcd-aafe-a4641fa7c06c",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "00c98b27-a9bf-4339-87fb-10bbd698abc5",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HGSS": {
+        "identity": 20887,
+        "start": 29714,
+        "end": 29887,
+        "type": "hasGrowthScaleStages",
+        "properties": {
+
+        }
+      },
+      "HPN": {
+        "identity": 23972,
+        "start": 30809,
+        "end": 30504,
+        "type": "hasProdNutrient",
+        "properties": {
+
+        }
+      },
+      "HNU": {
+        "identity": 21974,
+        "start": 30504,
+        "end": 30550,
+        "type": "hasNutrientUnit",
+        "properties": {
+
+        }
+      },
+      "HUC": {
+        "identity": 22031,
+        "start": 30550,
+        "end": 30661,
+        "type": "hasUnitConversion",
+        "properties": {
+
+        }
+      }
+    }
+  },
+  {
+    "infoMap": {
+      "CG": {
+        "identity": 556,
+        "labels": [
+          "CropGroup"
+        ],
+        "properties": {
+          "CG_MediaUri": "",
+          "ODX_CropGroup_UUId": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupName": "Cereals",
+          "ODX_CropGroup_Uri": "ODX/CropGroup/2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CG_FAOId": "1",
+          "CropGroupId": "bc09457f-cf85-4295-9fa3-9644a1eaf318"
+        }
+      },
+      "CC": {
+        "identity": 565,
+        "labels": [
+          "CropClass"
+        ],
+        "properties": {
+          "ODX_CropClass_Uri": "ODX/CropClass/d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CC_FAOId": "11",
+          "CC_MediaUri": "",
+          "ODX_CG_UUId_Ref": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupId_Ref": "bc09457f-cf85-4295-9fa3-9644a1eaf318",
+          "ODX_CropClass_UUId": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CropClassId": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "CropClassName": "Wheat"
+        }
+      },
+      "CSC": {
+        "identity": 619,
+        "labels": [
+          "CropSubClass"
+        ],
+        "properties": {
+          "ODX_CC_UUId_Ref": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "ODX_CropSubClass_Uri": "ODX/CropSubClass/f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "CSC_FAOId": "",
+          "CropSubClassName": "Winter wheat",
+          "CropClassId_Ref": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "ODX_CropSubClass_UUId": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "CropSubClassId": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "CSC_MediaUri": ""
+        }
+      },
+      "CD": {
+        "identity": 3903,
+        "labels": [
+          "CropDescription"
+        ],
+        "properties": {
+          "ChlorideSensitive": "false",
+          "CD_CSC_UUId_Ref": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "CD_CropSubClassId_Ref": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "ODX_CropDescription_Uri": "ODX/CropDescription/cbf96b4f-8c43-387a-bb34-487c8ac93000",
+          "ODX_CropDescription_UUId": "cbf96b4f-8c43-387a-bb34-487c8ac93000",
+          "ODX_CD_SourceSystem": "dummy_Polaris",
+          "CD_MediaUri": "",
+          "CropDescriptionName": "Milling",
+          "CropDescriptionId": "be492854-8727-41b1-9ec6-79a55296f098"
+        }
+      },
+      "CV": {
+        "identity": 3841,
+        "labels": [
+          "CropVariety"
+        ],
+        "properties": {
+          "CV_CSC_UUId_Ref": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "ODX_CropVariety_Uri": "ODX/CropVariety/6956d37c-8312-318b-94c1-48f7985cd0f5",
+          "CV_CropSubClassId_Ref": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "CropVarietyName": "Reform",
+          "CropVarietyId": "b32aca2f-395f-4a6d-b061-90c0394cbf7a",
+          "ODX_CropVariety_UUId": "6956d37c-8312-318b-94c1-48f7985cd0f5"
+        }
+      },
+      "C": {
+        "identity": 38,
+        "labels": [
+          "Country"
+        ],
+        "properties": {
+          "CountryId": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "ODX_Country_UUId": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "CountryName": "Canada",
+          "ProductSetCode": "07",
+          "ODX_Country_Uri": "ODX/Country/85f5664e-eeab-37f4-82d4-964e01ef0158"
+        }
+      },
+      "R": {
+        "identity": 310,
+        "labels": [
+          "Region"
+        ],
+        "properties": {
+          "RegionName": "All",
+          "Region_Country_UUId_Ref": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ODX_Region_UUId": "475764b7-8660-34db-ac14-0922f991c239",
+          "RegionId": "6615db9b-203b-4174-9669-182f683f891f",
+          "Region_CountryId_Ref": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "ODX_Region_Uri": "ODX/Region/475764b7-8660-34db-ac14-0922f991c239"
+        }
+      },
+      "GS": {
+        "identity": 4312,
+        "labels": [
+          "GrowthScale"
+        ],
+        "properties": {
+          "ODX_GrowthScale_UUId": "22074af4-f9f3-373a-8bf7-e73a2d1efd01",
+          "GrowthScaleId": "899e7951-8113-4158-bd62-53abadbaead1",
+          "ODX_GrowthScale_Uri": "ODX/GrowthScale/22074af4-f9f3-373a-8bf7-e73a2d1efd01",
+          "GrowthScaleName": "Zadok - Cereals"
+        }
+      },
+      "GSS": {
+        "identity": 4544,
+        "labels": [
+          "GrowthScaleStages"
+        ],
+        "properties": {
+          "ODX_GrowthScaleStage_Uri": "ODX/GrowthScaleStages/632ce666-bdbf-3287-bca6-6be1b2ba142c",
+          "ODX_GrowthScaleStage_UUId": "632ce666-bdbf-3287-bca6-6be1b2ba142c",
+          "GrowthScaleStageId": "37d4585a-5958-4e2c-8177-c50f638951b8",
+          "GrowthScaleStageDescription": "99 Secondary dormancy lost",
+          "BaseOrdinal": "",
+          "Ordinal": "99.0",
+          "GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "ODX_GSS_SourceSystem": "dummy_Polaris",
+          "ODX_GS_UUId_Ref": "22074af4-f9f3-373a-8bf7-e73a2d1efd01"
+        }
+      },
+      "F": {
+        "identity": 5356,
+        "labels": [
+          "Fertilizers"
+        ],
+        "properties": {
+          "CuUnitId": "168bc22c-a9ad-4cce-9ede-5b465aa48754",
+          "SUnitId": "2a3d91f7-e1f2-4811-944b-32da80507d6b",
+          "ElectricalConductivity": "",
+          "BUnitId": "0ca37d40-bb10-45b4-b2a3-664072b4693b",
+          "ProductId": "f7849fd1-3c32-4ae7-bb14-7eda412e4d0e",
+          "Co": "0.0",
+          "Density": "1.0",
+          "PUnitId": "3eacac5f-d65d-4248-89c9-8d7f9337ebe9",
+          "Cu": "0.0",
+          "NO3": "0.0",
+          "MnUnitId": "46dc12da-31c5-4611-a7c3-a88344f7d682",
+          "Solubility5C": "",
+          "DryMatter": "",
+          "Ph": "",
+          "SpreaderLoss": "",
+          "ODX_Fert_SourceSystem": "dummy_Polaris",
+          "ProductType": "SOLID",
+          "CaUnitId": "c93686e7-d4c5-4b37-9733-c00a882e7d56",
+          "LastSync": "[NULL]",
+          "Tank": "",
+          "ODX_Fertilizer_Uri": "ODX/Fertilizers/ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Urea": "0.0",
+          "Solubility20C": "",
+          "Mg": "0.0",
+          "NH4": "0.0",
+          "MgUnitId": "041057eb-e8d3-492f-b82f-656e93b32800",
+          "UtilizationNH4": "",
+          "ProdFamily": "YaraBela",
+          "Mn": "0.0",
+          "B": "0.0",
+          "Mo": "0.0",
+          "UtilizationN": "",
+          "SyncId": "[NULL]",
+          "K": "0.0",
+          "FeUnitId": "9d3fc031-9c67-46c0-a259-126a2db5863d",
+          "N": "26.0",
+          "P": "0.0",
+          "SyncSource": "[NULL]",
+          "ZnUnitId": "0a9927a7-c44d-417d-bdb1-c2e63b1689e3",
+          "NaUnitId": "47216f05-d68e-4777-83ca-c97267db1cee",
+          "DhCode": "[NULL]",
+          "S": "35.0",
+          "Na": "0.0",
+          "KUnitId": "ae2132a8-f1e6-4170-877c-ab8ccc2c6656",
+          "Zn": "0.0",
+          "LowChloride": "true",
+          "ProdName": "Sulfan",
+          "NUnitId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "Fe": "0.0",
+          "CoUnitId": "e337da8e-6cbc-4831-8a5f-9fe180179d5f",
+          "ODX_Fertilizer_UUId": "ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Se": "0.0",
+          "SeUnitId": "a888bf4a-a438-4e11-862d-b1a6aea8ce5a",
+          "MoUnitId": "3a65cae7-d5cf-46e4-be63-b69171d367da",
+          "Ca": "0.0"
+        }
+      },
+      "N": {
+        "identity": 5101,
+        "labels": [
+          "Nutrient"
+        ],
+        "properties": {
+          "ElementalName": "N",
+          "ODX_Nutrient_Uri": "ODX/Nutrient/c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "ODX_Nutrient_UUId": "c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "NutrientName": "Nitrogen",
+          "NutrientId": "880abcda-5ee5-4068-879c-94489be314d5",
+          "Nutr_Ordinal": "4.0",
+          "ODX_Nutr_SourceSystem": "dummy_Polaris"
+        }
+      },
+      "U": {
+        "identity": 5147,
+        "labels": [
+          "Units"
+        ],
+        "properties": {
+          "ODX_Units_UUId": "9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "ODX_Units_Uri": "ODX/Units/9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "UnitsId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "UnitsName": "N",
+          "UnitsTags": "N"
+        }
+      },
+      "UC": {
+        "identity": 5258,
+        "labels": [
+          "UnitConversion"
+        ],
+        "properties": {
+          "UnitConversionId": "8ff1eb1d-36f3-47c4-8e67-9cb89650b336",
+          "ODX_UnitConversion_UUId": "b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "ConvertToUnitId": "c6deac28-14f4-4eb3-946d-4ef93e4e9c33",
+          "UnitId_Ref": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "ODX_UnitConversion_Uri": "ODX/UnitConversion/b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "Multiplier": "1.28783",
+          "ODX_UC_SourceSystem": "dummy_Polaris",
+          "CountryId_Ref": "NULL",
+          "UnitConversionName": "NH4"
+        }
+      },
+      "HCC": {
+        "identity": 305,
+        "start": 556,
+        "end": 565,
+        "type": "hasCropClass",
+        "properties": {
+
+        }
+      },
+      "HCSC": {
+        "identity": 359,
+        "start": 565,
+        "end": 619,
+        "type": "hasCropSubClass",
+        "properties": {
+
+        }
+      },
+      "CSCHCD": {
+        "identity": 3643,
+        "start": 619,
+        "end": 3903,
+        "type": "hasCropDescription",
+        "properties": {
+
+        }
+      },
+      "CDIAI": {
+        "identity": 17029,
+        "start": 3903,
+        "end": 310,
+        "type": "isAvailableIn",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "6615db9b-203b-4174-9669-182f683f891f",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "FIAI": {
+        "identity": 20762,
+        "start": 5356,
+        "end": 310,
+        "type": "isAvailableIn",
+        "properties": {
+          "Prod_CountryId_Ref": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "ProdCountry_UUId_Ref": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ApplicationTags": "dummy_empty_app_tags",
+          "Prod_RegionId_Ref": "6615db9b-203b-4174-9669-182f683f891f",
+          "ProdRegion_UUId_Ref": "475764b7-8660-34db-ac14-0922f991c239",
+          "LocalizedName": "[NULL]",
+          "IsAvailable": "true"
+        }
+      },
+      "HR": {
+        "identity": 59,
+        "start": 38,
+        "end": 310,
+        "type": "hasRegion",
+        "properties": {
+
+        }
+      },
+      "HCV": {
+        "identity": 3581,
+        "start": 619,
+        "end": 3841,
+        "type": "hasCropVariety",
+        "properties": {
+
+        }
+      },
+      "CVHCD": {
+        "identity": 16042,
+        "start": 3841,
+        "end": 3903,
+        "type": "hasCropDescription",
+        "properties": {
+          "CV_CD_UUId_Ref": "cbf96b4f-8c43-387a-bb34-487c8ac93000",
+          "CV_CropDescriptionId_Ref": "be492854-8727-41b1-9ec6-79a55296f098"
+        }
+      },
+      "HGS": {
+        "identity": 17264,
+        "start": 3903,
+        "end": 4312,
+        "type": "hasGrowthScale",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "6615db9b-203b-4174-9669-182f683f891f",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HGSS": {
+        "identity": 16319,
+        "start": 4312,
+        "end": 4544,
+        "type": "hasGrowthScaleStages",
+        "properties": {
+
+        }
+      },
+      "HPN": {
+        "identity": 21068,
+        "start": 5356,
+        "end": 5101,
+        "type": "hasProdNutrient",
+        "properties": {
+
+        }
+      },
+      "HNU": {
+        "identity": 17346,
+        "start": 5101,
+        "end": 5147,
+        "type": "hasNutrientUnit",
+        "properties": {
+
+        }
+      },
+      "HUC": {
+        "identity": 17403,
+        "start": 5147,
+        "end": 5258,
+        "type": "hasUnitConversion",
+        "properties": {
+
+        }
+      }
+    }
+  },
+  {
+    "infoMap": {
+      "CG": {
+        "identity": 25959,
+        "labels": [
+          "CropGroup"
+        ],
+        "properties": {
+          "CG_MediaUri": "",
+          "ODX_CropGroup_UUId": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupName": "Cereals",
+          "ODX_CropGroup_Uri": "ODX/CropGroup/2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CG_FAOId": "1",
+          "CropGroupId": "bc09457f-cf85-4295-9fa3-9644a1eaf318"
+        }
+      },
+      "CC": {
+        "identity": 25968,
+        "labels": [
+          "CropClass"
+        ],
+        "properties": {
+          "ODX_CropClass_Uri": "ODX/CropClass/d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CC_MediaUri": "",
+          "CC_FAOId": "11",
+          "ODX_CG_UUId_Ref": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupId_Ref": "bc09457f-cf85-4295-9fa3-9644a1eaf318",
+          "ODX_CropClass_UUId": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CropClassId": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "CropClassName": "Wheat"
+        }
+      },
+      "CSC": {
+        "identity": 26022,
+        "labels": [
+          "CropSubClass"
+        ],
+        "properties": {
+          "ODX_CropSubClass_Uri": "ODX/CropSubClass/f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "ODX_CC_UUId_Ref": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CSC_FAOId": "",
+          "CropSubClassName": "Winter wheat",
+          "CropClassId_Ref": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "ODX_CropSubClass_UUId": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "CropSubClassId": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "CSC_MediaUri": ""
+        }
+      },
+      "CD": {
+        "identity": 29306,
+        "labels": [
+          "CropDescription"
+        ],
+        "properties": {
+          "ChlorideSensitive": "false",
+          "CD_CSC_UUId_Ref": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "CD_CropSubClassId_Ref": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "ODX_CropDescription_Uri": "ODX/CropDescription/cbf96b4f-8c43-387a-bb34-487c8ac93000",
+          "ODX_CropDescription_UUId": "cbf96b4f-8c43-387a-bb34-487c8ac93000",
+          "ODX_CD_SourceSystem": "dummy_Polaris",
+          "CD_MediaUri": "",
+          "CropDescriptionName": "Milling",
+          "CropDescriptionId": "be492854-8727-41b1-9ec6-79a55296f098"
+        }
+      },
+      "CV": {
+        "identity": 29244,
+        "labels": [
+          "CropVariety"
+        ],
+        "properties": {
+          "CV_CSC_UUId_Ref": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "ODX_CropVariety_Uri": "ODX/CropVariety/6956d37c-8312-318b-94c1-48f7985cd0f5",
+          "CV_CropSubClassId_Ref": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "CropVarietyName": "Reform",
+          "CropVarietyId": "b32aca2f-395f-4a6d-b061-90c0394cbf7a",
+          "ODX_CropVariety_UUId": "6956d37c-8312-318b-94c1-48f7985cd0f5"
+        }
+      },
+      "C": {
+        "identity": 25441,
+        "labels": [
+          "Country"
+        ],
+        "properties": {
+          "CountryId": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "ODX_Country_UUId": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ProductSetCode": "07",
+          "CountryName": "Canada",
+          "ODX_Country_Uri": "ODX/Country/85f5664e-eeab-37f4-82d4-964e01ef0158"
+        }
+      },
+      "R": {
+        "identity": 25713,
+        "labels": [
+          "Region"
+        ],
+        "properties": {
+          "RegionName": "All",
+          "Region_Country_UUId_Ref": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ODX_Region_UUId": "475764b7-8660-34db-ac14-0922f991c239",
+          "Region_CountryId_Ref": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "RegionId": "6615db9b-203b-4174-9669-182f683f891f",
+          "ODX_Region_Uri": "ODX/Region/475764b7-8660-34db-ac14-0922f991c239"
+        }
+      },
+      "GS": {
+        "identity": 29715,
+        "labels": [
+          "GrowthScale"
+        ],
+        "properties": {
+          "ODX_GrowthScale_UUId": "22074af4-f9f3-373a-8bf7-e73a2d1efd01",
+          "GrowthScaleId": "899e7951-8113-4158-bd62-53abadbaead1",
+          "ODX_GrowthScale_Uri": "ODX/GrowthScale/22074af4-f9f3-373a-8bf7-e73a2d1efd01",
+          "GrowthScaleName": "Zadok - Cereals"
+        }
+      },
+      "GSS": {
+        "identity": 29947,
+        "labels": [
+          "GrowthScaleStages"
+        ],
+        "properties": {
+          "ODX_GrowthScaleStage_Uri": "ODX/GrowthScaleStages/632ce666-bdbf-3287-bca6-6be1b2ba142c",
+          "ODX_GrowthScaleStage_UUId": "632ce666-bdbf-3287-bca6-6be1b2ba142c",
+          "GrowthScaleStageId": "37d4585a-5958-4e2c-8177-c50f638951b8",
+          "GrowthScaleStageDescription": "99 Secondary dormancy lost",
+          "BaseOrdinal": "",
+          "Ordinal": "99.0",
+          "GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "ODX_GSS_SourceSystem": "dummy_Polaris",
+          "ODX_GS_UUId_Ref": "22074af4-f9f3-373a-8bf7-e73a2d1efd01"
+        }
+      },
+      "F": {
+        "identity": 30809,
+        "labels": [
+          "Fertilizers"
+        ],
+        "properties": {
+          "CuUnitId": "168bc22c-a9ad-4cce-9ede-5b465aa48754",
+          "SUnitId": "2a3d91f7-e1f2-4811-944b-32da80507d6b",
+          "ElectricalConductivity": "",
+          "BUnitId": "0ca37d40-bb10-45b4-b2a3-664072b4693b",
+          "ProductId": "f7849fd1-3c32-4ae7-bb14-7eda412e4d0e",
+          "Co": "0.0",
+          "Density": "1.0",
+          "PUnitId": "3eacac5f-d65d-4248-89c9-8d7f9337ebe9",
+          "Cu": "0.0",
+          "NO3": "0.0",
+          "MnUnitId": "46dc12da-31c5-4611-a7c3-a88344f7d682",
+          "Solubility5C": "",
+          "DryMatter": "",
+          "Ph": "",
+          "ODX_Fert_SourceSystem": "dummy_Polaris",
+          "SpreaderLoss": "",
+          "ProductType": "SOLID",
+          "CaUnitId": "c93686e7-d4c5-4b37-9733-c00a882e7d56",
+          "LastSync": "[NULL]",
+          "Tank": "",
+          "ODX_Fertilizer_Uri": "ODX/Fertilizers/ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Urea": "0.0",
+          "Solubility20C": "",
+          "Mg": "0.0",
+          "NH4": "0.0",
+          "MgUnitId": "041057eb-e8d3-492f-b82f-656e93b32800",
+          "ProdFamily": "YaraBela",
+          "UtilizationNH4": "",
+          "Mn": "0.0",
+          "Mo": "0.0",
+          "B": "0.0",
+          "UtilizationN": "",
+          "SyncId": "[NULL]",
+          "K": "0.0",
+          "FeUnitId": "9d3fc031-9c67-46c0-a259-126a2db5863d",
+          "N": "26.0",
+          "P": "0.0",
+          "ZnUnitId": "0a9927a7-c44d-417d-bdb1-c2e63b1689e3",
+          "NaUnitId": "47216f05-d68e-4777-83ca-c97267db1cee",
+          "SyncSource": "[NULL]",
+          "DhCode": "[NULL]",
+          "Na": "0.0",
+          "S": "35.0",
+          "Zn": "0.0",
+          "LowChloride": "true",
+          "KUnitId": "ae2132a8-f1e6-4170-877c-ab8ccc2c6656",
+          "ProdName": "Sulfan",
+          "NUnitId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "Fe": "0.0",
+          "CoUnitId": "e337da8e-6cbc-4831-8a5f-9fe180179d5f",
+          "ODX_Fertilizer_UUId": "ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Se": "0.0",
+          "SeUnitId": "a888bf4a-a438-4e11-862d-b1a6aea8ce5a",
+          "MoUnitId": "3a65cae7-d5cf-46e4-be63-b69171d367da",
+          "Ca": "0.0"
+        }
+      },
+      "N": {
+        "identity": 30504,
+        "labels": [
+          "Nutrient"
+        ],
+        "properties": {
+          "ElementalName": "N",
+          "ODX_Nutrient_Uri": "ODX/Nutrient/c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "ODX_Nutrient_UUId": "c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "NutrientName": "Nitrogen",
+          "NutrientId": "880abcda-5ee5-4068-879c-94489be314d5",
+          "Nutr_Ordinal": "4.0",
+          "ODX_Nutr_SourceSystem": "dummy_Polaris"
+        }
+      },
+      "U": {
+        "identity": 30550,
+        "labels": [
+          "Units"
+        ],
+        "properties": {
+          "ODX_Units_UUId": "9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "ODX_Units_Uri": "ODX/Units/9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "UnitsId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "UnitsTags": "N",
+          "UnitsName": "N"
+        }
+      },
+      "UC": {
+        "identity": 30661,
+        "labels": [
+          "UnitConversion"
+        ],
+        "properties": {
+          "UnitConversionId": "8ff1eb1d-36f3-47c4-8e67-9cb89650b336",
+          "ODX_UnitConversion_UUId": "b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "ConvertToUnitId": "c6deac28-14f4-4eb3-946d-4ef93e4e9c33",
+          "UnitId_Ref": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "ODX_UnitConversion_Uri": "ODX/UnitConversion/b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "Multiplier": "1.28783",
+          "ODX_UC_SourceSystem": "dummy_Polaris",
+          "CountryId_Ref": "NULL",
+          "UnitConversionName": "NH4"
+        }
+      },
+      "HCC": {
+        "identity": 1511,
+        "start": 25959,
+        "end": 25968,
+        "type": "hasCropClass",
+        "properties": {
+
+        }
+      },
+      "HCSC": {
+        "identity": 1565,
+        "start": 25968,
+        "end": 26022,
+        "type": "hasCropSubClass",
+        "properties": {
+
+        }
+      },
+      "CSCHCD": {
+        "identity": 8271,
+        "start": 26022,
+        "end": 29306,
+        "type": "hasCropDescription",
+        "properties": {
+
+        }
+      },
+      "CDIAI": {
+        "identity": 21657,
+        "start": 29306,
+        "end": 25713,
+        "type": "isAvailableIn",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "6615db9b-203b-4174-9669-182f683f891f",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "FIAI": {
+        "identity": 23759,
+        "start": 30809,
+        "end": 25713,
+        "type": "isAvailableIn",
+        "properties": {
+          "Prod_CountryId_Ref": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "ProdCountry_UUId_Ref": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ApplicationTags": "dummy_empty_app_tags",
+          "ProdRegion_UUId_Ref": "475764b7-8660-34db-ac14-0922f991c239",
+          "LocalizedName": "[NULL]",
+          "Prod_RegionId_Ref": "6615db9b-203b-4174-9669-182f683f891f",
+          "IsAvailable": "true"
+        }
+      },
+      "HR": {
+        "identity": 1265,
+        "start": 25441,
+        "end": 25713,
+        "type": "hasRegion",
+        "properties": {
+
+        }
+      },
+      "HCV": {
+        "identity": 8209,
+        "start": 26022,
+        "end": 29244,
+        "type": "hasCropVariety",
+        "properties": {
+
+        }
+      },
+      "CVHCD": {
+        "identity": 20670,
+        "start": 29244,
+        "end": 29306,
+        "type": "hasCropDescription",
+        "properties": {
+          "CV_CD_UUId_Ref": "cbf96b4f-8c43-387a-bb34-487c8ac93000",
+          "CV_CropDescriptionId_Ref": "be492854-8727-41b1-9ec6-79a55296f098"
+        }
+      },
+      "HGS": {
+        "identity": 21892,
+        "start": 29306,
+        "end": 29715,
+        "type": "hasGrowthScale",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "6615db9b-203b-4174-9669-182f683f891f",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HGSS": {
+        "identity": 20947,
+        "start": 29715,
+        "end": 29947,
+        "type": "hasGrowthScaleStages",
+        "properties": {
+
+        }
+      },
+      "HPN": {
+        "identity": 23972,
+        "start": 30809,
+        "end": 30504,
+        "type": "hasProdNutrient",
+        "properties": {
+
+        }
+      },
+      "HNU": {
+        "identity": 21974,
+        "start": 30504,
+        "end": 30550,
+        "type": "hasNutrientUnit",
+        "properties": {
+
+        }
+      },
+      "HUC": {
+        "identity": 22031,
+        "start": 30550,
+        "end": 30661,
+        "type": "hasUnitConversion",
+        "properties": {
+
+        }
+      }
+    }
+  },
+  {
+    "infoMap": {
+      "CG": {
+        "identity": 25959,
+        "labels": [
+          "CropGroup"
+        ],
+        "properties": {
+          "CG_MediaUri": "",
+          "ODX_CropGroup_UUId": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupName": "Cereals",
+          "ODX_CropGroup_Uri": "ODX/CropGroup/2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CG_FAOId": "1",
+          "CropGroupId": "bc09457f-cf85-4295-9fa3-9644a1eaf318"
+        }
+      },
+      "CC": {
+        "identity": 25968,
+        "labels": [
+          "CropClass"
+        ],
+        "properties": {
+          "ODX_CropClass_Uri": "ODX/CropClass/d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CC_MediaUri": "",
+          "CC_FAOId": "11",
+          "ODX_CG_UUId_Ref": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupId_Ref": "bc09457f-cf85-4295-9fa3-9644a1eaf318",
+          "ODX_CropClass_UUId": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CropClassId": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "CropClassName": "Wheat"
+        }
+      },
+      "CSC": {
+        "identity": 26022,
+        "labels": [
+          "CropSubClass"
+        ],
+        "properties": {
+          "ODX_CropSubClass_Uri": "ODX/CropSubClass/f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "ODX_CC_UUId_Ref": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CSC_FAOId": "",
+          "CropSubClassName": "Winter wheat",
+          "CropClassId_Ref": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "ODX_CropSubClass_UUId": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "CropSubClassId": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "CSC_MediaUri": ""
+        }
+      },
+      "CD": {
+        "identity": 29293,
+        "labels": [
+          "CropDescription"
+        ],
+        "properties": {
+          "ChlorideSensitive": "false",
+          "CD_CSC_UUId_Ref": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "CD_CropSubClassId_Ref": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "ODX_CropDescription_Uri": "ODX/CropDescription/0e2de42d-9498-3215-9478-9d4f4248228c",
+          "ODX_CropDescription_UUId": "0e2de42d-9498-3215-9478-9d4f4248228c",
+          "ODX_CD_SourceSystem": "dummy_Polaris",
+          "CD_MediaUri": "",
+          "CropDescriptionName": "Generic",
+          "CropDescriptionId": "249b2266-dc5f-4a7c-9d16-22dc7c3a71e2"
+        }
+      },
+      "CV": {
+        "identity": 27664,
+        "labels": [
+          "CropVariety"
+        ],
+        "properties": {
+          "CV_CSC_UUId_Ref": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "ODX_CropVariety_Uri": "ODX/CropVariety/52d3dec2-8d26-38e3-9f6d-8729985d6130",
+          "CV_CropSubClassId_Ref": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "CropVarietyName": "Zulu",
+          "CropVarietyId": "1ee89579-d810-4adb-bf6a-faf2799dca4a",
+          "ODX_CropVariety_UUId": "52d3dec2-8d26-38e3-9f6d-8729985d6130"
+        }
+      },
+      "C": {
+        "identity": 25441,
+        "labels": [
+          "Country"
+        ],
+        "properties": {
+          "CountryId": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "ODX_Country_UUId": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ProductSetCode": "07",
+          "CountryName": "Canada",
+          "ODX_Country_Uri": "ODX/Country/85f5664e-eeab-37f4-82d4-964e01ef0158"
+        }
+      },
+      "R": {
+        "identity": 25713,
+        "labels": [
+          "Region"
+        ],
+        "properties": {
+          "RegionName": "All",
+          "Region_Country_UUId_Ref": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ODX_Region_UUId": "475764b7-8660-34db-ac14-0922f991c239",
+          "Region_CountryId_Ref": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "RegionId": "6615db9b-203b-4174-9669-182f683f891f",
+          "ODX_Region_Uri": "ODX/Region/475764b7-8660-34db-ac14-0922f991c239"
+        }
+      },
+      "GS": {
+        "identity": 29714,
+        "labels": [
+          "GrowthScale"
+        ],
+        "properties": {
+          "ODX_GrowthScale_UUId": "d1cb72a9-76da-39ea-a366-227ceaeb2d66",
+          "GrowthScaleId": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "ODX_GrowthScale_Uri": "ODX/GrowthScale/d1cb72a9-76da-39ea-a366-227ceaeb2d66",
+          "GrowthScaleName": "BBCH - Cereals"
+        }
+      },
+      "GSS": {
+        "identity": 29887,
+        "labels": [
+          "GrowthScaleStages"
+        ],
+        "properties": {
+          "ODX_GrowthScaleStage_Uri": "ODX/GrowthScaleStages/ed09b776-1c90-335d-ad32-fbac5d49a848",
+          "ODX_GrowthScaleStage_UUId": "ed09b776-1c90-335d-ad32-fbac5d49a848",
+          "BaseOrdinal": "",
+          "GrowthScaleStageId": "6a6a09cc-2f92-43ce-a48b-82b1bed6f406",
+          "GrowthScaleStageDescription": "99 Harvested product",
+          "Ordinal": "99.0",
+          "GrowthScaleId_Ref": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "ODX_GSS_SourceSystem": "dummy_Polaris",
+          "ODX_GS_UUId_Ref": "d1cb72a9-76da-39ea-a366-227ceaeb2d66"
+        }
+      },
+      "F": {
+        "identity": 30809,
+        "labels": [
+          "Fertilizers"
+        ],
+        "properties": {
+          "CuUnitId": "168bc22c-a9ad-4cce-9ede-5b465aa48754",
+          "SUnitId": "2a3d91f7-e1f2-4811-944b-32da80507d6b",
+          "ElectricalConductivity": "",
+          "BUnitId": "0ca37d40-bb10-45b4-b2a3-664072b4693b",
+          "ProductId": "f7849fd1-3c32-4ae7-bb14-7eda412e4d0e",
+          "Co": "0.0",
+          "Density": "1.0",
+          "PUnitId": "3eacac5f-d65d-4248-89c9-8d7f9337ebe9",
+          "Cu": "0.0",
+          "NO3": "0.0",
+          "MnUnitId": "46dc12da-31c5-4611-a7c3-a88344f7d682",
+          "Solubility5C": "",
+          "DryMatter": "",
+          "Ph": "",
+          "ODX_Fert_SourceSystem": "dummy_Polaris",
+          "SpreaderLoss": "",
+          "ProductType": "SOLID",
+          "CaUnitId": "c93686e7-d4c5-4b37-9733-c00a882e7d56",
+          "LastSync": "[NULL]",
+          "Tank": "",
+          "ODX_Fertilizer_Uri": "ODX/Fertilizers/ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Urea": "0.0",
+          "Solubility20C": "",
+          "Mg": "0.0",
+          "NH4": "0.0",
+          "MgUnitId": "041057eb-e8d3-492f-b82f-656e93b32800",
+          "ProdFamily": "YaraBela",
+          "UtilizationNH4": "",
+          "Mn": "0.0",
+          "Mo": "0.0",
+          "B": "0.0",
+          "UtilizationN": "",
+          "SyncId": "[NULL]",
+          "K": "0.0",
+          "FeUnitId": "9d3fc031-9c67-46c0-a259-126a2db5863d",
+          "N": "26.0",
+          "P": "0.0",
+          "ZnUnitId": "0a9927a7-c44d-417d-bdb1-c2e63b1689e3",
+          "NaUnitId": "47216f05-d68e-4777-83ca-c97267db1cee",
+          "SyncSource": "[NULL]",
+          "DhCode": "[NULL]",
+          "Na": "0.0",
+          "S": "35.0",
+          "Zn": "0.0",
+          "LowChloride": "true",
+          "KUnitId": "ae2132a8-f1e6-4170-877c-ab8ccc2c6656",
+          "ProdName": "Sulfan",
+          "NUnitId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "Fe": "0.0",
+          "CoUnitId": "e337da8e-6cbc-4831-8a5f-9fe180179d5f",
+          "ODX_Fertilizer_UUId": "ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Se": "0.0",
+          "SeUnitId": "a888bf4a-a438-4e11-862d-b1a6aea8ce5a",
+          "MoUnitId": "3a65cae7-d5cf-46e4-be63-b69171d367da",
+          "Ca": "0.0"
+        }
+      },
+      "N": {
+        "identity": 30504,
+        "labels": [
+          "Nutrient"
+        ],
+        "properties": {
+          "ElementalName": "N",
+          "ODX_Nutrient_Uri": "ODX/Nutrient/c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "ODX_Nutrient_UUId": "c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "NutrientName": "Nitrogen",
+          "NutrientId": "880abcda-5ee5-4068-879c-94489be314d5",
+          "Nutr_Ordinal": "4.0",
+          "ODX_Nutr_SourceSystem": "dummy_Polaris"
+        }
+      },
+      "U": {
+        "identity": 30550,
+        "labels": [
+          "Units"
+        ],
+        "properties": {
+          "ODX_Units_UUId": "9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "ODX_Units_Uri": "ODX/Units/9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "UnitsId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "UnitsTags": "N",
+          "UnitsName": "N"
+        }
+      },
+      "UC": {
+        "identity": 30661,
+        "labels": [
+          "UnitConversion"
+        ],
+        "properties": {
+          "UnitConversionId": "8ff1eb1d-36f3-47c4-8e67-9cb89650b336",
+          "ODX_UnitConversion_UUId": "b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "ConvertToUnitId": "c6deac28-14f4-4eb3-946d-4ef93e4e9c33",
+          "UnitId_Ref": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "ODX_UnitConversion_Uri": "ODX/UnitConversion/b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "Multiplier": "1.28783",
+          "ODX_UC_SourceSystem": "dummy_Polaris",
+          "CountryId_Ref": "NULL",
+          "UnitConversionName": "NH4"
+        }
+      },
+      "HCC": {
+        "identity": 1511,
+        "start": 25959,
+        "end": 25968,
+        "type": "hasCropClass",
+        "properties": {
+
+        }
+      },
+      "HCSC": {
+        "identity": 1565,
+        "start": 25968,
+        "end": 26022,
+        "type": "hasCropSubClass",
+        "properties": {
+
+        }
+      },
+      "CSCHCD": {
+        "identity": 8258,
+        "start": 26022,
+        "end": 29293,
+        "type": "hasCropDescription",
+        "properties": {
+
+        }
+      },
+      "CDIAI": {
+        "identity": 21533,
+        "start": 29293,
+        "end": 25713,
+        "type": "isAvailableIn",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "361b1059-ce7b-414a-bfd5-cab992b4cfef",
+          "CD_RegionIdRef": "6615db9b-203b-4174-9669-182f683f891f",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "16dc8d16-e4a0-45cb-b2b7-10da5e0cd1cc",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "FIAI": {
+        "identity": 23759,
+        "start": 30809,
+        "end": 25713,
+        "type": "isAvailableIn",
+        "properties": {
+          "Prod_CountryId_Ref": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "ProdCountry_UUId_Ref": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ApplicationTags": "dummy_empty_app_tags",
+          "ProdRegion_UUId_Ref": "475764b7-8660-34db-ac14-0922f991c239",
+          "LocalizedName": "[NULL]",
+          "Prod_RegionId_Ref": "6615db9b-203b-4174-9669-182f683f891f",
+          "IsAvailable": "true"
+        }
+      },
+      "HR": {
+        "identity": 1265,
+        "start": 25441,
+        "end": 25713,
+        "type": "hasRegion",
+        "properties": {
+
+        }
+      },
+      "HCV": {
+        "identity": 6629,
+        "start": 26022,
+        "end": 27664,
+        "type": "hasCropVariety",
+        "properties": {
+
+        }
+      },
+      "CVHCD": {
+        "identity": 20289,
+        "start": 27664,
+        "end": 29293,
+        "type": "hasCropDescription",
+        "properties": {
+          "CV_CD_UUId_Ref": "0e2de42d-9498-3215-9478-9d4f4248228c",
+          "CV_CropDescriptionId_Ref": "249b2266-dc5f-4a7c-9d16-22dc7c3a71e2"
+        }
+      },
+      "HGS": {
+        "identity": 21943,
+        "start": 29293,
+        "end": 29714,
+        "type": "hasGrowthScale",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "74255580-9feb-4fc2-a5ee-7635a4161bbf",
+          "CD_CountryIdRef": "0cbc1e72-cc07-4bcd-aafe-a4641fa7c06c",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "00c98b27-a9bf-4339-87fb-10bbd698abc5",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HGSS": {
+        "identity": 20887,
+        "start": 29714,
+        "end": 29887,
+        "type": "hasGrowthScaleStages",
+        "properties": {
+
+        }
+      },
+      "HPN": {
+        "identity": 23972,
+        "start": 30809,
+        "end": 30504,
+        "type": "hasProdNutrient",
+        "properties": {
+
+        }
+      },
+      "HNU": {
+        "identity": 21974,
+        "start": 30504,
+        "end": 30550,
+        "type": "hasNutrientUnit",
+        "properties": {
+
+        }
+      },
+      "HUC": {
+        "identity": 22031,
+        "start": 30550,
+        "end": 30661,
+        "type": "hasUnitConversion",
+        "properties": {
+
+        }
+      }
+    }
+  },
+  {
+    "infoMap": {
+      "CG": {
+        "identity": 25959,
+        "labels": [
+          "CropGroup"
+        ],
+        "properties": {
+          "CG_MediaUri": "",
+          "ODX_CropGroup_UUId": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupName": "Cereals",
+          "ODX_CropGroup_Uri": "ODX/CropGroup/2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CG_FAOId": "1",
+          "CropGroupId": "bc09457f-cf85-4295-9fa3-9644a1eaf318"
+        }
+      },
+      "CC": {
+        "identity": 25968,
+        "labels": [
+          "CropClass"
+        ],
+        "properties": {
+          "ODX_CropClass_Uri": "ODX/CropClass/d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CC_MediaUri": "",
+          "CC_FAOId": "11",
+          "ODX_CG_UUId_Ref": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupId_Ref": "bc09457f-cf85-4295-9fa3-9644a1eaf318",
+          "ODX_CropClass_UUId": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CropClassId": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "CropClassName": "Wheat"
+        }
+      },
+      "CSC": {
+        "identity": 26022,
+        "labels": [
+          "CropSubClass"
+        ],
+        "properties": {
+          "ODX_CropSubClass_Uri": "ODX/CropSubClass/f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "ODX_CC_UUId_Ref": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CSC_FAOId": "",
+          "CropSubClassName": "Winter wheat",
+          "CropClassId_Ref": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "ODX_CropSubClass_UUId": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "CropSubClassId": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "CSC_MediaUri": ""
+        }
+      },
+      "CD": {
+        "identity": 29306,
+        "labels": [
+          "CropDescription"
+        ],
+        "properties": {
+          "ChlorideSensitive": "false",
+          "CD_CSC_UUId_Ref": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "CD_CropSubClassId_Ref": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "ODX_CropDescription_Uri": "ODX/CropDescription/cbf96b4f-8c43-387a-bb34-487c8ac93000",
+          "ODX_CropDescription_UUId": "cbf96b4f-8c43-387a-bb34-487c8ac93000",
+          "ODX_CD_SourceSystem": "dummy_Polaris",
+          "CD_MediaUri": "",
+          "CropDescriptionName": "Milling",
+          "CropDescriptionId": "be492854-8727-41b1-9ec6-79a55296f098"
+        }
+      },
+      "CV": {
+        "identity": 29244,
+        "labels": [
+          "CropVariety"
+        ],
+        "properties": {
+          "CV_CSC_UUId_Ref": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "ODX_CropVariety_Uri": "ODX/CropVariety/6956d37c-8312-318b-94c1-48f7985cd0f5",
+          "CV_CropSubClassId_Ref": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "CropVarietyName": "Reform",
+          "CropVarietyId": "b32aca2f-395f-4a6d-b061-90c0394cbf7a",
+          "ODX_CropVariety_UUId": "6956d37c-8312-318b-94c1-48f7985cd0f5"
+        }
+      },
+      "C": {
+        "identity": 25441,
+        "labels": [
+          "Country"
+        ],
+        "properties": {
+          "CountryId": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "ODX_Country_UUId": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ProductSetCode": "07",
+          "CountryName": "Canada",
+          "ODX_Country_Uri": "ODX/Country/85f5664e-eeab-37f4-82d4-964e01ef0158"
+        }
+      },
+      "R": {
+        "identity": 25713,
+        "labels": [
+          "Region"
+        ],
+        "properties": {
+          "RegionName": "All",
+          "Region_Country_UUId_Ref": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ODX_Region_UUId": "475764b7-8660-34db-ac14-0922f991c239",
+          "Region_CountryId_Ref": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "RegionId": "6615db9b-203b-4174-9669-182f683f891f",
+          "ODX_Region_Uri": "ODX/Region/475764b7-8660-34db-ac14-0922f991c239"
+        }
+      },
+      "GS": {
+        "identity": 29715,
+        "labels": [
+          "GrowthScale"
+        ],
+        "properties": {
+          "ODX_GrowthScale_UUId": "22074af4-f9f3-373a-8bf7-e73a2d1efd01",
+          "GrowthScaleId": "899e7951-8113-4158-bd62-53abadbaead1",
+          "ODX_GrowthScale_Uri": "ODX/GrowthScale/22074af4-f9f3-373a-8bf7-e73a2d1efd01",
+          "GrowthScaleName": "Zadok - Cereals"
+        }
+      },
+      "GSS": {
+        "identity": 29947,
+        "labels": [
+          "GrowthScaleStages"
+        ],
+        "properties": {
+          "ODX_GrowthScaleStage_Uri": "ODX/GrowthScaleStages/632ce666-bdbf-3287-bca6-6be1b2ba142c",
+          "ODX_GrowthScaleStage_UUId": "632ce666-bdbf-3287-bca6-6be1b2ba142c",
+          "GrowthScaleStageId": "37d4585a-5958-4e2c-8177-c50f638951b8",
+          "GrowthScaleStageDescription": "99 Secondary dormancy lost",
+          "BaseOrdinal": "",
+          "Ordinal": "99.0",
+          "GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "ODX_GSS_SourceSystem": "dummy_Polaris",
+          "ODX_GS_UUId_Ref": "22074af4-f9f3-373a-8bf7-e73a2d1efd01"
+        }
+      },
+      "F": {
+        "identity": 30809,
+        "labels": [
+          "Fertilizers"
+        ],
+        "properties": {
+          "CuUnitId": "168bc22c-a9ad-4cce-9ede-5b465aa48754",
+          "SUnitId": "2a3d91f7-e1f2-4811-944b-32da80507d6b",
+          "ElectricalConductivity": "",
+          "BUnitId": "0ca37d40-bb10-45b4-b2a3-664072b4693b",
+          "ProductId": "f7849fd1-3c32-4ae7-bb14-7eda412e4d0e",
+          "Co": "0.0",
+          "Density": "1.0",
+          "PUnitId": "3eacac5f-d65d-4248-89c9-8d7f9337ebe9",
+          "Cu": "0.0",
+          "NO3": "0.0",
+          "MnUnitId": "46dc12da-31c5-4611-a7c3-a88344f7d682",
+          "Solubility5C": "",
+          "DryMatter": "",
+          "Ph": "",
+          "ODX_Fert_SourceSystem": "dummy_Polaris",
+          "SpreaderLoss": "",
+          "ProductType": "SOLID",
+          "CaUnitId": "c93686e7-d4c5-4b37-9733-c00a882e7d56",
+          "LastSync": "[NULL]",
+          "Tank": "",
+          "ODX_Fertilizer_Uri": "ODX/Fertilizers/ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Urea": "0.0",
+          "Solubility20C": "",
+          "Mg": "0.0",
+          "NH4": "0.0",
+          "MgUnitId": "041057eb-e8d3-492f-b82f-656e93b32800",
+          "ProdFamily": "YaraBela",
+          "UtilizationNH4": "",
+          "Mn": "0.0",
+          "Mo": "0.0",
+          "B": "0.0",
+          "UtilizationN": "",
+          "SyncId": "[NULL]",
+          "K": "0.0",
+          "FeUnitId": "9d3fc031-9c67-46c0-a259-126a2db5863d",
+          "N": "26.0",
+          "P": "0.0",
+          "ZnUnitId": "0a9927a7-c44d-417d-bdb1-c2e63b1689e3",
+          "NaUnitId": "47216f05-d68e-4777-83ca-c97267db1cee",
+          "SyncSource": "[NULL]",
+          "DhCode": "[NULL]",
+          "Na": "0.0",
+          "S": "35.0",
+          "Zn": "0.0",
+          "LowChloride": "true",
+          "KUnitId": "ae2132a8-f1e6-4170-877c-ab8ccc2c6656",
+          "ProdName": "Sulfan",
+          "NUnitId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "Fe": "0.0",
+          "CoUnitId": "e337da8e-6cbc-4831-8a5f-9fe180179d5f",
+          "ODX_Fertilizer_UUId": "ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Se": "0.0",
+          "SeUnitId": "a888bf4a-a438-4e11-862d-b1a6aea8ce5a",
+          "MoUnitId": "3a65cae7-d5cf-46e4-be63-b69171d367da",
+          "Ca": "0.0"
+        }
+      },
+      "N": {
+        "identity": 30504,
+        "labels": [
+          "Nutrient"
+        ],
+        "properties": {
+          "ElementalName": "N",
+          "ODX_Nutrient_Uri": "ODX/Nutrient/c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "ODX_Nutrient_UUId": "c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "NutrientName": "Nitrogen",
+          "NutrientId": "880abcda-5ee5-4068-879c-94489be314d5",
+          "Nutr_Ordinal": "4.0",
+          "ODX_Nutr_SourceSystem": "dummy_Polaris"
+        }
+      },
+      "U": {
+        "identity": 30550,
+        "labels": [
+          "Units"
+        ],
+        "properties": {
+          "ODX_Units_UUId": "9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "ODX_Units_Uri": "ODX/Units/9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "UnitsId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "UnitsTags": "N",
+          "UnitsName": "N"
+        }
+      },
+      "UC": {
+        "identity": 30661,
+        "labels": [
+          "UnitConversion"
+        ],
+        "properties": {
+          "UnitConversionId": "8ff1eb1d-36f3-47c4-8e67-9cb89650b336",
+          "ODX_UnitConversion_UUId": "b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "ConvertToUnitId": "c6deac28-14f4-4eb3-946d-4ef93e4e9c33",
+          "UnitId_Ref": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "ODX_UnitConversion_Uri": "ODX/UnitConversion/b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "Multiplier": "1.28783",
+          "ODX_UC_SourceSystem": "dummy_Polaris",
+          "CountryId_Ref": "NULL",
+          "UnitConversionName": "NH4"
+        }
+      },
+      "HCC": {
+        "identity": 1511,
+        "start": 25959,
+        "end": 25968,
+        "type": "hasCropClass",
+        "properties": {
+
+        }
+      },
+      "HCSC": {
+        "identity": 1565,
+        "start": 25968,
+        "end": 26022,
+        "type": "hasCropSubClass",
+        "properties": {
+
+        }
+      },
+      "CSCHCD": {
+        "identity": 8271,
+        "start": 26022,
+        "end": 29306,
+        "type": "hasCropDescription",
+        "properties": {
+
+        }
+      },
+      "CDIAI": {
+        "identity": 21657,
+        "start": 29306,
+        "end": 25713,
+        "type": "isAvailableIn",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "6615db9b-203b-4174-9669-182f683f891f",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "FIAI": {
+        "identity": 23759,
+        "start": 30809,
+        "end": 25713,
+        "type": "isAvailableIn",
+        "properties": {
+          "Prod_CountryId_Ref": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "ProdCountry_UUId_Ref": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ApplicationTags": "dummy_empty_app_tags",
+          "ProdRegion_UUId_Ref": "475764b7-8660-34db-ac14-0922f991c239",
+          "LocalizedName": "[NULL]",
+          "Prod_RegionId_Ref": "6615db9b-203b-4174-9669-182f683f891f",
+          "IsAvailable": "true"
+        }
+      },
+      "HR": {
+        "identity": 1265,
+        "start": 25441,
+        "end": 25713,
+        "type": "hasRegion",
+        "properties": {
+
+        }
+      },
+      "HCV": {
+        "identity": 8209,
+        "start": 26022,
+        "end": 29244,
+        "type": "hasCropVariety",
+        "properties": {
+
+        }
+      },
+      "CVHCD": {
+        "identity": 20670,
+        "start": 29244,
+        "end": 29306,
+        "type": "hasCropDescription",
+        "properties": {
+          "CV_CD_UUId_Ref": "cbf96b4f-8c43-387a-bb34-487c8ac93000",
+          "CV_CropDescriptionId_Ref": "be492854-8727-41b1-9ec6-79a55296f098"
+        }
+      },
+      "HGS": {
+        "identity": 21892,
+        "start": 29306,
+        "end": 29715,
+        "type": "hasGrowthScale",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "6615db9b-203b-4174-9669-182f683f891f",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HGSS": {
+        "identity": 20947,
+        "start": 29715,
+        "end": 29947,
+        "type": "hasGrowthScaleStages",
+        "properties": {
+
+        }
+      },
+      "HPN": {
+        "identity": 23972,
+        "start": 30809,
+        "end": 30504,
+        "type": "hasProdNutrient",
+        "properties": {
+
+        }
+      },
+      "HNU": {
+        "identity": 21974,
+        "start": 30504,
+        "end": 30550,
+        "type": "hasNutrientUnit",
+        "properties": {
+
+        }
+      },
+      "HUC": {
+        "identity": 22031,
+        "start": 30550,
+        "end": 30661,
+        "type": "hasUnitConversion",
+        "properties": {
+
+        }
+      }
+    }
+  },
+  {
+    "infoMap": {
+      "CG": {
+        "identity": 25959,
+        "labels": [
+          "CropGroup"
+        ],
+        "properties": {
+          "CG_MediaUri": "",
+          "ODX_CropGroup_UUId": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupName": "Cereals",
+          "ODX_CropGroup_Uri": "ODX/CropGroup/2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CG_FAOId": "1",
+          "CropGroupId": "bc09457f-cf85-4295-9fa3-9644a1eaf318"
+        }
+      },
+      "CC": {
+        "identity": 25968,
+        "labels": [
+          "CropClass"
+        ],
+        "properties": {
+          "ODX_CropClass_Uri": "ODX/CropClass/d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CC_MediaUri": "",
+          "CC_FAOId": "11",
+          "ODX_CG_UUId_Ref": "2c010c9d-9901-3156-ba02-11d52251a4aa",
+          "CropGroupId_Ref": "bc09457f-cf85-4295-9fa3-9644a1eaf318",
+          "ODX_CropClass_UUId": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CropClassId": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "CropClassName": "Wheat"
+        }
+      },
+      "CSC": {
+        "identity": 26022,
+        "labels": [
+          "CropSubClass"
+        ],
+        "properties": {
+          "ODX_CropSubClass_Uri": "ODX/CropSubClass/f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "ODX_CC_UUId_Ref": "d9cf5cd9-cfc7-3a9d-a6a6-fda48b41b9e6",
+          "CSC_FAOId": "",
+          "CropSubClassName": "Winter wheat",
+          "CropClassId_Ref": "7be740b9-6980-44fb-aeab-ca80423cfdd5",
+          "ODX_CropSubClass_UUId": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "CropSubClassId": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "CSC_MediaUri": ""
+        }
+      },
+      "CD": {
+        "identity": 29306,
+        "labels": [
+          "CropDescription"
+        ],
+        "properties": {
+          "ChlorideSensitive": "false",
+          "CD_CSC_UUId_Ref": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "CD_CropSubClassId_Ref": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "ODX_CropDescription_Uri": "ODX/CropDescription/cbf96b4f-8c43-387a-bb34-487c8ac93000",
+          "ODX_CropDescription_UUId": "cbf96b4f-8c43-387a-bb34-487c8ac93000",
+          "ODX_CD_SourceSystem": "dummy_Polaris",
+          "CD_MediaUri": "",
+          "CropDescriptionName": "Milling",
+          "CropDescriptionId": "be492854-8727-41b1-9ec6-79a55296f098"
+        }
+      },
+      "CV": {
+        "identity": 29244,
+        "labels": [
+          "CropVariety"
+        ],
+        "properties": {
+          "CV_CSC_UUId_Ref": "f8afa60e-7ef0-312c-b5f3-9c9acfe4ca0f",
+          "ODX_CropVariety_Uri": "ODX/CropVariety/6956d37c-8312-318b-94c1-48f7985cd0f5",
+          "CV_CropSubClassId_Ref": "0ea921ef-a0f4-4918-b8cc-0aeec8a06fba",
+          "CropVarietyName": "Reform",
+          "CropVarietyId": "b32aca2f-395f-4a6d-b061-90c0394cbf7a",
+          "ODX_CropVariety_UUId": "6956d37c-8312-318b-94c1-48f7985cd0f5"
+        }
+      },
+      "C": {
+        "identity": 25441,
+        "labels": [
+          "Country"
+        ],
+        "properties": {
+          "CountryId": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "ODX_Country_UUId": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ProductSetCode": "07",
+          "CountryName": "Canada",
+          "ODX_Country_Uri": "ODX/Country/85f5664e-eeab-37f4-82d4-964e01ef0158"
+        }
+      },
+      "R": {
+        "identity": 25713,
+        "labels": [
+          "Region"
+        ],
+        "properties": {
+          "RegionName": "All",
+          "Region_Country_UUId_Ref": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ODX_Region_UUId": "475764b7-8660-34db-ac14-0922f991c239",
+          "Region_CountryId_Ref": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "RegionId": "6615db9b-203b-4174-9669-182f683f891f",
+          "ODX_Region_Uri": "ODX/Region/475764b7-8660-34db-ac14-0922f991c239"
+        }
+      },
+      "GS": {
+        "identity": 29715,
+        "labels": [
+          "GrowthScale"
+        ],
+        "properties": {
+          "ODX_GrowthScale_UUId": "22074af4-f9f3-373a-8bf7-e73a2d1efd01",
+          "GrowthScaleId": "899e7951-8113-4158-bd62-53abadbaead1",
+          "ODX_GrowthScale_Uri": "ODX/GrowthScale/22074af4-f9f3-373a-8bf7-e73a2d1efd01",
+          "GrowthScaleName": "Zadok - Cereals"
+        }
+      },
+      "GSS": {
+        "identity": 29947,
+        "labels": [
+          "GrowthScaleStages"
+        ],
+        "properties": {
+          "ODX_GrowthScaleStage_Uri": "ODX/GrowthScaleStages/632ce666-bdbf-3287-bca6-6be1b2ba142c",
+          "ODX_GrowthScaleStage_UUId": "632ce666-bdbf-3287-bca6-6be1b2ba142c",
+          "GrowthScaleStageId": "37d4585a-5958-4e2c-8177-c50f638951b8",
+          "GrowthScaleStageDescription": "99 Secondary dormancy lost",
+          "BaseOrdinal": "",
+          "Ordinal": "99.0",
+          "GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "ODX_GSS_SourceSystem": "dummy_Polaris",
+          "ODX_GS_UUId_Ref": "22074af4-f9f3-373a-8bf7-e73a2d1efd01"
+        }
+      },
+      "F": {
+        "identity": 30809,
+        "labels": [
+          "Fertilizers"
+        ],
+        "properties": {
+          "CuUnitId": "168bc22c-a9ad-4cce-9ede-5b465aa48754",
+          "SUnitId": "2a3d91f7-e1f2-4811-944b-32da80507d6b",
+          "ElectricalConductivity": "",
+          "BUnitId": "0ca37d40-bb10-45b4-b2a3-664072b4693b",
+          "ProductId": "f7849fd1-3c32-4ae7-bb14-7eda412e4d0e",
+          "Co": "0.0",
+          "Density": "1.0",
+          "PUnitId": "3eacac5f-d65d-4248-89c9-8d7f9337ebe9",
+          "Cu": "0.0",
+          "NO3": "0.0",
+          "MnUnitId": "46dc12da-31c5-4611-a7c3-a88344f7d682",
+          "Solubility5C": "",
+          "DryMatter": "",
+          "Ph": "",
+          "ODX_Fert_SourceSystem": "dummy_Polaris",
+          "SpreaderLoss": "",
+          "ProductType": "SOLID",
+          "CaUnitId": "c93686e7-d4c5-4b37-9733-c00a882e7d56",
+          "LastSync": "[NULL]",
+          "Tank": "",
+          "ODX_Fertilizer_Uri": "ODX/Fertilizers/ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Urea": "0.0",
+          "Solubility20C": "",
+          "Mg": "0.0",
+          "NH4": "0.0",
+          "MgUnitId": "041057eb-e8d3-492f-b82f-656e93b32800",
+          "ProdFamily": "YaraBela",
+          "UtilizationNH4": "",
+          "Mn": "0.0",
+          "Mo": "0.0",
+          "B": "0.0",
+          "UtilizationN": "",
+          "SyncId": "[NULL]",
+          "K": "0.0",
+          "FeUnitId": "9d3fc031-9c67-46c0-a259-126a2db5863d",
+          "N": "26.0",
+          "P": "0.0",
+          "ZnUnitId": "0a9927a7-c44d-417d-bdb1-c2e63b1689e3",
+          "NaUnitId": "47216f05-d68e-4777-83ca-c97267db1cee",
+          "SyncSource": "[NULL]",
+          "DhCode": "[NULL]",
+          "Na": "0.0",
+          "S": "35.0",
+          "Zn": "0.0",
+          "LowChloride": "true",
+          "KUnitId": "ae2132a8-f1e6-4170-877c-ab8ccc2c6656",
+          "ProdName": "Sulfan",
+          "NUnitId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "Fe": "0.0",
+          "CoUnitId": "e337da8e-6cbc-4831-8a5f-9fe180179d5f",
+          "ODX_Fertilizer_UUId": "ff1e21fa-ae6a-324c-8cd2-f4b050094471",
+          "Se": "0.0",
+          "SeUnitId": "a888bf4a-a438-4e11-862d-b1a6aea8ce5a",
+          "MoUnitId": "3a65cae7-d5cf-46e4-be63-b69171d367da",
+          "Ca": "0.0"
+        }
+      },
+      "N": {
+        "identity": 30504,
+        "labels": [
+          "Nutrient"
+        ],
+        "properties": {
+          "ElementalName": "N",
+          "ODX_Nutrient_Uri": "ODX/Nutrient/c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "ODX_Nutrient_UUId": "c0cdfd8c-0c03-3ba3-b1f9-b2f54d465c3d",
+          "NutrientName": "Nitrogen",
+          "NutrientId": "880abcda-5ee5-4068-879c-94489be314d5",
+          "Nutr_Ordinal": "4.0",
+          "ODX_Nutr_SourceSystem": "dummy_Polaris"
+        }
+      },
+      "U": {
+        "identity": 30550,
+        "labels": [
+          "Units"
+        ],
+        "properties": {
+          "ODX_Units_UUId": "9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "ODX_Units_Uri": "ODX/Units/9adca7b1-2041-3e73-badb-8f0eeb1cc63c",
+          "UnitsId": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "UnitsTags": "N",
+          "UnitsName": "N"
+        }
+      },
+      "UC": {
+        "identity": 30661,
+        "labels": [
+          "UnitConversion"
+        ],
+        "properties": {
+          "UnitConversionId": "8ff1eb1d-36f3-47c4-8e67-9cb89650b336",
+          "ODX_UnitConversion_UUId": "b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "ConvertToUnitId": "c6deac28-14f4-4eb3-946d-4ef93e4e9c33",
+          "UnitId_Ref": "393f6e30-0af3-4336-a65f-953701d1173a",
+          "ODX_UnitConversion_Uri": "ODX/UnitConversion/b0f80502-eeb2-3197-87ac-c3ca561ebaa4",
+          "Multiplier": "1.28783",
+          "ODX_UC_SourceSystem": "dummy_Polaris",
+          "CountryId_Ref": "NULL",
+          "UnitConversionName": "NH4"
+        }
+      },
+      "HCC": {
+        "identity": 1511,
+        "start": 25959,
+        "end": 25968,
+        "type": "hasCropClass",
+        "properties": {
+
+        }
+      },
+      "HCSC": {
+        "identity": 1565,
+        "start": 25968,
+        "end": 26022,
+        "type": "hasCropSubClass",
+        "properties": {
+
+        }
+      },
+      "CSCHCD": {
+        "identity": 8271,
+        "start": 26022,
+        "end": 29306,
+        "type": "hasCropDescription",
+        "properties": {
+
+        }
+      },
+      "CDIAI": {
+        "identity": 21657,
+        "start": 29306,
+        "end": 25713,
+        "type": "isAvailableIn",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "6615db9b-203b-4174-9669-182f683f891f",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "FIAI": {
+        "identity": 23759,
+        "start": 30809,
+        "end": 25713,
+        "type": "isAvailableIn",
+        "properties": {
+          "Prod_CountryId_Ref": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "ProdCountry_UUId_Ref": "85f5664e-eeab-37f4-82d4-964e01ef0158",
+          "ApplicationTags": "dummy_empty_app_tags",
+          "ProdRegion_UUId_Ref": "475764b7-8660-34db-ac14-0922f991c239",
+          "LocalizedName": "[NULL]",
+          "Prod_RegionId_Ref": "6615db9b-203b-4174-9669-182f683f891f",
+          "IsAvailable": "true"
+        }
+      },
+      "HR": {
+        "identity": 1265,
+        "start": 25441,
+        "end": 25713,
+        "type": "hasRegion",
+        "properties": {
+
+        }
+      },
+      "HCV": {
+        "identity": 8209,
+        "start": 26022,
+        "end": 29244,
+        "type": "hasCropVariety",
+        "properties": {
+
+        }
+      },
+      "CVHCD": {
+        "identity": 20670,
+        "start": 29244,
+        "end": 29306,
+        "type": "hasCropDescription",
+        "properties": {
+          "CV_CD_UUId_Ref": "cbf96b4f-8c43-387a-bb34-487c8ac93000",
+          "CV_CropDescriptionId_Ref": "be492854-8727-41b1-9ec6-79a55296f098"
+        }
+      },
+      "HGS": {
+        "identity": 21892,
+        "start": 29306,
+        "end": 29715,
+        "type": "hasGrowthScale",
+        "properties": {
+          "CD_GrowthScaleId_Ref": "899e7951-8113-4158-bd62-53abadbaead1",
+          "CD_CountryIdRef": "86367eb6-0687-4a85-849a-440d08ffd131",
+          "DefaultYield": "NULL",
+          "DefaultSeedingDate": "NULL",
+          "YieldBaseUnitId": "394e8163-636e-48dd-8ded-a9fd6436d335",
+          "CD_RegionIdRef": "6615db9b-203b-4174-9669-182f683f891f",
+          "AdditionalProperties": "NULL",
+          "DemandBaseUnitId": "53f8ea06-3244-4a0f-ae83-6914bac5f235",
+          "DefaultHarvestDate": "NULL"
+        }
+      },
+      "HGSS": {
+        "identity": 20947,
+        "start": 29715,
+        "end": 29947,
+        "type": "hasGrowthScaleStages",
+        "properties": {
+
+        }
+      },
+      "HPN": {
+        "identity": 23972,
+        "start": 30809,
+        "end": 30504,
+        "type": "hasProdNutrient",
+        "properties": {
+
+        }
+      },
+      "HNU": {
+        "identity": 21974,
+        "start": 30504,
+        "end": 30550,
+        "type": "hasNutrientUnit",
+        "properties": {
+
+        }
+      },
+      "HUC": {
+        "identity": 22031,
+        "start": 30550,
+        "end": 30661,
+        "type": "hasUnitConversion",
+        "properties": {
+
+        }
+      }
+    }
+  }
+]
