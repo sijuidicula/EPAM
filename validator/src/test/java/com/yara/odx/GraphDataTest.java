@@ -1,33 +1,20 @@
 package com.yara.odx;
 
-import com.yara.odx.domain.OntologyStructure;
-import com.yara.odx.domain.UseCaseAnswer;
-import com.yara.odx.reader.AnswerReader;
-import com.yara.odx.reader.OntologyReader;
 import com.yara.odx.reader.StatisticsReader;
-import com.yara.odx.reader.UseCaseReader;
 import com.yara.odx.requestor.Requestor;
-import com.yara.odx.validator.StatisticsValidator;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GraphDataTest {
 
+
     private Requestor requestor = new Requestor();
     private StatisticsReader statisticsReader = new StatisticsReader();
-    private StatisticsValidator validator = new StatisticsValidator();
-    private UseCaseReader useCaseReader = new UseCaseReader();
-    private OntologyReader ontologyReader = new OntologyReader();
-    private AnswerReader answerReader = new AnswerReader();
 
     private Map<String, Integer> statistics = statisticsReader.getStatistics();
-    private OntologyStructure ontologyStructure = ontologyReader.getOntologyStructure();
-    private List<String> useCases = useCaseReader.readUseCases();
-    private List<UseCaseAnswer> validAnswers = answerReader.readValidAnswers();
 
     @Test
     void testDatabaseNodesCountMatchPolarisSheet() {
@@ -45,6 +32,65 @@ public class GraphDataTest {
             }
 
             assertEquals(expectedNodeCount, actualNodeCount);
+        }
+    }
+
+    @Test
+    void testDatabaseHasNoBlankNodes() {
+        for (Map.Entry<String, Integer> entry : statistics.entrySet()) {
+            String className = entry.getKey();
+
+//            TODO
+//             Class GrowthScaleStages does not have "GrowthScaleStageName" property
+            if (className == "GrowthScaleStages") {
+                System.out.println(className);
+                continue;
+            }
+
+            int actualBlankNodeCount = requestor.getEmptyLabelsCount(className);
+
+            if (actualBlankNodeCount == 0) {
+                System.out.println(String.format("Class %s has no nodes with empty labels", className));
+            } else {
+                System.out.println(String.format("Class %s has %d nodes with empty labels", className, actualBlankNodeCount));
+                System.out.println("****************************************");
+            }
+
+            assertEquals(0, actualBlankNodeCount);
+        }
+    }
+
+    @Test
+    void testDatabaseHasNoEmptyUri() {
+        for (Map.Entry<String, Integer> entry : statistics.entrySet()) {
+            String className = entry.getKey();
+            int nodesWithEmptyUriCount = requestor.getEmptyUrisCount(className);
+
+            if (nodesWithEmptyUriCount == 0) {
+                System.out.println(String.format("Class %s has no nodes with empty URIs", className));
+            } else {
+                System.out.println(String.format("Class %s has %d nodes with empty URIs", className, nodesWithEmptyUriCount));
+                System.out.println("****************************************");
+            }
+
+            assertEquals(0, nodesWithEmptyUriCount);
+        }
+    }
+
+    @Test
+    void testDatabaseHasNoEmptyUUId() {
+        for (Map.Entry<String, Integer> entry : statistics.entrySet()) {
+            String className = entry.getKey();
+            int nodesWithEmptyUuidCount = requestor.getEmptyUuidsCount(className);
+
+            if (nodesWithEmptyUuidCount == 0) {
+                System.out.println(String.format("Class %s has no nodes with empty UUIds", className));
+            } else {
+                System.out.println(String.format("Class %s has %d nodes with empty UUIds", className, nodesWithEmptyUuidCount));
+                System.out.println("****************************************");
+            }
+
+            assertEquals(0, nodesWithEmptyUuidCount);
         }
     }
 }

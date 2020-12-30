@@ -53,8 +53,6 @@ public class Requestor implements AutoCloseable {
                 "RETURN COUNT(n)";
         String command = String.format(commandFormat, className, singleItemName);
 
-//        System.out.println(command);
-
         try (Session session = driver.session()) {
             nodesCount = session.readTransaction(tx -> {
                 Result result = tx.run(command);
@@ -74,6 +72,7 @@ public class Requestor implements AutoCloseable {
                 !className.endsWith("ss") &&
                 !className.equals("Units")) {
             int lastIndex = className.lastIndexOf("s");
+
             return className.substring(0, lastIndex);
         }
         return className;
@@ -105,14 +104,16 @@ public class Requestor implements AutoCloseable {
     public int getEmptyLabelsCount(String className) {
         int nodesCount = 0;
         String singleItemName = getSingleItemName(className);
+
+//            Fertilizers name property is called "ProdName" so single item will be "Prod"
+        if (singleItemName.equals("Fertilizer")) singleItemName = "Prod";
+
         String commandFormat = "MATCH (n:%1$s) " +
                 "WHERE n.%2$sName = \"\" " +
                 "OR " +
                 "n.%2$sName IS NULL " +
                 "RETURN COUNT(n)";
         String command = String.format(commandFormat, className, singleItemName);
-
-        System.out.println(command);
 
         try (Session session = driver.session()) {
             nodesCount = session.readTransaction(tx -> {
