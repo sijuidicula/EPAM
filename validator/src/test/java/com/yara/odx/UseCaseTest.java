@@ -35,6 +35,7 @@ public class UseCaseTest {
 
             if (answer.isEmpty()) {
                 System.out.printf("UseCase # %d result IS EMPTY\n", count);
+                System.out.println("****************************************");
             } else {
                 System.out.printf("UseCase # %d result is not empty\n", count);
             }
@@ -66,6 +67,7 @@ public class UseCaseTest {
                     validateRelationship(count, key, value, info);
                 } else {
                     System.out.println("Unknown value type");
+                    System.out.println("****************************************");
                     fail();
                 }
             }
@@ -84,11 +86,13 @@ public class UseCaseTest {
             System.out.printf("UseCase # %d %s value labels are equal to expected labels.\n", count, key);
         } else {
             System.out.printf("UseCase # %d %s value labels are not equal to expected labels.\n", count, key);
+            System.out.println("****************************************");
         }
         if (actualProperties.equals(expectedProperties)) {
             System.out.printf("UseCase # %d %s value properties are equal to expected properties.\n", count, key);
         } else {
             System.out.printf("UseCase # %d %s value properties ARE NOT equal to expected properties.\n", count, key);
+            System.out.println("****************************************");
         }
 
         assertEquals(expectedLabels, actualLabels);

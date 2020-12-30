@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class OntologyReader {
 
-    private static final String ONTOLOGY_STRUCTURE_FILE_NAME = "validator/src/test/resources/OntologyStructure.json";
+    private static final String ONTOLOGY_STRUCTURE_FILE_NAME = "src/test/resources/OntologyStructure.json";
 
     public OntologyStructure getOntologyStructure() {
         ObjectMapper mapper = new ObjectMapper();
