@@ -1,6 +1,7 @@
 package com.yara.odx.loader;
 
 import com.yara.odx.domain.*;
+import com.yara.odx.reader.ShaclRulesReader;
 import org.neo4j.driver.*;
 
 import java.util.*;
@@ -17,7 +18,6 @@ public class PropertyGraphUploader implements AutoCloseable {
     private static final String PASSWORD = "1234";
 
     public static final int BUILDER_LENGTH_THRESHOLD = 300_000;
-    public static final int BUILDER_LENGTH_THRESHOLD_FOR_RELATIONS = 100_000;
     public static final int NODES_BATCH_SIZE = 25;
     public static final int RELATION_BATCH_SIZE = 25;
 
@@ -1599,6 +1599,17 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "(\"%s\",\"Turtle\")";
         try (Session session = driver.session()) {
             session.run(String.format(commandFormat, url));
+        }
+        System.out.println("Shacl uploading completed");
+    }
+
+    public void uploadShaclInline(String shaclFileName) {
+        ShaclRulesReader shaclRulesReader = new ShaclRulesReader();
+        String shaclRules = shaclRulesReader.readShaclRules(shaclFileName);
+        String commandFormat = "CALL n10s.validation.shacl.import.inline" +
+                "('%s','Turtle')";
+        try (Session session = driver.session()) {
+            session.run(String.format(commandFormat, shaclRules));
         }
         System.out.println("Shacl uploading completed");
     }

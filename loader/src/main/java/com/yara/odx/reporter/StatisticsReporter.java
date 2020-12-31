@@ -9,7 +9,8 @@ import java.util.List;
 
 public class StatisticsReporter {
 
-    private static final String STATISTICS_FILE_NAME = "C:/dev/repository/yara/resources/statistics.txt";
+    private static final String STATISTICS_FILE_NAME = "resources/statistics.txt";
+//    private static final String STATISTICS_FILE_NAME = "C:/dev/repository/yara/resources/statistics.txt";
 
     public void createStatisticsFile() {
         try (FileWriter fileWriter = new FileWriter(STATISTICS_FILE_NAME)) {
