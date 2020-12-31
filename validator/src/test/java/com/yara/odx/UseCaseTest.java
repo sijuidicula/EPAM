@@ -4,7 +4,7 @@ import com.yara.odx.domain.Info;
 import com.yara.odx.domain.UseCaseAnswer;
 import com.yara.odx.reader.AnswerReader;
 import com.yara.odx.reader.UseCaseReader;
-import com.yara.odx.requestor.Requestor;
+import com.yara.odx.requestor.Requester;
 import org.junit.jupiter.api.Test;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Value;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class UseCaseTest {
 
-    private Requestor requestor = new Requestor();
+    private Requester requester = new Requester();
     private UseCaseReader useCaseReader = new UseCaseReader();
     private AnswerReader answerReader = new AnswerReader();
 
@@ -31,7 +31,7 @@ public class UseCaseTest {
         for (int i = 0; i < useCases.size(); i++) {
             int count = i + 1;
             String useCase = useCases.get(i);
-            List<Record> answer = requestor.request(useCase);
+            List<Record> answer = requester.request(useCase);
 
             if (answer.isEmpty()) {
                 System.out.printf("UseCase # %d result IS EMPTY\n", count);
@@ -50,7 +50,7 @@ public class UseCaseTest {
             int count = i + 1;
 
             String useCase = useCases.get(i);
-            Record record = requestor.request(useCase).get(0);
+            Record record = requester.request(useCase).get(0);
             List<String> keys = record.keys();
 
             UseCaseAnswer expectedAnswer = validAnswers.get(i);

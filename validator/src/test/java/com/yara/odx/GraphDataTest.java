@@ -1,7 +1,7 @@
 package com.yara.odx;
 
 import com.yara.odx.reader.StatisticsReader;
-import com.yara.odx.requestor.Requestor;
+import com.yara.odx.requestor.Requester;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class GraphDataTest {
 
 
-    private Requestor requestor = new Requestor();
+    private Requester requester = new Requester();
     private StatisticsReader statisticsReader = new StatisticsReader();
 
     private Map<String, Integer> statistics = statisticsReader.getStatistics();
@@ -21,7 +21,7 @@ public class GraphDataTest {
         for (Map.Entry<String, Integer> entry : statistics.entrySet()) {
             String className = entry.getKey();
             int expectedNodeCount = entry.getValue();
-            int actualNodeCount = requestor.getNodesCount(className);
+            int actualNodeCount = requester.getNodesCount(className);
 
             if (expectedNodeCount == actualNodeCount) {
                 System.out.println(String.format("Class %s stats are equal to numbers in DB", className));
@@ -47,7 +47,7 @@ public class GraphDataTest {
                 continue;
             }
 
-            int actualBlankNodeCount = requestor.getEmptyLabelsCount(className);
+            int actualBlankNodeCount = requester.getEmptyLabelsCount(className);
 
             if (actualBlankNodeCount == 0) {
                 System.out.println(String.format("Class %s has no nodes with empty labels", className));
@@ -64,7 +64,7 @@ public class GraphDataTest {
     void testDatabaseHasNoEmptyUri() {
         for (Map.Entry<String, Integer> entry : statistics.entrySet()) {
             String className = entry.getKey();
-            int nodesWithEmptyUriCount = requestor.getEmptyUrisCount(className);
+            int nodesWithEmptyUriCount = requester.getEmptyUrisCount(className);
 
             if (nodesWithEmptyUriCount == 0) {
                 System.out.println(String.format("Class %s has no nodes with empty URIs", className));
@@ -81,7 +81,7 @@ public class GraphDataTest {
     void testDatabaseHasNoEmptyUUId() {
         for (Map.Entry<String, Integer> entry : statistics.entrySet()) {
             String className = entry.getKey();
-            int nodesWithEmptyUuidCount = requestor.getEmptyUuidsCount(className);
+            int nodesWithEmptyUuidCount = requester.getEmptyUuidsCount(className);
 
             if (nodesWithEmptyUuidCount == 0) {
                 System.out.println(String.format("Class %s has no nodes with empty UUIds", className));

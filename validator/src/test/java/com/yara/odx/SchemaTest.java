@@ -2,7 +2,7 @@ package com.yara.odx;
 
 import com.yara.odx.domain.OntologyStructure;
 import com.yara.odx.reader.OntologyReader;
-import com.yara.odx.requestor.Requestor;
+import com.yara.odx.requestor.Requester;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class SchemaTest {
 
     public static final String SHACL_CONFIG_NODE_NAME = "_n10sValidatorConfig";
 
-    private Requestor requestor = new Requestor();
+    private Requester requester = new Requester();
     private OntologyReader ontologyReader = new OntologyReader();
 
     private OntologyStructure ontologyStructure = ontologyReader.getOntologyStructure();
@@ -25,7 +25,7 @@ public class SchemaTest {
     @Test
     void testDatabaseClassNamesCountMatchOntology() {
         List<String> ontologyClassNames = ontologyStructure.getClassNames();
-        List<String> databaseClassNames = requestor.getAllClassNames();
+        List<String> databaseClassNames = requester.getAllClassNames();
         databaseClassNames.remove(SHACL_CONFIG_NODE_NAME);
 
         boolean classNamesCountMatch = ontologyClassNames.size() == databaseClassNames.size();
@@ -43,7 +43,7 @@ public class SchemaTest {
     @Test
     void testDatabaseDoesNotMissClassNamesFromOntology() {
         List<String> ontologyClassNames = ontologyStructure.getClassNames();
-        List<String> databaseClassNames = requestor.getAllClassNames();
+        List<String> databaseClassNames = requester.getAllClassNames();
         databaseClassNames.remove("_n10sValidatorConfig");
 
         boolean containsAllClasses = databaseClassNames.containsAll(ontologyClassNames);
@@ -63,7 +63,7 @@ public class SchemaTest {
     @Test
     void testDatabaseHasNoExtraClassNames() {
         List<String> ontologyClassNames = ontologyStructure.getClassNames();
-        List<String> databaseClassNames = requestor.getAllClassNames();
+        List<String> databaseClassNames = requester.getAllClassNames();
         databaseClassNames.remove("_n10sValidatorConfig");
 
         boolean gotExtraClasses = !ontologyClassNames.containsAll(databaseClassNames);
@@ -83,7 +83,7 @@ public class SchemaTest {
     @Test
     void testDatabaseRelationshipsCountMatchOntology() {
         List<String> ontologyRelations = ontologyStructure.getRelationshipNames();
-        List<String> databaseRelations = requestor.getAllRelationshipNames();
+        List<String> databaseRelations = requester.getAllRelationshipNames();
 
         boolean relationshipsCountMatch = ontologyRelations.size() == databaseRelations.size();
         if (relationshipsCountMatch) {
@@ -100,7 +100,7 @@ public class SchemaTest {
     @Test
     void testDatabaseDoesNotMissRelationshipsFromOntology() {
         List<String> ontologyRelations = ontologyStructure.getRelationshipNames();
-        List<String> databaseRelations = requestor.getAllRelationshipNames();
+        List<String> databaseRelations = requester.getAllRelationshipNames();
 
         boolean containsAllRelations = databaseRelations.containsAll(ontologyRelations);
         if (containsAllRelations) {
@@ -119,7 +119,7 @@ public class SchemaTest {
     @Test
     void testDatabaseHasNoExtraRelationships() {
         List<String> ontologyRelations = ontologyStructure.getRelationshipNames();
-        List<String> databaseRelations = requestor.getAllRelationshipNames();
+        List<String> databaseRelations = requester.getAllRelationshipNames();
 
         boolean gotExtraRelations = !ontologyRelations.containsAll(databaseRelations);
         if (gotExtraRelations) {
@@ -138,7 +138,7 @@ public class SchemaTest {
     @Test
     void testDatabaseAttributesCountMatchOntology() {
         Map<String, List<String>> ontologyAttributesMap = ontologyStructure.getAttributesMap();
-        Map<String, List<String>> databaseAttributesMap = requestor.getAllNodesAttributes();
+        Map<String, List<String>> databaseAttributesMap = requester.getAllNodesAttributes();
 
         ontologyAttributesMap.forEach((className, ontologyAttributes) -> {
             List<String> databaseAttributes = databaseAttributesMap.get(className);
@@ -158,7 +158,7 @@ public class SchemaTest {
     @Test
     void testDatabaseDoesNotMissAttributesFromOntology() {
         Map<String, List<String>> ontologyAttributesMap = ontologyStructure.getAttributesMap();
-        Map<String, List<String>> databaseAttributesMap = requestor.getAllNodesAttributes();
+        Map<String, List<String>> databaseAttributesMap = requester.getAllNodesAttributes();
 
         List<String> missingAttributes = new ArrayList<>();
         AtomicBoolean containsAllAttributes = new AtomicBoolean(true);
@@ -188,7 +188,7 @@ public class SchemaTest {
     @Test
     void testDatabaseHasNoExtraAttributes() {
         Map<String, List<String>> ontologyAttributesMap = ontologyStructure.getAttributesMap();
-        Map<String, List<String>> databaseAttributesMap = requestor.getAllNodesAttributes();
+        Map<String, List<String>> databaseAttributesMap = requester.getAllNodesAttributes();
 
         List<String> extraAttributes = new ArrayList<>();
         AtomicBoolean gotExtraAttributes = new AtomicBoolean(false);

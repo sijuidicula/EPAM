@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Requestor implements AutoCloseable {
+public class Requester implements AutoCloseable {
 
 //    private static final String URI = "bolt+s://odx-storage.yara.com:7687";
 //    private static final String USER = "neo4j";
@@ -22,7 +22,7 @@ public class Requestor implements AutoCloseable {
 
     private final Driver driver;
 
-    public Requestor() {
+    public Requester() {
         driver = GraphDatabase.driver(URI, AuthTokens.basic(USER, PASSWORD));
     }
 
