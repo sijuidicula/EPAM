@@ -465,28 +465,10 @@ public class ExcelWorkbookReader {
         }
     }
 
-
-//    private void saveFull(List<CropRegion> cropRegions, CropRegion cropRegion) {
-//        CropRegion old = cropRegions.stream()
-//                .filter(cr -> cr.sameAs(cropRegion))
-//                .findFirst()
-//                .get();
-//
-//        if (old.getDefaultSeedingDate() == "NULL" &&
-//                cropRegion.getDefaultSeedingDate() != "NULL") {
-//            cropRegions.remove(old);
-//            cropRegions.add(cropRegion);
-//        }
-//    }
-
     private boolean containsSame(List<? extends Duplicate> list, Duplicate object) {
         return list.stream()
                 .anyMatch(cr -> cr.sameAs(object));
     }
-//    private boolean containsSame(List<CropRegion> cropRegions, CropRegion region) {
-//        return cropRegions.stream()
-//                .anyMatch(cr -> cr.sameAs(region));
-//    }
 
     private String getCellDataAsString(XSSFRow row, int cellIndex) {
         if (row.getCell(cellIndex) == null) {
@@ -599,7 +581,6 @@ public class ExcelWorkbookReader {
                 String convertToUnitId = row.getCell(2).getStringCellValue();
                 String multiplier = getCellDataAsString(row, 3);
                 String countryIdRef = row.getCell(4).getStringCellValue();
-//                String name = row.getCell(5).getStringCellValue();
                 UnitConversion conversion = new UnitConversion(POLARIS_SOURCE, className, id, unitIdRef, convertToUnitId, multiplier, countryIdRef);
                 conversions.add(conversion);
             }
@@ -709,7 +690,6 @@ public class ExcelWorkbookReader {
 //                      should add these ids as columns to Fertilizer sheet
                         .setNutrientUnitsContent("70ae19e2-be4f-4745-b67f-8eeb8a9f12e9", no3)
                         .setNutrientUnitsContent("c6deac28-14f4-4eb3-946d-4ef93e4e9c33", nh4)
-//                        .setNutrientUnitsContent("urea_id", urea)
                         .n(n)
                         .nUnitId(nUnitId)
                         .p(p)

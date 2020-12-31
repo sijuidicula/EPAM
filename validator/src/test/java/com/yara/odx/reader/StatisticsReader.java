@@ -11,7 +11,6 @@ import java.util.Map;
 public class StatisticsReader {
 
     private static final String STATISTICS_FILE_NAME = "resources/statistics.txt";
-//    private static final String STATISTICS_FILE_NAME = "C:/dev/repository/yara/resources/statistics.txt";
 
     public Map<String, Integer> getStatistics() {
         ObjectMapper mapper = new ObjectMapper();

@@ -3,7 +3,6 @@ package com.yara.odx.domain;
 import java.util.List;
 import java.util.Map;
 
-//@JsonIgnoreProperties(ignoreUnknown = true)
 public class Info {
     private int identity;
     private int start;

@@ -10,6 +10,12 @@ import java.util.Map;
 
 public class Requestor implements AutoCloseable {
 
+//    private static final String URI = "bolt+s://odx-storage.yara.com:7687";
+//    private static final String USER = "neo4j";
+
+//    Use valid pass for graph DB
+//    private static final String PASSWORD = "XXXXXXXX";
+
     private static final String URI = "bolt://localhost:7687";
     private static final String USER = "neo4j";
     private static final String PASSWORD = "1234";
