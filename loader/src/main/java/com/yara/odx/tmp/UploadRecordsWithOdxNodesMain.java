@@ -9,8 +9,7 @@ import java.util.List;
 public class UploadRecordsWithOdxNodesMain {
 
     public static void main(String[] args) {
-//        String cropClassFileName = "loader/src/main/resources/CropClass.xlsx";
-        String cropClassFileName = "loader/src/main/resources/CropClass_v2.xlsx";
+        String cropClassFileName = "loader/src/main/resources/CropClass.xlsx";
 
         ExcelWorkbookReader reader = new ExcelWorkbookReader();
         PropertyGraphUploader uploader = new PropertyGraphUploader();
