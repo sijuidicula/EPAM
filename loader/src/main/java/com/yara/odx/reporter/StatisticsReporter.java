@@ -10,7 +10,6 @@ import java.util.List;
 public class StatisticsReporter {
 
     private static final String STATISTICS_FILE_NAME = "validator/src/test/resources/statistics.txt";
-//    private static final String STATISTICS_FILE_NAME = "resources/statistics.txt";
 
     public void createStatisticsFile() {
         try (FileWriter fileWriter = new FileWriter(STATISTICS_FILE_NAME)) {
