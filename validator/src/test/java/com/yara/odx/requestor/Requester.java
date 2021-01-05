@@ -205,7 +205,6 @@ public class Requester implements AutoCloseable {
                 Result result = tx.run(command);
                 List<Record> list = result.list();
                 for (Record record : list) {
-
                     Map<String, Object> map = record.asMap();
                     String className = (String) map.get("className");
                     List<String> attributes = (List<String>) map.get("attributes");
@@ -217,5 +216,29 @@ public class Requester implements AutoCloseable {
             e.printStackTrace();
         }
         return attributeMap;
+    }
+
+    public Map<String, String> getRelationNodesMap(String relation) {
+        Map<String, String> nodesMap = new HashMap<>();
+        String command = String.format("MATCH (s)-[:%s]->(o)\n" +
+                "RETURN DISTINCT labels(s) AS subject, labels(o) AS object", relation);
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> {
+                Result result = tx.run(command);
+                List<Record> list = result.list();
+                for (Record record : list) {
+                    Map<String, Object> map = record.asMap();
+                    List<String> subjectList = (List<String>) map.get("subject");
+                    String subject = subjectList.get(0);
+                    List<String> objectList = (List<String>) map.get("object");
+                    String object = objectList.get(0);
+                    nodesMap.put(subject, object);
+                }
+                return null;
+            });
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return nodesMap;
     }
 }
