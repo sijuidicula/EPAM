@@ -36,17 +36,19 @@ public class Requester implements AutoCloseable {
         String commandFormat = "MATCH (n:%s) RETURN COUNT(n)";
         String command = String.format(commandFormat, className);
         try (Session session = driver.session()) {
-            nodesCount = session.readTransaction(tx -> {
-                Result result = tx.run(command);
-                List<Record> list = result.list();
-                Record record = list.get(0);
-                Value value = record.get(0);
-                return value.asInt();
-            });
+            nodesCount = session.readTransaction(tx -> getResultAsInteger(command, tx));
         } catch (ClientException e) {
             e.printStackTrace();
         }
         return nodesCount;
+    }
+
+    private Integer getResultAsInteger(String command, Transaction tx) {
+        Result result = tx.run(command);
+        List<Record> list = result.list();
+        Record record = list.get(0);
+        Value value = record.get(0);
+        return value.asInt();
     }
 
     public int getEmptyUuidsCount(String className) {
@@ -60,13 +62,7 @@ public class Requester implements AutoCloseable {
         String command = String.format(commandFormat, className, singleItemName);
 
         try (Session session = driver.session()) {
-            nodesCount = session.readTransaction(tx -> {
-                Result result = tx.run(command);
-                List<Record> list = result.list();
-                Record record = list.get(0);
-                Value value = record.get(0);
-                return value.asInt();
-            });
+            nodesCount = session.readTransaction(tx -> getResultAsInteger(command, tx));
         } catch (ClientException e) {
             e.printStackTrace();
         }
@@ -94,13 +90,7 @@ public class Requester implements AutoCloseable {
                 "RETURN COUNT(n)";
         String command = String.format(commandFormat, className, singleItemName);
         try (Session session = driver.session()) {
-            nodesCount = session.readTransaction(tx -> {
-                Result result = tx.run(command);
-                List<Record> list = result.list();
-                Record record = list.get(0);
-                Value value = record.get(0);
-                return value.asInt();
-            });
+            nodesCount = session.readTransaction(tx -> getResultAsInteger(command, tx));
         } catch (ClientException e) {
             e.printStackTrace();
         }
@@ -122,13 +112,7 @@ public class Requester implements AutoCloseable {
         String command = String.format(commandFormat, className, singleItemName);
 
         try (Session session = driver.session()) {
-            nodesCount = session.readTransaction(tx -> {
-                Result result = tx.run(command);
-                List<Record> list = result.list();
-                Record record = list.get(0);
-                Value value = record.get(0);
-                return value.asInt();
-            });
+            nodesCount = session.readTransaction(tx -> getResultAsInteger(command, tx));
         } catch (ClientException e) {
             e.printStackTrace();
         }
@@ -152,40 +136,31 @@ public class Requester implements AutoCloseable {
         List<String> classNames = new ArrayList<>();
         String command = "MATCH (n) RETURN distinct labels(n)";
         try (Session session = driver.session()) {
-            session.readTransaction(tx -> {
-                Result result = tx.run(command);
-                List<Record> list = result.list();
-                for (Record record : list) {
-                    Map<String, String> map = record.asMap(v -> String.valueOf(v)
-                            .replaceAll("\"", "")
-                            .replaceAll("\\[", "")
-                            .replaceAll("\\]", ""));
-                    map.forEach((k, v) -> classNames.add(v));
-                }
-                return null;
-            });
+            session.readTransaction(tx -> updateNamesList(classNames, command, tx));
         } catch (ClientException e) {
             e.printStackTrace();
         }
         return classNames;
     }
 
+    private Object updateNamesList(List<String> classNames, String command, Transaction tx) {
+        Result result = tx.run(command);
+        List<Record> list = result.list();
+        for (Record record : list) {
+            Map<String, String> map = record.asMap(v -> String.valueOf(v)
+                    .replaceAll("\"", "")
+                    .replaceAll("\\[", "")
+                    .replaceAll("\\]", ""));
+            map.forEach((k, v) -> classNames.add(v));
+        }
+        return null;
+    }
+
     public List<String> getAllRelationshipNames() {
         List<String> relationshipNames = new ArrayList<>();
         String command = "MATCH (n)-[r]-(m) RETURN DISTINCT type(r)\n";
         try (Session session = driver.session()) {
-            session.readTransaction(tx -> {
-                Result result = tx.run(command);
-                List<Record> list = result.list();
-                for (Record record : list) {
-                    Map<String, String> map = record.asMap(v -> String.valueOf(v)
-                            .replaceAll("\"", "")
-                            .replaceAll("\\[", "")
-                            .replaceAll("\\]", ""));
-                    map.forEach((k, v) -> relationshipNames.add(v));
-                }
-                return null;
-            });
+            session.readTransaction(tx -> updateNamesList(relationshipNames, command, tx));
         } catch (ClientException e) {
             e.printStackTrace();
         }
@@ -201,21 +176,23 @@ public class Requester implements AutoCloseable {
                 "RETURN DISTINCT label AS className, COLLECT(DISTINCT key) AS attributes\n" +
                 "ORDER BY label\n";
         try (Session session = driver.session()) {
-            session.readTransaction(tx -> {
-                Result result = tx.run(command);
-                List<Record> list = result.list();
-                for (Record record : list) {
-                    Map<String, Object> map = record.asMap();
-                    String className = (String) map.get("className");
-                    List<String> attributes = (List<String>) map.get("attributes");
-                    attributeMap.put(className, attributes);
-                }
-                return null;
-            });
+            session.readTransaction(tx -> updateAttributesMap(attributeMap, command, tx));
         } catch (ClientException e) {
             e.printStackTrace();
         }
         return attributeMap;
+    }
+
+    private Object updateAttributesMap(Map<String, List<String>> attributeMap, String command, Transaction tx) {
+        Result result = tx.run(command);
+        List<Record> list = result.list();
+        for (Record record : list) {
+            Map<String, Object> map = record.asMap();
+            String className = (String) map.get("className");
+            List<String> attributes = (List<String>) map.get("attributes");
+            attributeMap.put(className, attributes);
+        }
+        return null;
     }
 
     public Map<String, String> getRelationNodesMap(String relation) {
@@ -223,22 +200,24 @@ public class Requester implements AutoCloseable {
         String command = String.format("MATCH (s)-[:%s]->(o)\n" +
                 "RETURN DISTINCT labels(s) AS subject, labels(o) AS object", relation);
         try (Session session = driver.session()) {
-            session.readTransaction(tx -> {
-                Result result = tx.run(command);
-                List<Record> list = result.list();
-                for (Record record : list) {
-                    Map<String, Object> map = record.asMap();
-                    List<String> subjectList = (List<String>) map.get("subject");
-                    String subject = subjectList.get(0);
-                    List<String> objectList = (List<String>) map.get("object");
-                    String object = objectList.get(0);
-                    nodesMap.put(subject, object);
-                }
-                return null;
-            });
+            session.readTransaction(tx -> updateNodesMap(nodesMap, command, tx));
         } catch (ClientException e) {
             e.printStackTrace();
         }
         return nodesMap;
+    }
+
+    private Object updateNodesMap(Map<String, String> nodesMap, String command, Transaction tx) {
+        Result result = tx.run(command);
+        List<Record> list = result.list();
+        for (Record record : list) {
+            Map<String, Object> map = record.asMap();
+            List<String> subjectList = (List<String>) map.get("subject");
+            String subject = subjectList.get(0);
+            List<String> objectList = (List<String>) map.get("object");
+            String object = objectList.get(0);
+            nodesMap.put(subject, object);
+        }
+        return null;
     }
 }
