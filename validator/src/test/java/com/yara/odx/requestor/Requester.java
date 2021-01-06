@@ -234,7 +234,7 @@ public class Requester implements AutoCloseable {
                         "RETURN subject, object",
                 subject, relationship, object, replaceWithCapital(object));
 
-        System.out.println(command);
+//        System.out.println(command);
 
         try (Session session = driver.session()) {
             session.readTransaction(tx -> updateNodesMap(nodesMap, command, tx));
@@ -254,7 +254,7 @@ public class Requester implements AutoCloseable {
                         "RETURN subject, object",
                 subject, relationship, object, replaceWithCapital(object));
 
-        System.out.println(command);
+//        System.out.println(command);
 
         try (Session session = driver.session()) {
             session.readTransaction(tx -> updateNodesMap(nodesMap, command, tx));
