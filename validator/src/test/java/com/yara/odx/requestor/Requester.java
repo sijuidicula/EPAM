@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
 import org.neo4j.driver.types.Node;
+import org.neo4j.driver.types.Relationship;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -223,17 +224,17 @@ public class Requester implements AutoCloseable {
         return null;
     }
 
-    public Map<Node, Node> getIncorrectRelationNodesMap(String subject, String predicate, String object) {
+    public Map<Node, Node> getIncorrectRelationNodesMap(String subject, String relationship, String object) {
         Map<Node, Node> nodesMap = new HashMap<>();
         String command = String.format(
                 "MATCH (subject:%1$s)-[:%2$s]->(object:%3$s)\n" +
                         "WHERE subject.%1$sId <> object.%3$s_%1$sId_Ref\n" +
-                        "AND subject.%1$sId <> object.%1$sId_Ref\n" +
-                        "AND subject.%1$sId <> object.%4$s_%1$sId_Ref\n" +
+                        "OR subject.%1$sId <> object.%1$sId_Ref\n" +
+                        "OR subject.%1$sId <> object.%4$s_%1$sId_Ref\n" +
                         "RETURN subject, object",
-                subject, predicate, object, replaceWithCapital(object));
+                subject, relationship, object, replaceWithCapital(object));
 
-//        System.out.println(command);
+        System.out.println(command);
 
         try (Session session = driver.session()) {
             session.readTransaction(tx -> updateNodesMap(nodesMap, command, tx));
@@ -243,7 +244,7 @@ public class Requester implements AutoCloseable {
         return nodesMap;
     }
 
-    public Map<Node, Node> getCorrectRelationNodesMap(String subject, String predicate, String object) {
+    public Map<Node, Node> getCorrectRelationNodesMap(String subject, String relationship, String object) {
         Map<Node, Node> nodesMap = new HashMap<>();
         String command = String.format(
                 "MATCH (subject:%1$s)-[:%2$s]->(object:%3$s)\n" +
@@ -251,7 +252,7 @@ public class Requester implements AutoCloseable {
                         "OR subject.%1$sId = object.%1$sId_Ref\n" +
                         "OR subject.%1$sId = object.%4$s_%1$sId_Ref\n" +
                         "RETURN subject, object",
-                subject, predicate, object, replaceWithCapital(object));
+                subject, relationship, object, replaceWithCapital(object));
 
         System.out.println(command);
 
@@ -284,7 +285,7 @@ public class Requester implements AutoCloseable {
         return builder.toString();
     }
 
-    public Map<Node, Node> getCorrectRelationNodesMapForUnits(String subject, String predicate, String object) {
+    public Map<Node, Node> getCorrectRelationNodesMapForUnits(String subject, String relationship, String object) {
         Map<Node, Node> nodesMap = new HashMap<>();
         String command = String.format(
                 "MATCH (subject:%1$s)-[:%2$s]->(object:%3$s)\n" +
@@ -292,7 +293,7 @@ public class Requester implements AutoCloseable {
                         "OR subject.UnitsId = object.UnitId_Ref\n" +
                         "OR subject.UnitsId = object.%4$s_UnitId_Ref\n" +
                         "RETURN subject, object",
-                subject, predicate, object, replaceWithCapital(object));
+                subject, relationship, object, replaceWithCapital(object));
 
 //        System.out.println(command);
 
@@ -302,5 +303,168 @@ public class Requester implements AutoCloseable {
             e.printStackTrace();
         }
         return nodesMap;
+    }
+
+    public List<Relationship> getIncorrectVarietyToDescriptionRelationsList() {
+        List<Relationship> relationsList = new ArrayList<>();
+        String command = "MATCH (subject:CropVariety)-[relationship:hasCropDescription]->(object:CropDescription)\n" +
+                "WHERE relationship.CV_CropDescriptionId_Ref <> object.CropDescriptionId\n" +
+                "RETURN relationship";
+
+//        System.out.println(command);
+
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> updateRelationsList(relationsList, command, tx));
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return relationsList;
+    }
+
+    private Object updateRelationsList(List<Relationship> relationsList, String command, Transaction tx) {
+        Result result = tx.run(command);
+        List<Record> list = result.list();
+        for (Record record : list) {
+            if (record.get("relationship").isNull()) continue;
+
+//            System.out.println(record.get("relationship"));
+
+            Relationship relationship = record.get("relationship").asRelationship();
+            relationsList.add(relationship);
+        }
+        return null;
+    }
+
+    public List<Relationship> getCorrectVarietyToDescriptionRelationsList() {
+        List<Relationship> relationsList = new ArrayList<>();
+        String command = "MATCH (subject:CropVariety)-[relationship:hasCropDescription]->(object:CropDescription)\n" +
+                "WHERE relationship.CV_CropDescriptionId_Ref = object.CropDescriptionId\n" +
+                "RETURN relationship";
+
+//        System.out.println(command);
+
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> updateRelationsList(relationsList, command, tx));
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return relationsList;
+    }
+
+    public List<Relationship> getIncorrectDescriptionToRegionRelationsList() {
+        List<Relationship> relationsList = new ArrayList<>();
+        String command =
+                "MATCH (country:Country)-[:hasRegion]->(region:Region)" +
+                        "<-[relationship:isAvailableIn]-(subject:CropDescription)\n" +
+                        "WHERE relationship.CD_CountryIdRef <> country.CountryId\n" +
+                        "OR relationship.CD_RegionIdRef <> region.RegionId\n" +
+                        "RETURN relationship";
+
+//        System.out.println(command);
+
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> updateRelationsList(relationsList, command, tx));
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return relationsList;
+    }
+
+    public List<Relationship> getIncorrectDescriptionToGrowthScaleRelationsList() {
+        List<Relationship> relationsList = new ArrayList<>();
+        String command =
+                "MATCH (country:Country)-[:hasRegion]->(region:Region)<-[:isAvailableIn]-" +
+                        "(subject:CropDescription)-[relationship:hasGrowthScale]->(object:GrowthScale)\n" +
+                        "WHERE relationship.CD_GrowthScaleId_Ref <> object.GrowthScaleId\n" +
+                        "OR relationship.CD_CountryIdRef <> country.CountryId\n" +
+                        "OR relationship.CD_RegionIdRef <> region.RegionId\n" +
+                        "RETURN relationship";
+
+        System.out.println(command);
+
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> updateRelationsList(relationsList, command, tx));
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return relationsList;
+    }
+
+    public List<Relationship> getCorrectDescriptionToGrowthScaleRelationsList() {
+        List<Relationship> relationsList = new ArrayList<>();
+        String command =
+                "MATCH (country:Country)-[:hasRegion]->(region:Region)<-[:isAvailableIn]-" +
+                        "(subject:CropDescription)-[relationship:hasGrowthScale]->(object:GrowthScale)\n" +
+                        "WHERE relationship.CD_CountryIdRef = country.CountryId\n" +
+                        "OR relationship.CD_GrowthScaleId_Ref = object.GrowthScaleId\n" +
+                        "OR relationship.CD_RegionIdRef = region.RegionId\n" +
+                        "RETURN relationship";
+
+//        System.out.println(command);
+
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> updateRelationsList(relationsList, command, tx));
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return relationsList;
+    }
+
+    public List<Relationship> getCorrectDescriptionToRegionRelationsList() {
+        List<Relationship> relationsList = new ArrayList<>();
+        String command =
+                "MATCH (country:Country)-[:hasRegion]->(region:Region)<-[relationship:isAvailableIn]-" +
+                        "(subject:CropDescription)-[:hasGrowthScale]->(object:GrowthScale)\n" +
+                        "WHERE relationship.CD_CountryIdRef = country.CountryId\n" +
+                        "OR relationship.CD_GrowthScaleId_Ref = object.GrowthScaleId\n" +
+                        "OR relationship.CD_RegionIdRef = region.RegionId\n" +
+                        "RETURN relationship";
+
+//        System.out.println(command);
+
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> updateRelationsList(relationsList, command, tx));
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return relationsList;
+    }
+
+    public List<Relationship> getIncorrectFertilizersToRegionRelationsList() {
+        List<Relationship> relationsList = new ArrayList<>();
+        String command =
+                "MATCH (country:Country)-[:hasRegion]->(region:Region)" +
+                        "<-[relationship:isAvailableIn]-(fertilizer:Fertilizers)\n" +
+                        "WHERE relationship.Prod_CountryId_Ref <> country.CountryId\n" +
+                        "OR relationship.Prod_RegionIdRef <> region.RegionId\n" +
+                        "RETURN relationship";
+
+//        System.out.println(command);
+
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> updateRelationsList(relationsList, command, tx));
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return relationsList;
+    }
+
+    public List<Relationship> getCorrectFertilizersToRegionRelationsList() {
+        List<Relationship> relationsList = new ArrayList<>();
+        String command =
+                "MATCH (country:Country)-[:hasRegion]->(region:Region)" +
+                        "<-[relationship:isAvailableIn]-(fertilizer:Fertilizers)\n" +
+                        "WHERE relationship.Prod_CountryId_Ref = country.CountryId\n" +
+                        "OR relationship.Prod_RegionIdRef = region.RegionId\n" +
+                        "RETURN relationship";
+
+//        System.out.println(command);
+
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> updateRelationsList(relationsList, command, tx));
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return relationsList;
     }
 }
