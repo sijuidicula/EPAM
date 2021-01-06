@@ -14,7 +14,7 @@ public class AnswerReader {
 
     public List<UseCaseAnswer> readValidAnswers() {
         ObjectMapper mapper = new ObjectMapper();
-        List<UseCaseAnswer> record = null;
+        List<UseCaseAnswer> answers = null;
         try (FileReader fileReader = new FileReader(ANSWERS_FILE);
              BufferedReader bufferedReader = new BufferedReader(fileReader)) {
             StringBuilder builder = new StringBuilder();
@@ -22,11 +22,12 @@ public class AnswerReader {
                 builder.append(bufferedReader.readLine());
             }
             String json = builder.toString();
-            TypeReference<List<UseCaseAnswer>> typeRef = new TypeReference<List<UseCaseAnswer>>() {};
-            record = mapper.readValue(json, typeRef);
+            TypeReference<List<UseCaseAnswer>> typeRef = new TypeReference<List<UseCaseAnswer>>() {
+            };
+            answers = mapper.readValue(json, typeRef);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return record;
+        return answers;
     }
 }

@@ -1,7 +1,9 @@
 package com.yara.odx.requestor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
+import org.neo4j.driver.types.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -200,14 +202,14 @@ public class Requester implements AutoCloseable {
         String command = String.format("MATCH (s)-[:%s]->(o)\n" +
                 "RETURN DISTINCT labels(s) AS subject, labels(o) AS object", relation);
         try (Session session = driver.session()) {
-            session.readTransaction(tx -> updateNodesMap(nodesMap, command, tx));
+            session.readTransaction(tx -> updateNodeNamesMap(nodesMap, command, tx));
         } catch (ClientException e) {
             e.printStackTrace();
         }
         return nodesMap;
     }
 
-    private Object updateNodesMap(Map<String, String> nodesMap, String command, Transaction tx) {
+    private Object updateNodeNamesMap(Map<String, String> nodesMap, String command, Transaction tx) {
         Result result = tx.run(command);
         List<Record> list = result.list();
         for (Record record : list) {
@@ -219,5 +221,86 @@ public class Requester implements AutoCloseable {
             nodesMap.put(subject, object);
         }
         return null;
+    }
+
+    public Map<Node, Node> getIncorrectRelationNodesMap(String subject, String predicate, String object) {
+        Map<Node, Node> nodesMap = new HashMap<>();
+        String command = String.format(
+                "MATCH (subject:%1$s)-[:%2$s]->(object:%3$s)\n" +
+                        "WHERE subject.%1$sId <> object.%3$s_%1$sId_Ref\n" +
+                        "AND subject.%1$sId <> object.%1$sId_Ref\n" +
+                        "AND subject.%1$sId <> object.%4$s_%1$sId_Ref\n" +
+                        "RETURN subject, object",
+                subject, predicate, object, replaceWithCapital(object));
+
+//        System.out.println(command);
+
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> updateNodesMap(nodesMap, command, tx));
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return nodesMap;
+    }
+
+    public Map<Node, Node> getCorrectRelationNodesMap(String subject, String predicate, String object) {
+        Map<Node, Node> nodesMap = new HashMap<>();
+        String command = String.format(
+                "MATCH (subject:%1$s)-[:%2$s]->(object:%3$s)\n" +
+                        "WHERE subject.%1$sId = object.%3$s_%1$sId_Ref\n" +
+                        "OR subject.%1$sId = object.%1$sId_Ref\n" +
+                        "OR subject.%1$sId = object.%4$s_%1$sId_Ref\n" +
+                        "RETURN subject, object",
+                subject, predicate, object, replaceWithCapital(object));
+
+        System.out.println(command);
+
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> updateNodesMap(nodesMap, command, tx));
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return nodesMap;
+    }
+
+    private Object updateNodesMap(Map<Node, Node> nodesMap, String command, Transaction tx) {
+        Result result = tx.run(command);
+        List<Record> list = result.list();
+        for (Record record : list) {
+            Node subject = record.get("subject").asNode();
+            Node object = record.get("object").asNode();
+            nodesMap.put(subject, object);
+        }
+        return null;
+    }
+
+    private String replaceWithCapital(String object) {
+        StringBuilder builder = new StringBuilder();
+        for (String letter : object.split("")) {
+            if (Character.isUpperCase(letter.charAt(0))) {
+                builder.append(letter);
+            }
+        }
+        return builder.toString();
+    }
+
+    public Map<Node, Node> getCorrectRelationNodesMapForUnits(String subject, String predicate, String object) {
+        Map<Node, Node> nodesMap = new HashMap<>();
+        String command = String.format(
+                "MATCH (subject:%1$s)-[:%2$s]->(object:%3$s)\n" +
+                        "WHERE subject.UnitsId = object.%3$s_UnitId_Ref\n" +
+                        "OR subject.UnitsId = object.UnitId_Ref\n" +
+                        "OR subject.UnitsId = object.%4$s_UnitId_Ref\n" +
+                        "RETURN subject, object",
+                subject, predicate, object, replaceWithCapital(object));
+
+//        System.out.println(command);
+
+        try (Session session = driver.session()) {
+            session.readTransaction(tx -> updateNodesMap(nodesMap, command, tx));
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return nodesMap;
     }
 }
