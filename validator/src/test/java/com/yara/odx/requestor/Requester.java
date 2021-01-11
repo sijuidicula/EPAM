@@ -467,4 +467,23 @@ public class Requester implements AutoCloseable {
         }
         return relationsList;
     }
+
+    public int getEmptyLabelsCountForGss() {
+        int nodesCount = 0;
+
+        String command = "MATCH (n:GrowthScaleStages) " +
+                "WHERE n.GrowthScaleStageDescription = \"\" " +
+                "OR " +
+                "n.GrowthScaleStageDescription IS NULL " +
+                "RETURN COUNT(n)";
+
+        try (Session session = driver.session()) {
+            nodesCount = session.readTransaction(tx -> getResultAsInteger(command, tx));
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return nodesCount;
+
+
+    }
 }

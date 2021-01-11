@@ -40,14 +40,12 @@ public class GraphDataTest {
         for (Map.Entry<String, Integer> entry : statistics.entrySet()) {
             String className = entry.getKey();
 
-//            TODO
-//             Class GrowthScaleStages does not have "GrowthScaleStageName" property
-            if (className == "GrowthScaleStages") {
-                System.out.println(className);
-                continue;
-            }
 
             int actualBlankNodeCount = requester.getEmptyLabelsCount(className);
+
+            if (className == "GrowthScaleStages") {
+                actualBlankNodeCount = requester.getEmptyLabelsCountForGss();
+            }
 
             if (actualBlankNodeCount == 0) {
                 System.out.println(String.format("Class %s has no nodes with empty labels", className));
