@@ -4,6 +4,7 @@ import com.yara.odx.domain.*;
 import com.yara.odx.reader.ShaclRulesReader;
 import org.neo4j.driver.*;
 
+import java.net.URI;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -24,6 +25,10 @@ public class PropertyGraphUploader implements AutoCloseable {
     public static final int RELATION_BATCH_SIZE = 25;
 
     private final Driver driver;
+
+    public PropertyGraphUploader(java.net.URI uri, Config config) {
+        driver = GraphDatabase.driver(uri, config);
+    }
 
     public PropertyGraphUploader() {
         driver = GraphDatabase.driver(URI, AuthTokens.basic(USER, PASSWORD));
@@ -1185,6 +1190,10 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     private void writeToGraph(StringBuilder builder) {
         if (builder.length() == 0) return;
+
+//      ********************************************
+        System.out.println(builder.toString());
+//      ********************************************
 
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> tx.run(builder.toString()));
