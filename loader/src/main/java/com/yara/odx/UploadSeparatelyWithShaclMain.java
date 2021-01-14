@@ -76,6 +76,10 @@ public class UploadSeparatelyWithShaclMain {
         uploader.uploadShaclInline(shaclFileName);
         uploader.activateShaclValidationOfTransactions();
 
+        uploader.dropIndexes();
+        uploader.createConstraints();
+        uploader.createIndexes();
+
         uploader.uploadCountriesAsBatch(countries);
         uploader.uploadRegionsAsBatch(regions, countries);
         uploader.uploadCropGroupsAsBatch(cropGroups);

@@ -478,7 +478,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                     description.getName(),
                     description.getSubClassId(),
                     subClass.getUuId(),
-                    "dummy_Polaris");
+                    description.getSource());
             builder.append(createDescriptionCommand);
             if (count.get() % NODES_BATCH_SIZE == 0) {
                 flushBuilderForNodes(builder, count.get(), description.getClassName());
@@ -567,7 +567,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         growthScale.getUuId(),
                         stage.getGrowthScaleStageDescription(),
                         stage.getId(),
-                        "dummy_Polaris",
+                        stage.getSource(),
                         stage.getOrdinal()));
             }));
         }
@@ -602,7 +602,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                     scale.getUuId(),
                     stage.getGrowthScaleStageDescription(),
                     stage.getId(),
-                    "dummy_Polaris",
+                    stage.getSource(),
                     stage.getOrdinal());
             builder.append(createGrowthScaleCommand);
             if (count.get() % NODES_BATCH_SIZE == 0) {
@@ -667,7 +667,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                     nutrient.getName(),
                     nutrient.getElementalName(),
                     nutrient.getNutrientOrdinal(),
-                    "dummy_Polaris");
+                    nutrient.getSource());
             builder.append(createNutrientCommand);
             if (count.get() % NODES_BATCH_SIZE == 0) {
                 flushBuilderForNodes(builder, count.get(), nutrient.getClassName());
@@ -797,7 +797,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                     conversion.getMultiplier(),
                     conversion.getId(),
                     conversion.getUnitIdRef(),
-                    "dummy_Polaris");
+                    conversion.getSource());
             builder.append(createConversionCommand);
             if (count.get() % NODES_BATCH_SIZE == 0) {
                 flushBuilderForNodes(builder, count.get(), conversion.getClassName());
@@ -1192,7 +1192,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         if (builder.length() == 0) return;
 
 //      ********************************************
-        System.out.println(builder.toString());
+//        System.out.println(builder.toString());
 //      ********************************************
 
         try (Session session = driver.session()) {
@@ -1330,11 +1330,22 @@ public class PropertyGraphUploader implements AutoCloseable {
                                                              List<GrowthScale> growthScales,
                                                              List<CropRegion> cropRegions) {
         AtomicInteger count = new AtomicInteger(0);
+        Map<CropDescription, List<GrowthScale>> createdRelations = new HashMap<>();
         cropRegions.forEach(cr -> {
             GrowthScale scale = (GrowthScale) getFromCollectionById(growthScales, cr.getGrowthScaleIdRef());
             CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, cr.getDescriptionId());
-            createDescriptionGrowthScaleRelation(description, scale, cr);
-            System.out.println(count.incrementAndGet() + " CropDescription to GrowthScale relations created");
+            List<GrowthScale> scales = new ArrayList<>();
+            if (createdRelations.containsKey(description)) {
+                scales = createdRelations.get(description);
+            } else {
+                createdRelations.put(description, scales);
+            }
+
+            if (!scales.contains(scale)) {
+                scales.add(scale);
+                createDescriptionGrowthScaleRelation(description, scale, cr);
+                System.out.println(count.incrementAndGet() + " CropDescription to GrowthScale relations created");
+            }
         });
         System.out.println("CropDescription-GrowthScale relation uploading completed");
         System.out.println(count.get() + " CropDescription-GrowthScale relations uploaded");
@@ -1835,26 +1846,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                                                       CropRegion cropRegion) {
         String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
         String matchScale = String.format("MATCH (scale:GrowthScale{ODX_GrowthScale_UUId:\"%s\"})\n", scale.getUuId());
-        String createRelation = String.format("CREATE (description)-[:hasGrowthScale {" +
-                        "AdditionalProperties: \"%s\", " +
-                        "CD_CountryIdRef: \"%s\", " +
-                        "CD_GrowthScaleId_Ref: \"%s\", " +
-                        "DefaultSeedingDate: \"%s\", " +
-                        "DefaultHarvestDate: \"%s\", " +
-                        "DefaultYield: \"%s\", " +
-                        "YieldBaseUnitId: \"%s\", " +
-                        "DemandBaseUnitId: \"%s\", " +
-                        "CD_RegionIdRef: \"%s\"}]->(scale)\n",
-                cropRegion.getAdditionalProperties().replace("\"", ""),
-                cropRegion.getCountryIdRef(),
-                cropRegion.getGrowthScaleIdRef(),
-                cropRegion.getDefaultSeedingDate(),
-                cropRegion.getDefaultHarvestDate(),
-                cropRegion.getDefaultYield(),
-                cropRegion.getYieldBaseUnitId(),
-                cropRegion.getDemandBaseUnitId(),
-                cropRegion.getRegionIdRef());
-
+        String createRelation = "CREATE (description)-[:hasGrowthScale]->(scale)\n";
         uploadRelationToDatabase(matchDescription, matchScale, createRelation);
     }
 
@@ -1963,6 +1955,11 @@ public class PropertyGraphUploader implements AutoCloseable {
     private void uploadRelationToDatabase(String subject, String object, String predicate) {
         StringBuilder builder = new StringBuilder();
         builder.append(subject).append(object).append(predicate);
+
+//      ********************************************
+//        System.out.println(builder.toString());
+//      ********************************************
+
         writeToGraph(builder);
     }
 
@@ -2053,5 +2050,80 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     private String createOdxUri(Thing thing) {
         return "ODX/" + thing.getClassName() + "/" + thing.getUuId();
+    }
+
+    public void createIndexes() {
+        List<String> commands = new ArrayList<>();
+
+        commands.add("CREATE INDEX country_index IF NOT EXISTS FOR (c:Country) ON (c.ODX_Country_UUId);\n");
+        commands.add("CREATE INDEX region_index IF NOT EXISTS FOR (r:Region) ON (r.ODX_Region_UUId);\n");
+        commands.add("CREATE INDEX crop_group_index IF NOT EXISTS FOR (cg:CropGroup) ON (cg.ODX_CropGroup_UUId);\n");
+        commands.add("CREATE INDEX crop_class_index IF NOT EXISTS FOR (cc:CropClass) ON (cc.ODX_CropClass_UUId);\n");
+        commands.add("CREATE INDEX crop_sub_class_index IF NOT EXISTS FOR (csc:CropSubClass) ON (csc.ODX_CropSubClass_UUId);\n");
+        commands.add("CREATE INDEX crop_variety_index IF NOT EXISTS FOR (cv:CropVariety) ON (cv.ODX_CropVariety_UUId);\n");
+        commands.add("CREATE INDEX crop_description_index IF NOT EXISTS FOR (cd:CropDescription) ON (cd.ODX_CropDescription_UUId);\n");
+        commands.add("CREATE INDEX growth_scale_index IF NOT EXISTS FOR (gs:GrowthScale) ON (gs.ODX_GrowthScale_UUId);\n");
+        commands.add("CREATE INDEX growth_scale_stages_index IF NOT EXISTS FOR (gss:GrowthScaleStages) ON (gss.ODX_GrowthScaleStage_UUId);\n");
+        commands.add("CREATE INDEX nutrient_index IF NOT EXISTS FOR (n:Nutrient) ON (n.ODX_Nutrient_UUId);\n");
+        commands.add("CREATE INDEX units_index IF NOT EXISTS FOR (u:Units) ON (u.ODX_Units_UUId);\n");
+        commands.add("CREATE INDEX unit_conversion_index IF NOT EXISTS FOR (uc:UnitConversion) ON (uc.ODX_UnitConversion_UUId);\n");
+        commands.add("CREATE INDEX fertilizer_index IF NOT EXISTS FOR (f:Fertilizers) ON (f.ODX_Fertilizer_UUId);\n");
+
+        for (String command : commands) {
+            try (Session session = driver.session()) {
+                session.run(command);
+            }
+        }
+        System.out.println("Created indexes");
+    }
+
+    public void createConstraints() {
+        List<String> commands = new ArrayList<>();
+
+        commands.add("CREATE CONSTRAINT  country_constraint  IF NOT EXISTS ON  (c:Country) ASSERT c.ODX_Country_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT  region_constraint  IF NOT EXISTS ON  (r:Region) ASSERT r.ODX_Region_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT  crop_group_constraint  IF NOT EXISTS ON  (cg:CropGroup) ASSERT cg.ODX_CropGroup_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT  crop_class_constraint  IF NOT EXISTS ON  (cc:CropClass) ASSERT cc.ODX_CropClass_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT  crop_sub_class_constraint  IF NOT EXISTS ON  (csc:CropSubClass) ASSERT csc.ODX_CropSubClass_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT  crop_variety_constraint  IF NOT EXISTS ON  (cv:CropVariety) ASSERT cv.ODX_CropVariety_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT  crop_description_constraint  IF NOT EXISTS ON  (cd:CropDescription) ASSERT cd.ODX_CropDescription_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT  growth_scale_constraint  IF NOT EXISTS ON  (gs:GrowthScale) ASSERT gs.ODX_GrowthScale_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT  growth_scale_stages_constraint  IF NOT EXISTS ON  (gss:GrowthScaleStages) ASSERT gss.ODX_GrowthScaleStage_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT  nutrient_constraint  IF NOT EXISTS ON  (n:Nutrient) ASSERT n.ODX_Nutrient_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT  units_constraint  IF NOT EXISTS ON  (u:Units) ASSERT u.ODX_Units_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT  unit_conversion_constraint  IF NOT EXISTS ON  (uc:UnitConversion) ASSERT uc.ODX_UnitConversion_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT  fertilizer_constraint  IF NOT EXISTS ON  (f:Fertilizers) ASSERT f.ODX_Fertilizer_UUId IS UNIQUE\n");
+
+        for (String command : commands) {
+            try (Session session = driver.session()) {
+                session.run(command);
+            }
+        }
+        System.out.println("Created constraints");
+    }
+
+    public void dropIndexes() {
+        List<String> commands = new ArrayList<>();
+
+        commands.add("DROP INDEX country_index IF EXISTS\n");
+        commands.add("DROP INDEX region_index IF EXISTS\n");
+        commands.add("DROP INDEX crop_group_index IF EXISTS\n");
+        commands.add("DROP INDEX crop_class_index IF EXISTS\n");
+        commands.add("DROP INDEX crop_sub_class_index IF EXISTS\n");
+        commands.add("DROP INDEX crop_variety_index IF EXISTS\n");
+        commands.add("DROP INDEX crop_description_index IF EXISTS\n");
+        commands.add("DROP INDEX growth_scale_index IF EXISTS\n");
+        commands.add("DROP INDEX growth_scale_stages_index IF EXISTS\n");
+        commands.add("DROP INDEX nutrient_index IF EXISTS\n");
+        commands.add("DROP INDEX units_index IF EXISTS\n");
+        commands.add("DROP INDEX unit_conversion_index IF EXISTS\n");
+        commands.add("DROP INDEX fertilizer_index IF EXISTS\n");
+
+        for (String command : commands) {
+            try (Session session = driver.session()) {
+                session.run(command);
+            }
+        }
+        System.out.println("Dropped indexes");
     }
 }
