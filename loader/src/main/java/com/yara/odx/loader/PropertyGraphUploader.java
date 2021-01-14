@@ -4,7 +4,6 @@ import com.yara.odx.domain.*;
 import com.yara.odx.reader.ShaclRulesReader;
 import org.neo4j.driver.*;
 
-import java.net.URI;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -2052,47 +2051,22 @@ public class PropertyGraphUploader implements AutoCloseable {
         return "ODX/" + thing.getClassName() + "/" + thing.getUuId();
     }
 
-    public void createIndexes() {
+    public void createConstraintsAndIndexes() {
         List<String> commands = new ArrayList<>();
 
-        commands.add("CREATE INDEX country_index IF NOT EXISTS FOR (c:Country) ON (c.ODX_Country_UUId);\n");
-        commands.add("CREATE INDEX region_index IF NOT EXISTS FOR (r:Region) ON (r.ODX_Region_UUId);\n");
-        commands.add("CREATE INDEX crop_group_index IF NOT EXISTS FOR (cg:CropGroup) ON (cg.ODX_CropGroup_UUId);\n");
-        commands.add("CREATE INDEX crop_class_index IF NOT EXISTS FOR (cc:CropClass) ON (cc.ODX_CropClass_UUId);\n");
-        commands.add("CREATE INDEX crop_sub_class_index IF NOT EXISTS FOR (csc:CropSubClass) ON (csc.ODX_CropSubClass_UUId);\n");
-        commands.add("CREATE INDEX crop_variety_index IF NOT EXISTS FOR (cv:CropVariety) ON (cv.ODX_CropVariety_UUId);\n");
-        commands.add("CREATE INDEX crop_description_index IF NOT EXISTS FOR (cd:CropDescription) ON (cd.ODX_CropDescription_UUId);\n");
-        commands.add("CREATE INDEX growth_scale_index IF NOT EXISTS FOR (gs:GrowthScale) ON (gs.ODX_GrowthScale_UUId);\n");
-        commands.add("CREATE INDEX growth_scale_stages_index IF NOT EXISTS FOR (gss:GrowthScaleStages) ON (gss.ODX_GrowthScaleStage_UUId);\n");
-        commands.add("CREATE INDEX nutrient_index IF NOT EXISTS FOR (n:Nutrient) ON (n.ODX_Nutrient_UUId);\n");
-        commands.add("CREATE INDEX units_index IF NOT EXISTS FOR (u:Units) ON (u.ODX_Units_UUId);\n");
-        commands.add("CREATE INDEX unit_conversion_index IF NOT EXISTS FOR (uc:UnitConversion) ON (uc.ODX_UnitConversion_UUId);\n");
-        commands.add("CREATE INDEX fertilizer_index IF NOT EXISTS FOR (f:Fertilizers) ON (f.ODX_Fertilizer_UUId);\n");
-
-        for (String command : commands) {
-            try (Session session = driver.session()) {
-                session.run(command);
-            }
-        }
-        System.out.println("Created indexes");
-    }
-
-    public void createConstraints() {
-        List<String> commands = new ArrayList<>();
-
-        commands.add("CREATE CONSTRAINT  country_constraint  IF NOT EXISTS ON  (c:Country) ASSERT c.ODX_Country_UUId IS UNIQUE\n");
-        commands.add("CREATE CONSTRAINT  region_constraint  IF NOT EXISTS ON  (r:Region) ASSERT r.ODX_Region_UUId IS UNIQUE\n");
-        commands.add("CREATE CONSTRAINT  crop_group_constraint  IF NOT EXISTS ON  (cg:CropGroup) ASSERT cg.ODX_CropGroup_UUId IS UNIQUE\n");
-        commands.add("CREATE CONSTRAINT  crop_class_constraint  IF NOT EXISTS ON  (cc:CropClass) ASSERT cc.ODX_CropClass_UUId IS UNIQUE\n");
-        commands.add("CREATE CONSTRAINT  crop_sub_class_constraint  IF NOT EXISTS ON  (csc:CropSubClass) ASSERT csc.ODX_CropSubClass_UUId IS UNIQUE\n");
-        commands.add("CREATE CONSTRAINT  crop_variety_constraint  IF NOT EXISTS ON  (cv:CropVariety) ASSERT cv.ODX_CropVariety_UUId IS UNIQUE\n");
-        commands.add("CREATE CONSTRAINT  crop_description_constraint  IF NOT EXISTS ON  (cd:CropDescription) ASSERT cd.ODX_CropDescription_UUId IS UNIQUE\n");
-        commands.add("CREATE CONSTRAINT  growth_scale_constraint  IF NOT EXISTS ON  (gs:GrowthScale) ASSERT gs.ODX_GrowthScale_UUId IS UNIQUE\n");
-        commands.add("CREATE CONSTRAINT  growth_scale_stages_constraint  IF NOT EXISTS ON  (gss:GrowthScaleStages) ASSERT gss.ODX_GrowthScaleStage_UUId IS UNIQUE\n");
-        commands.add("CREATE CONSTRAINT  nutrient_constraint  IF NOT EXISTS ON  (n:Nutrient) ASSERT n.ODX_Nutrient_UUId IS UNIQUE\n");
-        commands.add("CREATE CONSTRAINT  units_constraint  IF NOT EXISTS ON  (u:Units) ASSERT u.ODX_Units_UUId IS UNIQUE\n");
-        commands.add("CREATE CONSTRAINT  unit_conversion_constraint  IF NOT EXISTS ON  (uc:UnitConversion) ASSERT uc.ODX_UnitConversion_UUId IS UNIQUE\n");
-        commands.add("CREATE CONSTRAINT  fertilizer_constraint  IF NOT EXISTS ON  (f:Fertilizers) ASSERT f.ODX_Fertilizer_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT country_constraint ON (c:Country) ASSERT c.ODX_Country_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT region_constraint ON (r:Region) ASSERT r.ODX_Region_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT crop_group_constraint ON (cg:CropGroup) ASSERT cg.ODX_CropGroup_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT crop_class_constraint ON (cc:CropClass) ASSERT cc.ODX_CropClass_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT crop_sub_class_constraint ON (csc:CropSubClass) ASSERT csc.ODX_CropSubClass_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT crop_variety_constraint ON (cv:CropVariety) ASSERT cv.ODX_CropVariety_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT crop_description_constraint ON (cd:CropDescription) ASSERT cd.ODX_CropDescription_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT growth_scale_constraint ON (gs:GrowthScale) ASSERT gs.ODX_GrowthScale_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT growth_scale_stages_constraint ON (gss:GrowthScaleStages) ASSERT gss.ODX_GrowthScaleStage_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT nutrient_constraint ON (n:Nutrient) ASSERT n.ODX_Nutrient_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT units_constraint ON (u:Units) ASSERT u.ODX_Units_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT unit_conversion_constraint ON (uc:UnitConversion) ASSERT uc.ODX_UnitConversion_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT fertilizer_constraint ON (f:Fertilizers) ASSERT f.ODX_Fertilizer_UUId IS UNIQUE\n");
 
         for (String command : commands) {
             try (Session session = driver.session()) {
@@ -2102,27 +2076,10 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println("Created constraints");
     }
 
-    public void dropIndexes() {
-        List<String> commands = new ArrayList<>();
-
-        commands.add("DROP INDEX country_index IF EXISTS\n");
-        commands.add("DROP INDEX region_index IF EXISTS\n");
-        commands.add("DROP INDEX crop_group_index IF EXISTS\n");
-        commands.add("DROP INDEX crop_class_index IF EXISTS\n");
-        commands.add("DROP INDEX crop_sub_class_index IF EXISTS\n");
-        commands.add("DROP INDEX crop_variety_index IF EXISTS\n");
-        commands.add("DROP INDEX crop_description_index IF EXISTS\n");
-        commands.add("DROP INDEX growth_scale_index IF EXISTS\n");
-        commands.add("DROP INDEX growth_scale_stages_index IF EXISTS\n");
-        commands.add("DROP INDEX nutrient_index IF EXISTS\n");
-        commands.add("DROP INDEX units_index IF EXISTS\n");
-        commands.add("DROP INDEX unit_conversion_index IF EXISTS\n");
-        commands.add("DROP INDEX fertilizer_index IF EXISTS\n");
-
-        for (String command : commands) {
-            try (Session session = driver.session()) {
-                session.run(command);
-            }
+    public void dropConstraintsAndIndexes() {
+        String command = "CALL apoc.schema.assert({},{},true) YIELD label, key RETURN *\n";
+        try (Session session = driver.session()) {
+            session.run(command);
         }
         System.out.println("Dropped indexes");
     }
