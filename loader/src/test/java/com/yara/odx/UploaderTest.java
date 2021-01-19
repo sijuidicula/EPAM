@@ -2,7 +2,6 @@ package com.yara.odx;
 
 import com.yara.odx.domain.*;
 import com.yara.odx.loader.PropertyGraphUploader;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -834,7 +833,6 @@ public class UploaderTest {
         }
     }
 
-
     @Test
     void testCountryRegionRelationsUploadCorrectly() {
         Country country1 = new Country("testSource", "Country", "testCountryId1", "testCountryName1", "");
@@ -1492,15 +1490,15 @@ public class UploaderTest {
 
     @Test
     void testNutrientUnitsRelationsUploadCorrectly() {
-        Nutrient nutrient1 = new Nutrient("testSource", "Nutrient", "testNutrientId1",
-                "testNutrientName1", "testUnitsName1", "testNutrientOrdinal1");
-        Nutrient nutrient2 = new Nutrient("testSource", "Nutrient", "testNutrientId2",
-                "testNutrientName2", "testUnitsName2", "testNutrientOrdinal2");
         Units unit1 = new Units("testSource", "Units", "testUnitsId1", "testUnitsName1", "testUnitsTag1");
-        Units units2 = new Units("testSource", "Units", "testUnitsId2", "testUnitsName2", "testUnitsTag2");
+        Units unit2 = new Units("testSource", "Units", "testUnitsId2", "testUnitsName2", "testUnitsTag2");
+        Nutrient nutrient1 = new Nutrient("testSource", "Nutrient", "testNutrientId1",
+                "testNutrientName1", unit1.getName(), "testNutrientOrdinal1");
+        Nutrient nutrient2 = new Nutrient("testSource", "Nutrient", "testNutrientId2",
+                "testNutrientName2", unit2.getName(), "testNutrientOrdinal2");
 
         List<Nutrient> nutrients = Arrays.asList(nutrient1, nutrient2);
-        List<Units> units = Arrays.asList(unit1, units2);
+        List<Units> units = Arrays.asList(unit1, unit2);
 
         uploader.uploadNutrientsAsBatch(nutrients);
         uploader.uploadUnitsAsBatch(units);
@@ -1535,7 +1533,7 @@ public class UploaderTest {
                             Values.parameters(
                                     "NutrientId", nutrient2.getId(),
                                     "relationshipType", "hasNutrientUnit",
-                                    "UnitsId", units2.getId()
+                                    "UnitsId", unit2.getId()
                             ).asMap(String::valueOf)
                     );
         }
@@ -1587,6 +1585,335 @@ public class UploaderTest {
                                     "UnitsId", units2.getId(),
                                     "relationshipType", "hasUnitConversion",
                                     "UnitConversionId", unitConversion2.getId()
+                            ).asMap(String::valueOf)
+                    );
+        }
+    }
+
+    @Test
+    void testFertilizersRegionsRelationsUploadCorrectly() {
+        Country country1 = new Country("testSource", "Country", "testCountryId1", "testCountryName1", "");
+        Country country2 = new Country("testSource", "Country", "testCountryId2", "testCountryName2", "");
+        Region region1 = new Region("testSource", "Region", "testRegionId1", country1.getId(), "testRegionName1");
+        Region region2 = new Region("testSource", "Region", "testRegionId2", country2.getId(), "testRegionName2");
+        Fertilizers fertilizer1 = new Fertilizers.Builder("testSource", "Fertilizers", "testFertilizersId1",
+                "testFertilizersName1", "testFertilizersFamily1", "testFertilizersType1", "testTrue",
+                "testFertilizersDryMatter1", "testFertilizersSpreaderLoss", "testFertilizersDensity1")
+                .n("testN1")
+                .nUnitId("testNUnitId1")
+                .p("testP1")
+                .pUnitId("testPUnitId1")
+                .k("testK1")
+                .kUnitId("testKUnitId1")
+                .mg("testMg1")
+                .mgUnitId("testMgUnitId1")
+                .s("testS1")
+                .sUnitId("testSUnitId1")
+                .ca("testCa1")
+                .caUnitId("testCaUnitId1")
+                .b("testB1")
+                .bUnitId("testBUnitId1")
+                .zn("testZn1")
+                .znUnitId("testZnUnitId1")
+                .mn("testMn1")
+                .mnUnitId("testMnUnitId1")
+                .cu("testCu1")
+                .cuUnitId("testCuUnitId1")
+                .fe("testFe1")
+                .feUnitId("testFeUnitId1")
+                .mo("testMo1")
+                .moUnitId("testMoUnitId1")
+                .na("testNa1")
+                .naUnitId("testNaUnitId1")
+                .se("testSe1")
+                .seUnitId("testSeUnitId1")
+                .co("testCo1")
+                .coUnitId("testCoUnitId1")
+                .no3("testNO3_1")
+                .nh4("testNH4_1")
+                .urea("testUrea1")
+                .utilizationN("testUtilizationN1")
+                .utilizationNh4("testUtilizationNH4_1")
+                .tank("testTank1")
+                .electricalConductivity("testElectricalConductivity1")
+                .pH("testPh1")
+                .solubility5C("testSolubility5C")
+                .solubility20C("testSolubility20C")
+                .dhCode("testDhCode1")
+                .syncId("testSyncId1")
+                .syncSource("testSyncSource1")
+                .lastSync("testLastSync1")
+                .build();
+        Fertilizers fertilizer2 = new Fertilizers.Builder("testSource", "Fertilizers", "testFertilizersId2",
+                "testFertilizersName2", "testFertilizersFamily2", "testFertilizersType2", "testTrue",
+                "testFertilizersDryMatter2", "testFertilizersSpreaderLoss", "testFertilizersDensity2")
+                .n("testN2")
+                .nUnitId("testNUnitId2")
+                .p("testP2")
+                .pUnitId("testPUnitId2")
+                .k("testK2")
+                .kUnitId("testKUnitId2")
+                .mg("testMg2")
+                .mgUnitId("testMgUnitId2")
+                .s("testS2")
+                .sUnitId("testSUnitId2")
+                .ca("testCa2")
+                .caUnitId("testCaUnitId2")
+                .b("testB2")
+                .bUnitId("testBUnitId2")
+                .zn("testZn2")
+                .znUnitId("testZnUnitId2")
+                .mn("testMn2")
+                .mnUnitId("testMnUnitId2")
+                .cu("testCu2")
+                .cuUnitId("testCuUnitId2")
+                .fe("testFe2")
+                .feUnitId("testFeUnitId2")
+                .mo("testMo2")
+                .moUnitId("testMoUnitId2")
+                .na("testNa2")
+                .naUnitId("testNaUnitId2")
+                .se("testSe2")
+                .seUnitId("testSeUnitId2")
+                .co("testCo2")
+                .coUnitId("testCoUnitId2")
+                .no3("testNO3_2")
+                .nh4("testNH4_2")
+                .urea("testUrea2")
+                .utilizationN("testUtilizationN2")
+                .utilizationNh4("testUtilizationNH4_2")
+                .tank("testTank2")
+                .electricalConductivity("testElectricalConductivity2")
+                .pH("testPh2")
+                .solubility5C("testSolubility5C")
+                .solubility20C("testSolubility20C")
+                .dhCode("testDhCode2")
+                .syncId("testSyncId2")
+                .syncSource("testSyncSource2")
+                .lastSync("testLastSync2")
+                .build();
+        FertilizerRegion fertilizerRegion1 = new FertilizerRegion("testFertilizerRegionId1", country1.getId(),
+                region1.getId(), "testLocalizedName1", fertilizer1.getId(), "testTrue", "testAppTags1");
+        FertilizerRegion fertilizerRegion2 = new FertilizerRegion("testFertilizerRegionId2", country2.getId(),
+                region2.getId(), "testLocalizedName2", fertilizer2.getId(), "testTrue", "testAppTags2");
+
+        List<Region> regions = Arrays.asList(region1, region2);
+        List<Country> countries = Arrays.asList(country1, country2);
+        List<Fertilizers> fertilizers = Arrays.asList(fertilizer1, fertilizer2);
+        List<FertilizerRegion> fertilizerRegions = Arrays.asList(fertilizerRegion1, fertilizerRegion2);
+
+        uploader.uploadCountriesAsBatch(countries);
+        uploader.uploadRegionsAsBatch(regions, countries);
+        uploader.uploadFertilizersAsBatch(fertilizers);
+        uploader.createCountryToRegionRelations(countries, regions);
+        uploader.createFertilizersToRegionsRelations(fertilizers, countries, regions, fertilizerRegions);
+
+        Map<String, String> relProp1 = new HashMap() {{
+            put("ProdCountry_UUId_Ref", country1.getUuId());
+            put("Prod_CountryId_Ref", fertilizerRegion1.getCountryId());
+            put("ApplicationTags", fertilizerRegion1.getApplicationTags());
+            put("ProdRegion_UUId_Ref", region1.getUuId());
+            put("Prod_RegionId_Ref", fertilizerRegion1.getRegionId());
+            put("LocalizedName", fertilizerRegion1.getLocalizedName());
+            put("IsAvailable", fertilizerRegion1.getIsAvailable());
+        }};
+        Map<String, String> relProp2 = new HashMap() {{
+            put("ProdCountry_UUId_Ref", country2.getUuId());
+            put("Prod_CountryId_Ref", fertilizerRegion2.getCountryId());
+            put("ApplicationTags", fertilizerRegion2.getApplicationTags());
+            put("ProdRegion_UUId_Ref", region2.getUuId());
+            put("Prod_RegionId_Ref", fertilizerRegion2.getRegionId());
+            put("LocalizedName", fertilizerRegion2.getLocalizedName());
+            put("IsAvailable", fertilizerRegion2.getIsAvailable());
+        }};
+
+        try (Driver driver = GraphDatabase.driver(embeddedDatabaseServer.boltURI(), driverConfig);
+             Session session = driver.session()
+        ) {
+            Result result = session.run("MATCH (s:Fertilizers)-[p:isAvailableIn]->(o:Region) RETURN s,p,o\n");
+            //noinspection unchecked
+            assertThat(result.stream())
+                    .hasSize(2)
+                    .extracting(record -> {
+                        Map<String, String> map = new HashMap<>();
+                        Value subject = record.get("s");
+                        Value predicate = record.get("p");
+                        Value object = record.get("o");
+                        Map<String, String> subjectMap = subject.asNode().asMap(String::valueOf);
+                        Map<String, String> objectMap = object.asNode().asMap(String::valueOf);
+                        map.put("ProductId", subjectMap.get("ProductId"));
+                        map.put("relationshipType", "\"".concat(predicate.asRelationship().type()).concat("\""));
+                        map.put("relationshipProperties", "\"".concat(
+                                predicate.asRelationship()
+                                        .asMap(v -> String.valueOf(v)
+                                                .replace("\"", ""))
+                                        .toString())
+                                .concat("\""));
+                        map.put("RegionId", objectMap.get("RegionId"));
+                        return map;
+                    })
+                    .containsExactly(
+                            Values.parameters(
+                                    "ProductId", fertilizer1.getId(),
+                                    "relationshipType", "isAvailableIn",
+                                    "relationshipProperties", relProp1.toString(),
+                                    "RegionId", region1.getId()
+                            ).asMap(String::valueOf),
+                            Values.parameters(
+                                    "ProductId", fertilizer2.getId(),
+                                    "relationshipType", "isAvailableIn",
+                                    "relationshipProperties", relProp2.toString(),
+                                    "RegionId", region2.getId()
+                            ).asMap(String::valueOf)
+                    );
+        }
+    }
+
+    @Test
+    void testFertilizersNutrientsRelationsUploadCorrectly() {
+        Units unit1 = new Units("testSource", "Units", "testUnitsId1", "testUnitsName1", "testUnitsTag1");
+        Units unit2 = new Units("testSource", "Units", "testUnitsId2", "testUnitsName2", "testUnitsTag2");
+        Nutrient nutrient1 = new Nutrient("testSource", "Nutrient", "testNutrientId1",
+                "testNutrientName1", unit1.getTag(), "testNutrientOrdinal1");
+        Nutrient nutrient2 = new Nutrient("testSource", "Nutrient", "testNutrientId2",
+                "testNutrientName2", unit2.getTag(), "testNutrientOrdinal2");
+        Fertilizers fertilizer1 = new Fertilizers.Builder("testSource", "Fertilizers", "testFertilizersId1",
+                "testFertilizersName1", "testFertilizersFamily1", "testFertilizersType1", "testTrue",
+                "testFertilizersDryMatter1", "testFertilizersSpreaderLoss", "testFertilizersDensity1")
+                .setNutrientUnitsContent(unit1.getId(), "1")
+                .n("testN1")
+                .nUnitId("testNUnitId1")
+                .p("testP1")
+                .pUnitId("testPUnitId1")
+                .k("testK1")
+                .kUnitId("testKUnitId1")
+                .mg("testMg1")
+                .mgUnitId("testMgUnitId1")
+                .s("testS1")
+                .sUnitId("testSUnitId1")
+                .ca("testCa1")
+                .caUnitId("testCaUnitId1")
+                .b("testB1")
+                .bUnitId("testBUnitId1")
+                .zn("testZn1")
+                .znUnitId("testZnUnitId1")
+                .mn("testMn1")
+                .mnUnitId("testMnUnitId1")
+                .cu("testCu1")
+                .cuUnitId("testCuUnitId1")
+                .fe("testFe1")
+                .feUnitId("testFeUnitId1")
+                .mo("testMo1")
+                .moUnitId("testMoUnitId1")
+                .na("testNa1")
+                .naUnitId("testNaUnitId1")
+                .se("testSe1")
+                .seUnitId("testSeUnitId1")
+                .co("testCo1")
+                .coUnitId("testCoUnitId1")
+                .no3("testNO3_1")
+                .nh4("testNH4_1")
+                .urea("testUrea1")
+                .utilizationN("testUtilizationN1")
+                .utilizationNh4("testUtilizationNH4_1")
+                .tank("testTank1")
+                .electricalConductivity("testElectricalConductivity1")
+                .pH("testPh1")
+                .solubility5C("testSolubility5C")
+                .solubility20C("testSolubility20C")
+                .dhCode("testDhCode1")
+                .syncId("testSyncId1")
+                .syncSource("testSyncSource1")
+                .lastSync("testLastSync1")
+                .build();
+        Fertilizers fertilizer2 = new Fertilizers.Builder("testSource", "Fertilizers", "testFertilizersId2",
+                "testFertilizersName2", "testFertilizersFamily2", "testFertilizersType2", "testTrue",
+                "testFertilizersDryMatter2", "testFertilizersSpreaderLoss", "testFertilizersDensity2")
+                .setNutrientUnitsContent(unit2.getId(), "2")
+                .n("testN2")
+                .nUnitId("testNUnitId2")
+                .p("testP2")
+                .pUnitId("testPUnitId2")
+                .k("testK2")
+                .kUnitId("testKUnitId2")
+                .mg("testMg2")
+                .mgUnitId("testMgUnitId2")
+                .s("testS2")
+                .sUnitId("testSUnitId2")
+                .ca("testCa2")
+                .caUnitId("testCaUnitId2")
+                .b("testB2")
+                .bUnitId("testBUnitId2")
+                .zn("testZn2")
+                .znUnitId("testZnUnitId2")
+                .mn("testMn2")
+                .mnUnitId("testMnUnitId2")
+                .cu("testCu2")
+                .cuUnitId("testCuUnitId2")
+                .fe("testFe2")
+                .feUnitId("testFeUnitId2")
+                .mo("testMo2")
+                .moUnitId("testMoUnitId2")
+                .na("testNa2")
+                .naUnitId("testNaUnitId2")
+                .se("testSe2")
+                .seUnitId("testSeUnitId2")
+                .co("testCo2")
+                .coUnitId("testCoUnitId2")
+                .no3("testNO3_2")
+                .nh4("testNH4_2")
+                .urea("testUrea2")
+                .utilizationN("testUtilizationN2")
+                .utilizationNh4("testUtilizationNH4_2")
+                .tank("testTank2")
+                .electricalConductivity("testElectricalConductivity2")
+                .pH("testPh2")
+                .solubility5C("testSolubility5C")
+                .solubility20C("testSolubility20C")
+                .dhCode("testDhCode2")
+                .syncId("testSyncId2")
+                .syncSource("testSyncSource2")
+                .lastSync("testLastSync2")
+                .build();
+
+        List<Fertilizers> fertilizers = Arrays.asList(fertilizer1, fertilizer2);
+        List<Nutrient> nutrients = Arrays.asList(nutrient1, nutrient2);
+        List<Units> units = Arrays.asList(unit1, unit2);
+
+        uploader.uploadFertilizersAsBatch(fertilizers);
+        uploader.uploadNutrientsAsBatch(nutrients);
+        uploader.uploadUnitsAsBatch(units);
+        uploader.createFertilizersToNutrientsRelations(fertilizers, nutrients, units);
+
+        try (Driver driver = GraphDatabase.driver(embeddedDatabaseServer.boltURI(), driverConfig);
+             Session session = driver.session()
+        ) {
+            Result result = session.run("MATCH (s:Fertilizers)-[p:hasProdNutrient]->(o:Nutrient) RETURN s,p,o\n");
+            //noinspection unchecked
+            assertThat(result.stream())
+                    .hasSize(2)
+                    .extracting(record -> {
+                        Map<String, String> map = new HashMap<>();
+                        Value subject = record.get("s");
+                        Value predicate = record.get("p");
+                        Value object = record.get("o");
+                        Map<String, String> subjectMap = subject.asNode().asMap(String::valueOf);
+                        Map<String, String> objectMap = object.asNode().asMap(String::valueOf);
+                        map.put("ProductId", subjectMap.get("ProductId"));
+                        map.put("relationshipType", "\"".concat(predicate.asRelationship().type()).concat("\""));
+                        map.put("NutrientId", objectMap.get("NutrientId"));
+                        return map;
+                    })
+                    .containsExactly(
+                            Values.parameters(
+                                    "ProductId", fertilizer1.getId(),
+                                    "relationshipType", "hasProdNutrient",
+                                    "NutrientId", nutrient1.getId()
+                            ).asMap(String::valueOf),
+                            Values.parameters(
+                                    "ProductId", fertilizer2.getId(),
+                                    "relationshipType", "hasProdNutrient",
+                                    "NutrientId", nutrient2.getId()
                             ).asMap(String::valueOf)
                     );
         }
