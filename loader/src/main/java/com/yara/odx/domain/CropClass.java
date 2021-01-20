@@ -2,18 +2,16 @@ package com.yara.odx.domain;
 
 import java.util.Objects;
 
-public class CropClass extends Thing{
+public class CropClass extends Thing {
 
     private String groupId;
     private String faoId;
-    private String mediaUri;
     private String name;
 
-    public CropClass(String source, String className, String id,  String groupId, String faoId, String mediaUri, String name) {
+    public CropClass(String source, String className, String id, String groupId, String faoId, String name) {
         super(source, className, id);
         this.groupId = groupId;
         this.faoId = faoId;
-        this.mediaUri = mediaUri;
         this.name = name;
     }
 
@@ -23,10 +21,6 @@ public class CropClass extends Thing{
 
     public String getFaoId() {
         return faoId;
-    }
-
-    public String getMediaUri() {
-        return mediaUri;
     }
 
     public String getName() {
@@ -42,7 +36,6 @@ public class CropClass extends Thing{
                 ", UUid='" + super.getUuId() + '\'' +
                 ", groupId='" + groupId + '\'' +
                 ", faoId='" + faoId + '\'' +
-                ", mediaUri='" + mediaUri + '\'' +
                 ", name='" + name + '\'' +
                 '}';
     }
@@ -54,12 +47,11 @@ public class CropClass extends Thing{
         CropClass cropClass = (CropClass) o;
         return Objects.equals(groupId, cropClass.groupId) &&
                 Objects.equals(faoId, cropClass.faoId) &&
-                Objects.equals(mediaUri, cropClass.mediaUri) &&
                 Objects.equals(name, cropClass.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupId, faoId, mediaUri, name);
+        return Objects.hash(groupId, faoId, name);
     }
 }

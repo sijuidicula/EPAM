@@ -112,9 +112,8 @@ public class ExcelWorkbookReader {
                 String id = row.getCell(0).getStringCellValue();
                 String groupId = row.getCell(1).getStringCellValue();
                 String faoId = row.getCell(2).getRawValue();
-                String mediaUri = getCellDataAsString(row, 3);
                 String name = row.getCell(4).getStringCellValue();
-                CropClass cropClass = new CropClass(POLARIS_SOURCE, className, id, groupId, faoId, mediaUri, name);
+                CropClass cropClass = new CropClass(POLARIS_SOURCE, className, id, groupId, faoId, name);
                 cropClasses.add(cropClass);
             }
         }

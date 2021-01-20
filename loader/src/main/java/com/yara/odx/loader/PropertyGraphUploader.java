@@ -245,7 +245,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "CropGroupId_Ref: \"%s\", " +
                 "ODX_CG_UUId_Ref: \"%s\", " +
                 "CC_FAOId: \"%s\", " +
-                "CC_MediaUri: \"%s\", " +
                 "CropClassName: \"%s\"})\n";
         try (Session session = driver.session()) {
             cropClasses.forEach(cropClass -> session.writeTransaction(tx -> {
@@ -260,7 +259,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                         cropClass.getGroupId(),
                         cropGroup.getUuId(),
                         cropClass.getFaoId(),
-                        cropClass.getMediaUri(),
                         cropClass.getName()));
             }));
         }
@@ -278,7 +276,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "CropGroupId_Ref: \"%s\", " +
                 "ODX_CG_UUId_Ref: \"%s\", " +
                 "CC_FAOId: \"%s\", " +
-                "CC_MediaUri: \"%s\", " +
                 "CropClassName: \"%s\"})\n";
 
         cropClasses.forEach(cropClass -> {
@@ -293,7 +290,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                     cropClass.getGroupId(),
                     cropGroup.getUuId(),
                     cropClass.getFaoId(),
-                    cropClass.getMediaUri(),
                     cropClass.getName());
             builder.append(createClassCommand);
             if (count.get() % NODES_BATCH_SIZE == 0) {

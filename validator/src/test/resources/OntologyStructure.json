@@ -38,7 +38,6 @@
     "CropClass": [
       "ODX_CG_UUId_Ref",
       "CropGroupId_Ref",
-      "CC_MediaUri",
       "CropClassName",
       "ODX_CropClass_Uri",
       "CC_FAOId",
