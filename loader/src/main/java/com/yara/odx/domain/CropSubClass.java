@@ -6,14 +6,12 @@ public class CropSubClass extends Thing {
 
     private String classId;
     private String faoId;
-    private String mediaUri;
     private String name;
 
-    public CropSubClass(String source, String className, String id, String classId, String faoId, String mediaUri, String name) {
+    public CropSubClass(String source, String className, String id, String classId, String faoId, String name) {
         super(source, className, id);
         this.classId = classId;
         this.faoId = faoId;
-        this.mediaUri = mediaUri;
         this.name = name;
     }
 
@@ -25,10 +23,6 @@ public class CropSubClass extends Thing {
         return faoId;
     }
 
-    public String getMediaUri() {
-        return mediaUri;
-    }
-
     public String getName() {
         return name;
     }
@@ -38,7 +32,6 @@ public class CropSubClass extends Thing {
         return "CropSubClass{" +
                 "classId='" + classId + '\'' +
                 ", faoId='" + faoId + '\'' +
-                ", mediaUri='" + mediaUri + '\'' +
                 ", name='" + name + '\'' +
                 "}\n";
     }
@@ -50,12 +43,11 @@ public class CropSubClass extends Thing {
         CropSubClass subClass = (CropSubClass) o;
         return Objects.equals(classId, subClass.classId) &&
                 Objects.equals(faoId, subClass.faoId) &&
-                Objects.equals(mediaUri, subClass.mediaUri) &&
                 Objects.equals(name, subClass.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(classId, faoId, mediaUri, name);
+        return Objects.hash(classId, faoId, name);
     }
 }

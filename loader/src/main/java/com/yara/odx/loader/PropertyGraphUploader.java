@@ -308,7 +308,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "CropClassId_Ref: \"%s\", " +
                 "ODX_CC_UUId_Ref: \"%s\", " +
                 "CSC_FAOId: \"%s\", " +
-                "CSC_MediaUri: \"%s\", " +
                 "CropSubClassName: \"%s\"})\n";
 
         AtomicInteger count = new AtomicInteger(0);
@@ -325,7 +324,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                         subClass.getClassId(),
                         cropClass.getUuId(),
                         subClass.getFaoId(),
-                        subClass.getMediaUri(),
                         subClass.getName()));
             }));
         }
@@ -343,7 +341,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "CropClassId_Ref: \"%s\", " +
                 "ODX_CC_UUId_Ref: \"%s\", " +
                 "CSC_FAOId: \"%s\", " +
-                "CSC_MediaUri: \"%s\", " +
                 "CropSubClassName: \"%s\"})\n";
 
         cropSubClasses.forEach(subClass -> {
@@ -358,7 +355,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                     subClass.getClassId(),
                     cropClass.getUuId(),
                     subClass.getFaoId(),
-                    subClass.getMediaUri(),
                     subClass.getName());
             builder.append(createClassCommand);
             if (count.get() % NODES_BATCH_SIZE == 0) {

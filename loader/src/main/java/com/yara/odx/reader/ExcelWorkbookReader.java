@@ -145,9 +145,8 @@ public class ExcelWorkbookReader {
                 String id = row.getCell(0).getStringCellValue();
                 String classId = row.getCell(1).getStringCellValue();
                 String faoId = getCellDataAsString(row, 2);
-                String mediaUri = getCellDataAsString(row, 3);
                 String name = row.getCell(4).getStringCellValue();
-                CropSubClass subClass = new CropSubClass(POLARIS_SOURCE, className, id, classId, faoId, mediaUri, name);
+                CropSubClass subClass = new CropSubClass(POLARIS_SOURCE, className, id, classId, faoId, name);
                 subClasses.add(subClass);
             }
         }
