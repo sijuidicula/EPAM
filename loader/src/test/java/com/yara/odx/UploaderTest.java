@@ -428,13 +428,13 @@ public class UploaderTest {
                     .containsExactly(
                             Values.parameters(
                                     "ODX_GrowthScale_UUId", growthScale1.getUuId().toString(),
-                                    "ODX_GrowthScale_Uri", "ODX/GrowthScale/".concat(growthScale1.getUuId().toString()),
+                                    "ODX_GrowthScale_Uri", growthScale1.getUri(),
                                     "GrowthScaleId", growthScale1.getId(),
                                     "GrowthScaleName", growthScale1.getName()
                             ).asMap(String::valueOf),
                             Values.parameters(
                                     "ODX_GrowthScale_UUId", growthScale2.getUuId().toString(),
-                                    "ODX_GrowthScale_Uri", "ODX/GrowthScale/".concat(growthScale2.getUuId().toString()),
+                                    "ODX_GrowthScale_Uri", growthScale2.getUri(),
                                     "GrowthScaleId", growthScale2.getId(),
                                     "GrowthScaleName", growthScale2.getName()
                             ).asMap(String::valueOf)

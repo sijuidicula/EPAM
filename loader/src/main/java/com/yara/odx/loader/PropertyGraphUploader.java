@@ -254,7 +254,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 return tx.run(String.format(createClassFormat,
                         newClassName, cropClass.getClassName(),
                         cropClass.getUuId(),
-                        createOdxUri(cropClass),
+                        cropClass.getUri(),
                         cropClass.getId(),
                         cropClass.getGroupId(),
                         cropGroup.getUuId(),
@@ -285,7 +285,7 @@ public class PropertyGraphUploader implements AutoCloseable {
             String createClassCommand = String.format(createClassFormat,
                     classNodeName, cropClass.getClassName(),
                     cropClass.getUuId(),
-                    createOdxUri(cropClass),
+                    cropClass.getUri(),
                     cropClass.getId(),
                     cropClass.getGroupId(),
                     cropGroup.getUuId(),
@@ -319,7 +319,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 return tx.run(String.format(createSubClassFormat,
                         newSubClassName, subClass.getClassName(),
                         subClass.getUuId(),
-                        createOdxUri(subClass),
+                        subClass.getUri(),
                         subClass.getId(),
                         subClass.getClassId(),
                         cropClass.getUuId(),
@@ -350,7 +350,7 @@ public class PropertyGraphUploader implements AutoCloseable {
             String createClassCommand = String.format(createSubClassFormat,
                     subClassNodeName, subClass.getClassName(),
                     subClass.getUuId(),
-                    createOdxUri(subClass),
+                    subClass.getUri(),
                     subClass.getId(),
                     subClass.getClassId(),
                     cropClass.getUuId(),
@@ -382,7 +382,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 return tx.run(String.format(createVarietyFormat,
                         newVarietyName, variety.getClassName(),
                         variety.getUuId(),
-                        createOdxUri(variety),
+                        variety.getUri(),
                         variety.getSubClassId(),
                         subClass.getUuId(),
                         variety.getId(),
@@ -411,7 +411,7 @@ public class PropertyGraphUploader implements AutoCloseable {
             String createVarietyCommand = String.format(createVarietyFormat,
                     varietyNodeName, variety.getClassName(),
                     variety.getUuId(),
-                    createOdxUri(variety),
+                    variety.getUri(),
                     variety.getSubClassId(),
                     subClass.getUuId(),
                     variety.getId(),
@@ -523,7 +523,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         scale.getUuId(),
                         scale.getId(),
                         scale.getName(),
-                        createOdxUri(scale)));
+                        scale.getUri()));
             }));
         }
         System.out.println("GrowthScale uploading completed");
@@ -547,7 +547,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                     scale.getUuId(),
                     scale.getId(),
                     scale.getName(),
-                    createOdxUri(scale));
+                    scale.getUri());
             builder.append(createGrowthScaleCommand);
             if (count.get() % NODES_BATCH_SIZE == 0) {
                 flushBuilderForNodes(builder, count.get(), scale.getClassName());
@@ -579,7 +579,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 return tx.run(String.format(createGrowthScaleStageCommandFormat,
                         stageNodeName, stage.getClassName(),
                         stage.getUuId(),
-                        createOdxUri(stage),
+                        stage.getUri(),
                         stage.getBaseOrdinal(),
                         stage.getGrowthScaleId(),
                         growthScale.getUuId(),
@@ -614,7 +614,7 @@ public class PropertyGraphUploader implements AutoCloseable {
             String createGrowthScaleCommand = String.format(createGrowthScaleStageFormat,
                     stageNodeName, stage.getClassName(),
                     stage.getUuId(),
-                    createOdxUri(stage),
+                    stage.getUri(),
                     stage.getBaseOrdinal(),
                     stage.getGrowthScaleId(),
                     scale.getUuId(),
@@ -650,7 +650,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 return tx.run(String.format(createNutrientsCommandFormat,
                         nutrientNodeName, nutrient.getClassName(),
                         nutrient.getUuId(),
-                        createOdxUri(nutrient),
+                        nutrient.getUri(),
                         nutrient.getId(),
                         nutrient.getName(),
                         nutrient.getElementalName(),
@@ -680,7 +680,7 @@ public class PropertyGraphUploader implements AutoCloseable {
             String createNutrientCommand = String.format(createNutrientFormat,
                     nutrientNodeName, nutrient.getClassName(),
                     nutrient.getUuId(),
-                    createOdxUri(nutrient),
+                    nutrient.getUri(),
                     nutrient.getId(),
                     nutrient.getName(),
                     nutrient.getElementalName(),
@@ -712,7 +712,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 return tx.run(String.format(createUnitCommandFormat,
                         unitNodeName, unit.getClassName(),
                         unit.getUuId(),
-                        createOdxUri(unit),
+                        unit.getUri(),
                         unit.getId(),
                         unit.getName(),
                         unit.getTag()));
@@ -738,7 +738,7 @@ public class PropertyGraphUploader implements AutoCloseable {
             String createUnitCommand = String.format(createUnitFormat,
                     unitNodeName, unit.getClassName(),
                     unit.getUuId(),
-                    createOdxUri(unit),
+                    unit.getUri(),
                     unit.getId(),
                     unit.getName(),
                     unit.getTag());
@@ -773,7 +773,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 return tx.run(String.format(createUnitConversionCommandFormat,
                         conversionNodeName, conversion.getClassName(),
                         conversion.getUuId(),
-                        createOdxUri(conversion),
+                        conversion.getUri(),
                         convertToUnit.getName(),
                         conversion.getConvertToUnitId(),
                         conversion.getCountryIdRef(),
@@ -808,7 +808,7 @@ public class PropertyGraphUploader implements AutoCloseable {
             String createConversionCommand = String.format(createConversionFormat,
                     conversionNodeName, conversion.getClassName(),
                     conversion.getUuId(),
-                    createOdxUri(conversion),
+                    conversion.getUri(),
                     convertToUnit.getName(),
                     conversion.getConvertToUnitId(),
                     conversion.getCountryIdRef(),
@@ -922,7 +922,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                         fertilizer.getNh4(),
                         fertilizer.getNo3(),
                         fertilizer.getSource(),
-                        createOdxUri(fertilizer),
+                        fertilizer.getUri(),
                         fertilizer.getUuId(),
                         fertilizer.getP(),
                         fertilizer.getPUnitId(),
@@ -1048,7 +1048,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                     fertilizer.getNh4(),
                     fertilizer.getNo3(),
                     fertilizer.getSource(),
-                    createOdxUri(fertilizer),
+                    fertilizer.getUri(),
                     fertilizer.getUuId(),
                     fertilizer.getP(),
                     fertilizer.getPUnitId(),
@@ -2088,10 +2088,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                 .replace(")", "_RightRoundBracket_")
                 .concat("_")
                 .concat(count);
-    }
-
-    private String createOdxUri(Thing thing) {
-        return "ODX/" + thing.getClassName() + "/" + thing.getUuId();
     }
 
     public void createConstraintsAndIndexes() {
