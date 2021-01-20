@@ -160,14 +160,14 @@ public class UploaderTest {
                     .containsExactly(
                             Values.parameters(
                                     "ODX_CropGroup_UUId", cropGroup1.getUuId().toString(),
-                                    "ODX_CropGroup_Uri", "ODX/CropGroup/".concat(cropGroup1.getUuId().toString()),
+                                    "ODX_CropGroup_Uri", cropGroup1.getUri(),
                                     "CropGroupName", cropGroup1.getName(),
                                     "CropGroupId", cropGroup1.getId(),
                                     "CG_FAOId", cropGroup1.getFaoId()
                             ).asMap(String::valueOf),
                             Values.parameters(
                                     "ODX_CropGroup_UUId", cropGroup2.getUuId().toString(),
-                                    "ODX_CropGroup_Uri", "ODX/CropGroup/".concat(cropGroup2.getUuId().toString()),
+                                    "ODX_CropGroup_Uri", cropGroup2.getUri(),
                                     "CropGroupName", cropGroup2.getName(),
                                     "CropGroupId", cropGroup2.getId(),
                                     "CG_FAOId", cropGroup2.getFaoId()
@@ -260,7 +260,7 @@ public class UploaderTest {
                                     "CropSubClassName", cropSubClass1.getName(),
                                     "CSC_FAOId", cropSubClass1.getFaoId(),
                                     "ODX_CC_UUId_Ref", cropClass1.getUuId().toString(),
-                                    "ODX_CropSubClass_Uri", "ODX/CropSubClass/".concat(cropSubClass1.getUuId().toString()),
+                                    "ODX_CropSubClass_Uri", cropSubClass1.getUri(),
                                     "ODX_CropSubClass_UUId", cropSubClass1.getUuId().toString()
                             ).asMap(String::valueOf),
                             Values.parameters(
@@ -269,7 +269,7 @@ public class UploaderTest {
                                     "CropSubClassName", cropSubClass2.getName(),
                                     "CSC_FAOId", cropSubClass2.getFaoId(),
                                     "ODX_CC_UUId_Ref", cropClass2.getUuId().toString(),
-                                    "ODX_CropSubClass_Uri", "ODX/CropSubClass/".concat(cropSubClass2.getUuId().toString()),
+                                    "ODX_CropSubClass_Uri", cropSubClass2.getUri(),
                                     "ODX_CropSubClass_UUId", cropSubClass2.getUuId().toString()
                             ).asMap(String::valueOf)
                     );
@@ -305,20 +305,20 @@ public class UploaderTest {
                     })
                     .containsExactly(
                             Values.parameters(
-                                    "ODX_CropVariety_UUId", cropVariety1.getUuId().toString(),
-                                    "ODX_CropVariety_Uri", "ODX/CropVariety/".concat(cropVariety1.getUuId().toString()),
+                                    "CropVarietyId", cropVariety1.getId(),
+                                    "CropVarietyName", cropVariety1.getName(),
                                     "CV_CropSubClassId_Ref", cropVariety1.getSubClassId(),
                                     "CV_CSC_UUId_Ref", cropSubClass1.getUuId().toString(),
-                                    "CropVarietyId", cropVariety1.getId(),
-                                    "CropVarietyName", cropVariety1.getName()
+                                    "ODX_CropVariety_Uri", cropVariety1.getUri(),
+                                    "ODX_CropVariety_UUId", cropVariety1.getUuId().toString()
                             ).asMap(String::valueOf),
                             Values.parameters(
-                                    "ODX_CropVariety_UUId", cropVariety2.getUuId().toString(),
-                                    "ODX_CropVariety_Uri", "ODX/CropVariety/".concat(cropVariety2.getUuId().toString()),
+                                    "CropVarietyId", cropVariety2.getId(),
+                                    "CropVarietyName", cropVariety2.getName(),
                                     "CV_CropSubClassId_Ref", cropVariety2.getSubClassId(),
                                     "CV_CSC_UUId_Ref", cropSubClass2.getUuId().toString(),
-                                    "CropVarietyId", cropVariety2.getId(),
-                                    "CropVarietyName", cropVariety2.getName()
+                                    "ODX_CropVariety_Uri", cropVariety2.getUri(),
+                                    "ODX_CropVariety_UUId", cropVariety2.getUuId().toString()
                             ).asMap(String::valueOf)
                     );
         }
