@@ -330,16 +330,38 @@ public class UploaderTest {
                 "testCropClassId1", "testCropSubClassFaoId1", "testCropSubClassName1");
         CropSubClass cropSubClass2 = new CropSubClass("testSource", "CropSubClass", "testCropSubClassId2",
                 "testCropClassId2", "testCropSubClassFaoId2", "testCropSubClassName2");
-
         CropDescription cropDescription1 = new CropDescription("testSource", "CropDescription", "testCropDescriptionId1",
-                cropSubClass1.getId(), "testTrue", "testCropDescriptionMediaUri1", "testCropDescriptionName1");
+                cropSubClass1.getId(), "testTrue", "testCropDescriptionName1");
         CropDescription cropDescription2 = new CropDescription("testSource", "CropDescription", "testCropDescriptionId2",
-                cropSubClass2.getId(), "testFalse", "testCropDescriptionMediaUri2", "testCropDescriptionName2");
+                cropSubClass2.getId(), "testFalse", "testCropDescriptionName2");
+        GrowthScale growthScale1 = new GrowthScale("testSource", "GrowthScale", "testGrowthScaleId1",
+                "testGrowthScaleName1");
+        GrowthScale growthScale2 = new GrowthScale("testSource", "GrowthScale", "testGrowthScaleId2",
+                "testGrowthScaleName2");
+        Country country1 = new Country("testSource", "Country", "testCountryId1", "testName1", "test_fips1",
+                "test_iso2Code1", "test_iso3Code1", "test_m49Code1", "test_continentalSectionUuidRef1",
+                "testProductSetCode1", "test_un1");
+        Country country2 = new Country("testSource", "Country", "testCountryId2", "testName2", "test_fips2",
+                "test_iso2Code2", "test_iso3Code2", "test_m49Code2", "test_continentalSectionUuidRef2",
+                "testProductSetCode2", "test_un2");
+        Region region1 = new Region("testSource", "Region", "testRegionId1", "testCountryId1", "testRegionName1");
+        Region region2 = new Region("testSource", "Region", "testRegionId2", "testCountryId2", "testRegionName2");
+        CropRegion cropRegion1 = new CropRegion("testCropRegionId1", cropDescription1.getId(), country1.getId(), region1.getId(),
+                "testGrowthScaleId1", "testDefaultSeedingDate1", "testDefaultHarvestDate1",
+                "testDefaultYield1", "testYieldBaseUnitId1", "testDemandBaseUnitId1",
+                "testAdditionalProperties1");
+        CropRegion cropRegion2 = new CropRegion("testCropRegionId2", cropDescription2.getId(), country2.getId(), region2.getId(),
+                "testGrowthScaleId2", "testDefaultSeedingDate2", "testDefaultHarvestDate2",
+                "testDefaultYield2", "testYieldBaseUnitId2", "testDemandBaseUnitId2",
+                "testAdditionalProperties2");
 
         List<CropSubClass> cropSubClasses = Arrays.asList(cropSubClass1, cropSubClass2);
         List<CropDescription> cropDescriptions = Arrays.asList(cropDescription1, cropDescription2);
+        List<GrowthScale> growthScales = Arrays.asList(growthScale1, growthScale2);
+        List<CropRegion> cropRegions = Arrays.asList(cropRegion1, cropRegion2);
 
-        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses);
+        uploader.uploadGrowthScalesAsBatch(growthScales);
+        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses, cropRegions, growthScales);
 
         try (Driver driver = GraphDatabase.driver(embeddedDatabaseServer.boltURI(), driverConfig);
              Session session = driver.session()
@@ -355,8 +377,9 @@ public class UploaderTest {
                     .containsExactly(
                             Values.parameters(
                                     "ODX_CropDescription_UUId", cropDescription1.getUuId().toString(),
-                                    "ODX_CropDescription_Uri", "ODX/CropDescription/".concat(cropDescription1.getUuId().toString()),
-                                    "CD_MediaUri", cropDescription1.getMediaUri(),
+                                    "ODX_CropDescription_Uri", cropDescription1.getUri(),
+                                    "CD_GrowthScaleId_Ref", growthScale1.getId(),
+                                    "CD_ODX_GrowthScale_UUId_Ref", growthScale1.getUuId().toString(),
                                     "ChlorideSensitive", cropDescription1.isChlorideSensitive(),
                                     "CropDescriptionId", cropDescription1.getId(),
                                     "CropDescriptionName", cropDescription1.getName(),
@@ -366,8 +389,9 @@ public class UploaderTest {
                             ).asMap(String::valueOf),
                             Values.parameters(
                                     "ODX_CropDescription_UUId", cropDescription2.getUuId().toString(),
-                                    "ODX_CropDescription_Uri", "ODX/CropDescription/".concat(cropDescription2.getUuId().toString()),
-                                    "CD_MediaUri", cropDescription2.getMediaUri(),
+                                    "ODX_CropDescription_Uri", cropDescription2.getUri(),
+                                    "CD_GrowthScaleId_Ref", growthScale2.getId(),
+                                    "CD_ODX_GrowthScale_UUId_Ref", growthScale2.getUuId().toString(),
                                     "ChlorideSensitive", cropDescription2.isChlorideSensitive(),
                                     "CropDescriptionId", cropDescription2.getId(),
                                     "CropDescriptionName", cropDescription2.getName(),
@@ -1089,19 +1113,41 @@ public class UploaderTest {
         CropSubClass cropSubClass2 = new CropSubClass("testSource", "CropSubClass", "testCropSubClassId2", cropClass2.getId(),
                 "testCropSubClassFaoId2", "testCropSubClassName2");
         CropDescription cropDescription1 = new CropDescription("testSource", "CropDescription", "testCropDescriptionId1",
-                cropSubClass1.getId(), "testTrue", "testCropDescriptionMediaUri1", "testCropDescriptionName1");
+                cropSubClass1.getId(), "testTrue", "testCropDescriptionName1");
         CropDescription cropDescription2 = new CropDescription("testSource", "CropDescription", "testCropDescriptionId2",
-                cropSubClass2.getId(), "testFalse", "testCropDescriptionMediaUri2", "testCropDescriptionName2");
+                cropSubClass2.getId(), "testFalse", "testCropDescriptionName2");
+        GrowthScale growthScale1 = new GrowthScale("testSource", "GrowthScale", "testGrowthScaleId1",
+                "testGrowthScaleName1");
+        GrowthScale growthScale2 = new GrowthScale("testSource", "GrowthScale", "testGrowthScaleId2",
+                "testGrowthScaleName2");
+        Country country1 = new Country("testSource", "Country", "testCountryId1", "testName1", "test_fips1",
+                "test_iso2Code1", "test_iso3Code1", "test_m49Code1", "test_continentalSectionUuidRef1",
+                "testProductSetCode1", "test_un1");
+        Country country2 = new Country("testSource", "Country", "testCountryId2", "testName2", "test_fips2",
+                "test_iso2Code2", "test_iso3Code2", "test_m49Code2", "test_continentalSectionUuidRef2",
+                "testProductSetCode2", "test_un2");
+        Region region1 = new Region("testSource", "Region", "testRegionId1", "testCountryId1", "testRegionName1");
+        Region region2 = new Region("testSource", "Region", "testRegionId2", "testCountryId2", "testRegionName2");
+        CropRegion cropRegion1 = new CropRegion("testCropRegionId1", cropDescription1.getId(), country1.getId(), region1.getId(),
+                "testGrowthScaleId1", "testDefaultSeedingDate1", "testDefaultHarvestDate1",
+                "testDefaultYield1", "testYieldBaseUnitId1", "testDemandBaseUnitId1",
+                "testAdditionalProperties1");
+        CropRegion cropRegion2 = new CropRegion("testCropRegionId2", cropDescription2.getId(), country2.getId(), region2.getId(),
+                "testGrowthScaleId2", "testDefaultSeedingDate2", "testDefaultHarvestDate2",
+                "testDefaultYield2", "testYieldBaseUnitId2", "testDemandBaseUnitId2",
+                "testAdditionalProperties2");
 
-        List<CropGroup> cropGroups = Arrays.asList(cropGroup1, cropGroup2);
-        List<CropClass> cropClasses = Arrays.asList(cropClass1, cropClass2);
         List<CropSubClass> cropSubClasses = Arrays.asList(cropSubClass1, cropSubClass2);
         List<CropDescription> cropDescriptions = Arrays.asList(cropDescription1, cropDescription2);
+        List<GrowthScale> growthScales = Arrays.asList(growthScale1, growthScale2);
+        List<CropRegion> cropRegions = Arrays.asList(cropRegion1, cropRegion2);
+        List<CropGroup> cropGroups = Arrays.asList(cropGroup1, cropGroup2);
+        List<CropClass> cropClasses = Arrays.asList(cropClass1, cropClass2);
 
         uploader.uploadCropGroupsAsBatch(cropGroups);
         uploader.uploadCropClassAsBatch(cropClasses, cropGroups);
         uploader.uploadCropSubClassesAsBatch(cropSubClasses, cropClasses);
-        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses);
+        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses, cropRegions, growthScales);
         uploader.createCropSubClassToDescriptionRelations(cropSubClasses, cropDescriptions);
 
         try (Driver driver = GraphDatabase.driver(embeddedDatabaseServer.boltURI(), driverConfig);
@@ -1157,24 +1203,46 @@ public class UploaderTest {
         CropVariety cropVariety2 = new CropVariety("testSource", "CropVariety", "testCropVarietyId2", cropSubClass2.getId(),
                 "testCropVarietyName2");
         CropDescription cropDescription1 = new CropDescription("testSource", "CropDescription", "testCropDescriptionId1",
-                cropSubClass1.getId(), "testTrue", "testCropDescriptionMediaUri1", "testCropDescriptionName1");
+                cropSubClass1.getId(), "testTrue", "testCropDescriptionName1");
         CropDescription cropDescription2 = new CropDescription("testSource", "CropDescription", "testCropDescriptionId2",
-                cropSubClass2.getId(), "testFalse", "testCropDescriptionMediaUri2", "testCropDescriptionName2");
+                cropSubClass2.getId(), "testFalse", "testCropDescriptionName2");
         CropDescriptionVariety cropDescVar1 = new CropDescriptionVariety("testCropDescVarId1", cropVariety1.getId(), cropDescription1.getId());
         CropDescriptionVariety cropDescVar2 = new CropDescriptionVariety("testCropDescVarId2", cropVariety2.getId(), cropDescription2.getId());
+        GrowthScale growthScale1 = new GrowthScale("testSource", "GrowthScale", "testGrowthScaleId1",
+                "testGrowthScaleName1");
+        GrowthScale growthScale2 = new GrowthScale("testSource", "GrowthScale", "testGrowthScaleId2",
+                "testGrowthScaleName2");
+        Country country1 = new Country("testSource", "Country", "testCountryId1", "testName1", "test_fips1",
+                "test_iso2Code1", "test_iso3Code1", "test_m49Code1", "test_continentalSectionUuidRef1",
+                "testProductSetCode1", "test_un1");
+        Country country2 = new Country("testSource", "Country", "testCountryId2", "testName2", "test_fips2",
+                "test_iso2Code2", "test_iso3Code2", "test_m49Code2", "test_continentalSectionUuidRef2",
+                "testProductSetCode2", "test_un2");
+        Region region1 = new Region("testSource", "Region", "testRegionId1", "testCountryId1", "testRegionName1");
+        Region region2 = new Region("testSource", "Region", "testRegionId2", "testCountryId2", "testRegionName2");
+        CropRegion cropRegion1 = new CropRegion("testCropRegionId1", cropDescription1.getId(), country1.getId(), region1.getId(),
+                "testGrowthScaleId1", "testDefaultSeedingDate1", "testDefaultHarvestDate1",
+                "testDefaultYield1", "testYieldBaseUnitId1", "testDemandBaseUnitId1",
+                "testAdditionalProperties1");
+        CropRegion cropRegion2 = new CropRegion("testCropRegionId2", cropDescription2.getId(), country2.getId(), region2.getId(),
+                "testGrowthScaleId2", "testDefaultSeedingDate2", "testDefaultHarvestDate2",
+                "testDefaultYield2", "testYieldBaseUnitId2", "testDemandBaseUnitId2",
+                "testAdditionalProperties2");
 
+        List<CropSubClass> cropSubClasses = Arrays.asList(cropSubClass1, cropSubClass2);
+        List<CropDescription> cropDescriptions = Arrays.asList(cropDescription1, cropDescription2);
+        List<GrowthScale> growthScales = Arrays.asList(growthScale1, growthScale2);
+        List<CropRegion> cropRegions = Arrays.asList(cropRegion1, cropRegion2);
         List<CropGroup> cropGroups = Arrays.asList(cropGroup1, cropGroup2);
         List<CropClass> cropClasses = Arrays.asList(cropClass1, cropClass2);
-        List<CropSubClass> cropSubClasses = Arrays.asList(cropSubClass1, cropSubClass2);
         List<CropVariety> cropVarieties = Arrays.asList(cropVariety1, cropVariety2);
-        List<CropDescription> cropDescriptions = Arrays.asList(cropDescription1, cropDescription2);
         List<CropDescriptionVariety> cropDescVars = Arrays.asList(cropDescVar1, cropDescVar2);
 
         uploader.uploadCropGroupsAsBatch(cropGroups);
         uploader.uploadCropClassAsBatch(cropClasses, cropGroups);
         uploader.uploadCropSubClassesAsBatch(cropSubClasses, cropClasses);
         uploader.uploadCropVarietiesAsBatch(cropVarieties, cropSubClasses);
-        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses);
+        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses, cropRegions, growthScales);
         uploader.createCropVarietyToDescriptionRelations(cropVarieties, cropDescriptions, cropDescVars);
 
         try (Driver driver = GraphDatabase.driver(embeddedDatabaseServer.boltURI(), driverConfig);
@@ -1293,9 +1361,9 @@ public class UploaderTest {
         CropVariety cropVariety2 = new CropVariety("testSource", "CropVariety", "testCropVarietyId2", cropSubClass2.getId(),
                 "testCropVarietyName2");
         CropDescription cropDescription1 = new CropDescription("testSource", "CropDescription", "testCropDescriptionId1",
-                cropSubClass1.getId(), "testTrue", "testCropDescriptionMediaUri1", "testCropDescriptionName1");
+                cropSubClass1.getId(), "testTrue", "testCropDescriptionName1");
         CropDescription cropDescription2 = new CropDescription("testSource", "CropDescription", "testCropDescriptionId2",
-                cropSubClass2.getId(), "testFalse", "testCropDescriptionMediaUri2", "testCropDescriptionName2");
+                cropSubClass2.getId(), "testFalse", "testCropDescriptionName2");
         CropDescriptionVariety cropDescVar1 = new CropDescriptionVariety("testCropDescVarId1", cropVariety1.getId(), cropDescription1.getId());
         CropDescriptionVariety cropDescVar2 = new CropDescriptionVariety("testCropDescVarId2", cropVariety2.getId(), cropDescription2.getId());
         CropRegion cropRegion1 = new CropRegion("testCropRegionId1", cropDescription1.getId(), country1.getId(), region1.getId(),
@@ -1306,6 +1374,10 @@ public class UploaderTest {
                 "testGrowthScaleId2", "testDefaultSeedingDate2", "testDefaultHarvestDate2",
                 "testDefaultYield2", "testYieldBaseUnitId2", "testDemandBaseUnitId2",
                 "testAdditionalProperties2");
+        GrowthScale growthScale1 = new GrowthScale("testSource", "GrowthScale", "testGrowthScaleId1",
+                "testGrowthScaleName1");
+        GrowthScale growthScale2 = new GrowthScale("testSource", "GrowthScale", "testGrowthScaleId2",
+                "testGrowthScaleName2");
 
         List<Region> regions = Arrays.asList(region1, region2);
         List<Country> countries = Arrays.asList(country1, country2);
@@ -1316,6 +1388,7 @@ public class UploaderTest {
         List<CropDescription> cropDescriptions = Arrays.asList(cropDescription1, cropDescription2);
         List<CropDescriptionVariety> cropDescVars = Arrays.asList(cropDescVar1, cropDescVar2);
         List<CropRegion> cropRegions = Arrays.asList(cropRegion1, cropRegion2);
+        List<GrowthScale> growthScales = Arrays.asList(growthScale1, growthScale2);
 
         uploader.uploadCountriesAsBatch(countries);
         uploader.uploadRegionsAsBatch(regions, countries);
@@ -1323,7 +1396,7 @@ public class UploaderTest {
         uploader.uploadCropClassAsBatch(cropClasses, cropGroups);
         uploader.uploadCropSubClassesAsBatch(cropSubClasses, cropClasses);
         uploader.uploadCropVarietiesAsBatch(cropVarieties, cropSubClasses);
-        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses);
+        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses, cropRegions, growthScales);
 
         uploader.createCountryToRegionRelations(countries, regions);
         uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
@@ -1425,9 +1498,9 @@ public class UploaderTest {
         CropVariety cropVariety2 = new CropVariety("testSource", "CropVariety", "testCropVarietyId2", cropSubClass2.getId(),
                 "testCropVarietyName2");
         CropDescription cropDescription1 = new CropDescription("testSource", "CropDescription", "testCropDescriptionId1",
-                cropSubClass1.getId(), "testTrue", "testCropDescriptionMediaUri1", "testCropDescriptionName1");
+                cropSubClass1.getId(), "testTrue", "testCropDescriptionName1");
         CropDescription cropDescription2 = new CropDescription("testSource", "CropDescription", "testCropDescriptionId2",
-                cropSubClass2.getId(), "testFalse", "testCropDescriptionMediaUri2", "testCropDescriptionName2");
+                cropSubClass2.getId(), "testFalse", "testCropDescriptionName2");
         CropDescriptionVariety cropDescVar1 = new CropDescriptionVariety("testCropDescVarId1", cropVariety1.getId(), cropDescription1.getId());
         CropDescriptionVariety cropDescVar2 = new CropDescriptionVariety("testCropDescVarId2", cropVariety2.getId(), cropDescription2.getId());
         CropRegion cropRegion1 = new CropRegion("testCropRegionId1", cropDescription1.getId(), country1.getId(), region1.getId(),
@@ -1467,7 +1540,7 @@ public class UploaderTest {
         uploader.uploadCropClassAsBatch(cropClasses, cropGroups);
         uploader.uploadCropSubClassesAsBatch(cropSubClasses, cropClasses);
         uploader.uploadCropVarietiesAsBatch(cropVarieties, cropSubClasses);
-        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses);
+        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses, cropRegions, growthScales);
         uploader.uploadGrowthScales(growthScales);
         uploader.uploadGrowthScaleStagesAsBatch(growthScaleStages, growthScales);
 

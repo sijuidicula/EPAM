@@ -271,7 +271,7 @@ public class ExcelWorkbookReader {
                 String chlorideSensitive = getCellDataAsString(row, 2);
                 String mediaUri = getCellDataAsString(row, 3);
                 String name = row.getCell(4).getStringCellValue();
-                CropDescription description = new CropDescription(POLARIS_SOURCE, className, id, subClassId, chlorideSensitive, mediaUri, name);
+                CropDescription description = new CropDescription(POLARIS_SOURCE, className, id, subClassId, chlorideSensitive, name);
                 descriptions.add(description);
             }
         }

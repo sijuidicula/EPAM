@@ -85,7 +85,7 @@ public class UploadSeparatelyWithShaclMain {
         uploader.uploadCropClassAsBatch(cropClasses, cropGroups);
         uploader.uploadCropSubClassesAsBatch(cropSubClasses, cropClasses);
         uploader.uploadCropVarietiesAsBatch(cropVarieties, cropSubClasses);
-        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses);
+        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses, cropRegions, growthScales);
         uploader.uploadGrowthScalesAsBatch(growthScales);
         uploader.uploadGrowthScaleStagesAsBatch(growthScaleStages, growthScales);
         uploader.uploadNutrientsAsBatch(nutrients);

@@ -425,11 +425,13 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " CropVarieties uploaded");
     }
 
-    public void uploadCropDescriptions(List<CropDescription> cropDescriptions, List<CropSubClass> cropSubClasses) {
+    public void uploadCropDescriptions(List<CropDescription> cropDescriptions, List<CropSubClass> cropSubClasses,
+                                       List<CropRegion> cropRegions, List<GrowthScale> growthScales) {
         String createDescriptionFormat = "CREATE (%s:%s{" +
                 "ODX_CropDescription_UUId: \"%s\", " +
                 "ODX_CropDescription_Uri: \"%s\", " +
-                "CD_MediaUri: \"%s\", " +
+                "CD_GrowthScaleId_Ref: \"%s\", " +
+                "CD_ODX_GrowthScale_UUId_Ref: \"%s\", " +
                 "ChlorideSensitive: \"%s\", " +
                 "CropDescriptionId: \"%s\", " +
                 "CropDescriptionName: \"%s\", " +
@@ -442,31 +444,35 @@ public class PropertyGraphUploader implements AutoCloseable {
             cropDescriptions.forEach(description -> session.writeTransaction(tx -> {
                 System.out.println("Uploading CD # " + count.incrementAndGet());
                 CropSubClass subClass = (CropSubClass) getFromCollectionById(cropSubClasses, description.getSubClassId());
+                GrowthScale growthScale = getGrowthScaleForDescription(cropRegions, growthScales, description.getId());
                 String descriptionNodeName = createNodeName(description.getName());
                 return tx.run(String.format(createDescriptionFormat,
                         descriptionNodeName, description.getClassName(),
                         description.getUuId(),
-                        createOdxUri(description),
-                        description.getMediaUri(),
+                        description.getUri(),
+                        growthScale.getId(),
+                        growthScale.getUuId(),
                         description.isChlorideSensitive(),
                         description.getId(),
                         description.getName(),
                         description.getSubClassId(),
                         subClass.getUuId(),
-                        "dummy_Polaris"));
+                        description.getSource()));
             }));
         }
         System.out.println("CropDescription uploading completed");
         System.out.println(count.get() + " CropDescriptions uploaded");
     }
 
-    public void uploadCropDescriptionsAsBatch(List<CropDescription> cropDescriptions, List<CropSubClass> cropSubClasses) {
+    public void uploadCropDescriptionsAsBatch(List<CropDescription> cropDescriptions, List<CropSubClass> cropSubClasses,
+                                              List<CropRegion> cropRegions, List<GrowthScale> growthScales) {
         AtomicInteger count = new AtomicInteger(0);
         StringBuilder builder = new StringBuilder();
         String createDescriptionFormat = "CREATE (%s:%s{" +
                 "ODX_CropDescription_UUId: \"%s\", " +
                 "ODX_CropDescription_Uri: \"%s\", " +
-                "CD_MediaUri: \"%s\", " +
+                "CD_GrowthScaleId_Ref: \"%s\", " +
+                "CD_ODX_GrowthScale_UUId_Ref: \"%s\", " +
                 "ChlorideSensitive: \"%s\", " +
                 "CropDescriptionId: \"%s\", " +
                 "CropDescriptionName: \"%s\", " +
@@ -477,12 +483,14 @@ public class PropertyGraphUploader implements AutoCloseable {
         cropDescriptions.forEach(description -> {
             count.incrementAndGet();
             CropSubClass subClass = (CropSubClass) getFromCollectionById(cropSubClasses, description.getSubClassId());
+            GrowthScale growthScale = getGrowthScaleForDescription(cropRegions, growthScales, description.getId());
             String descriptionNodeName = createUniqueNodeName(description.getName(), Integer.toString(count.get()));
             String createDescriptionCommand = String.format(createDescriptionFormat,
                     descriptionNodeName, description.getClassName(),
                     description.getUuId(),
-                    createOdxUri(description),
-                    description.getMediaUri(),
+                    description.getUri(),
+                    growthScale.getId(),
+                    growthScale.getUuId(),
                     description.isChlorideSensitive(),
                     description.getId(),
                     description.getName(),
@@ -1625,7 +1633,6 @@ public class PropertyGraphUploader implements AutoCloseable {
                         "empty",
                         "empty",
                         "empty"));
-
     }
 
     private Region getRegionFromCollectionById(List<Region> regions, String regionId) {
@@ -1638,8 +1645,27 @@ public class PropertyGraphUploader implements AutoCloseable {
                         "empty",
                         "empty",
                         "empty"));
-
     }
+
+    private GrowthScale getGrowthScaleForDescription(List<CropRegion> cropRegions, List<GrowthScale> growthScales, String descriptionId) {
+        CropRegion cropRegion = cropRegions.stream()
+                .filter(cr -> cr.getDescriptionId().equals(descriptionId))
+                .findFirst()
+                .orElse(new CropRegion(
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty"));
+        return (GrowthScale) getFromCollectionById(growthScales, cropRegion.getGrowthScaleIdRef());
+    }
+
 
     private FertilizerRegion getFertilizerRegionByProductId(List<FertilizerRegion> fertilizerRegions, String fertilizerId) {
         return fertilizerRegions.stream()
