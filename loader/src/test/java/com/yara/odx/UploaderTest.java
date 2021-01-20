@@ -116,20 +116,20 @@ public class UploaderTest {
                     })
                     .containsExactly(
                             Values.parameters(
+                                    "ODX_Region_Uri", region1.getUri(),
                                     "ODX_Region_UUId", region1.getUuId().toString(),
-                                    "ODX_Region_Uri", "ODX/Region/".concat(region1.getUuId().toString()),
+                                    "Region_Country_UUId_Ref", country1.getUuId().toString(),
+                                    "Region_CountryId_Ref", region1.getCountryId(),
                                     "RegionId", region1.getId(),
-                                    "RegionName", region1.getName(),
-                                    "Region_CountryId_Ref", country1.getId(),
-                                    "Region_Country_UUId_Ref", country1.getUuId().toString()
+                                    "RegionName", region1.getName()
                             ).asMap(String::valueOf),
                             Values.parameters(
+                                    "ODX_Region_Uri", region2.getUri(),
                                     "ODX_Region_UUId", region2.getUuId().toString(),
-                                    "ODX_Region_Uri", "ODX/Region/".concat(region2.getUuId().toString()),
+                                    "Region_Country_UUId_Ref", country2.getUuId().toString(),
+                                    "Region_CountryId_Ref", region2.getCountryId(),
                                     "RegionId", region2.getId(),
-                                    "RegionName", region2.getName(),
-                                    "Region_CountryId_Ref", country2.getId(),
-                                    "Region_Country_UUId_Ref", country2.getUuId().toString()
+                                    "RegionName", region2.getName()
                             ).asMap(String::valueOf)
                     );
         }
