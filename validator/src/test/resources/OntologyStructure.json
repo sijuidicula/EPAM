@@ -158,15 +158,15 @@
       "GrowthScaleId"
     ],
     "GrowthScaleStages": [
-      "ODX_GS_UUId_Ref",
-      "GrowthScaleId_Ref",
       "BaseOrdinal",
-      "Ordinal",
-      "ODX_GSS_SourceSystem",
-      "GrowthScaleStageId",
-      "ODX_GrowthScaleStage_Uri",
-      "GrowthScaleStageDescription",
-      "ODX_GrowthScaleStage_UUId"
+      "GrowthScaleId_Ref",
+      "GrowthScaleStagesDescription",
+      "GrowthScaleStagesId",
+      "ODX_GrowthScaleStages_SourceSystem",
+      "ODX_GrowthScaleStages_Uri",
+      "ODX_GrowthScaleStages_UUId",
+      "ODX_GS_UUId_Ref",
+      "Ordinal"
     ],
     "Nutrient": [
       "ODX_Nutr_SourceSystem",

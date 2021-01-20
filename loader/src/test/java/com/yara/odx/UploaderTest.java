@@ -474,25 +474,25 @@ public class UploaderTest {
                     })
                     .containsExactly(
                             Values.parameters(
-                                    "ODX_GrowthScaleStage_UUId", scaleStage1.getUuId().toString(),
-                                    "ODX_GrowthScaleStage_Uri", "ODX/GrowthScaleStages/".concat(scaleStage1.getUuId().toString()),
                                     "BaseOrdinal", scaleStage1.getBaseOrdinal(),
                                     "GrowthScaleId_Ref", scaleStage1.getGrowthScaleId(),
+                                    "GrowthScaleStagesDescription", scaleStage1.getGrowthScaleStageDescription(),
+                                    "GrowthScaleStagesId", scaleStage1.getId(),
+                                    "ODX_GrowthScaleStages_SourceSystem", scaleStage1.getSource(),
+                                    "ODX_GrowthScaleStages_Uri", "ODX/GrowthScaleStages/".concat(scaleStage1.getUuId().toString()),
+                                    "ODX_GrowthScaleStages_UUId", scaleStage1.getUuId().toString(),
                                     "ODX_GS_UUId_Ref", growthScale1.getUuId().toString(),
-                                    "GrowthScaleStageDescription", scaleStage1.getGrowthScaleStageDescription(),
-                                    "GrowthScaleStageId", scaleStage1.getId(),
-                                    "ODX_GSS_SourceSystem", scaleStage1.getSource(),
                                     "Ordinal", scaleStage1.getOrdinal()
                             ).asMap(String::valueOf),
                             Values.parameters(
-                                    "ODX_GrowthScaleStage_UUId", scaleStage2.getUuId().toString(),
-                                    "ODX_GrowthScaleStage_Uri", "ODX/GrowthScaleStages/".concat(scaleStage2.getUuId().toString()),
                                     "BaseOrdinal", scaleStage2.getBaseOrdinal(),
                                     "GrowthScaleId_Ref", scaleStage2.getGrowthScaleId(),
+                                    "GrowthScaleStagesDescription", scaleStage2.getGrowthScaleStageDescription(),
+                                    "GrowthScaleStagesId", scaleStage2.getId(),
+                                    "ODX_GrowthScaleStages_SourceSystem", scaleStage2.getSource(),
+                                    "ODX_GrowthScaleStages_Uri", "ODX/GrowthScaleStages/".concat(scaleStage2.getUuId().toString()),
+                                    "ODX_GrowthScaleStages_UUId", scaleStage2.getUuId().toString(),
                                     "ODX_GS_UUId_Ref", growthScale2.getUuId().toString(),
-                                    "GrowthScaleStageDescription", scaleStage2.getGrowthScaleStageDescription(),
-                                    "GrowthScaleStageId", scaleStage2.getId(),
-                                    "ODX_GSS_SourceSystem", scaleStage2.getSource(),
                                     "Ordinal", scaleStage2.getOrdinal()
                             ).asMap(String::valueOf)
                     );
@@ -1316,19 +1316,19 @@ public class UploaderTest {
                         Map<String, String> objectMap = object.asNode().asMap(String::valueOf);
                         map.put("GrowthScaleId", subjectMap.get("GrowthScaleId"));
                         map.put("relationshipType", "\"".concat(predicate.asRelationship().type()).concat("\""));
-                        map.put("GrowthScaleStageId", objectMap.get("GrowthScaleStageId"));
+                        map.put("GrowthScaleStagesId", objectMap.get("GrowthScaleStagesId"));
                         return map;
                     })
                     .containsExactly(
                             Values.parameters(
                                     "GrowthScaleId", growthScale1.getId(),
                                     "relationshipType", "hasGrowthScaleStages",
-                                    "GrowthScaleStageId", scaleStage1.getId()
+                                    "GrowthScaleStagesId", scaleStage1.getId()
                             ).asMap(String::valueOf),
                             Values.parameters(
                                     "GrowthScaleId", growthScale2.getId(),
                                     "relationshipType", "hasGrowthScaleStages",
-                                    "GrowthScaleStageId", scaleStage2.getId()
+                                    "GrowthScaleStagesId", scaleStage2.getId()
                             ).asMap(String::valueOf)
                     );
         }

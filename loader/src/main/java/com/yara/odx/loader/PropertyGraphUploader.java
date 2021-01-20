@@ -560,14 +560,14 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     public void uploadGrowthScaleStages(List<GrowthScaleStages> growthScaleStages, List<GrowthScale> growthScales) {
         String createGrowthScaleStageCommandFormat = "CREATE (%s:%s{" +
-                "ODX_GrowthScaleStage_UUId: \"%s\", " +
-                "ODX_GrowthScaleStage_Uri: \"%s\", " +
                 "BaseOrdinal: \"%s\", " +
                 "GrowthScaleId_Ref: \"%s\", " +
+                "GrowthScaleStagesDescription: \"%s\", " +
+                "GrowthScaleStagesId: \"%s\", " +
+                "ODX_GrowthScaleStages_SourceSystem: \"%s\", " +
+                "ODX_GrowthScaleStages_Uri: \"%s\", " +
+                "ODX_GrowthScaleStages_UUId: \"%s\", " +
                 "ODX_GS_UUId_Ref: \"%s\", " +
-                "GrowthScaleStageDescription: \"%s\", " +
-                "GrowthScaleStageId: \"%s\", " +
-                "ODX_GSS_SourceSystem: \"%s\", " +
                 "Ordinal: \"%s\"})\n";
 
         AtomicInteger count = new AtomicInteger(0);
@@ -578,14 +578,14 @@ public class PropertyGraphUploader implements AutoCloseable {
                 String stageNodeName = createNodeName("GSS_number_" + count.get());
                 return tx.run(String.format(createGrowthScaleStageCommandFormat,
                         stageNodeName, stage.getClassName(),
-                        stage.getUuId(),
-                        stage.getUri(),
                         stage.getBaseOrdinal(),
                         stage.getGrowthScaleId(),
-                        growthScale.getUuId(),
                         stage.getGrowthScaleStageDescription(),
                         stage.getId(),
                         stage.getSource(),
+                        stage.getUri(),
+                        stage.getUuId(),
+                        growthScale.getUuId(),
                         stage.getOrdinal()));
             }));
         }
@@ -597,14 +597,14 @@ public class PropertyGraphUploader implements AutoCloseable {
         AtomicInteger count = new AtomicInteger(0);
         StringBuilder builder = new StringBuilder();
         String createGrowthScaleStageFormat = "CREATE (%s:%s{" +
-                "ODX_GrowthScaleStage_UUId: \"%s\", " +
-                "ODX_GrowthScaleStage_Uri: \"%s\", " +
                 "BaseOrdinal: \"%s\", " +
                 "GrowthScaleId_Ref: \"%s\", " +
+                "GrowthScaleStagesDescription: \"%s\", " +
+                "GrowthScaleStagesId: \"%s\", " +
+                "ODX_GrowthScaleStages_SourceSystem: \"%s\", " +
+                "ODX_GrowthScaleStages_Uri: \"%s\", " +
+                "ODX_GrowthScaleStages_UUId: \"%s\", " +
                 "ODX_GS_UUId_Ref: \"%s\", " +
-                "GrowthScaleStageDescription: \"%s\", " +
-                "GrowthScaleStageId: \"%s\", " +
-                "ODX_GSS_SourceSystem: \"%s\", " +
                 "Ordinal: \"%s\"})\n";
 
         growthScaleStages.forEach(stage -> {
@@ -613,14 +613,14 @@ public class PropertyGraphUploader implements AutoCloseable {
             String stageNodeName = createNodeName("GSS_number_" + count.get());
             String createGrowthScaleCommand = String.format(createGrowthScaleStageFormat,
                     stageNodeName, stage.getClassName(),
-                    stage.getUuId(),
-                    stage.getUri(),
                     stage.getBaseOrdinal(),
                     stage.getGrowthScaleId(),
-                    scale.getUuId(),
                     stage.getGrowthScaleStageDescription(),
                     stage.getId(),
                     stage.getSource(),
+                    stage.getUri(),
+                    stage.getUuId(),
+                    scale.getUuId(),
                     stage.getOrdinal());
             builder.append(createGrowthScaleCommand);
             if (count.get() % NODES_BATCH_SIZE == 0) {
@@ -1808,7 +1808,7 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     private void createGrowthScaleToStageRelation(GrowthScale scale, GrowthScaleStages stage) {
         String matchScale = String.format("MATCH (scale:GrowthScale{ODX_GrowthScale_UUId:\"%s\"})\n", scale.getUuId());
-        String matchStage = String.format("MATCH (stage:GrowthScaleStages{ODX_GrowthScaleStage_UUId:\"%s\"})\n", stage.getUuId());
+        String matchStage = String.format("MATCH (stage:GrowthScaleStages{ODX_GrowthScaleStages_UUId:\"%s\"})\n", stage.getUuId());
         String createRelation = "CREATE (scale)-[:hasGrowthScaleStages]->(stage)";
         uploadRelationToDatabase(matchScale, matchStage, createRelation);
     }
