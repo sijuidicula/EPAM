@@ -41,50 +41,73 @@ public class PropertyGraphUploader implements AutoCloseable {
     public void uploadCountries(List<Country> countries) {
         AtomicInteger count = new AtomicInteger(0);
         String createCountryFormat = "CREATE (%s:%s{" +
-                "ODX_Country_UUId: \"%s\", " +
-                "ODX_Country_Uri: \"%s\", " +
                 "CountryId: \"%s\", " +
                 "CountryName: \"%s\", " +
-                "ProductSetCode: \"%s\"})\n";
+                "FIPS: \"%s\", " +
+                "ISO2Code: \"%s\", " +
+                "ISO3Code: \"%s\", " +
+                "M49Code: \"%s\", " +
+                "ODX_Country_Uri: \"%s\", " +
+                "ODX_Country_UUId: \"%s\", " +
+                "ODX_CS_UUId_Ref: \"%s\", " +
+                "ProductSetCode: \"%s\", " +
+                "UN: \"%s\"})\n";
         try (Session session = driver.session()) {
             countries.forEach(country -> {
                 if (!existsInDatabase(country)) {
                     System.out.println("Uploading Country # " + count.incrementAndGet());
                     session.writeTransaction(tx -> tx.run(String.format(createCountryFormat,
                             createNodeName(country.getName()), country.getClassName(),
-                            country.getUuId(),
-                            createOdxUri(country),
                             country.getId(),
                             country.getName(),
-                            country.getProductSetCode())));
+                            country.getFips(),
+                            country.getIso2Code(),
+                            country.getIso3Code(),
+                            country.getM49Code(),
+                            country.getUri(),
+                            country.getUuId(),
+                            country.getContinentalSectionUuidRef(),
+                            country.getProductSetCode(),
+                            country.getUn())));
                 }
             });
         }
         System.out.println("Country uploading completed");
         System.out.println(count.get() + " Countries uploaded");
-//        reporter.writeStatisticsToFile(countries);
     }
 
     public void uploadCountriesAsBatch(List<Country> countries) {
         AtomicInteger count = new AtomicInteger(0);
         StringBuilder builder = new StringBuilder();
         String createCountryFormat = "CREATE (%s:%s{" +
-                "ODX_Country_UUId: \"%s\", " +
-                "ODX_Country_Uri: \"%s\", " +
                 "CountryId: \"%s\", " +
                 "CountryName: \"%s\", " +
-                "ProductSetCode: \"%s\"})\n";
+                "FIPS: \"%s\", " +
+                "ISO2Code: \"%s\", " +
+                "ISO3Code: \"%s\", " +
+                "M49Code: \"%s\", " +
+                "ODX_Country_Uri: \"%s\", " +
+                "ODX_Country_UUId: \"%s\", " +
+                "ODX_CS_UUId_Ref: \"%s\", " +
+                "ProductSetCode: \"%s\", " +
+                "UN: \"%s\"})\n";
 
         countries.forEach(country -> {
             count.incrementAndGet();
             String countryNodeName = createUniqueNodeName(country.getName(), Integer.toString(count.get()));
             String createCountryCommand = String.format(createCountryFormat,
                     countryNodeName, country.getClassName(),
-                    country.getUuId(),
-                    createOdxUri(country),
                     country.getId(),
                     country.getName(),
-                    country.getProductSetCode());
+                    country.getFips(),
+                    country.getIso2Code(),
+                    country.getIso3Code(),
+                    country.getM49Code(),
+                    country.getUri(),
+                    country.getUuId(),
+                    country.getContinentalSectionUuidRef(),
+                    country.getProductSetCode(),
+                    country.getUn());
             builder.append(createCountryCommand);
             if (count.get() % NODES_BATCH_SIZE == 0) {
                 flushBuilderForNodes(builder, count.get(), country.getClassName());
@@ -1603,6 +1626,12 @@ public class PropertyGraphUploader implements AutoCloseable {
                 .filter(country -> country.getId().equals(countryId))
                 .findFirst()
                 .orElse(new Country(
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
+                        "empty",
                         "empty",
                         "empty",
                         "empty",

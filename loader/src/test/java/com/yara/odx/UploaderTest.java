@@ -33,8 +33,12 @@ public class UploaderTest {
 
     @Test
     void testUploadCountriesAsBatchCorrectly() {
-        Country country1 = new Country("testSource", "Country", "testId1", "testName1", "");
-        Country country2 = new Country("testSource", "Country", "testId2", "testName2", "");
+        Country country1 = new Country("testSource", "Country", "testId1", "testName1", "test_fips1",
+                "test_iso2Code1", "test_iso3Code1", "test_m49Code1", "test_continentalSectionUuidRef1",
+                "testProductSetCode1", "test_un1");
+        Country country2 = new Country("testSource", "Country", "testId2", "testName2", "test_fips2",
+                "test_iso2Code2", "test_iso3Code2", "test_m49Code2", "test_continentalSectionUuidRef2",
+                "testProductSetCode2", "test_un2");
 
         List<Country> countries = Arrays.asList(country1, country2);
 
@@ -54,17 +58,29 @@ public class UploaderTest {
                     .containsExactly(
                             Values.parameters(
                                     "CountryId", country1.getId(),
-                                    "ODX_Country_UUId", country1.getUuId().toString(),
                                     "CountryName", country1.getName(),
+                                    "FIPS", country1.getFips(),
+                                    "ISO2Code", country1.getIso2Code(),
+                                    "ISO3Code", country1.getIso3Code(),
+                                    "M49Code", country1.getM49Code(),
+                                    "ODX_Country_Uri", country1.getUri(),
+                                    "ODX_Country_UUId", country1.getUuId().toString(),
+                                    "ODX_CS_UUId_Ref", country1.getContinentalSectionUuidRef(),
                                     "ProductSetCode", country1.getProductSetCode(),
-                                    "ODX_Country_Uri", "ODX/Country/".concat(country1.getUuId().toString())
+                                    "UN", country1.getUn()
                             ).asMap(String::valueOf),
                             Values.parameters(
                                     "CountryId", country2.getId(),
-                                    "ODX_Country_UUId", country2.getUuId().toString(),
                                     "CountryName", country2.getName(),
+                                    "FIPS", country2.getFips(),
+                                    "ISO2Code", country2.getIso2Code(),
+                                    "ISO3Code", country2.getIso3Code(),
+                                    "M49Code", country2.getM49Code(),
+                                    "ODX_Country_Uri", country2.getUri(),
+                                    "ODX_Country_UUId", country2.getUuId().toString(),
+                                    "ODX_CS_UUId_Ref", country2.getContinentalSectionUuidRef(),
                                     "ProductSetCode", country2.getProductSetCode(),
-                                    "ODX_Country_Uri", "ODX/Country/".concat(country2.getUuId().toString())
+                                    "UN", country2.getUn()
                             ).asMap(String::valueOf)
                     );
         }
@@ -72,8 +88,12 @@ public class UploaderTest {
 
     @Test
     void testUploadRegionsAsBatchCorrectly() {
-        Country country1 = new Country("testSource", "Country", "testCountryId1", "testCountryName1", "");
-        Country country2 = new Country("testSource", "Country", "testCountryId2", "testCountryName2", "");
+        Country country1 = new Country("testSource", "Country", "testCountryId1", "testName1", "test_fips1",
+                "test_iso2Code1", "test_iso3Code1", "test_m49Code1", "test_continentalSectionUuidRef1",
+                "testProductSetCode1", "test_un1");
+        Country country2 = new Country("testSource", "Country", "testCountryId2", "testName2", "test_fips2",
+                "test_iso2Code2", "test_iso3Code2", "test_m49Code2", "test_continentalSectionUuidRef2",
+                "testProductSetCode2", "test_un2");
 
         Region region1 = new Region("testSource", "Region", "testRegionId1", "testCountryId1", "testRegionName1");
         Region region2 = new Region("testSource", "Region", "testRegionId2", "testCountryId2", "testRegionName2");
@@ -835,8 +855,12 @@ public class UploaderTest {
 
     @Test
     void testCountryRegionRelationsUploadCorrectly() {
-        Country country1 = new Country("testSource", "Country", "testCountryId1", "testCountryName1", "");
-        Country country2 = new Country("testSource", "Country", "testCountryId2", "testCountryName2", "");
+        Country country1 = new Country("testSource", "Country", "testId1", "testName1", "test_fips1",
+                "test_iso2Code1", "test_iso3Code1", "test_m49Code1", "test_continentalSectionUuidRef1",
+                "testProductSetCode1", "test_un1");
+        Country country2 = new Country("testSource", "Country", "testId2", "testName2", "test_fips2",
+                "test_iso2Code2", "test_iso3Code2", "test_m49Code2", "test_continentalSectionUuidRef2",
+                "testProductSetCode2", "test_un2");
 
         Region region1 = new Region("testSource", "Region", "testRegionId1", country1.getId(), "testRegionName1");
         Region region2 = new Region("testSource", "Region", "testRegionId2", country2.getId(), "testRegionName2");
@@ -1250,8 +1274,12 @@ public class UploaderTest {
 
     @Test
     void testDescriptionRegionsRelationsUploadCorrectly() {
-        Country country1 = new Country("testSource", "Country", "testCountryId1", "testCountryName1", "");
-        Country country2 = new Country("testSource", "Country", "testCountryId2", "testCountryName2", "");
+        Country country1 = new Country("testSource", "Country", "testCountryId1", "testName1", "test_fips1",
+                "test_iso2Code1", "test_iso3Code1", "test_m49Code1", "test_continentalSectionUuidRef1",
+                "testProductSetCode1", "test_un1");
+        Country country2 = new Country("testSource", "Country", "testCountryId2", "testName2", "test_fips2",
+                "test_iso2Code2", "test_iso3Code2", "test_m49Code2", "test_continentalSectionUuidRef2",
+                "testProductSetCode2", "test_un2");
         Region region1 = new Region("testSource", "Region", "testRegionId1", "testCountryId1", "testRegionName1");
         Region region2 = new Region("testSource", "Region", "testRegionId2", "testCountryId2", "testRegionName2");
         CropGroup cropGroup1 = new CropGroup("testSource", "CropGroup", "testCropGroupId1",
@@ -1314,9 +1342,9 @@ public class UploaderTest {
         Map<String, String> relProp1 = new HashMap() {{
             put("CD_GrowthScaleId_Ref", cropRegion1.getGrowthScaleIdRef());
             put("CD_CountryIdRef", cropRegion1.getCountryIdRef());
-            put("YieldBaseUnitId", cropRegion1.getYieldBaseUnitId());
             put("DefaultSeedingDate", cropRegion1.getDefaultSeedingDate());
             put("DefaultYield", cropRegion1.getDefaultYield());
+            put("YieldBaseUnitId", cropRegion1.getYieldBaseUnitId());
             put("CD_RegionIdRef", cropRegion1.getRegionIdRef());
             put("AdditionalProperties", cropRegion1.getAdditionalProperties());
             put("DefaultHarvestDate", cropRegion1.getDefaultHarvestDate());
@@ -1325,9 +1353,9 @@ public class UploaderTest {
         Map<String, String> relProp2 = new HashMap() {{
             put("CD_GrowthScaleId_Ref", cropRegion2.getGrowthScaleIdRef());
             put("CD_CountryIdRef", cropRegion2.getCountryIdRef());
-            put("YieldBaseUnitId", cropRegion2.getYieldBaseUnitId());
             put("DefaultSeedingDate", cropRegion2.getDefaultSeedingDate());
             put("DefaultYield", cropRegion2.getDefaultYield());
+            put("YieldBaseUnitId", cropRegion2.getYieldBaseUnitId());
             put("CD_RegionIdRef", cropRegion2.getRegionIdRef());
             put("AdditionalProperties", cropRegion2.getAdditionalProperties());
             put("DefaultHarvestDate", cropRegion2.getDefaultHarvestDate());
@@ -1378,8 +1406,12 @@ public class UploaderTest {
 
     @Test
     void testDescriptionGrowthScalesRelationsUploadCorrectly() {
-        Country country1 = new Country("testSource", "Country", "testCountryId1", "testCountryName1", "");
-        Country country2 = new Country("testSource", "Country", "testCountryId2", "testCountryName2", "");
+        Country country1 = new Country("testSource", "Country", "testCountryId1", "testName1", "test_fips1",
+                "test_iso2Code1", "test_iso3Code1", "test_m49Code1", "test_continentalSectionUuidRef1",
+                "testProductSetCode1", "test_un1");
+        Country country2 = new Country("testSource", "Country", "testCountryId2", "testName2", "test_fips2",
+                "test_iso2Code2", "test_iso3Code2", "test_m49Code2", "test_continentalSectionUuidRef2",
+                "testProductSetCode2", "test_un2");
         Region region1 = new Region("testSource", "Region", "testRegionId1", "testCountryId1", "testRegionName1");
         Region region2 = new Region("testSource", "Region", "testRegionId2", "testCountryId2", "testRegionName2");
         CropGroup cropGroup1 = new CropGroup("testSource", "CropGroup", "testCropGroupId1",
@@ -1592,8 +1624,12 @@ public class UploaderTest {
 
     @Test
     void testFertilizersRegionsRelationsUploadCorrectly() {
-        Country country1 = new Country("testSource", "Country", "testCountryId1", "testCountryName1", "");
-        Country country2 = new Country("testSource", "Country", "testCountryId2", "testCountryName2", "");
+        Country country1 = new Country("testSource", "Country", "testCountryId1", "testName1", "test_fips1",
+                "test_iso2Code1", "test_iso3Code1", "test_m49Code1", "test_continentalSectionUuidRef1",
+                "testProductSetCode1", "test_un1");
+        Country country2 = new Country("testSource", "Country", "testCountryId2", "testName2", "test_fips2",
+                "test_iso2Code2", "test_iso3Code2", "test_m49Code2", "test_continentalSectionUuidRef2",
+                "testProductSetCode2", "test_un2");
         Region region1 = new Region("testSource", "Region", "testRegionId1", country1.getId(), "testRegionName1");
         Region region2 = new Region("testSource", "Region", "testRegionId2", country2.getId(), "testRegionName2");
         Fertilizers fertilizer1 = new Fertilizers.Builder("testSource", "Fertilizers", "testFertilizersId1",

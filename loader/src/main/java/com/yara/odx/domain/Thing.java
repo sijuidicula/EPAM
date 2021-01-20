@@ -10,11 +10,14 @@ public class Thing {
     private String id;
     private UUID uuId;
 
+    private String uri;
+
     public Thing(String source, String className, String id) {
         this.id = id;
         this.source = source;
         this.className = className;
-        computeUUid(source + className + id);
+        computeUUid();
+        assembleUri();
     }
 
     public String getSource() {
@@ -33,8 +36,16 @@ public class Thing {
         return uuId;
     }
 
-    private void computeUUid(String string) {
-        byte[] arr = string.getBytes(StandardCharsets.UTF_8);
+    public String getUri() {
+        return uri;
+    }
+
+    private void computeUUid() {
+        byte[] arr = (source + className + id).getBytes(StandardCharsets.UTF_8);
         uuId = UUID.nameUUIDFromBytes(arr);
+    }
+
+    private void assembleUri() {
+        this.uri = "ODX/" + className + "/" + uuId;
     }
 }

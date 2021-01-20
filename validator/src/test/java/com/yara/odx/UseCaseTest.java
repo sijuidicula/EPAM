@@ -16,7 +16,8 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+//TODO prepare correct use cases after changing classes properties
+// 1 Country
 public class UseCaseTest {
 
     private Requester requester = new Requester();

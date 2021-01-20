@@ -76,11 +76,17 @@
       "CD_MediaUri"
     ],
     "Country": [
-      "ProductSetCode",
+      "CountryId",
       "CountryName",
+      "FIPS",
+      "ISO2Code",
+      "ISO3Code",
+      "M49Code",
       "ODX_Country_Uri",
       "ODX_Country_UUId",
-      "CountryId"
+      "ODX_CS_UUId_Ref",
+      "ProductSetCode",
+      "UN"
     ],
     "Region": [
       "Region_CountryId_Ref",
