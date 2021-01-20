@@ -32,7 +32,6 @@
       "CropGroupId",
       "CG_FAOId",
       "ODX_CropGroup_UUId",
-      "CG_MediaUri",
       "CropGroupName",
       "ODX_CropGroup_Uri"
     ],

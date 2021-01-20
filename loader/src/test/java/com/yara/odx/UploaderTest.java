@@ -138,9 +138,9 @@ public class UploaderTest {
     @Test
     void testUploadCropGroupsAsBatchCorrectly() {
         CropGroup cropGroup1 = new CropGroup("testSource", "CropGroup", "testCropGroupId1",
-                "testCropGroupFaoId1", "testCropGroupMediaUri1", "testCropGroupName1");
+                "testCropGroupFaoId1", "testCropGroupName1");
         CropGroup cropGroup2 = new CropGroup("testSource", "CropGroup", "testCropGroupId2",
-                "testCropGroupFaoId2", "testCropGroupMediaUri2", "testCropGroupName2");
+                "testCropGroupFaoId2", "testCropGroupName2");
 
         List<CropGroup> cropGroups = Arrays.asList(cropGroup1, cropGroup2);
 
@@ -163,7 +163,6 @@ public class UploaderTest {
                                     "ODX_CropGroup_Uri", "ODX/CropGroup/".concat(cropGroup1.getUuId().toString()),
                                     "CropGroupName", cropGroup1.getName(),
                                     "CropGroupId", cropGroup1.getId(),
-                                    "CG_MediaUri", cropGroup1.getMediaUri(),
                                     "CG_FAOId", cropGroup1.getFaoId()
                             ).asMap(String::valueOf),
                             Values.parameters(
@@ -171,7 +170,6 @@ public class UploaderTest {
                                     "ODX_CropGroup_Uri", "ODX/CropGroup/".concat(cropGroup2.getUuId().toString()),
                                     "CropGroupName", cropGroup2.getName(),
                                     "CropGroupId", cropGroup2.getId(),
-                                    "CG_MediaUri", cropGroup2.getMediaUri(),
                                     "CG_FAOId", cropGroup2.getFaoId()
                             ).asMap(String::valueOf)
                     );
@@ -181,9 +179,9 @@ public class UploaderTest {
     @Test
     void testUploadCropClassesAsBatchCorrectly() {
         CropGroup cropGroup1 = new CropGroup("testSource", "CropGroup", "testCropGroupId1",
-                "testCropGroupFaoId1", "testCropGroupMediaUri1", "testCropGroupName1");
+                "testCropGroupFaoId1", "testCropGroupName1");
         CropGroup cropGroup2 = new CropGroup("testSource", "CropGroup", "testCropGroupId2",
-                "testCropGroupFaoId2", "testCropGroupMediaUri2", "testCropGroupName2");
+                "testCropGroupFaoId2", "testCropGroupName2");
         CropClass cropClass1 = new CropClass("testSource", "CropClass", "testCropClassId1", cropGroup1.getId(),
                 "testCropClassFaoId1", "testCropClassMediaUri1", "testCropClassName1");
         CropClass cropClass2 = new CropClass("testSource", "CropClass", "testCropClassId2", cropGroup2.getId(),
@@ -909,9 +907,9 @@ public class UploaderTest {
     @Test
     void testGroupClassRelationsUploadCorrectly() {
         CropGroup cropGroup1 = new CropGroup("testSource", "CropGroup", "testCropGroupId1",
-                "testCropGroupFaoId1", "testCropGroupMediaUri1", "testCropGroupName1");
+                "testCropGroupFaoId1", "testCropGroupName1");
         CropGroup cropGroup2 = new CropGroup("testSource", "CropGroup", "testCropGroupId2",
-                "testCropGroupFaoId2", "testCropGroupMediaUri2", "testCropGroupName2");
+                "testCropGroupFaoId2", "testCropGroupName2");
         CropClass cropClass1 = new CropClass("testSource", "CropClass", "testCropClassId1", cropGroup1.getId(),
                 "testCropClassFaoId1", "testCropClassMediaUri1", "testCropClassName1");
         CropClass cropClass2 = new CropClass("testSource", "CropClass", "testCropClassId2", cropGroup2.getId(),
@@ -961,9 +959,9 @@ public class UploaderTest {
     @Test
     void testClassSubClassRelationsUploadCorrectly() {
         CropGroup cropGroup1 = new CropGroup("testSource", "CropGroup", "testCropGroupId1",
-                "testCropGroupFaoId1", "testCropGroupMediaUri1", "testCropGroupName1");
+                "testCropGroupFaoId1", "testCropGroupName1");
         CropGroup cropGroup2 = new CropGroup("testSource", "CropGroup", "testCropGroupId2",
-                "testCropGroupFaoId2", "testCropGroupMediaUri2", "testCropGroupName2");
+                "testCropGroupFaoId2", "testCropGroupName2");
         CropClass cropClass1 = new CropClass("testSource", "CropClass", "testCropClassId1", cropGroup1.getId(),
                 "testCropClassFaoId1", "testCropClassMediaUri1", "testCropClassName1");
         CropClass cropClass2 = new CropClass("testSource", "CropClass", "testCropClassId2", cropGroup2.getId(),
@@ -1019,9 +1017,9 @@ public class UploaderTest {
     @Test
     void testSubClassVarietyRelationsUploadCorrectly() {
         CropGroup cropGroup1 = new CropGroup("testSource", "CropGroup", "testCropGroupId1",
-                "testCropGroupFaoId1", "testCropGroupMediaUri1", "testCropGroupName1");
+                "testCropGroupFaoId1", "testCropGroupName1");
         CropGroup cropGroup2 = new CropGroup("testSource", "CropGroup", "testCropGroupId2",
-                "testCropGroupFaoId2", "testCropGroupMediaUri2", "testCropGroupName2");
+                "testCropGroupFaoId2", "testCropGroupName2");
         CropClass cropClass1 = new CropClass("testSource", "CropClass", "testCropClassId1", cropGroup1.getId(),
                 "testCropClassFaoId1", "testCropClassMediaUri1", "testCropClassName1");
         CropClass cropClass2 = new CropClass("testSource", "CropClass", "testCropClassId2", cropGroup2.getId(),
@@ -1083,9 +1081,9 @@ public class UploaderTest {
     @Test
     void testSubClassDescriptionRelationsUploadCorrectly() {
         CropGroup cropGroup1 = new CropGroup("testSource", "CropGroup", "testCropGroupId1",
-                "testCropGroupFaoId1", "testCropGroupMediaUri1", "testCropGroupName1");
+                "testCropGroupFaoId1", "testCropGroupName1");
         CropGroup cropGroup2 = new CropGroup("testSource", "CropGroup", "testCropGroupId2",
-                "testCropGroupFaoId2", "testCropGroupMediaUri2", "testCropGroupName2");
+                "testCropGroupFaoId2", "testCropGroupName2");
         CropClass cropClass1 = new CropClass("testSource", "CropClass", "testCropClassId1", cropGroup1.getId(),
                 "testCropClassFaoId1", "testCropClassMediaUri1", "testCropClassName1");
         CropClass cropClass2 = new CropClass("testSource", "CropClass", "testCropClassId2", cropGroup2.getId(),
@@ -1147,9 +1145,9 @@ public class UploaderTest {
     @Test
     void testVarietyDescriptionRelationsUploadCorrectly() {
         CropGroup cropGroup1 = new CropGroup("testSource", "CropGroup", "testCropGroupId1",
-                "testCropGroupFaoId1", "testCropGroupMediaUri1", "testCropGroupName1");
+                "testCropGroupFaoId1", "testCropGroupName1");
         CropGroup cropGroup2 = new CropGroup("testSource", "CropGroup", "testCropGroupId2",
-                "testCropGroupFaoId2", "testCropGroupMediaUri2", "testCropGroupName2");
+                "testCropGroupFaoId2", "testCropGroupName2");
         CropClass cropClass1 = new CropClass("testSource", "CropClass", "testCropClassId1", cropGroup1.getId(),
                 "testCropClassFaoId1", "testCropClassMediaUri1", "testCropClassName1");
         CropClass cropClass2 = new CropClass("testSource", "CropClass", "testCropClassId2", cropGroup2.getId(),
@@ -1283,9 +1281,9 @@ public class UploaderTest {
         Region region1 = new Region("testSource", "Region", "testRegionId1", "testCountryId1", "testRegionName1");
         Region region2 = new Region("testSource", "Region", "testRegionId2", "testCountryId2", "testRegionName2");
         CropGroup cropGroup1 = new CropGroup("testSource", "CropGroup", "testCropGroupId1",
-                "testCropGroupFaoId1", "testCropGroupMediaUri1", "testCropGroupName1");
+                "testCropGroupFaoId1", "testCropGroupName1");
         CropGroup cropGroup2 = new CropGroup("testSource", "CropGroup", "testCropGroupId2",
-                "testCropGroupFaoId2", "testCropGroupMediaUri2", "testCropGroupName2");
+                "testCropGroupFaoId2", "testCropGroupName2");
         CropClass cropClass1 = new CropClass("testSource", "CropClass", "testCropClassId1", cropGroup1.getId(),
                 "testCropClassFaoId1", "testCropClassMediaUri1", "testCropClassName1");
         CropClass cropClass2 = new CropClass("testSource", "CropClass", "testCropClassId2", cropGroup2.getId(),
@@ -1342,9 +1340,9 @@ public class UploaderTest {
         Map<String, String> relProp1 = new HashMap() {{
             put("CD_GrowthScaleId_Ref", cropRegion1.getGrowthScaleIdRef());
             put("CD_CountryIdRef", cropRegion1.getCountryIdRef());
+            put("YieldBaseUnitId", cropRegion1.getYieldBaseUnitId());
             put("DefaultSeedingDate", cropRegion1.getDefaultSeedingDate());
             put("DefaultYield", cropRegion1.getDefaultYield());
-            put("YieldBaseUnitId", cropRegion1.getYieldBaseUnitId());
             put("CD_RegionIdRef", cropRegion1.getRegionIdRef());
             put("AdditionalProperties", cropRegion1.getAdditionalProperties());
             put("DefaultHarvestDate", cropRegion1.getDefaultHarvestDate());
@@ -1353,9 +1351,9 @@ public class UploaderTest {
         Map<String, String> relProp2 = new HashMap() {{
             put("CD_GrowthScaleId_Ref", cropRegion2.getGrowthScaleIdRef());
             put("CD_CountryIdRef", cropRegion2.getCountryIdRef());
+            put("YieldBaseUnitId", cropRegion2.getYieldBaseUnitId());
             put("DefaultSeedingDate", cropRegion2.getDefaultSeedingDate());
             put("DefaultYield", cropRegion2.getDefaultYield());
-            put("YieldBaseUnitId", cropRegion2.getYieldBaseUnitId());
             put("CD_RegionIdRef", cropRegion2.getRegionIdRef());
             put("AdditionalProperties", cropRegion2.getAdditionalProperties());
             put("DefaultHarvestDate", cropRegion2.getDefaultHarvestDate());
@@ -1415,9 +1413,9 @@ public class UploaderTest {
         Region region1 = new Region("testSource", "Region", "testRegionId1", "testCountryId1", "testRegionName1");
         Region region2 = new Region("testSource", "Region", "testRegionId2", "testCountryId2", "testRegionName2");
         CropGroup cropGroup1 = new CropGroup("testSource", "CropGroup", "testCropGroupId1",
-                "testCropGroupFaoId1", "testCropGroupMediaUri1", "testCropGroupName1");
+                "testCropGroupFaoId1", "testCropGroupName1");
         CropGroup cropGroup2 = new CropGroup("testSource", "CropGroup", "testCropGroupId2",
-                "testCropGroupFaoId2", "testCropGroupMediaUri2", "testCropGroupName2");
+                "testCropGroupFaoId2", "testCropGroupName2");
         CropClass cropClass1 = new CropClass("testSource", "CropClass", "testCropClassId1", cropGroup1.getId(),
                 "testCropClassFaoId1", "testCropClassMediaUri1", "testCropClassName1");
         CropClass cropClass2 = new CropClass("testSource", "CropClass", "testCropClassId2", cropGroup2.getId(),

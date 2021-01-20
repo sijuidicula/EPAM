@@ -80,9 +80,8 @@ public class ExcelWorkbookReader {
                     && !row.getCell(0).getStringCellValue().isEmpty()) {
                 String id = row.getCell(0).getStringCellValue();
                 String faoId = row.getCell(1).getRawValue();
-                String mediaUri = getCellDataAsString(row, 2);
                 String name = row.getCell(3).getStringCellValue();
-                CropGroup cropGroup = new CropGroup(POLARIS_SOURCE, className, id, faoId, mediaUri, name);
+                CropGroup cropGroup = new CropGroup(POLARIS_SOURCE, className, id, faoId, name);
                 cropGroups.add(cropGroup);
             }
         }

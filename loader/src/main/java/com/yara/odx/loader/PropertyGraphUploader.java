@@ -186,7 +186,6 @@ public class PropertyGraphUploader implements AutoCloseable {
         AtomicInteger count = new AtomicInteger(0);
         String createGroupFormat = "CREATE (%s:%s{" +
                 "CG_FAOId: \"%s\", " +
-                "CG_MediaUri: \"%s\", " +
                 "CropGroupId: \"%s\", " +
                 "CropGroupName: \"%s\", " +
                 "ODX_CropGroup_Uri: \"%s\", " +
@@ -198,10 +197,9 @@ public class PropertyGraphUploader implements AutoCloseable {
                 return tx.run(String.format(createGroupFormat,
                         newGroupName, group.getClassName(),
                         group.getFaoId(),
-                        group.getMediaUri(),
                         group.getId(),
                         group.getName(),
-                        createOdxUri(group),
+                        group.getUri(),
                         group.getUuId()));
             }));
         }
@@ -214,7 +212,6 @@ public class PropertyGraphUploader implements AutoCloseable {
         StringBuilder builder = new StringBuilder();
         String createGroupFormat = "CREATE (%s:%s{" +
                 "CG_FAOId: \"%s\", " +
-                "CG_MediaUri: \"%s\", " +
                 "CropGroupId: \"%s\", " +
                 "CropGroupName: \"%s\", " +
                 "ODX_CropGroup_Uri: \"%s\", " +
@@ -226,10 +223,9 @@ public class PropertyGraphUploader implements AutoCloseable {
             String createGroupCommand = String.format(createGroupFormat,
                     groupNodeName, group.getClassName(),
                     group.getFaoId(),
-                    group.getMediaUri(),
                     group.getId(),
                     group.getName(),
-                    createOdxUri(group),
+                    group.getUri(),
                     group.getUuId());
             builder.append(createGroupCommand);
             if (count.get() % NODES_BATCH_SIZE == 0) {
