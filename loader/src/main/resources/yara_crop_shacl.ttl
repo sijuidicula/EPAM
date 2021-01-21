@@ -10,10 +10,6 @@ yara:CropGroupShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:CG_MediaUri ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:CropGroupId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
@@ -40,10 +36,6 @@ yara:CropClassShape
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:CC_MediaUri ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
                      sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:CropClassId ;
                      sh:minCount 1 ;
@@ -110,10 +102,6 @@ yara:CropSubClassShape
 #                     empty in Excel sheet
 #                     sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:CSC_MediaUri ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:CropSubClassName ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
@@ -175,12 +163,6 @@ yara:CropDescriptionShape
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:CD_MediaUri ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-#                     empty in Excel sheet
-#                     sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:ChlorideSensitive ;
                      sh:minCount 1 ;
