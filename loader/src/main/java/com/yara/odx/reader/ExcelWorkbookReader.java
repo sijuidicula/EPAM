@@ -768,7 +768,7 @@ public class ExcelWorkbookReader {
                 String localizedName = getCellDataAsString(row, 3);
                 String productId = row.getCell(4).getStringCellValue();
                 String isAvailable = getCellDataAsString(row, 5);
-                String appTags = "dummy_empty_app_tags";
+                String appTags = getCellDataAsString(row, 6);
                 FertilizerRegion region = new FertilizerRegion(id, countryId, regionId, localizedName, productId, isAvailable, appTags);
 
                 if (containsSame(fertilizerRegions, region)) {
@@ -776,8 +776,6 @@ public class ExcelWorkbookReader {
                 } else {
                     fertilizerRegions.add(region);
                 }
-
-                fertilizerRegions.add(region);
             }
         }
         return fertilizerRegions;

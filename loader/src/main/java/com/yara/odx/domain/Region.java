@@ -34,4 +34,12 @@ public class Region extends Thing {
     public int hashCode() {
         return Objects.hash(countryId, name);
     }
+
+    @Override
+    public String toString() {
+        return "Region{" +
+                "countryId='" + countryId + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

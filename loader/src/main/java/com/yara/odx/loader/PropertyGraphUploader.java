@@ -1648,22 +1648,13 @@ public class PropertyGraphUploader implements AutoCloseable {
     }
 
     private GrowthScale getGrowthScaleForDescription(List<CropRegion> cropRegions, List<GrowthScale> growthScales, String descriptionId) {
-        CropRegion cropRegion = cropRegions.stream()
+        Optional<CropRegion> cropRegion = cropRegions.stream()
                 .filter(cr -> cr.getDescriptionId().equals(descriptionId))
-                .findFirst()
-                .orElse(new CropRegion(
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty",
-                        "empty"));
-        return (GrowthScale) getFromCollectionById(growthScales, cropRegion.getGrowthScaleIdRef());
+                .findFirst();
+        if (cropRegion.isPresent()) {
+            return (GrowthScale) getFromCollectionById(growthScales, cropRegion.get().getGrowthScaleIdRef());
+        }
+        return new GrowthScale("empty", "empty", "empty", "empty");
     }
 
 
