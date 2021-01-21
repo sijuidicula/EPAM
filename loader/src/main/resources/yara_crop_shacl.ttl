@@ -737,12 +737,12 @@ yara:GrowthScaleShape
 yara:GrowthScaleStagesShape
     a              sh:NodeShape ;
     sh:targetClass yara:GrowthScaleStages ;
-    sh:property    [ sh:path     yara:ODX_GrowthScaleStage_UUId ;
+    sh:property    [ sh:path     yara:ODX_GrowthScaleStages_UUId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ODX_GrowthScaleStage_Uri ;
+    sh:property    [ sh:path     yara:ODX_GrowthScaleStages_Uri ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
@@ -764,17 +764,17 @@ yara:GrowthScaleStagesShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:GrowthScaleStageDescription ;
+    sh:property    [ sh:path     yara:GrowthScaleStagesDescription ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:GrowthScaleStageId ;
+    sh:property    [ sh:path     yara:GrowthScaleStagesId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ODX_GSS_SourceSystem ;
+    sh:property    [ sh:path     yara:ODX_GrowthScaleStages_SourceSystem ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
