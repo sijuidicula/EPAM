@@ -525,7 +525,7 @@ public class UploaderTest {
                     .containsExactly(
                             Values.parameters(
                                     "ODX_Nutrient_UUId", nutrient1.getUuId().toString(),
-                                    "ODX_Nutrient_Uri", "ODX/Nutrient/".concat(nutrient1.getUuId().toString()),
+                                    "ODX_Nutrient_Uri", nutrient1.getUri(),
                                     "NutrientId", nutrient1.getId(),
                                     "NutrientName", nutrient1.getName(),
                                     "ElementalName", nutrient1.getElementalName(),
@@ -534,7 +534,7 @@ public class UploaderTest {
                             ).asMap(String::valueOf),
                             Values.parameters(
                                     "ODX_Nutrient_UUId", nutrient2.getUuId().toString(),
-                                    "ODX_Nutrient_Uri", "ODX/Nutrient/".concat(nutrient2.getUuId().toString()),
+                                    "ODX_Nutrient_Uri", nutrient2.getUri(),
                                     "NutrientId", nutrient2.getId(),
                                     "NutrientName", nutrient2.getName(),
                                     "ElementalName", nutrient2.getElementalName(),
