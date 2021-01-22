@@ -64,14 +64,14 @@ MATCH (CSC)-[HCV:hasCropVariety]->
 (GS:GrowthScale)-[HGSS:hasGrowthScaleStages]->(GSS:GrowthScaleStages)
 RETURN CG, CC, CSC, CD, CV, C, R, GS, GSS, HR, IAI, HCC, HCSC, CSCHCD, CVHCD, HCV, HGS, HGSS LIMIT 1
 
-MATCH (F:Fertilizers {ProdName: 'Sulfan'})-[IAI:isAvailableIn]->
+MATCH (F:Fertilizers {FertilizersName: 'Sulfan'})-[IAI:isAvailableIn]->
 (R:Region)<-[HR:hasRegion]-(C:Country {CountryName: 'Germany'})
 MATCH (F)-[HPN:hasProdNutrient]->
 (N:Nutrient)-[HNU:hasNutrientUnit]->
 (U:Units)-[HUC:hasUnitConversion]->(UC:UnitConversion)
 RETURN C, R, F, N, U, UC, IAI, HR, HPN, HNU, HUC LIMIT 1
 
-MATCH (F:Fertilizers {ProdName: 'Sulfan'})-[IAI:isAvailableIn]->
+MATCH (F:Fertilizers {FertilizersName: 'Sulfan'})-[IAI:isAvailableIn]->
 (R:Region {RegionName: 'All'})<-[HR:hasRegion]-(C:Country {CountryName: 'Germany'})
 MATCH (F)-[HPN:hasProdNutrient]->
 (N:Nutrient)-[HNU:hasNutrientUnit]->
@@ -87,7 +87,7 @@ MATCH (CSC)-[HCV:hasCropVariety]->
 (CV:CropVariety {CropVarietyName: 'Zulu'})-[CVHCD:hasCropDescription]->
 (CD)-[HGS:hasGrowthScale]->
 (GS:GrowthScale)-[HGSS:hasGrowthScaleStages]->(GSS:GrowthScaleStages)
-MATCH (F:Fertilizers {ProdName: 'Sulfan'})-[FIAI:isAvailableIn]->(R)
+MATCH (F:Fertilizers {FertilizersName: 'Sulfan'})-[FIAI:isAvailableIn]->(R)
 MATCH (F)-[HPN:hasProdNutrient]->
 (N:Nutrient)-[HNU:hasNutrientUnit]->
 (U:Units)-[HUC:hasUnitConversion]->(UC:UnitConversion)
@@ -103,7 +103,7 @@ MATCH (CSC)-[HCV:hasCropVariety]->
 (CV:CropVariety)-[CVHCD:hasCropDescription]->
 (CD)-[HGS:hasGrowthScale]->
 (GS:GrowthScale)-[HGSS:hasGrowthScaleStages]->(GSS:GrowthScaleStages)
-MATCH (F:Fertilizers {ProdName: 'Sulfan'})-[FIAI:isAvailableIn]->(R)
+MATCH (F:Fertilizers {FertilizersName: 'Sulfan'})-[FIAI:isAvailableIn]->(R)
 MATCH (F)-[HPN:hasProdNutrient]->
 (N:Nutrient)-[HNU:hasNutrientUnit]->
 (U:Units)-[HUC:hasUnitConversion]->(UC:UnitConversion)
@@ -119,7 +119,7 @@ MATCH (CSC)-[HCV:hasCropVariety]->
 (CV:CropVariety)-[CVHCD:hasCropDescription]->
 (CD)-[HGS:hasGrowthScale]->
 (GS:GrowthScale)-[HGSS:hasGrowthScaleStages]->(GSS:GrowthScaleStages)
-MATCH (F:Fertilizers {ProdName: 'Sulfan'})-[FIAI:isAvailableIn]->(R)
+MATCH (F:Fertilizers {FertilizersName: 'Sulfan'})-[FIAI:isAvailableIn]->(R)
 MATCH (F)-[HPN:hasProdNutrient]->
 (N:Nutrient)-[HNU:hasNutrientUnit]->
 (U:Units)-[HUC:hasUnitConversion]->(UC:UnitConversion)
@@ -135,7 +135,7 @@ MATCH (CSC)-[HCV:hasCropVariety]->
 (CV:CropVariety {CropVarietyName: 'Zulu'})-[CVHCD:hasCropDescription]->
 (CD)-[HGS:hasGrowthScale]->
 (GS:GrowthScale)-[HGSS:hasGrowthScaleStages]->(GSS:GrowthScaleStages)
-MATCH (F:Fertilizers {ProdName: 'Sulfan'})-[FIAI:isAvailableIn]->(R)
+MATCH (F:Fertilizers {FertilizersName: 'Sulfan'})-[FIAI:isAvailableIn]->(R)
 MATCH (F)-[HPN:hasProdNutrient]->
 (N:Nutrient)-[HNU:hasNutrientUnit]->
 (U:Units)-[HUC:hasUnitConversion]->(UC:UnitConversion)
@@ -151,7 +151,7 @@ MATCH (CSC)-[HCV:hasCropVariety]->
 (CV:CropVariety)-[CVHCD:hasCropDescription]->
 (CD)-[HGS:hasGrowthScale]->
 (GS:GrowthScale)-[HGSS:hasGrowthScaleStages]->(GSS:GrowthScaleStages)
-MATCH (F:Fertilizers {ProdName: 'Sulfan'})-[FIAI:isAvailableIn]->(R)
+MATCH (F:Fertilizers {FertilizersName: 'Sulfan'})-[FIAI:isAvailableIn]->(R)
 MATCH (F)-[HPN:hasProdNutrient]->
 (N:Nutrient)-[HNU:hasNutrientUnit]->
 (U:Units)-[HUC:hasUnitConversion]->(UC:UnitConversion)
@@ -167,7 +167,7 @@ MATCH (CSC)-[HCV:hasCropVariety]->
 (CV:CropVariety)-[CVHCD:hasCropDescription]->
 (CD)-[HGS:hasGrowthScale]->
 (GS:GrowthScale)-[HGSS:hasGrowthScaleStages]->(GSS:GrowthScaleStages)
-MATCH (F:Fertilizers {ProdName: 'Sulfan'})-[FIAI:isAvailableIn]->(R)
+MATCH (F:Fertilizers {FertilizersName: 'Sulfan'})-[FIAI:isAvailableIn]->(R)
 MATCH (F)-[HPN:hasProdNutrient]->
 (N:Nutrient)-[HNU:hasNutrientUnit]->
 (U:Units)-[HUC:hasUnitConversion]->(UC:UnitConversion)

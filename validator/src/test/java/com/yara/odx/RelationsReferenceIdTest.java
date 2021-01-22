@@ -23,23 +23,6 @@ public class RelationsReferenceIdTest {
     }
 
     @Test
-    void testCropDescriptionHasGrowthScaleRelationHasCorrectGrowthScaleReferenceIds() {
-        List<Relationship> incorrectRelationsList = requester.getIncorrectDescriptionToGrowthScaleRelationsList();
-        List<Relationship> actualRelationsList = requester.getCorrectDescriptionToGrowthScaleRelationsList();
-
-//        TODO
-//         in old Polaris data set in CropRegion sheet the region with Id
-//         00c98b27-a9bf-4339-87fb-10bbd698abc5
-//         belongs to country
-//         0cbc1e72-cc07-4bcd-aafe-a4641fa7c06c
-//         but supposed to belong to
-//         7920a7af-6253-4ee7-b65b-9febc256affb
-//         thus leading to the failure of next test
-//        assertTrue(incorrectRelationsList.isEmpty());
-        assertFalse(actualRelationsList.isEmpty());
-    }
-
-    @Test
     void testCropDescriptionIsAvailableInRelationHasCorrectRegionAndCountryReferenceIds() {
         List<Relationship> incorrectRelationsList = requester.getIncorrectDescriptionToRegionRelationsList();
         List<Relationship> actualRelationsList = requester.getCorrectDescriptionToRegionRelationsList();

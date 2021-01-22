@@ -126,8 +126,19 @@ public class Requester implements AutoCloseable {
         List<Record> records = new ArrayList<>();
         try (Session session = driver.session()) {
             records = session.readTransaction(tx -> {
+
+//                System.out.println("****************************************");
+//                System.out.println(useCase);
+//                System.out.println("****************************************");
+
                 Result result = tx.run(useCase);
-                return result.list();
+                List<Record> list = result.list();
+
+//                System.out.println("****************************************");
+//                System.out.println(list);
+//                System.out.println("****************************************");
+
+                return list;
             });
         } catch (ClientException e) {
             e.printStackTrace();
@@ -358,46 +369,6 @@ public class Requester implements AutoCloseable {
                         "<-[relationship:isAvailableIn]-(subject:CropDescription)\n" +
                         "WHERE relationship.CD_CountryIdRef <> country.CountryId\n" +
                         "OR relationship.CD_RegionIdRef <> region.RegionId\n" +
-                        "RETURN relationship";
-
-//        System.out.println(command);
-
-        try (Session session = driver.session()) {
-            session.readTransaction(tx -> updateRelationsList(relationsList, command, tx));
-        } catch (ClientException e) {
-            e.printStackTrace();
-        }
-        return relationsList;
-    }
-
-    public List<Relationship> getIncorrectDescriptionToGrowthScaleRelationsList() {
-        List<Relationship> relationsList = new ArrayList<>();
-        String command =
-                "MATCH (country:Country)-[:hasRegion]->(region:Region)<-[:isAvailableIn]-" +
-                        "(subject:CropDescription)-[relationship:hasGrowthScale]->(object:GrowthScale)\n" +
-                        "WHERE relationship.CD_GrowthScaleId_Ref <> object.GrowthScaleId\n" +
-                        "OR relationship.CD_CountryIdRef <> country.CountryId\n" +
-                        "OR relationship.CD_RegionIdRef <> region.RegionId\n" +
-                        "RETURN relationship";
-
-        System.out.println(command);
-
-        try (Session session = driver.session()) {
-            session.readTransaction(tx -> updateRelationsList(relationsList, command, tx));
-        } catch (ClientException e) {
-            e.printStackTrace();
-        }
-        return relationsList;
-    }
-
-    public List<Relationship> getCorrectDescriptionToGrowthScaleRelationsList() {
-        List<Relationship> relationsList = new ArrayList<>();
-        String command =
-                "MATCH (country:Country)-[:hasRegion]->(region:Region)<-[:isAvailableIn]-" +
-                        "(subject:CropDescription)-[relationship:hasGrowthScale]->(object:GrowthScale)\n" +
-                        "WHERE relationship.CD_CountryIdRef = country.CountryId\n" +
-                        "OR relationship.CD_GrowthScaleId_Ref = object.GrowthScaleId\n" +
-                        "OR relationship.CD_RegionIdRef = region.RegionId\n" +
                         "RETURN relationship";
 
 //        System.out.println(command);
