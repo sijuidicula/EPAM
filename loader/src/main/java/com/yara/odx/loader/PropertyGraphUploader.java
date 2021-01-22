@@ -754,33 +754,33 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     public void uploadUnitConversions(List<UnitConversion> conversions, List<Units> units) {
         String createUnitConversionCommandFormat = "CREATE (%s:%s{" +
-                "ODX_UnitConversion_UUId: \"%s\", " +
-                "ODX_UnitConversion_Uri: \"%s\", " +
-                "UnitConversionName: \"%s\", " +
                 "ConvertToUnitId: \"%s\", " +
                 "CountryId_Ref: \"%s\", " +
                 "Multiplier: \"%s\", " +
+                "ODX_UnitConversion_SourceSystem: \"%s\", " +
+                "ODX_UnitConversion_Uri: \"%s\", " +
+                "ODX_UnitConversion_UUId: \"%s\", " +
+                "ODX_Units_UUId_Ref: \"%s\", " +
                 "UnitConversionId: \"%s\", " +
-                "UnitId_Ref: \"%s\", " +
-                "ODX_UC_SourceSystem: \"%s\"})\n";
+                "UnitId_Ref: \"%s\"})\n";
 
         AtomicInteger count = new AtomicInteger(0);
         try (Session session = driver.session()) {
             conversions.forEach(conversion -> session.writeTransaction(tx -> {
                 System.out.println("Uploading UnitConversion # " + count.incrementAndGet());
-                Units convertToUnit = (Units) getFromCollectionById(units, conversion.getConvertToUnitId());
+                Units originalUnits = (Units) getFromCollectionById(units, conversion.getUnitIdRef());
                 String conversionNodeName = createNodeName(conversion.getName());
                 return tx.run(String.format(createUnitConversionCommandFormat,
                         conversionNodeName, conversion.getClassName(),
-                        conversion.getUuId(),
-                        conversion.getUri(),
-                        convertToUnit.getName(),
                         conversion.getConvertToUnitId(),
                         conversion.getCountryIdRef(),
                         conversion.getMultiplier(),
+                        conversion.getSource(),
+                        conversion.getUri(),
+                        conversion.getUuId(),
+                        originalUnits.getUuId(),
                         conversion.getId(),
-                        conversion.getUnitIdRef(),
-                        "dummy_Polaris"));
+                        conversion.getUnitIdRef()));
             }));
         }
         System.out.println("UnitConversion uploading completed");
@@ -791,31 +791,31 @@ public class PropertyGraphUploader implements AutoCloseable {
         AtomicInteger count = new AtomicInteger(0);
         StringBuilder builder = new StringBuilder();
         String createConversionFormat = "CREATE (%s:%s{" +
-                "ODX_UnitConversion_UUId: \"%s\", " +
-                "ODX_UnitConversion_Uri: \"%s\", " +
-                "UnitConversionName: \"%s\", " +
                 "ConvertToUnitId: \"%s\", " +
                 "CountryId_Ref: \"%s\", " +
                 "Multiplier: \"%s\", " +
+                "ODX_UnitConversion_SourceSystem: \"%s\", " +
+                "ODX_UnitConversion_Uri: \"%s\", " +
+                "ODX_UnitConversion_UUId: \"%s\", " +
+                "ODX_Units_UUId_Ref: \"%s\", " +
                 "UnitConversionId: \"%s\", " +
-                "UnitId_Ref: \"%s\", " +
-                "ODX_UC_SourceSystem: \"%s\"})\n";
+                "UnitsId_Ref: \"%s\"})\n";
 
         conversions.forEach(conversion -> {
             count.incrementAndGet();
-            Units convertToUnit = (Units) getFromCollectionById(units, conversion.getConvertToUnitId());
+            Units originalUnits = (Units) getFromCollectionById(units, conversion.getUnitIdRef());
             String conversionNodeName = createUniqueNodeName(conversion.getName(), Integer.toString(count.get()));
             String createConversionCommand = String.format(createConversionFormat,
                     conversionNodeName, conversion.getClassName(),
-                    conversion.getUuId(),
-                    conversion.getUri(),
-                    convertToUnit.getName(),
                     conversion.getConvertToUnitId(),
                     conversion.getCountryIdRef(),
                     conversion.getMultiplier(),
+                    conversion.getSource(),
+                    conversion.getUri(),
+                    conversion.getUuId(),
+                    originalUnits.getUuId(),
                     conversion.getId(),
-                    conversion.getUnitIdRef(),
-                    conversion.getSource());
+                    conversion.getUnitIdRef());
             builder.append(createConversionCommand);
             if (count.get() % NODES_BATCH_SIZE == 0) {
                 flushBuilderForNodes(builder, count.get(), conversion.getClassName());

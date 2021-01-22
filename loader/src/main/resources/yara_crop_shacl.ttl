@@ -5,12 +5,12 @@
 yara:CropGroupShape
     a              sh:NodeShape ;
     sh:targetClass yara:CropGroup ;
-    sh:property    [ sh:path     yara:CG_FAOId ;
+    sh:property    [ sh:path     yara:ODX_CropGroup_UUId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:CropGroupId ;
+    sh:property    [ sh:path     yara:ODX_CropGroup_Uri ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
@@ -20,7 +20,12 @@ yara:CropGroupShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ODX_CropGroup_UUId ;
+    sh:property    [ sh:path     yara:CropGroupId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CG_FAOId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
@@ -42,18 +47,13 @@ yara:CropClassShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-#    Possibly need to put a constraint of existance in DB
-    sh:property    [ sh:path     yara:CropGroupId_Ref ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:CropClassName ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ODX_CropClass_UUId ;
+#    Possibly need to put a constraint of existance in DB
+    sh:property    [ sh:path     yara:CropGroupId_Ref ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
@@ -64,8 +64,19 @@ yara:CropClassShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CropClass_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CropClass_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path  yara:hasCropSubClass ;
                      sh:class yara:CropSubClass ; ] ;
+#    sh:inversePath does not work in Neo4j
     sh:property    [ sh:path     [ sh:inversePath yara:hasCropClass ] ;
                      sh:maxCount 1 ;
                      sh:class    yara:CropGroup ; ] ;
@@ -74,7 +85,8 @@ yara:CropClassShape
 yara:CropSubClassShape
     a              sh:NodeShape ;
     sh:targetClass yara:CropSubClass ;
-    sh:property    [ sh:path     yara:ODX_CropSubClass_UUId ;
+#    Possibly need to put a constraint of existance in DB
+    sh:property    [ sh:path     yara:CropClassId_Ref ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
@@ -84,14 +96,7 @@ yara:CropSubClassShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-#    Possibly need to put a constraint of existance in DB
-    sh:property    [ sh:path     yara:CropClassId_Ref ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
-#    Possibly need to put a constraint of existance in DB
-    sh:property    [ sh:path     yara:ODX_CC_UUId_Ref ;
+    sh:property    [ sh:path     yara:CropSubClassName ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
@@ -102,7 +107,18 @@ yara:CropSubClassShape
 #                     empty in Excel sheet
 #                     sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:CropSubClassName ;
+#    Possibly need to put a constraint of existance in DB
+    sh:property    [ sh:path     yara:ODX_CC_UUId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CropSubClass_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CropSubClass_UUId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
@@ -111,6 +127,7 @@ yara:CropSubClassShape
                      sh:class yara:CropVariety ; ] ;
     sh:property    [ sh:path  yara:hasCropDescription ;
                      sh:class yara:CropDescription ; ] ;
+#    sh:inversePath does not work in Neo4j
     sh:property    [ sh:path     [ sh:inversePath yara:hasCropSubClass ] ;
                      sh:maxCount 1 ;
                      sh:class    yara:CropClass ; ] ;
@@ -119,12 +136,12 @@ yara:CropSubClassShape
 yara:CropVarietyShape
     a              sh:NodeShape ;
     sh:targetClass yara:CropVariety ;
-    sh:property    [ sh:path     yara:ODX_CropVariety_UUId ;
+    sh:property    [ sh:path     yara:CropVarietyId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ODX_CropVariety_Uri ;
+    sh:property    [ sh:path     yara:CropVarietyName ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
@@ -140,18 +157,19 @@ yara:CropVarietyShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:CropVarietyId ;
+    sh:property    [ sh:path     yara:ODX_CropVariety_Uri ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:CropVarietyName ;
+    sh:property    [ sh:path     yara:ODX_CropVariety_UUId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path  yara:hasCropDescription ;
                      sh:class yara:CropDescription ; ] ;
+#    sh:inversePath does not work in Neo4j
     sh:property    [ sh:path  [ sh:inversePath yara:hasCropVariety ] ;
                      sh:class yara:CropSubClass ; ] ;
 .
@@ -160,6 +178,21 @@ yara:CropDescriptionShape
     a              sh:NodeShape ;
     sh:targetClass yara:CropDescription ;
     sh:property    [ sh:path     yara:ODX_CropDescription_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CropDescription_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CD_GrowthScaleId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CD_ODX_GrowthScale_UUId_Ref ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
@@ -199,7 +232,7 @@ yara:CropDescriptionShape
                      sh:class yara:Region ; ] ;
     sh:property    [ sh:path  yara:hasGrowthScale ;
                      sh:class yara:GrowthScale ; ] ;
-#                    Need to check if Neo4j supports this
+#    sh:inversePath does not work in Neo4j
     sh:property    [ sh:path  [ sh:inversePath yara:hasCropDescription ] ;
                      sh:class yara:CropSubClass ; ]
 #                     sh:property [ sh:path  yara:hasCropDescription ;
@@ -275,22 +308,12 @@ yara:CountryShape
 yara:RegionShape
     a              sh:NodeShape ;
     sh:targetClass yara:Region ;
-    sh:property    [ sh:path     yara:ODX_Region_UUId ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:ODX_Region_Uri ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:RegionId ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:Region_CountryId_Ref ;
+    sh:property    [ sh:path     yara:ODX_Region_UUId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
@@ -301,13 +324,25 @@ yara:RegionShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Region_CountryId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:RegionId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:RegionName ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
+#    sh:inversePath does not work in Neo4j
     sh:property    [ sh:path  [ sh:inversePath yara:hasRegion ] ;
                      sh:class yara:Country ; ] ;
+#    sh:inversePath does not work in Neo4j
     sh:property    [ sh:path  [ sh:inversePath yara:isAvailableIn ] ;
                      sh:class yara:Fertilizers ; ] ;
 .
@@ -315,17 +350,17 @@ yara:RegionShape
 yara:NutrientShape
     a              sh:NodeShape ;
     sh:targetClass yara:Nutrient ;
-    sh:property    [ sh:path     yara:NutrientId ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:ODX_Nutrient_UUId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:ODX_Nutrient_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:NutrientId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
@@ -352,6 +387,7 @@ yara:NutrientShape
                      sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path  yara:hasNutrientUnit ;
                      sh:class yara:Units ; ] ;
+#    sh:inversePath does not work in Neo4j
     sh:property    [ sh:path  [ sh:inversePath yara:hasProdNutrient ] ;
                      sh:class yara:Fertilizers ; ] ;
 .
@@ -713,6 +749,11 @@ yara:GrowthScaleShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_GrowthScale_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:GrowthScaleId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
@@ -723,13 +764,9 @@ yara:GrowthScaleShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ODX_GrowthScale_Uri ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path  yara:hasGrowthScaleStages ;
                      sh:class yara:GrowthScaleStages ; ] ;
+#    sh:inversePath does not work in Neo4j
     sh:property    [ sh:path  [ sh:inversePath yara:hasGrowthScale ] ;
                      sh:class yara:CropDescription ; ] ;
 .
@@ -737,16 +774,6 @@ yara:GrowthScaleShape
 yara:GrowthScaleStagesShape
     a              sh:NodeShape ;
     sh:targetClass yara:GrowthScaleStages ;
-    sh:property    [ sh:path     yara:ODX_GrowthScaleStages_UUId ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ODX_GrowthScaleStages_Uri ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:BaseOrdinal ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
@@ -754,12 +781,6 @@ yara:GrowthScaleStagesShape
                      sh:datatype xsd:string ; ] ;
 #                     sh:datatype xsd:float ; ] ;
     sh:property    [ sh:path     yara:GrowthScaleId_Ref ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
-#    Possibly need to put a constraint of existance in DB
-    sh:property    [ sh:path     yara:ODX_GS_UUId_Ref ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
@@ -779,12 +800,29 @@ yara:GrowthScaleStagesShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_GrowthScaleStages_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_GrowthScaleStages_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+#    Possibly need to put a constraint of existance in DB
+    sh:property    [ sh:path     yara:ODX_GS_UUId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:Ordinal ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
 #                     will be string as in Excel sheet
                      sh:datatype xsd:string ; ] ;
 #                     sh:datatype xsd:float ; ] ;
+#    sh:inversePath does not work in Neo4j
     sh:property    [ sh:path  [ sh:inversePath yara:hasGrowthScaleStages ] ;
                      sh:class yara:GrowthScale ; ] ;
 .
@@ -792,6 +830,11 @@ yara:GrowthScaleStagesShape
 yara:UnitsShape
     a              sh:NodeShape ;
     sh:targetClass yara:Units ;
+    sh:property    [ sh:path     yara:ODX_Units_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:ODX_Units_Uri ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
@@ -814,6 +857,7 @@ yara:UnitsShape
                      sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path  yara:hasUnitConversion ;
                      sh:class yara:UnitConversion ; ] ;
+#    sh:inversePath does not work in Neo4j
     sh:property    [ sh:path  [ sh:inversePath yara:hasNutrientUnit ] ;
                      sh:class yara:Nutrient ; ] ;
 .
@@ -821,16 +865,6 @@ yara:UnitsShape
 yara:UnitConversionShape
     a              sh:NodeShape ;
     sh:targetClass yara:UnitConversion ;
-    sh:property    [ sh:path     yara:ODX_UnitConversion_UUId ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ODX_UnitConversion_Uri ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:ConvertToUnitId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
@@ -847,21 +881,37 @@ yara:UnitConversionShape
 #                     will be string as in Excel sheet
                      sh:datatype xsd:string ; ] ;
 #                    sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:ODX_UnitConversion_SourceSystem ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_UnitConversion_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_UnitConversion_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_Units_UUId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:UnitConversionId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:UnitId_Ref ;
+    sh:property    [ sh:path     yara:UnitsId_Ref ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ODX_UC_SourceSystem ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
+#    sh:inversePath does not work in Neo4j
     sh:property    [ sh:path  [ sh:inversePath yara:hasUnitConversion ] ;
                      sh:class yara:Units ; ] ;
 .

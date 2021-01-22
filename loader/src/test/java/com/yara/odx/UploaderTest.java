@@ -479,7 +479,7 @@ public class UploaderTest {
                                     "GrowthScaleStagesDescription", scaleStage1.getGrowthScaleStageDescription(),
                                     "GrowthScaleStagesId", scaleStage1.getId(),
                                     "ODX_GrowthScaleStages_SourceSystem", scaleStage1.getSource(),
-                                    "ODX_GrowthScaleStages_Uri", "ODX/GrowthScaleStages/".concat(scaleStage1.getUuId().toString()),
+                                    "ODX_GrowthScaleStages_Uri", scaleStage1.getUri(),
                                     "ODX_GrowthScaleStages_UUId", scaleStage1.getUuId().toString(),
                                     "ODX_GS_UUId_Ref", growthScale1.getUuId().toString(),
                                     "Ordinal", scaleStage1.getOrdinal()
@@ -490,7 +490,7 @@ public class UploaderTest {
                                     "GrowthScaleStagesDescription", scaleStage2.getGrowthScaleStageDescription(),
                                     "GrowthScaleStagesId", scaleStage2.getId(),
                                     "ODX_GrowthScaleStages_SourceSystem", scaleStage2.getSource(),
-                                    "ODX_GrowthScaleStages_Uri", "ODX/GrowthScaleStages/".concat(scaleStage2.getUuId().toString()),
+                                    "ODX_GrowthScaleStages_Uri", scaleStage2.getUri(),
                                     "ODX_GrowthScaleStages_UUId", scaleStage2.getUuId().toString(),
                                     "ODX_GS_UUId_Ref", growthScale2.getUuId().toString(),
                                     "Ordinal", scaleStage2.getOrdinal()
@@ -607,31 +607,30 @@ public class UploaderTest {
                     .hasSize(2)
                     .extracting(record -> {
                         Value node = record.get("n");
-                        System.out.println(node.asNode().asMap(String::valueOf));
                         return node.asNode().asMap(String::valueOf);
                     })
                     .containsExactly(
                             Values.parameters(
-                                    "ODX_UnitConversion_UUId", unitConversion1.getUuId().toString(),
-                                    "ODX_UnitConversion_Uri", "ODX/UnitConversion/".concat(unitConversion1.getUuId().toString()),
-                                    "UnitConversionName", units2.getName(),
                                     "ConvertToUnitId", unitConversion1.getConvertToUnitId(),
                                     "CountryId_Ref", unitConversion1.getCountryIdRef(),
                                     "Multiplier", unitConversion1.getMultiplier(),
+                                    "ODX_UnitConversion_SourceSystem", unitConversion1.getSource(),
+                                    "ODX_UnitConversion_Uri", unitConversion1.getUri(),
+                                    "ODX_UnitConversion_UUId", unitConversion1.getUuId().toString(),
+                                    "ODX_Units_UUId_Ref", units1.getUuId().toString(),
                                     "UnitConversionId", unitConversion1.getId(),
-                                    "UnitId_Ref", unitConversion1.getUnitIdRef(),
-                                    "ODX_UC_SourceSystem", unitConversion1.getSource()
+                                    "UnitsId_Ref", unitConversion1.getUnitIdRef()
                             ).asMap(String::valueOf),
                             Values.parameters(
-                                    "ODX_UnitConversion_UUId", unitConversion2.getUuId().toString(),
-                                    "ODX_UnitConversion_Uri", "ODX/UnitConversion/".concat(unitConversion2.getUuId().toString()),
-                                    "UnitConversionName", units1.getName(),
                                     "ConvertToUnitId", unitConversion2.getConvertToUnitId(),
                                     "CountryId_Ref", unitConversion2.getCountryIdRef(),
                                     "Multiplier", unitConversion2.getMultiplier(),
+                                    "ODX_UnitConversion_SourceSystem", unitConversion2.getSource(),
+                                    "ODX_UnitConversion_Uri", unitConversion2.getUri(),
+                                    "ODX_UnitConversion_UUId", unitConversion2.getUuId().toString(),
+                                    "ODX_Units_UUId_Ref", units2.getUuId().toString(),
                                     "UnitConversionId", unitConversion2.getId(),
-                                    "UnitId_Ref", unitConversion2.getUnitIdRef(),
-                                    "ODX_UC_SourceSystem", unitConversion2.getSource()
+                                    "UnitsId_Ref", unitConversion2.getUnitIdRef()
                             ).asMap(String::valueOf)
                     );
         }
