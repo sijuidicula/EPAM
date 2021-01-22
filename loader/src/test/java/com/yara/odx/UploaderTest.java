@@ -563,20 +563,19 @@ public class UploaderTest {
                     .hasSize(2)
                     .extracting(record -> {
                         Value node = record.get("n");
-                        System.out.println(node.asNode().asMap(String::valueOf));
                         return node.asNode().asMap(String::valueOf);
                     })
                     .containsExactly(
                             Values.parameters(
                                     "ODX_Units_UUId", units1.getUuId().toString(),
-                                    "ODX_Units_Uri", "ODX/Units/".concat(units1.getUuId().toString()),
+                                    "ODX_Units_Uri", units1.getUri(),
                                     "UnitsId", units1.getId(),
                                     "UnitsName", units1.getName(),
                                     "UnitsTags", units1.getTag()
                             ).asMap(String::valueOf),
                             Values.parameters(
                                     "ODX_Units_UUId", units2.getUuId().toString(),
-                                    "ODX_Units_Uri", "ODX/Units/".concat(units2.getUuId().toString()),
+                                    "ODX_Units_Uri", units2.getUri(),
                                     "UnitsId", units2.getId(),
                                     "UnitsName", units2.getName(),
                                     "UnitsTags", units2.getTag()
