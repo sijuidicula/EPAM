@@ -395,22 +395,6 @@ yara:NutrientShape
 yara:FertilizersShape
     a              sh:NodeShape ;
     sh:targetClass yara:Fertilizers ;
-    sh:property    [ sh:path     yara:ODX_Fertilizer_UUId ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ODX_Fertilizer_Uri ;
-                     sh:minCount 1 ;
-                     sh:maxCount 1 ;
-                     sh:pattern  "^(?!\\s*$).+" ;
-                     sh:datatype xsd:string ; ] ;
-#    sh:property    [ sh:path     yara:ApplicationTags ;
-#                     sh:minCount 1 ;
-#                     sh:maxCount 1 ;
-#                     empty in Excel sheet
-#                     sh:pattern  "^(?!\\s*$).+" ;
-#                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:B ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
@@ -587,6 +571,16 @@ yara:FertilizersShape
 #                     will be string as in Excel sheet
                      sh:datatype xsd:string ; ] ;
 #                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:ODX_Fertilizers_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_Fertilizers_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
     sh:property    [ sh:path     yara:P ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
@@ -619,7 +613,7 @@ yara:FertilizersShape
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
                      sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ProdName ;
+    sh:property    [ sh:path     yara:FertilizersName ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;
@@ -636,7 +630,7 @@ yara:FertilizersShape
 #                     sh:maxCount 1 ;
 #                     sh:pattern  "^(?!\\s*$).+" ;
 #                     sh:datatype xsd:string ; ] ;
-    sh:property    [ sh:path     yara:ProductId ;
+    sh:property    [ sh:path     yara:FertilizersId ;
                      sh:minCount 1 ;
                      sh:maxCount 1 ;
                      sh:pattern  "^(?!\\s*$).+" ;

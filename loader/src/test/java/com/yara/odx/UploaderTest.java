@@ -765,6 +765,8 @@ public class UploaderTest {
                                     "DryMatter", fertilizer1.getDryMatter(),
                                     "ElectricalConductivity", fertilizer1.getElectricalConductivity(),
                                     "Fe", fertilizer1.getFe(),
+                                    "FertilizersName", fertilizer1.getName(),
+                                    "FertilizersId", fertilizer1.getId(),
                                     "FeUnitId", fertilizer1.getFeUnitId(),
                                     "K", fertilizer1.getK(),
                                     "KUnitId", fertilizer1.getKUnitId(),
@@ -783,14 +785,14 @@ public class UploaderTest {
                                     "NH4", fertilizer1.getNh4(),
                                     "NO3", fertilizer1.getNo3(),
                                     "ODX_Fert_SourceSystem", fertilizer1.getSource(),
-                                    "ODX_Fertilizer_Uri", "ODX/Fertilizers/".concat(fertilizer1.getUuId().toString()),
-                                    "ODX_Fertilizer_UUId", fertilizer1.getUuId().toString(),
+                                    "ODX_Fertilizers_Uri", fertilizer1.getUri(),
+                                    "ODX_Fertilizers_UUId", fertilizer1.getUuId().toString(),
                                     "P", fertilizer1.getP(),
                                     "PUnitId", fertilizer1.getPUnitId(),
                                     "Ph", fertilizer1.getPh(),
+//                                    This object does not exist in graph yet
                                     "ProdFamily", fertilizer1.getFamily(),
-                                    "ProdName", fertilizer1.getName(),
-                                    "ProductId", fertilizer1.getId(),
+//                                    This object does not exist in graph yet
                                     "ProductType", fertilizer1.getType(),
                                     "S", fertilizer1.getS(),
                                     "SUnitId", fertilizer1.getSUnitId(),
@@ -822,6 +824,8 @@ public class UploaderTest {
                                     "DryMatter", fertilizer2.getDryMatter(),
                                     "ElectricalConductivity", fertilizer2.getElectricalConductivity(),
                                     "Fe", fertilizer2.getFe(),
+                                    "FertilizersName", fertilizer2.getName(),
+                                    "FertilizersId", fertilizer2.getId(),
                                     "FeUnitId", fertilizer2.getFeUnitId(),
                                     "K", fertilizer2.getK(),
                                     "KUnitId", fertilizer2.getKUnitId(),
@@ -840,14 +844,14 @@ public class UploaderTest {
                                     "NH4", fertilizer2.getNh4(),
                                     "NO3", fertilizer2.getNo3(),
                                     "ODX_Fert_SourceSystem", fertilizer2.getSource(),
-                                    "ODX_Fertilizer_Uri", "ODX/Fertilizers/".concat(fertilizer2.getUuId().toString()),
-                                    "ODX_Fertilizer_UUId", fertilizer2.getUuId().toString(),
+                                    "ODX_Fertilizers_Uri", fertilizer2.getUri(),
+                                    "ODX_Fertilizers_UUId", fertilizer2.getUuId().toString(),
                                     "P", fertilizer2.getP(),
                                     "PUnitId", fertilizer2.getPUnitId(),
                                     "Ph", fertilizer2.getPh(),
+//                                    This object does not exist in graph yet
                                     "ProdFamily", fertilizer2.getFamily(),
-                                    "ProdName", fertilizer2.getName(),
-                                    "ProductId", fertilizer2.getId(),
+//                                    This object does not exist in graph yet
                                     "ProductType", fertilizer2.getType(),
                                     "S", fertilizer2.getS(),
                                     "SUnitId", fertilizer2.getSUnitId(),
@@ -1842,7 +1846,7 @@ public class UploaderTest {
                         Value object = record.get("o");
                         Map<String, String> subjectMap = subject.asNode().asMap(String::valueOf);
                         Map<String, String> objectMap = object.asNode().asMap(String::valueOf);
-                        map.put("ProductId", subjectMap.get("ProductId"));
+                        map.put("FertilizersId", subjectMap.get("FertilizersId"));
                         map.put("relationshipType", "\"".concat(predicate.asRelationship().type()).concat("\""));
                         map.put("relationshipProperties", "\"".concat(
                                 predicate.asRelationship()
@@ -1855,13 +1859,13 @@ public class UploaderTest {
                     })
                     .containsExactly(
                             Values.parameters(
-                                    "ProductId", fertilizer1.getId(),
+                                    "FertilizersId", fertilizer1.getId(),
                                     "relationshipType", "isAvailableIn",
                                     "relationshipProperties", relProp1.toString(),
                                     "RegionId", region1.getId()
                             ).asMap(String::valueOf),
                             Values.parameters(
-                                    "ProductId", fertilizer2.getId(),
+                                    "FertilizersId", fertilizer2.getId(),
                                     "relationshipType", "isAvailableIn",
                                     "relationshipProperties", relProp2.toString(),
                                     "RegionId", region2.getId()
@@ -2000,19 +2004,19 @@ public class UploaderTest {
                         Value object = record.get("o");
                         Map<String, String> subjectMap = subject.asNode().asMap(String::valueOf);
                         Map<String, String> objectMap = object.asNode().asMap(String::valueOf);
-                        map.put("ProductId", subjectMap.get("ProductId"));
+                        map.put("FertilizersId", subjectMap.get("FertilizersId"));
                         map.put("relationshipType", "\"".concat(predicate.asRelationship().type()).concat("\""));
                         map.put("NutrientId", objectMap.get("NutrientId"));
                         return map;
                     })
                     .containsExactly(
                             Values.parameters(
-                                    "ProductId", fertilizer1.getId(),
+                                    "FertilizersId", fertilizer1.getId(),
                                     "relationshipType", "hasProdNutrient",
                                     "NutrientId", nutrient1.getId()
                             ).asMap(String::valueOf),
                             Values.parameters(
-                                    "ProductId", fertilizer2.getId(),
+                                    "FertilizersId", fertilizer2.getId(),
                                     "relationshipType", "hasProdNutrient",
                                     "NutrientId", nutrient2.getId()
                             ).asMap(String::valueOf)

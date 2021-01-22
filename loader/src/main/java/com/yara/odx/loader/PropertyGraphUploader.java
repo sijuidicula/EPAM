@@ -859,14 +859,14 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "NH4: \"%s\", " +
                 "NO3: \"%s\", " +
                 "ODX_Fert_SourceSystem: \"%s\", " +
-                "ODX_Fertilizer_Uri: \"%s\", " +
-                "ODX_Fertilizer_UUId: \"%s\", " +
+                "ODX_Fertilizers_Uri: \"%s\", " +
+                "ODX_Fertilizers_UUId: \"%s\", " +
                 "P: \"%s\", " +
                 "PUnitId: \"%s\", " +
                 "Ph: \"%s\", " +
                 "ProdFamily: \"%s\", " +
-                "ProdName: \"%s\", " +
-                "ProductId: \"%s\", " +
+                "FertilizersName: \"%s\", " +
+                "FertilizersId: \"%s\", " +
                 "ProductType: \"%s\", " +
                 "S: \"%s\", " +
                 "SUnitId: \"%s\", " +
@@ -987,14 +987,14 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "NH4: \"%s\", " +
                 "NO3: \"%s\", " +
                 "ODX_Fert_SourceSystem: \"%s\", " +
-                "ODX_Fertilizer_Uri: \"%s\", " +
-                "ODX_Fertilizer_UUId: \"%s\", " +
+                "ODX_Fertilizers_Uri: \"%s\", " +
+                "ODX_Fertilizers_UUId: \"%s\", " +
                 "P: \"%s\", " +
                 "PUnitId: \"%s\", " +
                 "Ph: \"%s\", " +
                 "ProdFamily: \"%s\", " +
-                "ProdName: \"%s\", " +
-                "ProductId: \"%s\", " +
+                "FertilizersName: \"%s\", " +
+                "FertilizersId: \"%s\", " +
                 "ProductType: \"%s\", " +
                 "S: \"%s\", " +
                 "SUnitId: \"%s\", " +
@@ -1934,7 +1934,7 @@ public class PropertyGraphUploader implements AutoCloseable {
     }
 
     private void createFertilizerToRegionRelation(Fertilizers fertilizer, Country country, Region region, FertilizerRegion fr) {
-        String matchFertilizer = String.format("MATCH (fertilizer:Fertilizers{ODX_Fertilizer_UUId:\"%s\"})\n", fertilizer.getUuId());
+        String matchFertilizer = String.format("MATCH (fertilizer:Fertilizers{ODX_Fertilizers_UUId:\"%s\"})\n", fertilizer.getUuId());
         String matchRegion = String.format("MATCH (region:Region{ODX_Region_UUId:\"%s\"})\n", region.getUuId());
         String createRelation = String.format("CREATE (fertilizer)-[:isAvailableIn{" +
                         "ApplicationTags: \"%s\", " +
@@ -1959,7 +1959,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                                                               StringBuilder matchBuilder,
                                                               StringBuilder createBuilder,
                                                               AtomicInteger count) {
-        String matchFertilizer = String.format("MATCH (fertilizer_%d:Fertilizers{ODX_Fertilizer_UUId:\"%s\"})\n", count.get(), fertilizer.getUuId());
+        String matchFertilizer = String.format("MATCH (fertilizer_%d:Fertilizers{ODX_Fertilizers_UUId:\"%s\"})\n", count.get(), fertilizer.getUuId());
         String matchRegion = String.format("MATCH (region_%d:Region{ODX_Region_UUId:\"%s\"})\n", count.get(), region.getUuId());
         String createRelation = String.format("CREATE (fertilizer_%1$d)-[:isAvailableIn]->(region_%1$d)\n", count.get());
         matchBuilder.append(matchFertilizer).append(matchRegion);
@@ -1967,7 +1967,7 @@ public class PropertyGraphUploader implements AutoCloseable {
     }
 
     private void createFertilizerToNutrientRelation(Fertilizers fertilizer, Nutrient nutrient) {
-        String matchFertilizer = String.format("MATCH (fertilizer:Fertilizers{ODX_Fertilizer_UUId:\"%s\"})\n", fertilizer.getUuId());
+        String matchFertilizer = String.format("MATCH (fertilizer:Fertilizers{ODX_Fertilizers_UUId:\"%s\"})\n", fertilizer.getUuId());
         String matchNutrient = String.format("MATCH (nutrient:Nutrient{ODX_Nutrient_UUId:\"%s\"})\n", nutrient.getUuId());
         String createRelation = "CREATE (fertilizer)-[:hasProdNutrient]->(nutrient)";
         uploadRelationToDatabase(matchFertilizer, matchNutrient, createRelation);
@@ -1978,7 +1978,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                                                                 StringBuilder matchBuilder,
                                                                 StringBuilder createBuilder,
                                                                 AtomicInteger count) {
-        String matchFertilizer = String.format("MATCH (fertilizer_%d:Fertilizers{ODX_Fertilizer_UUId:\"%s\"})\n", count.get(), fertilizer.getUuId());
+        String matchFertilizer = String.format("MATCH (fertilizer_%d:Fertilizers{ODX_Fertilizers_UUId:\"%s\"})\n", count.get(), fertilizer.getUuId());
         String matchNutrient = String.format("MATCH (nutrient_%d:Nutrient{ODX_Nutrient_UUId:\"%s\"})\n", count.get(), nutrient.getUuId());
         String createRelation = String.format("CREATE (fertilizer_%1$d)-[:hasProdNutrient]->(nutrient_%1$d)\n", count.get());
         matchBuilder.append(matchFertilizer).append(matchNutrient);
