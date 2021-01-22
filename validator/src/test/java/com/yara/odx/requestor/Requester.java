@@ -56,13 +56,12 @@ public class Requester implements AutoCloseable {
 
     public int getEmptyUuidsCount(String className) {
         int nodesCount = 0;
-        String singleItemName = getSingleItemName(className);
         String commandFormat = "MATCH (n:%1$s) " +
-                "WHERE n.ODX_%2$s_UUId = \"\" " +
+                "WHERE n.ODX_%1$s_UUId = \"\" " +
                 "OR " +
-                "n.ODX_%2$s_UUId IS NULL " +
+                "n.ODX_%1$s_UUId IS NULL " +
                 "RETURN COUNT(n)";
-        String command = String.format(commandFormat, className, singleItemName);
+        String command = String.format(commandFormat, className);
 
         try (Session session = driver.session()) {
             nodesCount = session.readTransaction(tx -> getResultAsInteger(command, tx));
@@ -85,13 +84,12 @@ public class Requester implements AutoCloseable {
 
     public int getEmptyUrisCount(String className) {
         int nodesCount = 0;
-        String singleItemName = getSingleItemName(className);
         String commandFormat = "MATCH (n:%1$s) " +
-                "WHERE n.ODX_%2$s_Uri = \"\" " +
+                "WHERE n.ODX_%1$s_Uri = \"\" " +
                 "OR " +
-                "n.ODX_%2$s_Uri IS NULL " +
+                "n.ODX_%1$s_Uri IS NULL " +
                 "RETURN COUNT(n)";
-        String command = String.format(commandFormat, className, singleItemName);
+        String command = String.format(commandFormat, className);
         try (Session session = driver.session()) {
             nodesCount = session.readTransaction(tx -> getResultAsInteger(command, tx));
         } catch (ClientException e) {
@@ -102,17 +100,13 @@ public class Requester implements AutoCloseable {
 
     public int getEmptyLabelsCount(String className) {
         int nodesCount = 0;
-        String singleItemName = getSingleItemName(className);
-
-//            Fertilizers name property is called "ProdName" so single item will be "Prod"
-        if (singleItemName.equals("Fertilizer")) singleItemName = "Prod";
 
         String commandFormat = "MATCH (n:%1$s) " +
-                "WHERE n.%2$sName = \"\" " +
+                "WHERE n.%1$sName = \"\" " +
                 "OR " +
-                "n.%2$sName IS NULL " +
+                "n.%1$sName IS NULL " +
                 "RETURN COUNT(n)";
-        String command = String.format(commandFormat, className, singleItemName);
+        String command = String.format(commandFormat, className);
 
         try (Session session = driver.session()) {
             nodesCount = session.readTransaction(tx -> getResultAsInteger(command, tx));
@@ -126,19 +120,8 @@ public class Requester implements AutoCloseable {
         List<Record> records = new ArrayList<>();
         try (Session session = driver.session()) {
             records = session.readTransaction(tx -> {
-
-//                System.out.println("****************************************");
-//                System.out.println(useCase);
-//                System.out.println("****************************************");
-
                 Result result = tx.run(useCase);
-                List<Record> list = result.list();
-
-//                System.out.println("****************************************");
-//                System.out.println(list);
-//                System.out.println("****************************************");
-
-                return list;
+                return result.list();
             });
         } catch (ClientException e) {
             e.printStackTrace();
@@ -301,7 +284,7 @@ public class Requester implements AutoCloseable {
         String command = String.format(
                 "MATCH (subject:%1$s)-[:%2$s]->(object:%3$s)\n" +
                         "WHERE subject.UnitsId = object.%3$s_UnitId_Ref\n" +
-                        "OR subject.UnitsId = object.UnitId_Ref\n" +
+                        "OR subject.UnitsId = object.UnitsId_Ref\n" +
                         "OR subject.UnitsId = object.%4$s_UnitId_Ref\n" +
                         "RETURN subject, object",
                 subject, relationship, object, replaceWithCapital(object));
@@ -443,9 +426,9 @@ public class Requester implements AutoCloseable {
         int nodesCount = 0;
 
         String command = "MATCH (n:GrowthScaleStages) " +
-                "WHERE n.GrowthScaleStageDescription = \"\" " +
+                "WHERE n.GrowthScaleStagesDescription = \"\" " +
                 "OR " +
-                "n.GrowthScaleStageDescription IS NULL " +
+                "n.GrowthScaleStagesDescription IS NULL " +
                 "RETURN COUNT(n)";
 
         try (Session session = driver.session()) {
@@ -454,7 +437,22 @@ public class Requester implements AutoCloseable {
             e.printStackTrace();
         }
         return nodesCount;
+    }
 
+    public int getEmptyLabelsCountForUnitConversions() {
+        int nodesCount = 0;
 
+        String command = "MATCH (n:UnitConversion) " +
+                "WHERE n.ConvertToUnitId = \"\" " +
+                "OR " +
+                "n.ConvertToUnitId IS NULL " +
+                "RETURN COUNT(n)";
+
+        try (Session session = driver.session()) {
+            nodesCount = session.readTransaction(tx -> getResultAsInteger(command, tx));
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return nodesCount;
     }
 }

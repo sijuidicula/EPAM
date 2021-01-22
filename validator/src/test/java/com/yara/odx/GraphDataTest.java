@@ -46,6 +46,9 @@ public class GraphDataTest {
             if (className == "GrowthScaleStages") {
                 actualBlankNodeCount = requester.getEmptyLabelsCountForGss();
             }
+            if (className == "UnitConversion") {
+                actualBlankNodeCount = requester.getEmptyLabelsCountForUnitConversions();
+            }
 
             if (actualBlankNodeCount == 0) {
                 System.out.println(String.format("Class %s has no nodes with empty labels", className));
