@@ -4,20 +4,11 @@ import com.yara.odx.domain.*;
 import com.yara.odx.reader.ShaclRulesReader;
 import org.neo4j.driver.*;
 
+import java.net.URI;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PropertyGraphUploader implements AutoCloseable {
-
-//    private static final String URI = "bolt+s://odx-storage.yara.com:7687";
-//    private static final String USER = "neo4j";
-
-//    Use valid pass for graph DB
-//    private static final String PASSWORD = "XXXXXXXX";
-
-    private static final String URI = "bolt://localhost:7687";
-    private static final String USER = "neo4j";
-    private static final String PASSWORD = "1234";
 
     public static final int BUILDER_LENGTH_THRESHOLD = 300_000;
     public static final int NODES_BATCH_SIZE = 25;
@@ -25,12 +16,12 @@ public class PropertyGraphUploader implements AutoCloseable {
 
     private final Driver driver;
 
-    public PropertyGraphUploader(java.net.URI uri, Config config) {
+    public PropertyGraphUploader(URI uri, Config config) {
         driver = GraphDatabase.driver(uri, config);
     }
 
-    public PropertyGraphUploader() {
-        driver = GraphDatabase.driver(URI, AuthTokens.basic(USER, PASSWORD));
+    public PropertyGraphUploader(String uri, String login, String password) {
+        driver = GraphDatabase.driver(uri, AuthTokens.basic(login, password));
     }
 
     @Override

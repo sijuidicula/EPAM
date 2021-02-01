@@ -15,6 +15,11 @@ public class UploadSeparatelyWithShaclMain {
     public static void main(String[] args) {
         Instant start = Instant.now();
 
+//        Input your Uri, login and password as program arguments
+        String uri = args[0];
+        String login = args[1];
+        String password = args[2];
+
         String shaclFileName = "loader/src/main/resources/yara_crop_shacl.ttl";
 
         String countryFileName = "loader/src/main/resources/Country.xlsx";
@@ -35,7 +40,7 @@ public class UploadSeparatelyWithShaclMain {
         String fertilizerRegionFileName = "loader/src/main/resources/Fertilizers_Reg.xlsx";
 
         ExcelWorkbookReader reader = new ExcelWorkbookReader();
-        PropertyGraphUploader uploader = new PropertyGraphUploader();
+        PropertyGraphUploader uploader = new PropertyGraphUploader(uri, login, password);
         StatisticsCollector collector = new StatisticsCollector();
         StatisticsReporter reporter = new StatisticsReporter();
 
@@ -76,6 +81,7 @@ public class UploadSeparatelyWithShaclMain {
         uploader.uploadShaclInline(shaclFileName);
         uploader.activateShaclValidationOfTransactions();
 
+//        Only for Neo4j Enterprise version 4.0
         uploader.dropConstraintsAndIndexes();
         uploader.createConstraintsAndIndexes();
 
