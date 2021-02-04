@@ -5,6 +5,7 @@ import com.yara.odx.reader.ShaclRulesReader;
 import org.neo4j.driver.*;
 
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -65,6 +66,51 @@ public class PropertyGraphUploader implements AutoCloseable {
         }
         System.out.println("Country uploading completed");
         System.out.println(count.get() + " Countries uploaded");
+    }
+
+    public void mergeCountries(List<Country> countries) {
+        AtomicInteger count = new AtomicInteger(0);
+        String mergeCountryFormat = "MERGE (n:%1$s{ODX_Country_UUId: \"%2$s\"})\n" +
+                "ON CREATE SET \n" +
+                "n.CountryId= \"%3$s\", \n" +
+                "n.CountryName= \"%4$s\", \n" +
+                "n.FIPS= \"%5$s\", \n" +
+                "n.ISO2Code= \"%6$s\", \n" +
+                "n.ISO3Code= \"%7$s\", \n" +
+                "n.M49Code= \"%8$s\", \n" +
+                "n.ODX_Country_Uri= \"9$%s\",\n" +
+                "n.ODX_CS_UUId_Ref= \"%10$s\", \n" +
+                "n.ProductSetCode= \"%11$s\", \n" +
+                "n.UN= \"%12$s\"\n" +
+                "ON MATCH SET \n" +
+                "n.CountryId= \"%3$s\", \n" +
+                "n.CountryName= \"%4$s\", \n" +
+                "n.FIPS= \"%5$s\", \n" +
+                "n.ISO2Code= \"%6$s\", \n" +
+                "n.ISO3Code= \"%7$s\", \n" +
+                "n.M49Code= \"%8$s\", \n" +
+                "n.ODX_Country_Uri= \"9$%s\",\n" +
+                "n.ODX_CS_UUId_Ref= \"%10$s\", \n" +
+                "n.ProductSetCode= \"%11$s\", \n" +
+                "n.UN= \"%12$s\"\n";
+
+        countries.forEach(country -> {
+            count.incrementAndGet();
+            String mergeCountryCommand = String.format(mergeCountryFormat,
+                    country.getClassName(), country.getUuId(),
+                    country.getId(),
+                    country.getName(),
+                    country.getFips(),
+                    country.getIso2Code(),
+                    country.getIso3Code(),
+                    country.getM49Code(),
+                    country.getUri(),
+                    country.getContinentalSectionUuidRef(),
+                    country.getProductSetCode(),
+                    country.getUn());
+            writeToGraph(mergeCountryCommand);
+        });
+        System.out.println(count.get() + " Countries merged");
     }
 
     public void uploadCountriesAsBatch(List<Country> countries) {
@@ -173,6 +219,44 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " Regions uploaded");
     }
 
+    public void mergeRegions(List<Region> regions) {
+        AtomicInteger count = new AtomicInteger(0);
+        String ontologySuperClass = "Country";
+        String superClassIdentifier = "ODX_Country_UUId";
+        String mergeRegionFormat = "MATCH (c:%1$s{%2$s: \"%3$s\"})\n" +
+                "MERGE (r:%4$s{ODX_Region_UUId: \"%5$s\"})\n" +
+                "ON CREATE SET\n" +
+                "r.ODX_Region_Uri = \"%6$s\",\n" +
+                "r.RegionId = \"%7$s\",\n" +
+                "r.Region_CountryId_Ref = c.CountryId,\n" +
+                "r.Region_Country_UUId_Ref = c.ODX_Country_UUId,\n" +
+                "r.RegionName = \"%8$s\"\n" +
+                "ON MATCH SET\n" +
+                "r.ODX_Region_Uri = \"%6$s\",\n" +
+                "r.RegionId = \"%7$s\",\n" +
+                "r.Region_CountryId_Ref = c.CountryId,\n" +
+                "r.Region_Country_UUId_Ref = c.ODX_Country_UUId,\n" +
+                "r.RegionName = \"%8$s\"\n";
+
+        regions.forEach(region -> {
+            count.incrementAndGet();
+            UUID calculatedCountryUUId = computeUUid(region.getSource(), ontologySuperClass, region.getCountryId());
+            String mergeRegionCommand = String.format(mergeRegionFormat,
+                    ontologySuperClass, superClassIdentifier, calculatedCountryUUId.toString(),
+                    region.getClassName(), region.getUuId(),
+                    region.getUri(),
+                    region.getId(),
+                    region.getName());
+            writeToGraph(mergeRegionCommand);
+        });
+        System.out.println(count.get() + " Regions merged");
+    }
+
+    private UUID computeUUid(String source, String className, String id) {
+        byte[] arr = (source + className + id).getBytes(StandardCharsets.UTF_8);
+        return UUID.nameUUIDFromBytes(arr);
+    }
+
     public void uploadCropGroups(List<CropGroup> cropGroups) {
         AtomicInteger count = new AtomicInteger(0);
         String createGroupFormat = "CREATE (%s:%s{" +
@@ -225,6 +309,33 @@ public class PropertyGraphUploader implements AutoCloseable {
         });
         writeToGraph(builder);
         System.out.println(count.get() + " CropGroups uploaded");
+    }
+
+    public void mergeCropGroups(List<CropGroup> cropGroups) {
+        AtomicInteger count = new AtomicInteger(0);
+        String mergeGroupFormat = "MERGE (n:%1$s{ODX_CropGroup_UUId: \"%2$s\"})\n" +
+                "ON CREATE SET \n" +
+                "n.CG_FAOId= \"%3$s\", \n" +
+                "n.CropGroupId= \"%4$s\", \n" +
+                "n.CropGroupName= \"%5$s\", \n" +
+                "n.ODX_CropGroup_Uri= \"%6$s\" \n" +
+                "ON MATCH SET \n" +
+                "n.CG_FAOId= \"%3$s\", \n" +
+                "n.CropGroupId= \"%4$s\", \n" +
+                "n.CropGroupName= \"%5$s\", \n" +
+                "n.ODX_CropGroup_Uri= \"%6$s\"\n";
+
+        cropGroups.forEach(group -> {
+            count.incrementAndGet();
+            String mergeGroupCommand = String.format(mergeGroupFormat,
+                    group.getClassName(), group.getUuId(),
+                    group.getFaoId(),
+                    group.getId(),
+                    group.getName(),
+                    group.getUri());
+            writeToGraph(mergeGroupCommand);
+        });
+        System.out.println(count.get() + " CropGroups merged");
     }
 
     public void uploadCropClasses(List<CropClass> cropClasses, List<CropGroup> cropGroups) {
@@ -288,6 +399,42 @@ public class PropertyGraphUploader implements AutoCloseable {
             }
         });
         writeToGraph(builder);
+        System.out.println(count.get() + " CropClasses uploaded");
+    }
+
+    public void mergeCropClasses(List<CropClass> cropClasses) {
+        AtomicInteger count = new AtomicInteger(0);
+        String ontologySuperClass = "CropGroup";
+        String superClassIdentifier = "ODX_CropGroup_UUId";
+        String mergeClassFormat = "MATCH (cg:%1$s{%2$s: \"%3$s\"})\n" +
+                "MERGE (cc:%4$s{ODX_CropClass_UUId: \"%5$s\"})\n" +
+                "ON CREATE SET\n" +
+                "cc.ODX_CropClass_Uri = \"%6$s\",\n" +
+                "cc.CropClassId = \"%7$s\",\n" +
+                "cc.CropGroupId_Ref = cg.CropGroupId,\n" +
+                "cc.ODX_CG_UUId_Ref = cg.ODX_CropGroup_UUId,\n" +
+                "cc.CC_FAOId = \"%8$s\",\n" +
+                "cc.CropClassName = \"%9$s\"\n" +
+                "ON MATCH SET\n" +
+                "cc.ODX_CropClass_Uri = \"%6$s\",\n" +
+                "cc.CropClassId = \"%7$s\",\n" +
+                "cc.CropGroupId_Ref = cg.CropGroupId,\n" +
+                "cc.ODX_CG_UUId_Ref = cg.ODX_CropGroup_UUId,\n" +
+                "cc.CC_FAOId = \"%8$s\",\n" +
+                "cc.CropClassName = \"%9$s\"\n";
+
+        cropClasses.forEach(cropClass -> {
+            count.incrementAndGet();
+            UUID calculatedGroupUUId = computeUUid(cropClass.getSource(), ontologySuperClass, cropClass.getGroupId());
+            String mergeClassCommand = String.format(mergeClassFormat,
+                    ontologySuperClass, superClassIdentifier, calculatedGroupUUId.toString(),
+                    cropClass.getClassName(), cropClass.getUuId(),
+                    cropClass.getUri(),
+                    cropClass.getId(),
+                    cropClass.getFaoId(),
+                    cropClass.getName());
+            writeToGraph(mergeClassCommand);
+        });
         System.out.println(count.get() + " CropClasses uploaded");
     }
 
@@ -356,6 +503,42 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " CropSubClasses uploaded");
     }
 
+    public void mergeCropSubClasses(List<CropSubClass> cropSubClasses) {
+        AtomicInteger count = new AtomicInteger(0);
+        String ontologySuperClass = "CropClass";
+        String superClassIdentifier = "ODX_CropClass_UUId";
+        String mergeSubClassFormat = "MATCH (cc:%1$s{%2$s: \"%3$s\"})\n" +
+                "MERGE (csc:%4$s{ODX_CropSubClass_UUId: \"%5$s\"})\n" +
+                "ON CREATE SET\n" +
+                "csc.ODX_CropSubClass_Uri = \"%6$s\",\n" +
+                "csc.CropSubClassId = \"%7$s\",\n" +
+                "csc.CropClassId_Ref = cc.CropClassId,\n" +
+                "csc.ODX_CC_UUId_Ref = cc.ODX_CropClass_UUId,\n" +
+                "csc.CSC_FAOId = \"%8$s\",\n" +
+                "csc.CropSubClassName = \"%9$s\"\n" +
+                "ON MATCH SET\n" +
+                "csc.ODX_CropSubClass_Uri = \"%6$s\",\n" +
+                "csc.CropSubClassId = \"%7$s\",\n" +
+                "csc.CropClassId_Ref = cc.CropClassId,\n" +
+                "csc.ODX_CC_UUId_Ref = cc.ODX_CropClass_UUId,\n" +
+                "csc.CSC_FAOId = \"%8$s\",\n" +
+                "csc.CropSubClassName = \"%9$s\"\n";
+
+        cropSubClasses.forEach(subClass -> {
+            count.incrementAndGet();
+            UUID calculatedGroupUUId = computeUUid(subClass.getSource(), ontologySuperClass, subClass.getClassId());
+            String mergeSubClassCommand = String.format(mergeSubClassFormat,
+                    ontologySuperClass, superClassIdentifier, calculatedGroupUUId.toString(),
+                    subClass.getClassName(), subClass.getUuId(),
+                    subClass.getUri(),
+                    subClass.getId(),
+                    subClass.getFaoId(),
+                    subClass.getName());
+            writeToGraph(mergeSubClassCommand);
+        });
+        System.out.println(count.get() + " CropSubClasses uploaded");
+    }
+
     public void uploadCropVarieties(List<CropVariety> cropVarieties, List<CropSubClass> cropSubClasses) {
         AtomicInteger count = new AtomicInteger(0);
         String createVarietyFormat = "CREATE (%s:%s{" +
@@ -413,6 +596,39 @@ public class PropertyGraphUploader implements AutoCloseable {
             }
         });
         writeToGraph(builder);
+        System.out.println(count.get() + " CropVarieties uploaded");
+    }
+
+    public void mergeCropVarieties(List<CropVariety> cropVarieties) {
+        AtomicInteger count = new AtomicInteger(0);
+        String ontologySuperClass = "CropSubClass";
+        String superClassIdentifier = "ODX_CropSubClass_UUId";
+        String mergeVarietyFormat = "MATCH (csc:%1$s{%2$s: \"%3$s\"})\n" +
+                "MERGE (cv:%4$s{ODX_CropVariety_UUId: \"%5$s\"})\n" +
+                "ON CREATE SET\n" +
+                "cv.ODX_CropVariety_Uri = \"%6$s\",\n" +
+                "cv.CV_CropSubClassId_Ref = csc.CropSubClassId,\n" +
+                "cv.CV_CSC_UUId_Ref = csc.ODX_CropSubClass_UUId,\n" +
+                "cv.CropVarietyId = \"%7$s\",\n" +
+                "cv.CropVarietyName = \"%8$s\"\n" +
+                "ON MATCH SET\n" +
+                "cv.ODX_CropVariety_Uri = \"%6$s\",\n" +
+                "cv.CV_CropSubClassId_Ref = csc.CropSubClassId,\n" +
+                "cv.CV_CSC_UUId_Ref = csc.ODX_CropSubClass_UUId,\n" +
+                "cv.CropVarietyId = \"%7$s\",\n" +
+                "cv.CropVarietyName = \"%8$s\"\n";
+
+        cropVarieties.forEach(variety -> {
+            count.incrementAndGet();
+            UUID calculatedGroupUUId = computeUUid(variety.getSource(), ontologySuperClass, variety.getSubClassId());
+            String mergeVarietyCommand = String.format(mergeVarietyFormat,
+                    ontologySuperClass, superClassIdentifier, calculatedGroupUUId.toString(),
+                    variety.getClassName(), variety.getUuId(),
+                    variety.getUri(),
+                    variety.getId(),
+                    variety.getName());
+            writeToGraph(mergeVarietyCommand);
+        });
         System.out.println(count.get() + " CropVarieties uploaded");
     }
 
@@ -1201,11 +1417,23 @@ public class PropertyGraphUploader implements AutoCloseable {
         if (builder.length() == 0) return;
 
 //      ********************************************
-//        System.out.println(builder.toString());
+        System.out.println(builder.toString());
 //      ********************************************
 
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> tx.run(builder.toString()));
+        }
+    }
+
+    private void writeToGraph(String command) {
+        if (command.length() == 0) return;
+
+//      ********************************************
+//        System.out.println(command);
+//      ********************************************
+
+        try (Session session = driver.session()) {
+            session.writeTransaction(tx -> tx.run(command));
         }
     }
 

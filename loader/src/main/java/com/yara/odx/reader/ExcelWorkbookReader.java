@@ -300,7 +300,7 @@ public class ExcelWorkbookReader {
                     String id = row.getCell(0).getStringCellValue();
                     String growthScaleId = row.getCell(1).getStringCellValue();
                     String growthScaleStageDescription = row.getCell(2).getStringCellValue();
-                    String ordinal = row.getCell(3).getStringCellValue();
+                    String ordinal = getCellDataAsString(row, 3);
                     String baseOrdinal = getCellDataAsString(row, 4);
                     GrowthScaleStages scaleStage = new GrowthScaleStages(POLARIS_SOURCE, className, id, className,
                             growthScaleId, growthScaleStageDescription, ordinal, baseOrdinal);
@@ -450,7 +450,7 @@ public class ExcelWorkbookReader {
                     String id = row.getCell(0).getStringCellValue();
                     String name = row.getCell(1).getStringCellValue();
                     String elementalName = row.getCell(2).getStringCellValue();
-                    String nutrientOrdinal = row.getCell(3).getStringCellValue();
+                    String nutrientOrdinal = getCellDataAsString(row, 3);
                     Nutrient nutrient = new Nutrient(POLARIS_SOURCE, className, id, name,
                             elementalName, nutrientOrdinal);
                     nutrients.add(nutrient);
