@@ -240,9 +240,9 @@ public class PropertyGraphUploader implements AutoCloseable {
 
         regions.forEach(region -> {
             count.incrementAndGet();
-            UUID calculatedCountryUUId = computeUUid(region.getSource(), ontologySuperClass, region.getCountryId());
+            UUID calculatedSuperClassUUId = computeUUid(region.getSource(), ontologySuperClass, region.getCountryId());
             String mergeRegionCommand = String.format(mergeRegionFormat,
-                    ontologySuperClass, superClassIdentifier, calculatedCountryUUId.toString(),
+                    ontologySuperClass, superClassIdentifier, calculatedSuperClassUUId.toString(),
                     region.getClassName(), region.getUuId(),
                     region.getUri(),
                     region.getId(),
@@ -425,9 +425,9 @@ public class PropertyGraphUploader implements AutoCloseable {
 
         cropClasses.forEach(cropClass -> {
             count.incrementAndGet();
-            UUID calculatedGroupUUId = computeUUid(cropClass.getSource(), ontologySuperClass, cropClass.getGroupId());
+            UUID calculatedSuperClassUUId = computeUUid(cropClass.getSource(), ontologySuperClass, cropClass.getGroupId());
             String mergeClassCommand = String.format(mergeClassFormat,
-                    ontologySuperClass, superClassIdentifier, calculatedGroupUUId.toString(),
+                    ontologySuperClass, superClassIdentifier, calculatedSuperClassUUId.toString(),
                     cropClass.getClassName(), cropClass.getUuId(),
                     cropClass.getUri(),
                     cropClass.getId(),
@@ -526,9 +526,9 @@ public class PropertyGraphUploader implements AutoCloseable {
 
         cropSubClasses.forEach(subClass -> {
             count.incrementAndGet();
-            UUID calculatedGroupUUId = computeUUid(subClass.getSource(), ontologySuperClass, subClass.getClassId());
+            UUID calculatedSuperClassUUId = computeUUid(subClass.getSource(), ontologySuperClass, subClass.getClassId());
             String mergeSubClassCommand = String.format(mergeSubClassFormat,
-                    ontologySuperClass, superClassIdentifier, calculatedGroupUUId.toString(),
+                    ontologySuperClass, superClassIdentifier, calculatedSuperClassUUId.toString(),
                     subClass.getClassName(), subClass.getUuId(),
                     subClass.getUri(),
                     subClass.getId(),
@@ -620,9 +620,9 @@ public class PropertyGraphUploader implements AutoCloseable {
 
         cropVarieties.forEach(variety -> {
             count.incrementAndGet();
-            UUID calculatedGroupUUId = computeUUid(variety.getSource(), ontologySuperClass, variety.getSubClassId());
+            UUID calculatedSuperClassUUId = computeUUid(variety.getSource(), ontologySuperClass, variety.getSubClassId());
             String mergeVarietyCommand = String.format(mergeVarietyFormat,
-                    ontologySuperClass, superClassIdentifier, calculatedGroupUUId.toString(),
+                    ontologySuperClass, superClassIdentifier, calculatedSuperClassUUId.toString(),
                     variety.getClassName(), variety.getUuId(),
                     variety.getUri(),
                     variety.getId(),
@@ -713,6 +713,66 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " CropDescriptions uploaded");
     }
 
+    public void mergeCropDescriptions(List<CropDescription> cropDescriptions, List<CropRegion> cropRegions) {
+        AtomicInteger count = new AtomicInteger(0);
+        String ontologySuperClass = "CropSubClass";
+        String superClassIdentifier = "ODX_CropSubClass_UUId";
+        String ontologyRelatedClass = "GrowthScale";
+        String relatedClassIdentifier = "ODX_GrowthScale_UUId";
+        String mergeDescriptionFormat = "MATCH (csc:%1$s{%2$s: \"%3$s\"})\n" +
+                "MATCH (gs:%4$s{%5$s: \"%6$s\"})\n" +
+                "MERGE (cd:%7$s{ODX_CropDescription_UUId: \"%8$s\"})\n" +
+                "ON CREATE SET\n" +
+                "cd.ODX_CropDescription_Uri = \"%9$s\",\n" +
+                "cd.CD_GrowthScaleId_Ref = gs.GrowthScaleId,\n" +
+                "cd.CD_ODX_GrowthScale_UUId_Ref = gs.ODX_GrowthScale_UUId,\n" +
+                "cd.ChlorideSensitive = \"%10$s\",\n" +
+                "cd.CropDescriptionId = \"%11$s\",\n" +
+                "cd.CropDescriptionName = \"%12$s\",\n" +
+                "cd.CD_CropSubClassId_Ref = csc.CropSubClassId,\n" +
+                "cd.CD_CSC_UUId_Ref = csc.ODX_CropSubClass_UUId,\n" +
+                "cd.ODX_CD_SourceSystem = \"%13$s\"\n" +
+                "ON MATCH SET\n" +
+                "cd.ODX_CropDescription_Uri = \"%9$s\",\n" +
+                "cd.CD_GrowthScaleId_Ref = gs.GrowthScaleId,\n" +
+                "cd.CD_ODX_GrowthScale_UUId_Ref = gs.ODX_GrowthScale_UUId,\n" +
+                "cd.ChlorideSensitive = \"%10$s\",\n" +
+                "cd.CropDescriptionId = \"%11$s\",\n" +
+                "cd.CropDescriptionName = \"%12$s\",\n" +
+                "cd.CD_CropSubClassId_Ref = csc.CropSubClassId,\n" +
+                "cd.CD_CSC_UUId_Ref = csc.ODX_CropSubClass_UUId,\n" +
+                "cd.ODX_CD_SourceSystem = \"%13$s\"\n";
+
+        cropDescriptions.forEach(description -> {
+            count.incrementAndGet();
+            UUID calculatedSuperClassUUId = computeUUid(description.getSource(), ontologySuperClass, description.getSubClassId());
+            String growthScaleId = getGrowthScaleId(cropRegions, description);
+            UUID calculatedRelatedClassUUId = computeUUid(description.getSource(), ontologyRelatedClass, growthScaleId);
+            String mergeDescriptionCommand = String.format(mergeDescriptionFormat,
+                    ontologySuperClass, superClassIdentifier, calculatedSuperClassUUId.toString(),
+                    ontologyRelatedClass, relatedClassIdentifier, calculatedRelatedClassUUId.toString(),
+                    description.getClassName(), description.getUuId(),
+                    description.getUri(),
+                    description.isChlorideSensitive(),
+                    description.getId(),
+                    description.getName(),
+                    description.getSource());
+            writeToGraph(mergeDescriptionCommand);
+        });
+        System.out.println(count.get() + " CropDescriptions uploaded");
+    }
+
+    private String getGrowthScaleId(List<CropRegion> cropRegions, CropDescription description) {
+        String growthScaleId = "empty";
+        Optional<CropRegion> optionalCropRegion = cropRegions.stream()
+                .filter(cr -> cr.getDescriptionId().equals(description.getId()))
+                .findAny();
+        if (optionalCropRegion.isPresent()) {
+            growthScaleId = optionalCropRegion.get().getGrowthScaleIdRef();
+        }
+        return growthScaleId;
+    }
+
     public void uploadGrowthScales(List<GrowthScale> growthScales) {
         String createGrowthScaleCommandFormat = "CREATE (%s:%s{" +
                 "ODX_GrowthScale_UUId: \"%s\", " +
@@ -762,6 +822,30 @@ public class PropertyGraphUploader implements AutoCloseable {
         });
 
         writeToGraph(builder);
+        System.out.println(count.get() + " GrowthScales uploaded");
+    }
+
+    public void mergeGrowthScales(List<GrowthScale> growthScales) {
+        AtomicInteger count = new AtomicInteger(0);
+        String createGrowthScaleFormat = "MERGE (gs:%1$s{ODX_CropVariety_UUId: \"%2$s\"})\n" +
+                "ON CREATE SET\n" +
+                "gs.GrowthScaleId = \"%3$s\",\n" +
+                "gs.GrowthScaleName = \"%4$s\",\n" +
+                "gs.ODX_GrowthScale_Uri = \"%5$s\"\n" +
+                "ON MATCH SET\n" +
+                "gs.GrowthScaleId = \"%3$s\",\n" +
+                "gs.GrowthScaleName = \"%4$s\",\n" +
+                "gs.ODX_GrowthScale_Uri = \"%5$s\"\n";
+
+        growthScales.forEach(scale -> {
+            count.incrementAndGet();
+            String createGrowthScaleCommand = String.format(createGrowthScaleFormat,
+                    scale.getClassName(), scale.getUuId(),
+                    scale.getId(),
+                    scale.getName(),
+                    scale.getUri());
+            writeToGraph(createGrowthScaleCommand);
+        });
         System.out.println(count.get() + " GrowthScales uploaded");
     }
 
@@ -836,6 +920,49 @@ public class PropertyGraphUploader implements AutoCloseable {
         });
 
         writeToGraph(builder);
+        System.out.println(count.get() + " GrowthScaleStages uploaded");
+    }
+
+    public void mergeGrowthScaleStages(List<GrowthScaleStages> growthScaleStages) {
+        AtomicInteger count = new AtomicInteger(0);
+        String ontologySuperClass = "GrowthScale";
+        String superClassIdentifier = "ODX_GrowthScale_UUId";
+        String mergeGrowthScaleStageFormat = "MATCH (gs:%1$s{%2$s: \"%3$s\"})\n" +
+                "MERGE (gss:%4$s{ODX_GrowthScaleStages_UUId: \"%5$s\"})\n" +
+                "ON CREATE SET\n" +
+                "gss.BaseOrdinal = \"%6$s\",\n" +
+                "gss.GrowthScaleId_Ref = gs.GrowthScaleId,\n" +
+                "gss.GrowthScaleStagesDescription = \"%7$s\",\n" +
+                "gss.GrowthScaleStagesId = \"%8$s\",\n" +
+                "gss.ODX_GrowthScaleStages_SourceSystem = \"%9$s\",\n" +
+                "gss.ODX_GrowthScaleStages_Uri = \"%10$s\",\n" +
+                "gss.ODX_GS_UUId_Ref = gs.CD_ODX_GrowthScale_UUId_Ref,\n" +
+                "gss.Ordinal = \"%11$s\"\n" +
+                "ON MATCH SET\n" +
+                "gss.BaseOrdinal = \"%6$s\",\n" +
+                "gss.GrowthScaleId_Ref = gs.GrowthScaleId,\n" +
+                "gss.GrowthScaleStagesDescription = \"%7$s\",\n" +
+                "gss.GrowthScaleStagesId = \"%8$s\",\n" +
+                "gss.ODX_GrowthScaleStages_SourceSystem = \"%9$s\",\n" +
+                "gss.ODX_GrowthScaleStages_Uri = \"%10$s\",\n" +
+                "gss.ODX_GS_UUId_Ref = gs.CD_ODX_GrowthScale_UUId_Ref,\n" +
+                "gss.Ordinal = \"%11$s\"\n";
+
+        growthScaleStages.forEach(stage -> {
+            count.incrementAndGet();
+            UUID calculatedSuperClassUUId = computeUUid(stage.getSource(), ontologySuperClass, stage.getGrowthScaleId());
+            String mergeGrowthScaleCommand = String.format(mergeGrowthScaleStageFormat,
+                    ontologySuperClass, superClassIdentifier, calculatedSuperClassUUId.toString(),
+                    stage.getClassName(), stage.getUuId(),
+                    stage.getBaseOrdinal(),
+                    stage.getGrowthScaleStageDescription(),
+                    stage.getId(),
+                    stage.getSource(),
+                    stage.getUri(),
+                    stage.getUuId(),
+                    stage.getOrdinal());
+            writeToGraph(mergeGrowthScaleCommand);
+        });
         System.out.println(count.get() + " GrowthScaleStages uploaded");
     }
 

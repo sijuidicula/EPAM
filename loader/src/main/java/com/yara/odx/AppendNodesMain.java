@@ -61,9 +61,9 @@ public class AppendNodesMain {
         uploader.mergeCropClasses(cropClasses);
         uploader.mergeCropSubClasses(cropSubClasses);
         uploader.mergeCropVarieties(cropVarieties);
-//        uploader.uploadCropDescriptionsAsBatch(cropDescriptions, cropSubClasses, cropRegions, growthScales);
-//        uploader.uploadGrowthScalesAsBatch(growthScales);
-//        uploader.uploadGrowthScaleStagesAsBatch(growthScaleStages, growthScales);
+        uploader.mergeGrowthScales(growthScales);
+        uploader.mergeCropDescriptions(cropDescriptions, cropRegions);
+        uploader.mergeGrowthScaleStages(growthScaleStages);
 //        uploader.uploadNutrientsAsBatch(nutrients);
 //        uploader.uploadUnitsAsBatch(units);
 //        uploader.uploadUnitConversionsAsBatch(unitConversions, units);
