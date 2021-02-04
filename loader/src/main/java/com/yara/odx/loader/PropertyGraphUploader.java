@@ -1705,6 +1705,17 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " Country-Region relations uploaded");
     }
 
+
+    public void createCountryToRegionRelations(List<Region> regions) {
+        AtomicInteger count = new AtomicInteger(0);
+        regions.forEach(region -> {
+            createCountryRegionRelation(region);
+            System.out.println(count.incrementAndGet() + " Country to Region relations created");
+        });
+        System.out.println("Country-Region relation uploading completed");
+        System.out.println(count.get() + " Country-Region relations uploaded");
+    }
+
     public void createCountryToRegionRelationsAsBatch(List<Country> countries, List<Region> regions) {
         AtomicInteger count = new AtomicInteger(0);
         StringBuilder matchBuilder = new StringBuilder();
@@ -1752,6 +1763,16 @@ public class PropertyGraphUploader implements AutoCloseable {
         classes.forEach(cropClass -> {
             CropGroup group = (CropGroup) getFromCollectionById(groups, cropClass.getGroupId());
             createGroupClassRelation(group, cropClass);
+            System.out.println(count.incrementAndGet() + " CropGroup to CropClass relations created");
+        });
+        System.out.println("Group-Class relation uploading completed");
+        System.out.println(count.get() + " Group-Class relations uploaded");
+    }
+
+    public void createCropGroupToClassRelations(List<CropClass> classes) {
+        AtomicInteger count = new AtomicInteger(0);
+        classes.forEach(cropClass -> {
+            createGroupClassRelation(cropClass);
             System.out.println(count.incrementAndGet() + " CropGroup to CropClass relations created");
         });
         System.out.println("Group-Class relation uploading completed");
@@ -2306,6 +2327,14 @@ public class PropertyGraphUploader implements AutoCloseable {
         uploadRelationToDatabase(matchCountry, matchRegion, createRelation);
     }
 
+    private void createCountryRegionRelation(Region region) {
+        UUID calculatedCountryUUId = computeUUid(region.getSource(), "Country", region.getCountryId());
+        String matchCountry = String.format("MATCH (country:Country{ODX_Country_UUId:\"%s\"})\n", calculatedCountryUUId.toString());
+        String matchRegion = String.format("MATCH (region:Region{ODX_Region_UUId:\"%s\"})\n", region.getUuId());
+        String createRelation = "MERGE (country)-[:hasRegion]->(region)";
+        uploadRelationToDatabase(matchCountry, matchRegion, createRelation);
+    }
+
     private void appendCountryRegionRelation(Country country,
                                              Region region,
                                              StringBuilder matchBuilder,
@@ -2322,6 +2351,14 @@ public class PropertyGraphUploader implements AutoCloseable {
         String matchGroup = String.format("MATCH (group:CropGroup{ODX_CropGroup_UUId:\"%s\"})\n", group.getUuId());
         String matchClass = String.format("MATCH (class:CropClass{ODX_CropClass_UUId:\"%s\"})\n", cropClass.getUuId());
         String createRelation = "CREATE (group)-[:hasCropClass]->(class)";
+        uploadRelationToDatabase(matchGroup, matchClass, createRelation);
+    }
+
+    private void createGroupClassRelation(CropClass cropClass) {
+        UUID calculatedGroupUUId = computeUUid(cropClass.getSource(), "CropGroup", cropClass.getGroupId());
+        String matchGroup = String.format("MATCH (group:CropGroup{ODX_CropGroup_UUId:\"%s\"})\n", calculatedGroupUUId.toString());
+        String matchClass = String.format("MATCH (class:CropClass{ODX_CropClass_UUId:\"%s\"})\n", cropClass.getUuId());
+        String createRelation = "MERGE (group)-[:hasCropClass]->(class)";
         uploadRelationToDatabase(matchGroup, matchClass, createRelation);
     }
 
