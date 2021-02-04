@@ -1030,6 +1030,39 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " Nutrients uploaded");
     }
 
+    public void mergeNutrients(List<Nutrient> nutrients) {
+        AtomicInteger count = new AtomicInteger(0);
+        String mergeNutrientFormat = "MERGE (n:%1$s{ODX_Nutrient_UUId: \"%2$s\"})\n" +
+                "ON CREATE SET\n" +
+                "n.ODX_Nutrient_Uri = \"%3$s\",\n" +
+                "n.NutrientId = \"%4$s\",\n" +
+                "n.NutrientName = \"%5$s\",\n" +
+                "n.ElementalName = \"%6$s\",\n" +
+                "n.Nutr_Ordinal = \"%7$s\",\n" +
+                "n.ODX_Nutr_SourceSystem = \"%8$s\"\n" +
+                "ON MATCH SET\n" +
+                "n.ODX_Nutrient_Uri = \"%3$s\",\n" +
+                "n.NutrientId = \"%4$s\",\n" +
+                "n.NutrientName = \"%5$s\",\n" +
+                "n.ElementalName = \"%6$s\",\n" +
+                "n.Nutr_Ordinal = \"%7$s\",\n" +
+                "n.ODX_Nutr_SourceSystem = \"%8$s\"\n";
+
+        nutrients.forEach(nutrient -> {
+            count.incrementAndGet();
+            String mergeNutrientCommand = String.format(mergeNutrientFormat,
+                    nutrient.getClassName(), nutrient.getUuId(),
+                    nutrient.getUri(),
+                    nutrient.getId(),
+                    nutrient.getName(),
+                    nutrient.getElementalName(),
+                    nutrient.getNutrientOrdinal(),
+                    nutrient.getSource());
+            writeToGraph(mergeNutrientCommand);
+        });
+        System.out.println(count.get() + " Nutrients uploaded");
+    }
+
     public void uploadUnits(List<Units> units) {
         String createUnitCommandFormat = "CREATE (%s:%s{" +
                 "ODX_Units_UUId: \"%s\", " +
@@ -1083,6 +1116,33 @@ public class PropertyGraphUploader implements AutoCloseable {
         });
 
         writeToGraph(builder);
+        System.out.println(count.get() + " Units uploaded");
+    }
+
+    public void mergeUnits(List<Units> units) {
+        AtomicInteger count = new AtomicInteger(0);
+        String mergeUnitFormat = "MERGE (u:%1$s{ODX_Units_UUId: \"%2$s\"})\n" +
+                "ON CREATE SET\n" +
+                "u.ODX_Units_Uri = \"%3$s\",\n" +
+                "u.UnitsId = \"%4$s\",\n" +
+                "u.UnitsName = \"%5$s\",\n" +
+                "u.UnitsTags = \"%6$s\"\n" +
+                "ON MATCH SET\n" +
+                "u.ODX_Units_Uri = \"%3$s\",\n" +
+                "u.UnitsId = \"%4$s\",\n" +
+                "u.UnitsName = \"%5$s\",\n" +
+                "u.UnitsTags = \"%6$s\"\n";
+
+        units.forEach(unit -> {
+            count.incrementAndGet();
+            String mergeUnitCommand = String.format(mergeUnitFormat,
+                    unit.getClassName(), unit.getUuId(),
+                    unit.getUri(),
+                    unit.getId(),
+                    unit.getName(),
+                    unit.getTag());
+            writeToGraph(mergeUnitCommand);
+        });
         System.out.println(count.get() + " Units uploaded");
     }
 
@@ -1157,6 +1217,48 @@ public class PropertyGraphUploader implements AutoCloseable {
         });
 
         writeToGraph(builder);
+        System.out.println(count.get() + " UnitConversions uploaded");
+    }
+
+    public void mergeUnitConversions(List<UnitConversion> conversions) {
+        AtomicInteger count = new AtomicInteger(0);
+        String ontologySuperClass = "Units";
+        String superClassIdentifier = "ODX_Units_UUId";
+        String mergeConversionFormat = "MATCH (u:%1$s{%2$s: \"%3$s\"})\n" +
+                "MERGE (uc:%4$s{ODX_UnitConversion_UUId: \"%5$s\"})\n" +
+                "ON CREATE SET\n" +
+                "uc.ConvertToUnitId = \"%6$s\",\n" +
+                "uc.CountryId_Ref = \"%7$s\",\n" +
+                "uc.Multiplier = \"%8$s\",\n" +
+                "uc.ODX_UnitConversion_SourceSystem = \"%9$s\",\n" +
+                "uc.ODX_UnitConversion_Uri = \"%10$s\",\n" +
+                "uc.ODX_Units_UUId_Ref = u.ODX_Units_UUId,\n" +
+                "uc.UnitConversionId = \"%11$s\",\n" +
+                "uc.UnitsId_Ref = u.UnitsId \n" +
+                "ON MATCH SET\n" +
+                "uc.ConvertToUnitId = \"%6$s\",\n" +
+                "uc.CountryId_Ref = \"%7$s\",\n" +
+                "uc.Multiplier = \"%8$s\",\n" +
+                "uc.ODX_UnitConversion_SourceSystem = \"%9$s\",\n" +
+                "uc.ODX_UnitConversion_Uri = \"%10$s\",\n" +
+                "uc.ODX_Units_UUId_Ref = u.ODX_Units_UUId,\n" +
+                "uc.UnitConversionId = \"%11$s\",\n" +
+                "uc.UnitsId_Ref = u.UnitsId \n";
+
+        conversions.forEach(conversion -> {
+            count.incrementAndGet();
+            UUID calculatedSuperClassUUId = computeUUid(conversion.getSource(), ontologySuperClass, conversion.getUnitIdRef());
+            String mergeConversionCommand = String.format(mergeConversionFormat,
+                    ontologySuperClass, superClassIdentifier, calculatedSuperClassUUId.toString(),
+                    conversion.getClassName(), conversion.getUuId(),
+                    conversion.getConvertToUnitId(),
+                    conversion.getCountryIdRef(),
+                    conversion.getMultiplier(),
+                    conversion.getSource(),
+                    conversion.getUri(),
+                    conversion.getId());
+            writeToGraph(mergeConversionCommand);
+        });
         System.out.println(count.get() + " UnitConversions uploaded");
     }
 
@@ -1415,6 +1517,183 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " Fertilizers uploaded");
     }
 
+    public void mergeFertilizers(List<Fertilizers> fertilizers) {
+        AtomicInteger count = new AtomicInteger(0);
+        String createFertilizerFormat = "MERGE (f:%1$s{ODX_Fertilizers_UUId: \"%2$s\"})\n" +
+                "ON CREATE SET\n" +
+                "f.B= \"%3$s\", " +
+                "f.BUnitId= \"%4$s\", " +
+                "f.Ca= \"%5$s\", " +
+                "f.CaUnitId= \"%6$s\", " +
+                "f.Co= \"%7$s\", " +
+                "f.CoUnitId= \"%8$s\", " +
+                "f.Cu= \"%9$s\", " +
+                "f.CuUnitId= \"%10$s\", " +
+                "f.Density= \"%11$s\", " +
+                "f.DhCode= \"%12$s\", " +
+                "f.DryMatter= \"%13$s\", " +
+                "f.ElectricalConductivity= \"%14$s\", " +
+                "f.Fe= \"%15$s\", " +
+                "f.FeUnitId= \"%16$s\", " +
+                "f.K= \"%17$s\", " +
+                "f.KUnitId= \"%18$s\", " +
+                "f.LastSync= \"%19$s\", " +
+                "f.LowChloride= \"%20$s\", " +
+                "f.Mg= \"%21$s\", " +
+                "f.MgUnitId= \"%22$s\", " +
+                "f.Mn= \"%23$s\", " +
+                "f.MnUnitId= \"%24$s\", " +
+                "f.Mo= \"%25$s\", " +
+                "f.MoUnitId= \"%26$s\", " +
+                "f.N= \"%27$s\", " +
+                "f.NUnitId= \"%28$s\", " +
+                "f.Na= \"%29$s\", " +
+                "f.NaUnitId= \"%30$s\", " +
+                "f.NH4= \"%31$s\", " +
+                "f.NO3= \"%32$s\", " +
+                "f.ODX_Fert_SourceSystem= \"%33$s\", " +
+                "f.ODX_Fertilizers_Uri= \"%34$s\", " +
+                "f.P= \"%35$s\", " +
+                "f.PUnitId= \"%36$s\", " +
+                "f.Ph= \"%37$s\", " +
+                "f.ProdFamily= \"%38$s\", " +
+                "f.FertilizersName= \"%39$s\", " +
+                "f.FertilizersId= \"%40$s\", " +
+                "f.ProductType= \"%41$s\", " +
+                "f.S= \"%42$s\", " +
+                "f.SUnitId= \"%43$s\", " +
+                "f.Se= \"%44$s\", " +
+                "f.SeUnitId= \"%45$s\", " +
+                "f.Solubility20C= \"%46$s\", " +
+                "f.Solubility5C= \"%47$s\", " +
+                "f.SpreaderLoss= \"%48$s\", " +
+                "f.SyncId= \"%49$s\", " +
+                "f.SyncSource= \"%50$s\", " +
+                "f.Tank= \"%51$s\", " +
+                "f.Urea= \"%52$s\", " +
+                "f.UtilizationN= \"%53$s\", " +
+                "f.UtilizationNH4= \"%54$s\", " +
+                "f.Zn= \"%55$s\", " +
+                "f.ZnUnitId= \"%56$s\"\n" +
+                "ON MATCH SET\n" +
+                "f.B= \"%3$s\", " +
+                "f.BUnitId= \"%4$s\", " +
+                "f.Ca= \"%5$s\", " +
+                "f.CaUnitId= \"%6$s\", " +
+                "f.Co= \"%7$s\", " +
+                "f.CoUnitId= \"%8$s\", " +
+                "f.Cu= \"%9$s\", " +
+                "f.CuUnitId= \"%10$s\", " +
+                "f.Density= \"%11$s\", " +
+                "f.DhCode= \"%12$s\", " +
+                "f.DryMatter= \"%13$s\", " +
+                "f.ElectricalConductivity= \"%14$s\", " +
+                "f.Fe= \"%15$s\", " +
+                "f.FeUnitId= \"%16$s\", " +
+                "f.K= \"%17$s\", " +
+                "f.KUnitId= \"%18$s\", " +
+                "f.LastSync= \"%19$s\", " +
+                "f.LowChloride= \"%20$s\", " +
+                "f.Mg= \"%21$s\", " +
+                "f.MgUnitId= \"%22$s\", " +
+                "f.Mn= \"%23$s\", " +
+                "f.MnUnitId= \"%24$s\", " +
+                "f.Mo= \"%25$s\", " +
+                "f.MoUnitId= \"%26$s\", " +
+                "f.N= \"%27$s\", " +
+                "f.NUnitId= \"%28$s\", " +
+                "f.Na= \"%29$s\", " +
+                "f.NaUnitId= \"%39$s\", " +
+                "f.NH4= \"%31$s\", " +
+                "f.NO3= \"%32$s\", " +
+                "f.ODX_Fert_SourceSystem= \"%33$s\", " +
+                "f.ODX_Fertilizers_Uri= \"%34$s\", " +
+                "f.P= \"%35$s\", " +
+                "f.PUnitId= \"%36$s\", " +
+                "f.Ph= \"%37$s\", " +
+                "f.ProdFamily= \"%38$s\", " +
+                "f.FertilizersName= \"%39$s\", " +
+                "f.FertilizersId= \"%40$s\", " +
+                "f.ProductType= \"%41$s\", " +
+                "f.S= \"%42$s\", " +
+                "f.SUnitId= \"%43$s\", " +
+                "f.Se= \"%44$s\", " +
+                "f.SeUnitId= \"%45$s\", " +
+                "f.Solubility20C= \"%46$s\", " +
+                "f.Solubility5C= \"%47$s\", " +
+                "f.SpreaderLoss= \"%48$s\", " +
+                "f.SyncId= \"%49$s\", " +
+                "f.SyncSource= \"%50$s\", " +
+                "f.Tank= \"%51$s\", " +
+                "f.Urea= \"%52$s\", " +
+                "f.UtilizationN= \"%53$s\", " +
+                "f.UtilizationNH4= \"%54$s\", " +
+                "f.Zn= \"%55$s\", " +
+                "f.ZnUnitId= \"%56$s\"\n";
+
+        fertilizers.forEach(fertilizer -> {
+            count.incrementAndGet();
+            String createFertilizerCommand = String.format(createFertilizerFormat,
+                    fertilizer.getClassName(), fertilizer.getUuId(),
+                    fertilizer.getB(),
+                    fertilizer.getBUnitId(),
+                    fertilizer.getCa(),
+                    fertilizer.getCaUnitId(),
+                    fertilizer.getCo(),
+                    fertilizer.getCoUnitId(),
+                    fertilizer.getCu(),
+                    fertilizer.getCuUnitId(),
+                    fertilizer.getDensity(),
+                    fertilizer.getDhCode(),
+                    fertilizer.getDryMatter(),
+                    fertilizer.getElectricalConductivity(),
+                    fertilizer.getFe(),
+                    fertilizer.getFeUnitId(),
+                    fertilizer.getK(),
+                    fertilizer.getKUnitId(),
+                    fertilizer.getLastSync(),
+                    fertilizer.getLowChloride(),
+                    fertilizer.getMg(),
+                    fertilizer.getMgUnitId(),
+                    fertilizer.getMn(),
+                    fertilizer.getMnUnitId(),
+                    fertilizer.getMo(),
+                    fertilizer.getMoUnitId(),
+                    fertilizer.getN(),
+                    fertilizer.getNUnitId(),
+                    fertilizer.getNa(),
+                    fertilizer.getNaUnitId(),
+                    fertilizer.getNh4(),
+                    fertilizer.getNo3(),
+                    fertilizer.getSource(),
+                    fertilizer.getUri(),
+                    fertilizer.getP(),
+                    fertilizer.getPUnitId(),
+                    fertilizer.getPh(),
+                    fertilizer.getFamily(),
+                    fertilizer.getName(),
+                    fertilizer.getId(),
+                    fertilizer.getType(),
+                    fertilizer.getS(),
+                    fertilizer.getSUnitId(),
+                    fertilizer.getSe(),
+                    fertilizer.getSeUnitId(),
+                    fertilizer.getSolubility20C(),
+                    fertilizer.getSolubility5C(),
+                    fertilizer.getSpreaderLoss(),
+                    fertilizer.getSyncId(),
+                    fertilizer.getSyncSource(),
+                    fertilizer.getTank(),
+                    fertilizer.getUrea(),
+                    fertilizer.getUtilizationN(),
+                    fertilizer.getUtilizationNh4(),
+                    fertilizer.getZn(),
+                    fertilizer.getZnUnitId());
+            writeToGraph(createFertilizerCommand);
+        });
+        System.out.println(count.get() + " Fertilizers uploaded");
+    }
+
     public void createCountryToRegionRelations(List<Country> countries, List<Region> regions) {
         AtomicInteger count = new AtomicInteger(0);
         regions.forEach(region -> {
@@ -1544,7 +1823,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         if (builder.length() == 0) return;
 
 //      ********************************************
-        System.out.println(builder.toString());
+//        System.out.println(builder.toString());
 //      ********************************************
 
         try (Session session = driver.session()) {
@@ -2442,7 +2721,7 @@ public class PropertyGraphUploader implements AutoCloseable {
         commands.add("CREATE CONSTRAINT nutrient_constraint ON (n:Nutrient) ASSERT n.ODX_Nutrient_UUId IS UNIQUE\n");
         commands.add("CREATE CONSTRAINT units_constraint ON (u:Units) ASSERT u.ODX_Units_UUId IS UNIQUE\n");
         commands.add("CREATE CONSTRAINT unit_conversion_constraint ON (uc:UnitConversion) ASSERT uc.ODX_UnitConversion_UUId IS UNIQUE\n");
-        commands.add("CREATE CONSTRAINT fertilizer_constraint ON (f:Fertilizers) ASSERT f.ODX_Fertilizer_UUId IS UNIQUE\n");
+        commands.add("CREATE CONSTRAINT fertilizer_constraint ON (f:Fertilizers) ASSERT f.ODX_Fertilizers_UUId IS UNIQUE\n");
 
         for (String command : commands) {
             try (Session session = driver.session()) {

@@ -64,11 +64,11 @@ public class AppendNodesMain {
         uploader.mergeGrowthScales(growthScales);
         uploader.mergeCropDescriptions(cropDescriptions, cropRegions);
         uploader.mergeGrowthScaleStages(growthScaleStages);
-//        uploader.uploadNutrientsAsBatch(nutrients);
-//        uploader.uploadUnitsAsBatch(units);
-//        uploader.uploadUnitConversionsAsBatch(unitConversions, units);
-//        uploader.uploadFertilizersAsBatch(fertilizers);
-//
+        uploader.mergeNutrients(nutrients);
+        uploader.mergeUnits(units);
+        uploader.mergeUnitConversions(unitConversions);
+        uploader.mergeFertilizers(fertilizers);
+
 //        uploader.createCountryToRegionRelations(countries, regions);
 //        uploader.createCropGroupToClassRelations(cropGroups, cropClasses);
 //        uploader.createCropClassToSubClassRelations(cropClasses, cropSubClasses);
