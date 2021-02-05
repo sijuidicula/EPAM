@@ -1706,10 +1706,10 @@ public class PropertyGraphUploader implements AutoCloseable {
     }
 
 
-    public void createCountryToRegionRelations(List<Region> regions) {
+    public void mergeCountryToRegionRelations(List<Region> regions) {
         AtomicInteger count = new AtomicInteger(0);
         regions.forEach(region -> {
-            createCountryRegionRelation(region);
+            mergeCountryRegionRelation(region);
             System.out.println(count.incrementAndGet() + " Country to Region relations created");
         });
         System.out.println("Country-Region relation uploading completed");
@@ -1769,10 +1769,10 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " Group-Class relations uploaded");
     }
 
-    public void createCropGroupToClassRelations(List<CropClass> classes) {
+    public void mergeCropGroupToClassRelations(List<CropClass> classes) {
         AtomicInteger count = new AtomicInteger(0);
         classes.forEach(cropClass -> {
-            createGroupClassRelation(cropClass);
+            mergeGroupClassRelation(cropClass);
             System.out.println(count.incrementAndGet() + " CropGroup to CropClass relations created");
         });
         System.out.println("Group-Class relation uploading completed");
@@ -1802,6 +1802,16 @@ public class PropertyGraphUploader implements AutoCloseable {
         children.forEach(child -> {
             CropClass ancestor = (CropClass) getFromCollectionById(ancestors, child.getClassId());
             createClassSubClassRelation(ancestor, child);
+            System.out.println(count.incrementAndGet() + " Class to SubClass relations created");
+        });
+        System.out.println("Class-SubClass relation uploading completed");
+        System.out.println(count.get() + " Class-SubClass relations uploaded");
+    }
+
+    public void mergeCropClassToSubClassRelations(List<CropSubClass> children) {
+        AtomicInteger count = new AtomicInteger(0);
+        children.forEach(child -> {
+            mergeClassSubClassRelation(child);
             System.out.println(count.incrementAndGet() + " Class to SubClass relations created");
         });
         System.out.println("Class-SubClass relation uploading completed");
@@ -1875,6 +1885,16 @@ public class PropertyGraphUploader implements AutoCloseable {
         System.out.println(count.get() + " CropSubClass-CropVariety relations uploaded");
     }
 
+    public void mergeCropSubClassToVarietyRelations(List<CropVariety> varieties) {
+        AtomicInteger count = new AtomicInteger(0);
+        varieties.forEach(variety -> {
+            mergeSubClassVarietyRelation(variety);
+            System.out.println(count.incrementAndGet() + " CSC to CV relations created");
+        });
+        System.out.println("CropSubClass-CropVariety relation uploading completed");
+        System.out.println(count.get() + " CropSubClass-CropVariety relations uploaded");
+    }
+
     public void createCropSubClassToVarietyRelationsAsBatch(List<CropSubClass> subClasses, List<CropVariety> varieties) {
         AtomicInteger count = new AtomicInteger(0);
         StringBuilder matchBuilder = new StringBuilder();
@@ -1898,6 +1918,16 @@ public class PropertyGraphUploader implements AutoCloseable {
         descriptions.forEach(description -> {
             CropSubClass subClass = (CropSubClass) getFromCollectionById(subClasses, description.getSubClassId());
             createSubClassDescriptionRelation(subClass, description);
+            System.out.println(count.incrementAndGet() + " CSC to CD relations created");
+        });
+        System.out.println("CropSubClass-CropDescription relation uploading completed");
+        System.out.println(count.get() + " CropSubClass-CropDescription relations uploaded");
+    }
+
+    public void mergeCropSubClassToDescriptionRelations(List<CropDescription> descriptions) {
+        AtomicInteger count = new AtomicInteger(0);
+        descriptions.forEach(description -> {
+            mergeSubClassDescriptionRelation(description);
             System.out.println(count.incrementAndGet() + " CSC to CD relations created");
         });
         System.out.println("CropSubClass-CropDescription relation uploading completed");
@@ -1929,6 +1959,16 @@ public class PropertyGraphUploader implements AutoCloseable {
             CropDescription description = (CropDescription) getFromCollectionById(cropDescriptions, descvar.getDescId());
             CropVariety variety = (CropVariety) getFromCollectionById(cropVarieties, descvar.getVarId());
             createVarietyDescriptionRelation(variety, description);
+            System.out.println(count.incrementAndGet() + " CV to CD relations created");
+        });
+        System.out.println("CropVariety-CropDescription relation uploading completed");
+        System.out.println(count.get() + " CropVariety-CropDescription relations uploaded");
+    }
+
+    public void mergeCropVarietyToDescriptionRelations(List<CropDescriptionVariety> cropDescVars) {
+        AtomicInteger count = new AtomicInteger(0);
+        cropDescVars.forEach(descvar -> {
+            mergeVarietyDescriptionRelation(descvar);
             System.out.println(count.incrementAndGet() + " CV to CD relations created");
         });
         System.out.println("CropVariety-CropDescription relation uploading completed");
@@ -2327,12 +2367,12 @@ public class PropertyGraphUploader implements AutoCloseable {
         uploadRelationToDatabase(matchCountry, matchRegion, createRelation);
     }
 
-    private void createCountryRegionRelation(Region region) {
+    private void mergeCountryRegionRelation(Region region) {
         UUID calculatedCountryUUId = computeUUid(region.getSource(), "Country", region.getCountryId());
         String matchCountry = String.format("MATCH (country:Country{ODX_Country_UUId:\"%s\"})\n", calculatedCountryUUId.toString());
         String matchRegion = String.format("MATCH (region:Region{ODX_Region_UUId:\"%s\"})\n", region.getUuId());
-        String createRelation = "MERGE (country)-[:hasRegion]->(region)";
-        uploadRelationToDatabase(matchCountry, matchRegion, createRelation);
+        String mergeRelation = "MERGE (country)-[:hasRegion]->(region)";
+        uploadRelationToDatabase(matchCountry, matchRegion, mergeRelation);
     }
 
     private void appendCountryRegionRelation(Country country,
@@ -2354,12 +2394,12 @@ public class PropertyGraphUploader implements AutoCloseable {
         uploadRelationToDatabase(matchGroup, matchClass, createRelation);
     }
 
-    private void createGroupClassRelation(CropClass cropClass) {
+    private void mergeGroupClassRelation(CropClass cropClass) {
         UUID calculatedGroupUUId = computeUUid(cropClass.getSource(), "CropGroup", cropClass.getGroupId());
         String matchGroup = String.format("MATCH (group:CropGroup{ODX_CropGroup_UUId:\"%s\"})\n", calculatedGroupUUId.toString());
         String matchClass = String.format("MATCH (class:CropClass{ODX_CropClass_UUId:\"%s\"})\n", cropClass.getUuId());
-        String createRelation = "MERGE (group)-[:hasCropClass]->(class)";
-        uploadRelationToDatabase(matchGroup, matchClass, createRelation);
+        String mergeRelation = "MERGE (group)-[:hasCropClass]->(class)";
+        uploadRelationToDatabase(matchGroup, matchClass, mergeRelation);
     }
 
     private void appendGroupClassRelation(CropGroup group,
@@ -2381,6 +2421,14 @@ public class PropertyGraphUploader implements AutoCloseable {
         uploadRelationToDatabase(matchAncestor, matchChild, createRelation);
     }
 
+    private void mergeClassSubClassRelation(CropSubClass subClass) {
+        UUID calculatedCropClassUUId = computeUUid(subClass.getSource(), "CropClass", subClass.getClassId());
+        String matchClass = String.format("MATCH (class:CropClass{ODX_CropClass_UUId:\"%s\"})\n", calculatedCropClassUUId.toString());
+        String matchSubClass = String.format("MATCH (subClass:CropSubClass{ODX_CropSubClass_UUId:\"%s\"})\n", subClass.getUuId());
+        String mergeRelation = "MERGE (class)-[:hasCropSubClass]->(subClass)";
+        uploadRelationToDatabase(matchClass, matchSubClass, mergeRelation);
+    }
+
     private void appendClassSubClassRelation(CropClass cropClass,
                                              CropSubClass subClass,
                                              StringBuilder matchBuilder,
@@ -2400,6 +2448,14 @@ public class PropertyGraphUploader implements AutoCloseable {
         uploadRelationToDatabase(matchSubClass, matchVariety, createRelation);
     }
 
+    private void mergeSubClassVarietyRelation(CropVariety variety) {
+        UUID calculatedCropSubClassUUId = computeUUid(variety.getSource(), "CropSubClass", variety.getSubClassId());
+        String matchSubClass = String.format("MATCH (subClass:CropSubClass{ODX_CropSubClass_UUId:\"%s\"})\n", calculatedCropSubClassUUId.toString());
+        String matchVariety = String.format("MATCH (variety:CropVariety{ODX_CropVariety_UUId:\"%s\"})\n", variety.getUuId());
+        String mergeRelation = "MERGE (subClass)-[:hasCropVariety]->(variety)";
+        uploadRelationToDatabase(matchSubClass, matchVariety, mergeRelation);
+    }
+
     private void appendSubClassVarietyRelation(CropSubClass subClass,
                                                CropVariety variety,
                                                StringBuilder matchBuilder,
@@ -2417,6 +2473,14 @@ public class PropertyGraphUploader implements AutoCloseable {
         String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
         String createRelation = "CREATE (subClass)-[:hasCropDescription]->(description)";
         uploadRelationToDatabase(matchSubClass, matchDescription, createRelation);
+    }
+
+    private void mergeSubClassDescriptionRelation(CropDescription description) {
+        UUID calculatedCropSubClassUUId = computeUUid(description.getSource(), "CropSubClass", description.getSubClassId());
+        String matchSubClass = String.format("MATCH (subClass:CropSubClass{ODX_CropSubClass_UUId:\"%s\"})\n", calculatedCropSubClassUUId.toString());
+        String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", description.getUuId());
+        String mergeRelation = "MERGE (subClass)-[:hasCropDescription]->(description)";
+        uploadRelationToDatabase(matchSubClass, matchDescription, mergeRelation);
     }
 
     private void createSubClassDescriptionRelationWithBuilders(CropSubClass subClass,
@@ -2440,6 +2504,19 @@ public class PropertyGraphUploader implements AutoCloseable {
                 description.getId(),
                 description.getUuId());
         uploadRelationToDatabase(matchVariety, matchDescription, createRelation);
+    }
+
+    private void mergeVarietyDescriptionRelation(CropDescriptionVariety descriptionVariety) {
+        UUID calculatedDescriptionUUId = computeUUid("Polaris", "CropDescription", descriptionVariety.getDescId());
+        UUID calculatedVarietyUUId = computeUUid("Polaris", "CropVariety", descriptionVariety.getVarId());
+        String matchVariety = String.format("MATCH (variety:CropVariety{ODX_CropVariety_UUId:\"%s\"})\n", calculatedVarietyUUId.toString());
+        String matchDescription = String.format("MATCH (description:CropDescription{ODX_CropDescription_UUId:\"%s\"})\n", calculatedDescriptionUUId.toString());
+        String mergeRelation = String.format("MERGE (variety)-[:hasCropDescription {" +
+                        "CV_CropDescriptionId_Ref: \"%s\", " +
+                        "CV_CD_UUId_Ref: \"%s\"}]->(description)",
+                descriptionVariety.getDescId(),
+                calculatedDescriptionUUId.toString());
+        uploadRelationToDatabase(matchVariety, matchDescription, mergeRelation);
     }
 
     private void createVarietyDescriptionRelationWithBuilders(CropVariety variety,
