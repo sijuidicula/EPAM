@@ -2877,10 +2877,12 @@ public class PropertyGraphUploader implements AutoCloseable {
         uploadRelationToDatabase(matchFertilizer, matchNutrient, createRelation);
     }
 
-    private void mergeFertilizerToNutrientRelation(Fertilizers fertilizer, String nutrientUnitId) {
-        UUID calculatedNutrientUUId = computeUUid("Polaris", "Nutrient", nutrientUnitId);
+    private void mergeFertilizerToNutrientRelation(Fertilizers fertilizer, String unitsId) {
+        UUID calculatedUnitsUUId = computeUUid("Polaris", "Units", unitsId);
         String matchFertilizer = String.format("MATCH (fertilizer:Fertilizers{ODX_Fertilizers_UUId:\"%s\"})\n", fertilizer.getUuId());
-        String matchNutrient = String.format("MATCH (nutrient:Nutrient{ODX_Nutrient_UUId:\"%s\"})\n", calculatedNutrientUUId.toString());
+        String matchNutrient = String.format(
+                "MATCH (units:Units{ODX_Units_UUId:\"%s\"})\n" +
+                "MATCH (nutrient:Nutrient{ElementalName:units.UnitsTags})\n", calculatedUnitsUUId.toString());
         String mergeRelation = "MERGE (fertilizer)-[:hasProdNutrient]->(nutrient)";
         uploadRelationToDatabase(matchFertilizer, matchNutrient, mergeRelation);
     }
