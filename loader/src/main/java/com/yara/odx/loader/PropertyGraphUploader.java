@@ -936,7 +936,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "gss.GrowthScaleStagesId = \"%8$s\",\n" +
                 "gss.ODX_GrowthScaleStages_SourceSystem = \"%9$s\",\n" +
                 "gss.ODX_GrowthScaleStages_Uri = \"%10$s\",\n" +
-                "gss.ODX_GS_UUId_Ref = gs.CD_ODX_GrowthScale_UUId_Ref,\n" +
+                "gss.ODX_GS_UUId_Ref = gs.ODX_GrowthScale_UUId,\n" +
                 "gss.Ordinal = \"%11$s\"\n" +
                 "ON MATCH SET\n" +
                 "gss.BaseOrdinal = \"%6$s\",\n" +
@@ -945,7 +945,7 @@ public class PropertyGraphUploader implements AutoCloseable {
                 "gss.GrowthScaleStagesId = \"%8$s\",\n" +
                 "gss.ODX_GrowthScaleStages_SourceSystem = \"%9$s\",\n" +
                 "gss.ODX_GrowthScaleStages_Uri = \"%10$s\",\n" +
-                "gss.ODX_GS_UUId_Ref = gs.CD_ODX_GrowthScale_UUId_Ref,\n" +
+                "gss.ODX_GS_UUId_Ref = gs.ODX_GrowthScale_UUId,\n" +
                 "gss.Ordinal = \"%11$s\"\n";
 
         growthScaleStages.forEach(stage -> {

@@ -1,0 +1,911 @@
+@prefix yara: <http://datalake.yara.com/ontology#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+yara:CropGroupShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:CropGroup ;
+    sh:property    [ sh:path     yara:ODX_CropGroup_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CropGroup_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CropGroupName ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CropGroupId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CG_FAOId ;
+                     sh:minCount 2 ;
+                     sh:maxCount 2 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path  yara:hasCropClass ;
+                     sh:class yara:CropClass ; ] ;
+.
+
+yara:CropClassShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:CropClass ;
+    sh:property    [ sh:path     yara:CC_FAOId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CropClassId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CropClassName ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+#    Possibly need to put a constraint of existance in DB
+    sh:property    [ sh:path     yara:CropGroupId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+#    Possibly need to put a constraint of existance in DB
+    sh:property    [ sh:path     yara:ODX_CG_UUId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CropClass_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CropClass_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path  yara:hasCropSubClass ;
+                     sh:class yara:CropSubClass ; ] ;
+#    sh:inversePath does not work in Neo4j
+    sh:property    [ sh:path     [ sh:inversePath yara:hasCropClass ] ;
+                     sh:maxCount 1 ;
+                     sh:class    yara:CropGroup ; ] ;
+.
+
+yara:CropSubClassShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:CropSubClass ;
+#    Possibly need to put a constraint of existance in DB
+    sh:property    [ sh:path     yara:CropClassId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CropSubClassId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CropSubClassName ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CSC_FAOId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     empty in Excel sheet
+#                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+#    Possibly need to put a constraint of existance in DB
+    sh:property    [ sh:path     yara:ODX_CC_UUId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CropSubClass_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CropSubClass_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path  yara:hasCropVariety ;
+                     sh:class yara:CropVariety ; ] ;
+    sh:property    [ sh:path  yara:hasCropDescription ;
+                     sh:class yara:CropDescription ; ] ;
+#    sh:inversePath does not work in Neo4j
+    sh:property    [ sh:path     [ sh:inversePath yara:hasCropSubClass ] ;
+                     sh:maxCount 1 ;
+                     sh:class    yara:CropClass ; ] ;
+.
+
+yara:CropVarietyShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:CropVariety ;
+    sh:property    [ sh:path     yara:CropVarietyId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CropVarietyName ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CV_CropSubClassId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+#    Possibly need to put a constraint of existance in DB
+    sh:property    [ sh:path     yara:CV_CSC_UUId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CropVariety_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CropVariety_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path  yara:hasCropDescription ;
+                     sh:class yara:CropDescription ; ] ;
+#    sh:inversePath does not work in Neo4j
+    sh:property    [ sh:path  [ sh:inversePath yara:hasCropVariety ] ;
+                     sh:class yara:CropSubClass ; ] ;
+.
+
+yara:CropDescriptionShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:CropDescription ;
+    sh:property    [ sh:path     yara:ODX_CropDescription_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CropDescription_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CD_GrowthScaleId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CD_ODX_GrowthScale_UUId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ChlorideSensitive ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CropDescriptionId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CropDescriptionName ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CD_CropSubClassId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+#    Possibly need to put a constraint of existance in DB
+    sh:property    [ sh:path     yara:CD_CSC_UUId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CD_SourceSystem ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path  yara:isAvailableIn ;
+                     sh:class yara:Region ; ] ;
+    sh:property    [ sh:path  yara:hasGrowthScale ;
+                     sh:class yara:GrowthScale ; ] ;
+#    sh:inversePath does not work in Neo4j
+    sh:property    [ sh:path  [ sh:inversePath yara:hasCropDescription ] ;
+                     sh:class yara:CropSubClass ; ]
+#                     sh:property [ sh:path  yara:hasCropDescription ;
+#                                   sh:class yara:CropVariety ; ] )
+#    sh:property    [ sh:path yara:hasCropDescription ;
+#                     sh:or   ( [ sh:class yara:CropSubClass ; ]
+#                               [ sh:class yara:CropVariety ; ] ) ] ;
+.
+
+yara:CountryShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:Country ;
+    sh:property    [ sh:path     yara:CountryId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CountryName ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:FIPS ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ISO2Code ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ISO3Code ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:M49Code ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_Country_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_Country_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_CS_UUId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ProductSetCode ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     empty in Excel sheet
+#                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:UN ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path  yara:hasRegion ;
+                     sh:class yara:Region ; ] ;
+.
+
+yara:RegionShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:Region ;
+    sh:property    [ sh:path     yara:ODX_Region_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_Region_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+#    Possibly need to put a constraint of existance in DB
+    sh:property    [ sh:path     yara:Region_Country_UUId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Region_CountryId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:RegionId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:RegionName ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+#    sh:inversePath does not work in Neo4j
+    sh:property    [ sh:path  [ sh:inversePath yara:hasRegion ] ;
+                     sh:class yara:Country ; ] ;
+#    sh:inversePath does not work in Neo4j
+    sh:property    [ sh:path  [ sh:inversePath yara:isAvailableIn ] ;
+                     sh:class yara:Fertilizers ; ] ;
+.
+
+yara:NutrientShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:Nutrient ;
+    sh:property    [ sh:path     yara:ODX_Nutrient_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_Nutrient_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:NutrientId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:NutrientName ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ElementalName ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Nutr_Ordinal ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_Nutr_SourceSystem ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path  yara:hasNutrientUnit ;
+                     sh:class yara:Units ; ] ;
+#    sh:inversePath does not work in Neo4j
+    sh:property    [ sh:path  [ sh:inversePath yara:hasProdNutrient ] ;
+                     sh:class yara:Fertilizers ; ] ;
+.
+
+yara:FertilizersShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:Fertilizers ;
+    sh:property    [ sh:path     yara:B ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:BUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Ca ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:CaUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Co ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:CoUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Cu ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:CuUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Density ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:DhCode ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:DryMatter ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     empty in Excel sheet
+#                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ElectricalConductivity ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     empty in Excel sheet
+#                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Fe ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:FeUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+#    sh:property    [ sh:path     yara:IsAvailable ;
+#                     sh:minCount 1 ;
+#                     sh:maxCount 1 ;
+#                     sh:pattern  "^(?!\\s*$).+" ;
+#                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:K ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:KUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:LastSync ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+#    sh:property    [ sh:path     yara:LocalizedName ;
+#                     sh:minCount 1 ;
+#                     sh:maxCount 1 ;
+#                     empty in Excel sheet
+#                     sh:pattern  "^(?!\\s*$).+" ;
+#                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:LowChloride ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Mg ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:MgUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Mn ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:MnUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Mo ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:MoUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:N ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:NUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Na ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:NaUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:NH4 ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:NO3 ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:ODX_Fertilizers_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_Fertilizers_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:P ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:PUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Ph ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+#    sh:property    [ sh:path     yara:Prod_CountryId_Ref ;
+#                     sh:minCount 1 ;
+#                     sh:maxCount 1 ;
+#                     sh:pattern  "^(?!\\s*$).+" ;
+#                     sh:datatype xsd:string ; ] ;
+#    sh:property    [ sh:path     yara:Prod_RegionId_Ref ;
+#                     sh:minCount 1 ;
+#                     sh:maxCount 1 ;
+#                     sh:pattern  "^(?!\\s*$).+" ;
+#                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ProdFamily ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:FertilizersName ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+#    Possibly need to put a constraint of existance in DB
+#    sh:property    [ sh:path     yara:ProdRegion_UUId_Ref ;
+#                     sh:minCount 1 ;
+#                     sh:maxCount 1 ;
+#                     sh:pattern  "^(?!\\s*$).+" ;
+#                     sh:datatype xsd:string ; ] ;
+##    Possibly need to put a constraint of existance in DB
+#    sh:property    [ sh:path     yara:ProdCountry_UUId_Ref ;
+#                     sh:minCount 1 ;
+#                     sh:maxCount 1 ;
+#                     sh:pattern  "^(?!\\s*$).+" ;
+#                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:FertilizersId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ProductType ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:S ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:SUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Se ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:SeUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Solubility20C ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     empty in Excel sheet
+#                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Solubility5C ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     empty in Excel sheet
+#                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:SpreaderLoss ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     empty in Excel sheet
+#                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:SyncId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:SyncSource ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Tank ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     empty in Excel sheet
+#                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Urea ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:UtilizationN ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     empty in Excel sheet
+#                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:UtilizationNH4 ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     empty in Excel sheet
+#                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Zn ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:ZnUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_Fert_SourceSystem ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path  yara:hasProdNutrient ;
+                     sh:class yara:Nutrient ; ] ;
+    sh:property    [ sh:path  yara:isAvailableIn ;
+                     sh:class yara:Region ; ] ;
+.
+
+yara:GrowthScaleShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:GrowthScale ;
+    sh:property    [ sh:path     yara:ODX_GrowthScale_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_GrowthScale_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:GrowthScaleId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:GrowthScaleName ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path  yara:hasGrowthScaleStages ;
+                     sh:class yara:GrowthScaleStages ; ] ;
+#    sh:inversePath does not work in Neo4j
+    sh:property    [ sh:path  [ sh:inversePath yara:hasGrowthScale ] ;
+                     sh:class yara:CropDescription ; ] ;
+.
+
+yara:GrowthScaleStagesShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:GrowthScaleStages ;
+    sh:property    [ sh:path     yara:BaseOrdinal ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:GrowthScaleId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:GrowthScaleStagesDescription ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:GrowthScaleStagesId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_GrowthScaleStages_SourceSystem ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_GrowthScaleStages_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_GrowthScaleStages_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+#    Possibly need to put a constraint of existance in DB
+    sh:property    [ sh:path     yara:ODX_GS_UUId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Ordinal ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                     sh:datatype xsd:float ; ] ;
+#    sh:inversePath does not work in Neo4j
+    sh:property    [ sh:path  [ sh:inversePath yara:hasGrowthScaleStages ] ;
+                     sh:class yara:GrowthScale ; ] ;
+.
+
+yara:UnitsShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:Units ;
+    sh:property    [ sh:path     yara:ODX_Units_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_Units_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:UnitsId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:UnitsName ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:UnitsTags ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path  yara:hasUnitConversion ;
+                     sh:class yara:UnitConversion ; ] ;
+#    sh:inversePath does not work in Neo4j
+    sh:property    [ sh:path  [ sh:inversePath yara:hasNutrientUnit ] ;
+                     sh:class yara:Nutrient ; ] ;
+.
+
+yara:UnitConversionShape
+    a              sh:NodeShape ;
+    sh:targetClass yara:UnitConversion ;
+    sh:property    [ sh:path     yara:ConvertToUnitId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:CountryId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:Multiplier ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+#                     will be string as in Excel sheet
+                     sh:datatype xsd:string ; ] ;
+#                    sh:datatype xsd:float ; ] ;
+    sh:property    [ sh:path     yara:ODX_UnitConversion_SourceSystem ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_UnitConversion_Uri ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_UnitConversion_UUId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:ODX_Units_UUId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:UnitConversionId ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+    sh:property    [ sh:path     yara:UnitsId_Ref ;
+                     sh:minCount 1 ;
+                     sh:maxCount 1 ;
+                     sh:pattern  "^(?!\\s*$).+" ;
+                     sh:datatype xsd:string ; ] ;
+#    sh:inversePath does not work in Neo4j
+    sh:property    [ sh:path  [ sh:inversePath yara:hasUnitConversion ] ;
+                     sh:class yara:Units ; ] ;
+.
